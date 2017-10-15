@@ -3,7 +3,11 @@
     
     class ViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
         
+        @IBOutlet weak var camButton: UIButton!
         
+        @IBAction func record(_ sender: Any) {
+        startCapture()
+        }
         
         @IBOutlet var camPreview: UIView!
         
@@ -26,19 +30,15 @@
                 setupPreview()
                 startSession()
             }
+            func styleCaptureButton() {
+                camButton.layer.borderColor = UIColor.black.cgColor
+                camButton.layer.borderWidth = 2
+                
+                camButton.layer.cornerRadius = min(camButton.frame.width, camButton.frame.height) / 2
+                camPreview.layer.addSublayer(camButton.layer)
+            }
             
-            cameraButton.isUserInteractionEnabled = true
-            
-            let cameraButtonRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.startCapture))
-            
-            cameraButton.addGestureRecognizer(cameraButtonRecognizer)
-            
-            cameraButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-            
-            cameraButton.backgroundColor = UIColor.red
-            
-            camPreview.addSubview(cameraButton)
-            
+            styleCaptureButton()
         }
         
         func setupPreview() {
@@ -182,7 +182,7 @@
                     }
                     
                 }
-                
+                camButton.backgroundColor=UIColor.red
                 //EDIT2: And I forgot this
                 outputURL = tempURL()
                 movieOutput.startRecording(toOutputFileURL: outputURL, recordingDelegate: self)
@@ -190,6 +190,7 @@
             }
             else {
                 stopRecording()
+                camButton.backgroundColor=UIColor.white
             }
             
         }
@@ -202,7 +203,7 @@
         }
         
         func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
-            UISaveVideoAtPathToSavedPhotosAlbum(fileURL.relativePath, self, nil, nil)
+           
             
         }
         
@@ -210,7 +211,7 @@
             if (error != nil) {
                 print("Error recording movie: \(error!.localizedDescription)")
             } else {
-                
+                 UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.relativePath, self, nil, nil)
                 _ = outputURL as URL
                 
             }
