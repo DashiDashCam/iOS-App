@@ -203,7 +203,7 @@
         }
         
         func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
-           
+            
             
         }
         
@@ -211,8 +211,8 @@
             if (error != nil) {
                 print("Error recording movie: \(error!.localizedDescription)")
             } else {
-                 UISaveVideoAtPathToSavedPhotosAlbum(outputFileURL.relativePath, self, nil, nil)
-                _ = outputURL as URL
+                 UISaveVideoAtPathToSavedPhotosAlbum(outputURL.relativePath, self, nil, nil)
+             
                 
             }
             outputURL = nil
