@@ -13,7 +13,6 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kKx-KH-lUi"/>
@@ -30,8 +29,8 @@
                                         <rect key="frame" x="160" y="604" width="55" height="55"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="55" id="Hdo-Wf-v8g"/>
-                                            <constraint firstAttribute="height" constant="55" id="d0s-sm-5Lh"/>
+                                            <constraint firstAttribute="height" constant="55" id="PyW-Bh-Q6v"/>
+                                            <constraint firstAttribute="width" constant="55" id="Ze3-t2-OTL"/>
                                         </constraints>
                                         <connections>
                                             <action selector="record:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oUv-fe-BND"/>
@@ -40,17 +39,17 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="a93-x2-HMO" firstAttribute="centerX" secondItem="IGT-cZ-mRg" secondAttribute="centerX" id="6gw-Z7-KWK"/>
-                                    <constraint firstItem="a93-x2-HMO" firstAttribute="bottom" secondItem="IGT-cZ-mRg" secondAttribute="bottomMargin" id="OKG-Mi-HEG"/>
+                                    <constraint firstItem="a93-x2-HMO" firstAttribute="bottom" secondItem="IGT-cZ-mRg" secondAttribute="bottomMargin" id="0Sr-3q-u9U"/>
+                                    <constraint firstItem="a93-x2-HMO" firstAttribute="centerX" secondItem="IGT-cZ-mRg" secondAttribute="centerX" id="1lV-va-P9S"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="IGT-cZ-mRg" firstAttribute="bottom" secondItem="iUb-Ou-LZS" secondAttribute="top" id="1eN-92-IM9"/>
-                            <constraint firstItem="IGT-cZ-mRg" firstAttribute="top" secondItem="U8Q-Y6-ObU" secondAttribute="top" id="FC2-lz-eM3"/>
-                            <constraint firstItem="IGT-cZ-mRg" firstAttribute="leading" secondItem="U8Q-Y6-ObU" secondAttribute="leading" id="i5u-Ja-j8L"/>
-                            <constraint firstAttribute="trailing" secondItem="IGT-cZ-mRg" secondAttribute="trailing" id="kU4-n0-TRS"/>
+                            <constraint firstAttribute="trailing" secondItem="IGT-cZ-mRg" secondAttribute="trailing" id="3es-am-6Kh"/>
+                            <constraint firstItem="IGT-cZ-mRg" firstAttribute="bottom" secondItem="iUb-Ou-LZS" secondAttribute="top" id="NH3-ER-ZCo"/>
+                            <constraint firstItem="IGT-cZ-mRg" firstAttribute="leading" secondItem="U8Q-Y6-ObU" secondAttribute="leading" id="iio-XY-WPT"/>
+                            <constraint firstItem="IGT-cZ-mRg" firstAttribute="top" secondItem="U8Q-Y6-ObU" secondAttribute="top" id="jES-IZ-D8d"/>
                         </constraints>
                     </view>
                     <connections>
@@ -58,6 +57,7 @@
                         <outlet property="camPreview" destination="IGT-cZ-mRg" id="bkJ-g5-V29"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="32.799999999999997" y="38.23088455772114"/>
         </scene>

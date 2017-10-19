@@ -45,21 +45,28 @@
             // Configure previewLayer
             previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             previewLayer.frame = camPreview.bounds
-            previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+            previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
             camPreview.layer.addSublayer(previewLayer)
         }
         
         //MARK:- Setup Camera
-        
+        override func viewWillLayoutSubviews() {
+            let connection = movieOutput.connection(with: AVMediaType.video)
+            if (connection?.isVideoOrientationSupported)! {
+                connection?.videoOrientation = currentVideoOrientation()
+                previewLayer.frame = camPreview.bounds
+            }
+
+        }
         func setupSession() -> Bool {
             
-            captureSession.sessionPreset = AVCaptureSessionPresetHigh
+            captureSession.sessionPreset = AVCaptureSession.Preset.high
             
             // Setup Camera
-            let camera = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+            let camera = AVCaptureDevice.default(for: AVMediaType.video)
             
             do {
-                let input = try AVCaptureDeviceInput(device: camera)
+                let input = try AVCaptureDeviceInput(device: camera!)
                 if captureSession.canAddInput(input) {
                     captureSession.addInput(input)
                     activeInput = input
@@ -70,10 +77,10 @@
             }
             
             // Setup Microphone
-            let microphone = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
+            let microphone = AVCaptureDevice.default(for: AVMediaType.audio)
             
             do {
-                let micInput = try AVCaptureDeviceInput(device: microphone)
+                let micInput = try AVCaptureDeviceInput(device: microphone!)
                 if captureSession.canAddInput(micInput) {
                     captureSession.addInput(micInput)
                 }
@@ -162,7 +169,7 @@
             
             if movieOutput.isRecording == false {
                 
-                let connection = movieOutput.connection(withMediaType: AVMediaTypeVideo)
+                let connection = movieOutput.connection(with: AVMediaType.video)
                 if (connection?.isVideoOrientationSupported)! {
                     connection?.videoOrientation = currentVideoOrientation()
                 }
@@ -172,11 +179,11 @@
                 }
                 
                 let device = activeInput.device
-                if (device?.isSmoothAutoFocusSupported)! {
+                if (device.isSmoothAutoFocusSupported) {
                     do {
-                        try device?.lockForConfiguration()
-                        device?.isSmoothAutoFocusEnabled = false
-                        device?.unlockForConfiguration()
+                        try device.lockForConfiguration()
+                        device.isSmoothAutoFocusEnabled = false
+                        device.unlockForConfiguration()
                     } catch {
                         print("Error setting configuration: \(error)")
                     }
@@ -185,7 +192,7 @@
                 camButton.backgroundColor=UIColor.red
                 //EDIT2: And I forgot this
                 outputURL = tempURL()
-                movieOutput.startRecording(toOutputFileURL: outputURL, recordingDelegate: self)
+                movieOutput.startRecording(to: outputURL, recordingDelegate: self)
                 
             }
             else {
@@ -202,12 +209,12 @@
             }
         }
         
-        func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
+        func fileOutput(captureOutput: AVCaptureFileOutput, didStartRecordingTo fileURL: URL, from connections: [AVCaptureConnection]) {
             
             
         }
         
-        func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
+        func fileOutput(_ captureOutput: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
             if (error != nil) {
                 print("Error recording movie: \(error!.localizedDescription)")
             } else {
