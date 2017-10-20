@@ -1,65 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="kKx-KH-lUi"/>
-                        <viewControllerLayoutGuide type="bottom" id="iUb-Ou-LZS"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="U8Q-Y6-ObU">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IGT-cZ-mRg">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a93-x2-HMO">
-                                        <rect key="frame" x="160" y="604" width="55" height="55"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="55" id="PyW-Bh-Q6v"/>
-                                            <constraint firstAttribute="width" constant="55" id="Ze3-t2-OTL"/>
-                                        </constraints>
-                                        <connections>
-                                            <action selector="record:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oUv-fe-BND"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="a93-x2-HMO" firstAttribute="bottom" secondItem="IGT-cZ-mRg" secondAttribute="bottomMargin" id="0Sr-3q-u9U"/>
-                                    <constraint firstItem="a93-x2-HMO" firstAttribute="centerX" secondItem="IGT-cZ-mRg" secondAttribute="centerX" id="1lV-va-P9S"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="IGT-cZ-mRg" secondAttribute="trailing" id="3es-am-6Kh"/>
-                            <constraint firstItem="IGT-cZ-mRg" firstAttribute="bottom" secondItem="iUb-Ou-LZS" secondAttribute="top" id="NH3-ER-ZCo"/>
-                            <constraint firstItem="IGT-cZ-mRg" firstAttribute="leading" secondItem="U8Q-Y6-ObU" secondAttribute="leading" id="iio-XY-WPT"/>
-                            <constraint firstItem="IGT-cZ-mRg" firstAttribute="top" secondItem="U8Q-Y6-ObU" secondAttribute="top" id="jES-IZ-D8d"/>
-                        </constraints>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <connections>
-                        <outlet property="camButton" destination="a93-x2-HMO" id="Yd2-Eq-yhg"/>
-                        <outlet property="camPreview" destination="IGT-cZ-mRg" id="bkJ-g5-V29"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="32.799999999999997" y="38.23088455772114"/>
         </scene>
     </scenes>
 </document>

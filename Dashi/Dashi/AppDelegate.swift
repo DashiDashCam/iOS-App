@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  Camera
+//  Dashi
 //
-//  Created by Rizwan on 16/06/17.
-//  Copyright © 2017 Rizwan. All rights reserved.
+//  Created by Eric Smith on 10/20/17.
+//  Copyright © 2017 Senior Design. All rights reserved.
 //
 
 import UIKit

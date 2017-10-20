@@ -3,68 +3,29 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		65C0E0461EF3B68E00FBA1B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C0E0451EF3B68E00FBA1B3 /* AppDelegate.swift */; };
-		65C0E0481EF3B68E00FBA1B3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C0E0471EF3B68E00FBA1B3 /* ViewController.swift */; };
-		65C0E04B1EF3B68E00FBA1B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65C0E0491EF3B68E00FBA1B3 /* Main.storyboard */; };
-		65C0E04D1EF3B68E00FBA1B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65C0E04C1EF3B68E00FBA1B3 /* Assets.xcassets */; };
-		65C0E0501EF3B68E00FBA1B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65C0E04E1EF3B68E00FBA1B3 /* LaunchScreen.storyboard */; };
-		65C0E05B1EF3B68E00FBA1B3 /* CameraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C0E05A1EF3B68E00FBA1B3 /* CameraTests.swift */; };
-		65C0E0661EF3B68E00FBA1B3 /* CameraUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C0E0651EF3B68E00FBA1B3 /* CameraUITests.swift */; };
+		A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A347FD881F9A9EAF0091973F /* AppDelegate.swift */; };
+		A347FD8B1F9A9EAF0091973F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A347FD8A1F9A9EAF0091973F /* ViewController.swift */; };
+		A347FD8E1F9A9EAF0091973F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8C1F9A9EAF0091973F /* Main.storyboard */; };
+		A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8F1F9A9EAF0091973F /* Assets.xcassets */; };
+		A347FD931F9A9EAF0091973F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		65C0E0571EF3B68E00FBA1B3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65C0E03A1EF3B68E00FBA1B3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 65C0E0411EF3B68E00FBA1B3;
-			remoteInfo = Camera;
-		};
-		65C0E0621EF3B68E00FBA1B3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 65C0E03A1EF3B68E00FBA1B3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 65C0E0411EF3B68E00FBA1B3;
-			remoteInfo = Camera;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		65C0E0421EF3B68E00FBA1B3 /* Dashi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dashi.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		65C0E0451EF3B68E00FBA1B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		65C0E0471EF3B68E00FBA1B3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		65C0E04A1EF3B68E00FBA1B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		65C0E04C1EF3B68E00FBA1B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		65C0E04F1EF3B68E00FBA1B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		65C0E0511EF3B68E00FBA1B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		65C0E0561EF3B68E00FBA1B3 /* DashiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DashiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		65C0E05A1EF3B68E00FBA1B3 /* CameraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTests.swift; sourceTree = "<group>"; };
-		65C0E05C1EF3B68E00FBA1B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		65C0E0611EF3B68E00FBA1B3 /* DashiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DashiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		65C0E0651EF3B68E00FBA1B3 /* CameraUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUITests.swift; sourceTree = "<group>"; };
-		65C0E0671EF3B68E00FBA1B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A347FD851F9A9EAF0091973F /* Dashi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dashi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A347FD881F9A9EAF0091973F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A347FD8A1F9A9EAF0091973F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A347FD8D1F9A9EAF0091973F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A347FD8F1F9A9EAF0091973F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A347FD921F9A9EAF0091973F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A347FD941F9A9EAF0091973F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		65C0E03F1EF3B68E00FBA1B3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		65C0E0531EF3B68E00FBA1B3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		65C0E05E1EF3B68E00FBA1B3 /* Frameworks */ = {
+		A347FD821F9A9EAF0091973F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -74,246 +35,127 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		65C0E0391EF3B68E00FBA1B3 = {
+		A347FD7C1F9A9EAF0091973F = {
 			isa = PBXGroup;
 			children = (
-				65C0E0441EF3B68E00FBA1B3 /* Dashi */,
-				65C0E0591EF3B68E00FBA1B3 /* DashiTests */,
-				65C0E0641EF3B68E00FBA1B3 /* DashiUITests */,
-				65C0E0431EF3B68E00FBA1B3 /* Products */,
+				A347FD871F9A9EAF0091973F /* Dashi */,
+				A347FD861F9A9EAF0091973F /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		65C0E0431EF3B68E00FBA1B3 /* Products */ = {
+		A347FD861F9A9EAF0091973F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				65C0E0421EF3B68E00FBA1B3 /* Dashi.app */,
-				65C0E0561EF3B68E00FBA1B3 /* DashiTests.xctest */,
-				65C0E0611EF3B68E00FBA1B3 /* DashiUITests.xctest */,
+				A347FD851F9A9EAF0091973F /* Dashi.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		65C0E0441EF3B68E00FBA1B3 /* Dashi */ = {
+		A347FD871F9A9EAF0091973F /* Dashi */ = {
 			isa = PBXGroup;
 			children = (
-				65C0E0451EF3B68E00FBA1B3 /* AppDelegate.swift */,
-				65C0E0471EF3B68E00FBA1B3 /* ViewController.swift */,
-				65C0E0491EF3B68E00FBA1B3 /* Main.storyboard */,
-				65C0E04C1EF3B68E00FBA1B3 /* Assets.xcassets */,
-				65C0E04E1EF3B68E00FBA1B3 /* LaunchScreen.storyboard */,
-				65C0E0511EF3B68E00FBA1B3 /* Info.plist */,
+				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
+				A347FD8A1F9A9EAF0091973F /* ViewController.swift */,
+				A347FD8C1F9A9EAF0091973F /* Main.storyboard */,
+				A347FD8F1F9A9EAF0091973F /* Assets.xcassets */,
+				A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */,
+				A347FD941F9A9EAF0091973F /* Info.plist */,
 			);
 			path = Dashi;
-			sourceTree = "<group>";
-		};
-		65C0E0591EF3B68E00FBA1B3 /* DashiTests */ = {
-			isa = PBXGroup;
-			children = (
-				65C0E05A1EF3B68E00FBA1B3 /* CameraTests.swift */,
-				65C0E05C1EF3B68E00FBA1B3 /* Info.plist */,
-			);
-			path = DashiTests;
-			sourceTree = "<group>";
-		};
-		65C0E0641EF3B68E00FBA1B3 /* DashiUITests */ = {
-			isa = PBXGroup;
-			children = (
-				65C0E0651EF3B68E00FBA1B3 /* CameraUITests.swift */,
-				65C0E0671EF3B68E00FBA1B3 /* Info.plist */,
-			);
-			path = DashiUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		65C0E0411EF3B68E00FBA1B3 /* Dashi */ = {
+		A347FD841F9A9EAF0091973F /* Dashi */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 65C0E06A1EF3B68E00FBA1B3 /* Build configuration list for PBXNativeTarget "Dashi" */;
+			buildConfigurationList = A347FD971F9A9EAF0091973F /* Build configuration list for PBXNativeTarget "Dashi" */;
 			buildPhases = (
-				65C0E03E1EF3B68E00FBA1B3 /* Sources */,
-				65C0E03F1EF3B68E00FBA1B3 /* Frameworks */,
-				65C0E0401EF3B68E00FBA1B3 /* Resources */,
+				A347FD811F9A9EAF0091973F /* Sources */,
+				A347FD821F9A9EAF0091973F /* Frameworks */,
+				A347FD831F9A9EAF0091973F /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Dashi;
-			productName = Camera;
-			productReference = 65C0E0421EF3B68E00FBA1B3 /* Dashi.app */;
+			productName = Dashi;
+			productReference = A347FD851F9A9EAF0091973F /* Dashi.app */;
 			productType = "com.apple.product-type.application";
-		};
-		65C0E0551EF3B68E00FBA1B3 /* DashiTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 65C0E06D1EF3B68E00FBA1B3 /* Build configuration list for PBXNativeTarget "DashiTests" */;
-			buildPhases = (
-				65C0E0521EF3B68E00FBA1B3 /* Sources */,
-				65C0E0531EF3B68E00FBA1B3 /* Frameworks */,
-				65C0E0541EF3B68E00FBA1B3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				65C0E0581EF3B68E00FBA1B3 /* PBXTargetDependency */,
-			);
-			name = DashiTests;
-			productName = CameraTests;
-			productReference = 65C0E0561EF3B68E00FBA1B3 /* DashiTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		65C0E0601EF3B68E00FBA1B3 /* DashiUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 65C0E0701EF3B68E00FBA1B3 /* Build configuration list for PBXNativeTarget "DashiUITests" */;
-			buildPhases = (
-				65C0E05D1EF3B68E00FBA1B3 /* Sources */,
-				65C0E05E1EF3B68E00FBA1B3 /* Frameworks */,
-				65C0E05F1EF3B68E00FBA1B3 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				65C0E0631EF3B68E00FBA1B3 /* PBXTargetDependency */,
-			);
-			name = DashiUITests;
-			productName = CameraUITests;
-			productReference = 65C0E0611EF3B68E00FBA1B3 /* DashiUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		65C0E03A1EF3B68E00FBA1B3 /* Project object */ = {
+		A347FD7D1F9A9EAF0091973F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0900;
-				ORGANIZATIONNAME = Rizwan;
+				ORGANIZATIONNAME = "Senior Design";
 				TargetAttributes = {
-					65C0E0411EF3B68E00FBA1B3 = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = F69WJ27LN4;
-						LastSwiftMigration = 0900;
+					A347FD841F9A9EAF0091973F = {
+						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
-					};
-					65C0E0551EF3B68E00FBA1B3 = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 7DDZ7Z48Q7;
-						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 65C0E0411EF3B68E00FBA1B3;
-					};
-					65C0E0601EF3B68E00FBA1B3 = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 7DDZ7Z48Q7;
-						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 65C0E0411EF3B68E00FBA1B3;
 					};
 				};
 			};
-			buildConfigurationList = 65C0E03D1EF3B68E00FBA1B3 /* Build configuration list for PBXProject "Dashi" */;
-			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			buildConfigurationList = A347FD801F9A9EAF0091973F /* Build configuration list for PBXProject "Dashi" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 65C0E0391EF3B68E00FBA1B3;
-			productRefGroup = 65C0E0431EF3B68E00FBA1B3 /* Products */;
+			mainGroup = A347FD7C1F9A9EAF0091973F;
+			productRefGroup = A347FD861F9A9EAF0091973F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				65C0E0411EF3B68E00FBA1B3 /* Dashi */,
-				65C0E0551EF3B68E00FBA1B3 /* DashiTests */,
-				65C0E0601EF3B68E00FBA1B3 /* DashiUITests */,
+				A347FD841F9A9EAF0091973F /* Dashi */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		65C0E0401EF3B68E00FBA1B3 /* Resources */ = {
+		A347FD831F9A9EAF0091973F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65C0E0501EF3B68E00FBA1B3 /* LaunchScreen.storyboard in Resources */,
-				65C0E04D1EF3B68E00FBA1B3 /* Assets.xcassets in Resources */,
-				65C0E04B1EF3B68E00FBA1B3 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		65C0E0541EF3B68E00FBA1B3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		65C0E05F1EF3B68E00FBA1B3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				A347FD931F9A9EAF0091973F /* LaunchScreen.storyboard in Resources */,
+				A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */,
+				A347FD8E1F9A9EAF0091973F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		65C0E03E1EF3B68E00FBA1B3 /* Sources */ = {
+		A347FD811F9A9EAF0091973F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65C0E0481EF3B68E00FBA1B3 /* ViewController.swift in Sources */,
-				65C0E0461EF3B68E00FBA1B3 /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		65C0E0521EF3B68E00FBA1B3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				65C0E05B1EF3B68E00FBA1B3 /* CameraTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		65C0E05D1EF3B68E00FBA1B3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				65C0E0661EF3B68E00FBA1B3 /* CameraUITests.swift in Sources */,
+				A347FD8B1F9A9EAF0091973F /* ViewController.swift in Sources */,
+				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		65C0E0581EF3B68E00FBA1B3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 65C0E0411EF3B68E00FBA1B3 /* Dashi */;
-			targetProxy = 65C0E0571EF3B68E00FBA1B3 /* PBXContainerItemProxy */;
-		};
-		65C0E0631EF3B68E00FBA1B3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 65C0E0411EF3B68E00FBA1B3 /* Dashi */;
-			targetProxy = 65C0E0621EF3B68E00FBA1B3 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		65C0E0491EF3B68E00FBA1B3 /* Main.storyboard */ = {
+		A347FD8C1F9A9EAF0091973F /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				65C0E04A1EF3B68E00FBA1B3 /* Base */,
+				A347FD8D1F9A9EAF0091973F /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		65C0E04E1EF3B68E00FBA1B3 /* LaunchScreen.storyboard */ = {
+		A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				65C0E04F1EF3B68E00FBA1B3 /* Base */,
+				A347FD921F9A9EAF0091973F /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -321,13 +163,13 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		65C0E0681EF3B68E00FBA1B3 /* Debug */ = {
+		A347FD951F9A9EAF0091973F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -347,14 +189,15 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -368,7 +211,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -377,13 +220,13 @@
 			};
 			name = Debug;
 		};
-		65C0E0691EF3B68E00FBA1B3 /* Release */ = {
+		A347FD961F9A9EAF0091973F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -403,14 +246,15 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -418,7 +262,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -426,136 +270,58 @@
 			};
 			name = Release;
 		};
-		65C0E06B1EF3B68E00FBA1B3 /* Debug */ = {
+		A347FD981F9A9EAF0091973F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = F69WJ27LN4;
-				INFOPLIST_FILE = "$(SRCROOT)/Dashi/Info.plist";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5263K5LLWX;
+				INFOPLIST_FILE = Dashi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rizwankce.Camera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SeniorDesign.Dashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		65C0E06C1EF3B68E00FBA1B3 /* Release */ = {
+		A347FD991F9A9EAF0091973F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = F69WJ27LN4;
-				INFOPLIST_FILE = "$(SRCROOT)/Dashi/Info.plist";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5263K5LLWX;
+				INFOPLIST_FILE = Dashi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rizwankce.Camera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SeniorDesign.Dashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		65C0E06E1EF3B68E00FBA1B3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 7DDZ7Z48Q7;
-				INFOPLIST_FILE = CameraTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rizwankce.CameraTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dashi.app/Dashi";
-			};
-			name = Debug;
-		};
-		65C0E06F1EF3B68E00FBA1B3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 7DDZ7Z48Q7;
-				INFOPLIST_FILE = CameraTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rizwankce.CameraTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dashi.app/Dashi";
-			};
-			name = Release;
-		};
-		65C0E0711EF3B68E00FBA1B3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = 7DDZ7Z48Q7;
-				INFOPLIST_FILE = CameraUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rizwankce.CameraUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = Camera;
-			};
-			name = Debug;
-		};
-		65C0E0721EF3B68E00FBA1B3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = 7DDZ7Z48Q7;
-				INFOPLIST_FILE = CameraUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rizwankce.CameraUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
-				TEST_TARGET_NAME = Camera;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		65C0E03D1EF3B68E00FBA1B3 /* Build configuration list for PBXProject "Dashi" */ = {
+		A347FD801F9A9EAF0091973F /* Build configuration list for PBXProject "Dashi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				65C0E0681EF3B68E00FBA1B3 /* Debug */,
-				65C0E0691EF3B68E00FBA1B3 /* Release */,
+				A347FD951F9A9EAF0091973F /* Debug */,
+				A347FD961F9A9EAF0091973F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		65C0E06A1EF3B68E00FBA1B3 /* Build configuration list for PBXNativeTarget "Dashi" */ = {
+		A347FD971F9A9EAF0091973F /* Build configuration list for PBXNativeTarget "Dashi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				65C0E06B1EF3B68E00FBA1B3 /* Debug */,
-				65C0E06C1EF3B68E00FBA1B3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		65C0E06D1EF3B68E00FBA1B3 /* Build configuration list for PBXNativeTarget "DashiTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				65C0E06E1EF3B68E00FBA1B3 /* Debug */,
-				65C0E06F1EF3B68E00FBA1B3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		65C0E0701EF3B68E00FBA1B3 /* Build configuration list for PBXNativeTarget "DashiUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				65C0E0711EF3B68E00FBA1B3 /* Debug */,
-				65C0E0721EF3B68E00FBA1B3 /* Release */,
+				A347FD981F9A9EAF0091973F /* Debug */,
+				A347FD991F9A9EAF0091973F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 65C0E03A1EF3B68E00FBA1B3 /* Project object */;
+	rootObject = A347FD7D1F9A9EAF0091973F /* Project object */;
 }

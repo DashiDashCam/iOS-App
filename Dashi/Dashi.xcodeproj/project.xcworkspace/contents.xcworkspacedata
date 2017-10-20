@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/arslanmemon/Downloads/Camera-master/Dashi.xcodeproj">
+      location = "self:Dashi.xcodeproj">
    </FileRef>
 </Workspace>
