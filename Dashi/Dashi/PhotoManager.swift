@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PhotoManager.swift
 //  Dashi
 //
 //  Created by Eric Smith on 10/20/17.

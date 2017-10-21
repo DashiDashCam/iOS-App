@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PlayerView.swift
 //  Dashi
 //
 //  Created by Eric Smith on 10/20/17.
