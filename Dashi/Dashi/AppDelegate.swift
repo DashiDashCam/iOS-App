@@ -1,11 +1,10 @@
 //
-//  AppDelegate.swift
+//  ViewController.swift
 //  Dashi
 //
 //  Created by Eric Smith on 10/20/17.
-//  Copyright © 2017 Senior Design. All rights reserved.
+//  Copyright © 2017 Dashi. All rights reserved.
 //
-
 import UIKit
 
 @UIApplicationMain

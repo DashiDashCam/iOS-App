@@ -7,17 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A31F540F1F9AD6F5007CD82F /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F54081F9AD6F5007CD82F /* AudioViewController.swift */; };
+		A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F54091F9AD6F5007CD82F /* PlayerView.swift */; };
+		A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */; };
+		A31F54121F9AD6F5007CD82F /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540B1F9AD6F5007CD82F /* PhotoManager.swift */; };
+		A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */; };
+		A31F54141F9AD6F5007CD82F /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A31F540D1F9AD6F5007CD82F /* Base.lproj */; };
 		A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A347FD881F9A9EAF0091973F /* AppDelegate.swift */; };
-		A347FD8B1F9A9EAF0091973F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A347FD8A1F9A9EAF0091973F /* ViewController.swift */; };
 		A347FD8E1F9A9EAF0091973F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8C1F9A9EAF0091973F /* Main.storyboard */; };
 		A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8F1F9A9EAF0091973F /* Assets.xcassets */; };
 		A347FD931F9A9EAF0091973F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A31F54081F9AD6F5007CD82F /* AudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioViewController.swift; sourceTree = "<group>"; };
+		A31F54091F9AD6F5007CD82F /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		A31F540B1F9AD6F5007CD82F /* PhotoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
+		A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		A31F540D1F9AD6F5007CD82F /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		A347FD851F9A9EAF0091973F /* Dashi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dashi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A347FD881F9A9EAF0091973F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A347FD8A1F9A9EAF0091973F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A347FD8D1F9A9EAF0091973F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A347FD8F1F9A9EAF0091973F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A347FD921F9A9EAF0091973F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -54,8 +64,13 @@
 		A347FD871F9A9EAF0091973F /* Dashi */ = {
 			isa = PBXGroup;
 			children = (
+				A31F54081F9AD6F5007CD82F /* AudioViewController.swift */,
+				A31F540D1F9AD6F5007CD82F /* Base.lproj */,
+				A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */,
+				A31F540B1F9AD6F5007CD82F /* PhotoManager.swift */,
+				A31F54091F9AD6F5007CD82F /* PlayerView.swift */,
+				A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */,
 				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
-				A347FD8A1F9A9EAF0091973F /* ViewController.swift */,
 				A347FD8C1F9A9EAF0091973F /* Main.storyboard */,
 				A347FD8F1F9A9EAF0091973F /* Assets.xcassets */,
 				A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */,
@@ -125,6 +140,7 @@
 			files = (
 				A347FD931F9A9EAF0091973F /* LaunchScreen.storyboard in Resources */,
 				A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */,
+				A31F54141F9AD6F5007CD82F /* Base.lproj in Resources */,
 				A347FD8E1F9A9EAF0091973F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,8 +152,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A347FD8B1F9A9EAF0091973F /* ViewController.swift in Sources */,
+				A31F54121F9AD6F5007CD82F /* PhotoManager.swift in Sources */,
+				A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */,
 				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
+				A31F540F1F9AD6F5007CD82F /* AudioViewController.swift in Sources */,
+				A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */,
+				A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,7 +298,7 @@
 				DEVELOPMENT_TEAM = 5263K5LLWX;
 				INFOPLIST_FILE = Dashi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SeniorDesign.Dashi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -293,7 +313,7 @@
 				DEVELOPMENT_TEAM = 5263K5LLWX;
 				INFOPLIST_FILE = Dashi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.SeniorDesign.Dashi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
