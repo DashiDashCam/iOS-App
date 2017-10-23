@@ -150,107 +150,6 @@
             </objects>
             <point key="canvasLocation" x="2720.8000000000002" y="-65.217391304347828"/>
         </scene>
-        <!--Export-->
-        <scene sceneID="yK2-tJ-mib">
-            <objects>
-                <viewController title="Export" id="b4a-pz-dIY" customClass="ExportViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="5wO-5Q-moW"/>
-                        <viewControllerLayoutGuide type="bottom" id="Ngi-OP-xho"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ilA-8t-Csv">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cRL-ux-UfL">
-                                <rect key="frame" x="112.5" y="379" width="150" height="75"/>
-                                <color key="backgroundColor" red="0.020442457977659437" green="0.87958115183246077" blue="0.067722636002296957" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="K59-VJ-MZa"/>
-                                    <constraint firstAttribute="height" constant="75" id="Rl0-Q0-AJh"/>
-                                </constraints>
-                                <state key="normal" title="Export">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="exportButtonPressedWithSender:" destination="b4a-pz-dIY" eventType="touchUpInside" id="uzP-N4-grf"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWa-nD-5Og">
-                                <rect key="frame" x="112.5" y="296" width="150" height="75"/>
-                                <color key="backgroundColor" red="1" green="0.1391588802" blue="0.119423139" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="77q-g3-Fik"/>
-                                    <constraint firstAttribute="height" constant="75" id="IO3-wM-FMD"/>
-                                </constraints>
-                                <state key="normal" title="Select Media">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="selectButtonPressedWithSender:" destination="b4a-pz-dIY" eventType="touchUpInside" id="5Bf-5d-F0B"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="cRL-ux-UfL" firstAttribute="top" secondItem="bWa-nD-5Og" secondAttribute="bottom" constant="8" id="3RC-ge-kdI"/>
-                            <constraint firstItem="bWa-nD-5Og" firstAttribute="centerX" secondItem="ilA-8t-Csv" secondAttribute="centerX" id="81e-JD-FyS"/>
-                            <constraint firstItem="cRL-ux-UfL" firstAttribute="centerX" secondItem="ilA-8t-Csv" secondAttribute="centerX" id="W6l-l3-cxv"/>
-                            <constraint firstItem="bWa-nD-5Og" firstAttribute="centerY" secondItem="ilA-8t-Csv" secondAttribute="centerY" id="WYT-rd-ebg"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="exportButton" destination="cRL-ux-UfL" id="n37-1y-Yxp"/>
-                        <segue destination="COV-mk-fwM" kind="presentation" identifier="mediaPicker" id="xwr-3t-zUk"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Uzp-Y9-G9j" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1943" y="651"/>
-        </scene>
-        <!--Media Collection View Controller-->
-        <scene sceneID="EOA-5J-ffR">
-            <objects>
-                <collectionViewController id="COV-mk-fwM" customClass="MediaCollectionViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="DBv-Tm-zEr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vRw-ea-shu">
-                            <size key="itemSize" width="350" height="135"/>
-                            <size key="headerReferenceSize" width="0.0" height="25"/>
-                            <size key="footerReferenceSize" width="0.0" height="25"/>
-                            <inset key="sectionInset" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="Scc-Oq-ssj">
-                                <rect key="frame" x="12.5" y="25" width="350" height="135"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="350" height="135"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </view>
-                                <color key="backgroundColor" red="1" green="0.1391588802" blue="0.119423139" alpha="1" colorSpace="calibratedRGB"/>
-                            </collectionViewCell>
-                        </cells>
-                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Header" id="Sab-u9-eD1">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="25"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </collectionReusableView>
-                        <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Footer" id="0dA-Zv-HFA">
-                            <rect key="frame" x="0.0" y="160" width="375" height="25"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </collectionReusableView>
-                        <connections>
-                            <outlet property="dataSource" destination="COV-mk-fwM" id="Wcj-ZK-yFO"/>
-                            <outlet property="delegate" destination="COV-mk-fwM" id="0AU-c0-BB0"/>
-                        </connections>
-                    </collectionView>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2uG-MP-T4l" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2789.5999999999999" y="650.82458770614699"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="H2y-U5-46z">
             <objects>
@@ -280,21 +179,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdm-tX-5Gf">
-                                <rect key="frame" x="138" y="268" width="98" height="30"/>
+                                <rect key="frame" x="138" y="318" width="98" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Start Trip"/>
                                 <connections>
                                     <segue destination="8p2-4V-4ok" kind="show" id="t0k-mQ-GeN"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ssa-4b-ypB">
-                                <rect key="frame" x="145" y="338" width="85" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="Export"/>
-                                <connections>
-                                    <segue destination="b4a-pz-dIY" kind="show" id="C8n-gt-nl6"/>
                                 </connections>
                             </button>
                         </subviews>
