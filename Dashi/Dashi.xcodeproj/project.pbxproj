@@ -18,6 +18,7 @@
 		A347FD8E1F9A9EAF0091973F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8C1F9A9EAF0091973F /* Main.storyboard */; };
 		A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8F1F9A9EAF0091973F /* Assets.xcassets */; };
 		A347FD931F9A9EAF0091973F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */; };
+		A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		A347FD8F1F9A9EAF0091973F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A347FD921F9A9EAF0091973F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A347FD941F9A9EAF0091973F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 		A347FD871F9A9EAF0091973F /* Dashi */ = {
 			isa = PBXGroup;
 			children = (
+				A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */,
 				A31F54171F9AD9FD007CD82F /* MediaCollectionViewController.swift */,
 				A31F54151F9AD9B4007CD82F /* ExportViewController.swift */,
 				A31F540D1F9AD6F5007CD82F /* Base.lproj */,
@@ -161,6 +164,7 @@
 				A31F54161F9AD9B4007CD82F /* ExportViewController.swift in Sources */,
 				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
 				A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */,
+				A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */,
 				A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,7 +12,6 @@ import CoreMedia
 
 class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelegate {
     
-    
     @IBOutlet weak var previewView:UIView! // displays capture stream
     @IBOutlet weak var recordButton:UIButton! // stop/start recording
     @IBOutlet weak var toggleButton:UIButton! // switch camera
@@ -21,6 +20,8 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     var videoCaptureDevice:AVCaptureDevice?
     var previewLayer:AVCaptureVideoPreviewLayer?
     var movieFileOutput = AVCaptureMovieFileOutput()
+    
+    var outputFileLocation:URL?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -196,8 +197,15 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
      * NOTE: overriding this function allows the VideoViewController
      * to adhere to the delegate protocol: AVCaptureFileOutputRecordingDelegate
      */
-    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL,
+                    from connections: [AVCaptureConnection], error: Error?) {
         print("Finished recording: \(outputFileURL)")
+        
+        // set output file location
+        self.outputFileLocation = outputFileURL
+        
+        // seque to videoPreview
+        self.performSegue(withIdentifier: "videoPreview", sender: nil)
     }
 
     // MARK: Helpers
@@ -269,10 +277,13 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    // prepare to seque to another view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        let preview = segue.destination as! VideoPreviewViewController
+        preview.fileLocation = self.outputFileLocation // triggers loading of video
     }
 
 }
