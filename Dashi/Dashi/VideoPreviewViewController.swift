@@ -15,7 +15,7 @@ class VideoPreviewViewController: UIViewController {
     // keys to ensure playability of video
     static let assetKeysRequiredToPlay = ["playable","hasProtectedContent"]
     
-    let player = AVPlayer()
+    @objc dynamic var player = AVPlayer()
     
     /*
      * set the file location of the video being shown
