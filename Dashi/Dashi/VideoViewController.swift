@@ -20,7 +20,7 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     var videoCaptureDevice:AVCaptureDevice?
     var previewLayer:AVCaptureVideoPreviewLayer?
     var movieFileOutput = AVCaptureMovieFileOutput()
-    
+    var allowSwitch=true;
     var outputFileLocation:URL?
 
     override func viewDidLoad() {
@@ -38,7 +38,10 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     
     // adjust the orientation of the preview layer when device changes layout
     override func viewWillLayoutSubviews() {
-        self.setVideoOrientation()
+        if(allowSwitch){
+            self.setVideoOrientation()
+            
+        }
     }
     
     // MARK: Button Actions
@@ -218,8 +221,10 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     // update record button based off recording state
     func updateRecordButtonTitle() {
         if !self.movieFileOutput.isRecording {
+            self.allowSwitch=false
             recordButton.setTitle("Recording..", for: .normal)
         } else {
+            self.allowSwitch=true
             recordButton.setTitle("Record", for: .normal)
         }
     }

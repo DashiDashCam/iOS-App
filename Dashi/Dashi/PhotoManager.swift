@@ -49,7 +49,7 @@ class PhotoManager: NSObject {
         let options = PHImageRequestOptions()
         var thumbnail = UIImage()
         options.isSynchronous = true
-        manager.requestImage(for: asset, targetSize: CGSize(width: 240.0, height: 135.0), contentMode: .aspectFill, options: options) { (result, info) in
+        manager.requestImage(for: asset, targetSize: CGSize(width: 360.0, height: 135.0), contentMode: .aspectFill, options: options) { (result, info) in
             //
             if let thumb = result{
                 thumbnail=thumb
