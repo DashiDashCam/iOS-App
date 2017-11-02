@@ -126,6 +126,7 @@ class VideoPreviewViewController: UIViewController {
     
     @IBAction func saveToLibrary() {
         self.saveVideoToUserLibrary()
+        self.saveVideoToCoreData()
     }
     
     @IBAction func playPauseButtonPressed() {
@@ -165,6 +166,36 @@ class VideoPreviewViewController: UIViewController {
             } else {
                 self.showAlert(title: "Error", message: (error?.localizedDescription)!, dismiss: false)
             }
+        }
+    }
+    
+    // save the video to core data
+    func saveVideoToCoreData(){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // 1
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        // 2
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Videos",
+                                       in: managedContext)!
+        
+        let video = NSManagedObject(entity: entity,
+                                     insertInto: managedContext)
+        
+        // 3
+        video.setValue(2, forKeyPath: "id")
+        
+        // 4
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
         }
     }
     

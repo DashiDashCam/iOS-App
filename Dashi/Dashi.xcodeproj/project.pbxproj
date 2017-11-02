@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		24E684891FA3E31000F79F9B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E684881FA3E2FE00F79F9B /* libsqlite3.tbd */; };
 		24E684E61FABC0D500F79F9B /* DashiData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24E684E41FABC0D500F79F9B /* DashiData.xcdatamodeld */; };
 		A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F54091F9AD6F5007CD82F /* PlayerView.swift */; };
 		A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */; };
@@ -43,7 +42,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24E684891FA3E31000F79F9B /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
