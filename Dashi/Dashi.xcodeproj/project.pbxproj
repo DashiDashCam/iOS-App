@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24E684891FA3E31000F79F9B /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 24E684881FA3E2FE00F79F9B /* libsqlite3.tbd */; };
+		24E684E61FABC0D500F79F9B /* DashiData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24E684E41FABC0D500F79F9B /* DashiData.xcdatamodeld */; };
 		A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F54091F9AD6F5007CD82F /* PlayerView.swift */; };
 		A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */; };
 		A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		24E684881FA3E2FE00F79F9B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		24E684E51FABC0D500F79F9B /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
 		A31F54091F9AD6F5007CD82F /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
@@ -39,17 +43,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24E684891FA3E31000F79F9B /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24E684871FA3E2FE00F79F9B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				24E684881FA3E2FE00F79F9B /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A347FD7C1F9A9EAF0091973F = {
 			isa = PBXGroup;
 			children = (
 				A347FD871F9A9EAF0091973F /* Dashi */,
 				A347FD861F9A9EAF0091973F /* Products */,
+				24E684871FA3E2FE00F79F9B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +85,7 @@
 				A31F54091F9AD6F5007CD82F /* PlayerView.swift */,
 				A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */,
 				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
+				24E684E41FABC0D500F79F9B /* DashiData.xcdatamodeld */,
 				A347FD8C1F9A9EAF0091973F /* Main.storyboard */,
 				A347FD8F1F9A9EAF0091973F /* Assets.xcassets */,
 				A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */,
@@ -154,6 +169,7 @@
 			files = (
 				A38A77401F9D914A0004874F /* PhotoManager.swift in Sources */,
 				A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */,
+				24E684E61FABC0D500F79F9B /* DashiData.xcdatamodeld in Sources */,
 				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
 				A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */,
 				A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */,
@@ -342,6 +358,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		24E684E41FABC0D500F79F9B /* DashiData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				24E684E51FABC0D500F79F9B /* DashiData.xcdatamodel */,
+			);
+			currentVersion = 24E684E51FABC0D500F79F9B /* DashiData.xcdatamodel */;
+			path = DashiData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A347FD7D1F9A9EAF0091973F /* Project object */;
 }
