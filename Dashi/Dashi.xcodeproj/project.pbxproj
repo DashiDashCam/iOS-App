@@ -7,28 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F56CCAF1FA91AF4005DD220 /* VidTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F56CCAE1FA91AF4005DD220 /* VidTableViewCell.swift */; };
+		2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */; };
 		A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F54091F9AD6F5007CD82F /* PlayerView.swift */; };
 		A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */; };
 		A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */; };
 		A31F54141F9AD6F5007CD82F /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A31F540D1F9AD6F5007CD82F /* Base.lproj */; };
 		A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A347FD881F9A9EAF0091973F /* AppDelegate.swift */; };
-		A347FD8E1F9A9EAF0091973F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8C1F9A9EAF0091973F /* Main.storyboard */; };
 		A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8F1F9A9EAF0091973F /* Assets.xcassets */; };
-		A347FD931F9A9EAF0091973F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */; };
 		A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */; };
 		A38A77401F9D914A0004874F /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A773F1F9D914A0004874F /* PhotoManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F56CCAE1FA91AF4005DD220 /* VidTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VidTableViewCell.swift; sourceTree = "<group>"; };
+		2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosTableViewController.swift; sourceTree = "<group>"; };
 		A31F54091F9AD6F5007CD82F /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		A31F540D1F9AD6F5007CD82F /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		A347FD851F9A9EAF0091973F /* Dashi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dashi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A347FD881F9A9EAF0091973F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A347FD8D1F9A9EAF0091973F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A347FD8F1F9A9EAF0091973F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A347FD921F9A9EAF0091973F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A347FD941F9A9EAF0091973F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
 		A38A773F1F9D914A0004874F /* PhotoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
@@ -70,11 +70,11 @@
 				A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */,
 				A31F54091F9AD6F5007CD82F /* PlayerView.swift */,
 				A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */,
+				2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */,
 				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
-				A347FD8C1F9A9EAF0091973F /* Main.storyboard */,
 				A347FD8F1F9A9EAF0091973F /* Assets.xcassets */,
-				A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */,
 				A347FD941F9A9EAF0091973F /* Info.plist */,
+				2F56CCAE1FA91AF4005DD220 /* VidTableViewCell.swift */,
 			);
 			path = Dashi;
 			sourceTree = "<group>";
@@ -138,10 +138,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A347FD931F9A9EAF0091973F /* LaunchScreen.storyboard in Resources */,
 				A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */,
 				A31F54141F9AD6F5007CD82F /* Base.lproj in Resources */,
-				A347FD8E1F9A9EAF0091973F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,31 +154,14 @@
 				A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */,
 				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
 				A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */,
+				2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */,
 				A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */,
 				A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */,
+				2F56CCAF1FA91AF4005DD220 /* VidTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		A347FD8C1F9A9EAF0091973F /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A347FD8D1F9A9EAF0091973F /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A347FD921F9A9EAF0091973F /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A347FD951F9A9EAF0091973F /* Debug */ = {
@@ -295,7 +276,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5263K5LLWX;
+				DEVELOPMENT_TEAM = F69WJ27LN4;
 				INFOPLIST_FILE = Dashi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
@@ -310,7 +291,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5263K5LLWX;
+				DEVELOPMENT_TEAM = F69WJ27LN4;
 				INFOPLIST_FILE = Dashi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;

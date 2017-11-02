@@ -10,6 +10,7 @@ import UIKit
 
 class VidTableViewCell: UITableViewCell {
 
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
