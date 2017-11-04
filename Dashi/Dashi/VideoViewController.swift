@@ -15,6 +15,7 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     @IBOutlet weak var previewView:UIView! // displays capture stream
     @IBOutlet weak var recordButton:UIButton! // stop/start recording
     @IBOutlet weak var toggleButton:UIButton! // switch camera
+    @IBOutlet weak var backButton:UIButton! // custom back button
     
     let captureSession = AVCaptureSession()
     var videoCaptureDevice:AVCaptureDevice?
@@ -45,6 +46,10 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     }
     
     // MARK: Button Actions
+    
+    @IBAction func backButtonPressed(sender:AnyObject) {
+        navigationController?.popViewController(animated: true)
+    }
     
     // stop and start recording based off recording state
     @IBAction func recordVideoButtonPressed(sender:AnyObject) {
