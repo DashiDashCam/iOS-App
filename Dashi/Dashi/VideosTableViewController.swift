@@ -30,7 +30,7 @@ class VideosTableViewController: UITableViewController {
         super.viewDidLoad()
            fetchAssets()
         
-        // back button
+        // navigation bar and back button
         self.navigationController?.isNavigationBarHidden = false
         
         // Uncomment the following line to preserve selection between presentations

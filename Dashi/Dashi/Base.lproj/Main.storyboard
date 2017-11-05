@@ -143,7 +143,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </containerView>
-                            <button hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZM0-AP-X0W">
+                            <button hidden="YES" opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZM0-AP-X0W">
                                 <rect key="frame" x="16" y="615" width="32" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="NoK-a3-cDG"/>
@@ -156,7 +156,7 @@
                                     <action selector="saveToLibrary" destination="APL-xH-iKf" eventType="touchUpInside" id="TP1-0z-Fde"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pjr-40-7jK">
+                            <button hidden="YES" opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pjr-40-7jK">
                                 <rect key="frame" x="162.5" y="308.5" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="9Ag-ci-Gie"/>
@@ -168,7 +168,7 @@
                                     <action selector="playPauseButtonPressed" destination="APL-xH-iKf" eventType="touchUpInside" id="mNj-ET-e6p"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37E-9J-E2Z">
+                            <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37E-9J-E2Z">
                                 <rect key="frame" x="16" y="20" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="Z4z-Gx-ED3"/>
@@ -224,10 +224,10 @@
             </objects>
             <point key="canvasLocation" x="158" y="-65"/>
         </scene>
-        <!--View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="PRv-ez-c14">
             <objects>
-                <viewController id="8Bz-be-hOT" sceneMemberID="viewController">
+                <viewController id="8Bz-be-hOT" customClass="HomeViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uuA-7G-9i4"/>
                         <viewControllerLayoutGuide type="bottom" id="7Aj-EQ-EYJ"/>
@@ -290,6 +290,6 @@
         <image name="switch" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5bN-3O-Ge9"/>
+        <segue reference="rN0-aV-jap"/>
     </inferredMetricsTieBreakers>
 </document>

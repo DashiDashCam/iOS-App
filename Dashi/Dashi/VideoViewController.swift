@@ -28,6 +28,8 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        // hide navigation bar
+        self.navigationController?.isNavigationBarHidden = true
         self.initializeCamera()
     }
     
