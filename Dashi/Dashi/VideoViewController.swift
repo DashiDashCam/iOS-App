@@ -47,6 +47,7 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     
     // MARK: Button Actions
     
+    // custom back button to leave this view
     @IBAction func backButtonPressed(sender:AnyObject) {
         navigationController?.popViewController(animated: true)
     }
@@ -227,10 +228,10 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     func updateRecordButtonTitle() {
         if !self.movieFileOutput.isRecording {
             self.allowSwitch=false
-            recordButton.setTitle("Recording..", for: .normal)
+            recordButton.setImage(UIImage(named: "record on"), for: .normal)
         } else {
             self.allowSwitch=true
-            recordButton.setTitle("Record", for: .normal)
+            recordButton.setImage(UIImage(named: "record off"), for: .normal)
         }
     }
     
