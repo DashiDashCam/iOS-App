@@ -25,10 +25,10 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </view>
                             <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mwH-Xj-alT">
-                                <rect key="frame" x="8" y="35" width="46" height="30"/>
+                                <rect key="frame" x="8" y="35" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="KAV-A3-aaa"/>
-                                    <constraint firstAttribute="width" constant="46" id="ZPy-Jy-nff"/>
+                                    <constraint firstAttribute="width" constant="30" id="ZPy-Jy-nff"/>
                                 </constraints>
                                 <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" image="Arrows-Back-icon">

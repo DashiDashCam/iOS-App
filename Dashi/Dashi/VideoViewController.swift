@@ -29,7 +29,11 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
         // Do any additional setup after loading the view.
         
         self.initializeCamera()
-        
+    }
+    
+    // hide status bar
+    override var prefersStatusBarHidden : Bool {
+        return true
     }
     
     override func didReceiveMemoryWarning() {
