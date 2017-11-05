@@ -29,6 +29,10 @@ class VideosTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
            fetchAssets()
+        
+        // back button
+        self.navigationController?.isNavigationBarHidden = false
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
