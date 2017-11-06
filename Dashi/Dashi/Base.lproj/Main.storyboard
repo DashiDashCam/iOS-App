@@ -92,7 +92,7 @@
             </objects>
             <point key="canvasLocation" x="1941.5999999999999" y="-65.217391304347828"/>
         </scene>
-        <!--Videos-->
+        <!--Previous Trips-->
         <scene sceneID="Vzt-n4-ruR">
             <objects>
                 <tableViewController id="FkJ-At-WVc" customClass="VideosTableViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
@@ -118,7 +118,7 @@
                             <outlet property="delegate" destination="FkJ-At-WVc" id="IjE-yW-OfH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Videos" id="vfu-8P-w4U">
+                    <navigationItem key="navigationItem" title="Previous Trips" id="vfu-8P-w4U">
                         <barButtonItem key="backBarButtonItem" title="Back" id="gKo-uT-gfN"/>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
@@ -290,6 +290,6 @@
         <image name="switch" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rN0-aV-jap"/>
+        <segue reference="5bN-3O-Ge9"/>
     </inferredMetricsTieBreakers>
 </document>
