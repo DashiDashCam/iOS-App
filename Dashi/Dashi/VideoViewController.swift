@@ -50,7 +50,7 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
             
         }
     }
-    
+  
     // MARK: Button Actions
     
     // custom back button to leave this view
