@@ -15,6 +15,7 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     @IBOutlet weak var previewView:UIView! // displays capture stream
     @IBOutlet weak var recordButton:UIButton! // stop/start recording
     @IBOutlet weak var toggleButton:UIButton! // switch camera
+    @IBOutlet weak var backButton:UIButton! // custom back button
     
     let captureSession = AVCaptureSession()
     var videoCaptureDevice:AVCaptureDevice?
@@ -27,8 +28,14 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        // hide navigation bar
+        self.navigationController?.isNavigationBarHidden = true
         self.initializeCamera()
-        
+    }
+    
+    // hide status bar
+    override var prefersStatusBarHidden : Bool {
+        return true
     }
     
     override func didReceiveMemoryWarning() {
@@ -45,6 +52,11 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     }
     
     // MARK: Button Actions
+    
+    // custom back button to leave this view
+    @IBAction func backButtonPressed(sender:AnyObject) {
+        navigationController?.popViewController(animated: true)
+    }
     
     // stop and start recording based off recording state
     @IBAction func recordVideoButtonPressed(sender:AnyObject) {
@@ -222,10 +234,10 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     func updateRecordButtonTitle() {
         if !self.movieFileOutput.isRecording {
             self.allowSwitch=false
-            recordButton.setTitle("Recording..", for: .normal)
+            recordButton.setImage(UIImage(named: "record on"), for: .normal)
         } else {
             self.allowSwitch=true
-            recordButton.setTitle("Record", for: .normal)
+            recordButton.setImage(UIImage(named: "record off"), for: .normal)
         }
     }
     

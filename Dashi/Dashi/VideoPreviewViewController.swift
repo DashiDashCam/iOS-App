@@ -128,7 +128,7 @@ class VideoPreviewViewController: UIViewController {
     }
     
     @IBAction func playPauseButtonPressed() {
-        self.updatePlayPauseButtonTitle()
+        self.updatePlayPauseButton()
     }
     
     // MARK: Callbacks
@@ -150,7 +150,7 @@ class VideoPreviewViewController: UIViewController {
     @objc func playerReachedEnd(notification:NSNotification) {
         // restart video
         self.asset = AVURLAsset(url: self.fileLocation!)
-        self.updatePlayPauseButtonTitle()
+        self.updatePlayPauseButton()
     }
     
     
@@ -182,14 +182,14 @@ class VideoPreviewViewController: UIViewController {
         self.present(controller, animated: true, completion: nil)
     }
     
-    // update text in Play/Pause button
-    func updatePlayPauseButtonTitle() {
+    // update image in Play/Pause button, play and pause video
+    func updatePlayPauseButton() {
         if player.rate > 0 {
             player.pause()
-            playPauseButton.setTitle("Play", for: .normal)
+            playPauseButton.setImage(UIImage(named: "play"), for: .normal)
         } else {
             player.play()
-            playPauseButton.setTitle("Pause", for: .normal)
+            playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
         }
     }
     
