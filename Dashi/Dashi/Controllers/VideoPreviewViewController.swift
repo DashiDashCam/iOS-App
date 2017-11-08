@@ -51,7 +51,7 @@ class VideoPreviewViewController: UIViewController {
     @IBOutlet weak var playerView:PlayerView! // where video actually displays
     @IBOutlet weak var saveButton:UIButton!
     @IBOutlet weak var playPauseButton:UIButton!
-    
+    @IBOutlet weak var pushToCloudButton:UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,6 +129,10 @@ class VideoPreviewViewController: UIViewController {
     
     @IBAction func playPauseButtonPressed() {
         self.updatePlayPauseButton()
+    }
+    
+    @IBAction func pushToCloud() {
+        print("push to cloud!")
     }
     
     // MARK: Callbacks

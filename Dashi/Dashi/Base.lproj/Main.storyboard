@@ -40,7 +40,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFV-je-gRe">
-                                <rect key="frame" x="157.5" y="587" width="60" height="60"/>
+                                <rect key="frame" x="158" y="587" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Avx-PN-cJU"/>
                                     <constraint firstAttribute="width" constant="60" id="eLl-1H-dZo"/>
@@ -157,7 +157,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pjr-40-7jK">
-                                <rect key="frame" x="162.5" y="308.5" width="50" height="50"/>
+                                <rect key="frame" x="163" y="309" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="9Ag-ci-Gie"/>
                                     <constraint firstAttribute="height" constant="50" id="hn8-m2-NE8"/>
@@ -183,24 +183,38 @@
                                     <action selector="closePreview" destination="APL-xH-iKf" eventType="touchUpInside" id="0gf-KT-SMi"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4h5-Zz-v2x">
+                                <rect key="frame" x="320" y="615" width="39" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="39" id="946-kI-ekP"/>
+                                </constraints>
+                                <state key="normal" image="push_to_cloud"/>
+                                <connections>
+                                    <action selector="pushToCloud" destination="APL-xH-iKf" eventType="touchUpInside" id="hfu-Cr-Vpw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="top" secondItem="mi5-6p-0HE" secondAttribute="top" id="5HH-4X-OA3"/>
                             <constraint firstItem="Pjr-40-7jK" firstAttribute="centerX" secondItem="ze8-ZF-MT6" secondAttribute="centerX" id="Bdh-rL-ELK"/>
+                            <constraint firstItem="4h5-Zz-v2x" firstAttribute="bottom" secondItem="ZM0-AP-X0W" secondAttribute="bottom" id="HSL-58-XLh"/>
                             <constraint firstAttribute="bottom" secondItem="ZM0-AP-X0W" secondAttribute="bottom" constant="20" symbolic="YES" id="PeT-q9-OXb"/>
                             <constraint firstItem="37E-9J-E2Z" firstAttribute="top" secondItem="ahp-Fm-06O" secondAttribute="bottom" constant="8" id="aoB-E1-91e"/>
                             <constraint firstAttribute="trailing" secondItem="ze8-ZF-MT6" secondAttribute="trailing" id="bUx-9m-soJ"/>
                             <constraint firstItem="37E-9J-E2Z" firstAttribute="trailing" secondItem="mi5-6p-0HE" secondAttribute="trailingMargin" id="emO-dP-xTp"/>
+                            <constraint firstItem="4h5-Zz-v2x" firstAttribute="top" secondItem="ZM0-AP-X0W" secondAttribute="top" id="fdq-sZ-Ujp"/>
                             <constraint firstItem="ZM0-AP-X0W" firstAttribute="leading" secondItem="mi5-6p-0HE" secondAttribute="leadingMargin" id="jDj-Xe-eol"/>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="bottom" secondItem="dJe-SU-QII" secondAttribute="top" id="lVo-gT-PMU"/>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="leading" secondItem="mi5-6p-0HE" secondAttribute="leading" id="oFs-lR-zrE"/>
+                            <constraint firstItem="4h5-Zz-v2x" firstAttribute="trailing" secondItem="mi5-6p-0HE" secondAttribute="trailingMargin" id="sJf-CA-Xhz"/>
                             <constraint firstItem="Pjr-40-7jK" firstAttribute="centerY" secondItem="mi5-6p-0HE" secondAttribute="centerY" id="yu9-aO-92p"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="playPauseButton" destination="Pjr-40-7jK" id="39D-xK-a4E"/>
                         <outlet property="playerView" destination="ze8-ZF-MT6" id="rxA-e7-DCK"/>
+                        <outlet property="pushToCloudButton" destination="4h5-Zz-v2x" id="qj2-Yo-E7I"/>
                         <outlet property="saveButton" destination="ZM0-AP-X0W" id="eaL-Wy-cbG"/>
                     </connections>
                 </viewController>
@@ -285,6 +299,7 @@
         <image name="Arrows-Back-icon" width="256" height="256"/>
         <image name="Dashi Logo" width="795" height="234"/>
         <image name="play" width="512" height="512"/>
+        <image name="push_to_cloud" width="512" height="425"/>
         <image name="record off" width="512" height="512"/>
         <image name="save_file" width="256" height="256"/>
         <image name="switch" width="256" height="256"/>
