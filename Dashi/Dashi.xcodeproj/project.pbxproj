@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */; };
 		2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */; };
-		2F56CCAF1FA91AF4005DD220 /* VidTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F56CCAE1FA91AF4005DD220 /* VidTableViewCell.swift */; };
 		2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */; };
 		A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F54091F9AD6F5007CD82F /* PlayerView.swift */; };
 		A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */; };
@@ -27,7 +26,6 @@
 /* Begin PBXFileReference section */
 		2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
-		2F56CCAE1FA91AF4005DD220 /* VidTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VidTableViewCell.swift; sourceTree = "<group>"; };
 		2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosTableViewController.swift; sourceTree = "<group>"; };
 		A31F54091F9AD6F5007CD82F /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +53,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2FBC9B4B1FB2A58A003C0011 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */,
+				A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */,
+				A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */,
+				A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */,
+				2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */,
+				2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */,
+				2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		2FBC9B4C1FB2A669003C0011 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A38A773F1F9D914A0004874F /* PhotoManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2FBC9B4D1FB2A699003C0011 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
+				A347FD941F9A9EAF0091973F /* Info.plist */,
+			);
+			path = SupportFiles;
+			sourceTree = "<group>";
+		};
+		2FBC9B4E1FB2A6BE003C0011 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A31F54091F9AD6F5007CD82F /* PlayerView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		A347FD7C1F9A9EAF0091973F = {
 			isa = PBXGroup;
 			children = (
@@ -74,22 +111,14 @@
 		A347FD871F9A9EAF0091973F /* Dashi */ = {
 			isa = PBXGroup;
 			children = (
+				2FBC9B4E1FB2A6BE003C0011 /* Views */,
+				2FBC9B4D1FB2A699003C0011 /* SupportFiles */,
+				2FBC9B4C1FB2A669003C0011 /* Models */,
+				2FBC9B4B1FB2A58A003C0011 /* Controllers */,
 				A3CD1C7E1FABC8450061FEAB /* Base.lproj */,
 				A3CD1C7C1FABC8450061FEAB /* LaunchScreen.storyboard */,
 				A3CD1C7A1FABC8450061FEAB /* Main.storyboard */,
-				A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */,
-				A38A773F1F9D914A0004874F /* PhotoManager.swift */,
-				A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */,
-				A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */,
-				A31F54091F9AD6F5007CD82F /* PlayerView.swift */,
-				A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */,
-				2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */,
-				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
 				A347FD8F1F9A9EAF0091973F /* Assets.xcassets */,
-				A347FD941F9A9EAF0091973F /* Info.plist */,
-				2F56CCAE1FA91AF4005DD220 /* VidTableViewCell.swift */,
-				2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */,
-				2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */,
 			);
 			path = Dashi;
 			sourceTree = "<group>";
@@ -176,7 +205,6 @@
 				A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */,
 				A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */,
 				2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */,
-				2F56CCAF1FA91AF4005DD220 /* VidTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,7 +343,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F69WJ27LN4;
-				INFOPLIST_FILE = Dashi/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Dashi/SupportFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -330,7 +358,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F69WJ27LN4;
-				INFOPLIST_FILE = Dashi/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Dashi/SupportFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
