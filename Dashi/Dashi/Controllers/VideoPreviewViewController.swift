@@ -15,6 +15,9 @@ class VideoPreviewViewController: UIViewController {
     // keys to ensure playability of video
     static let assetKeysRequiredToPlay = ["playable", "hasProtectedContent"]
 
+    //    let cloudURL = "http://api.dashidashcam.com/Videos/id/content"
+    let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Videos/id"
+
     @objc dynamic var player = AVPlayer()
 
     /*
@@ -130,7 +133,17 @@ class VideoPreviewViewController: UIViewController {
     }
 
     @IBAction func pushToCloud() {
-        print("push to cloud!")
+        // set up the initial request: header information
+        var request = URLRequest(url: URL(string: self.cloudURL)!)
+        request.httpMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        var movieLength = Int(Float((asset?.duration.value)!) / Float((asset?.duration.timescale)!))
+        print("duration: \(movieLength) seconds")
+
+        print("size: \(asset?.fileSize ?? 0)")
+
+        asset.
     }
 
     // MARK: Callbacks
@@ -203,4 +216,14 @@ class VideoPreviewViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+}
+
+// returns the size in bytes of a AVURLAsset
+extension AVURLAsset {
+    var fileSize: Int? {
+        let keys: Set<URLResourceKey> = [.totalFileSizeKey, .fileSizeKey]
+        let resourceValues = try? url.resourceValues(forKeys: keys)
+
+        return resourceValues?.fileSize ?? resourceValues?.totalFileSize
+    }
 }
