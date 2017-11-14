@@ -171,16 +171,21 @@ class VideoPreviewViewController: UIViewController {
     
     // save the video to core data
     func saveVideoToCoreData(){
+        
+        print("Saving to core data")
+        
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
         
-        // 1
+        print("Loaded appDelegate");
+        
         let managedContext =
             appDelegate.persistentContainer.viewContext
         
-        // 2
+        print("Loaded managedContext");
+        
         let entity =
             NSEntityDescription.entity(forEntityName: "Videos",
                                        in: managedContext)!
@@ -188,10 +193,12 @@ class VideoPreviewViewController: UIViewController {
         let video = NSManagedObject(entity: entity,
                                      insertInto: managedContext)
         
-        // 3
+        let videoData = NSData(contentsOfFile: (self.fileLocation?.absoluteString)!)
+
         video.setValue(2, forKeyPath: "id")
+        video.setValue(videoData, forKeyPath: "videoContent")
+        print(videoData)
         
-        // 4
         do {
             try managedContext.save()
         } catch let error as NSError {
