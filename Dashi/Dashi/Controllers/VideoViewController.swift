@@ -15,20 +15,27 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     @IBOutlet weak var previewView:UIView! // displays capture stream
     @IBOutlet weak var recordButton:UIButton! // stop/start recording
     @IBOutlet weak var toggleButton:UIButton! // switch camera
+    @IBOutlet weak var backButton:UIButton! // custom back button
     
     let captureSession = AVCaptureSession()
     var videoCaptureDevice:AVCaptureDevice?
     var previewLayer:AVCaptureVideoPreviewLayer?
     var movieFileOutput = AVCaptureMovieFileOutput()
-    
+    var allowSwitch=true;
     var outputFileLocation:URL?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        // hide navigation bar
+        self.navigationController?.isNavigationBarHidden = true
         self.initializeCamera()
-        
+    }
+    
+    // hide status bar
+    override var prefersStatusBarHidden : Bool {
+        return true
     }
     
     override func didReceiveMemoryWarning() {
@@ -38,10 +45,18 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     
     // adjust the orientation of the preview layer when device changes layout
     override func viewWillLayoutSubviews() {
-        self.setVideoOrientation()
+        if(allowSwitch){
+            self.setVideoOrientation()
+            
+        }
     }
-    
+  
     // MARK: Button Actions
+    
+    // custom back button to leave this view
+    @IBAction func backButtonPressed(sender:AnyObject) {
+        navigationController?.popViewController(animated: true)
+    }
     
     // stop and start recording based off recording state
     @IBAction func recordVideoButtonPressed(sender:AnyObject) {
@@ -218,9 +233,11 @@ class VideoViewController: UIViewController,  AVCaptureFileOutputRecordingDelega
     // update record button based off recording state
     func updateRecordButtonTitle() {
         if !self.movieFileOutput.isRecording {
-            recordButton.setTitle("Recording..", for: .normal)
+            self.allowSwitch=false
+            recordButton.setImage(UIImage(named: "record on"), for: .normal)
         } else {
-            recordButton.setTitle("Record", for: .normal)
+            self.allowSwitch=true
+            recordButton.setImage(UIImage(named: "record off"), for: .normal)
         }
     }
     

@@ -7,35 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		24E684E61FABC0D500F79F9B /* DashiData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24E684E41FABC0D500F79F9B /* DashiData.xcdatamodeld */; };
+		24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */; };
+		2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */; };
+		2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */; };
+		2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */; };
 		A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F54091F9AD6F5007CD82F /* PlayerView.swift */; };
 		A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */; };
 		A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */; };
-		A31F54141F9AD6F5007CD82F /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A31F540D1F9AD6F5007CD82F /* Base.lproj */; };
 		A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A347FD881F9A9EAF0091973F /* AppDelegate.swift */; };
-		A347FD8E1F9A9EAF0091973F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8C1F9A9EAF0091973F /* Main.storyboard */; };
 		A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8F1F9A9EAF0091973F /* Assets.xcassets */; };
-		A347FD931F9A9EAF0091973F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */; };
 		A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */; };
 		A38A77401F9D914A0004874F /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A773F1F9D914A0004874F /* PhotoManager.swift */; };
+		A3CD1C7F1FABC8450061FEAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7A1FABC8450061FEAB /* Main.storyboard */; };
+		A3CD1C801FABC8450061FEAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7C1FABC8450061FEAB /* LaunchScreen.storyboard */; };
+		A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7E1FABC8450061FEAB /* Base.lproj */; };
+		A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		24E684881FA3E2FE00F79F9B /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		24A187D51FBBA37D002615A8 /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
+		24A187D91FBBA568002615A8 /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
 		24E684E51FABC0D500F79F9B /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
-		24E684E71FABE6C700F79F9B /* bridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = bridgingHeader.h; path = Dashi/bridgingHeader.h; sourceTree = SOURCE_ROOT; };
+		2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosTableViewController.swift; sourceTree = "<group>"; };
 		A31F54091F9AD6F5007CD82F /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
-		A31F540D1F9AD6F5007CD82F /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		A347FD851F9A9EAF0091973F /* Dashi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dashi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A347FD881F9A9EAF0091973F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A347FD8D1F9A9EAF0091973F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A347FD8F1F9A9EAF0091973F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A347FD921F9A9EAF0091973F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A347FD941F9A9EAF0091973F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
 		A38A773F1F9D914A0004874F /* PhotoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
+		A3CD1C7B1FABC8450061FEAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A3CD1C7D1FABC8450061FEAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A3CD1C7E1FABC8450061FEAB /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
+		A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,20 +57,61 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		24E684871FA3E2FE00F79F9B /* Frameworks */ = {
+		24A187D31FBBA2B5002615A8 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				24E684881FA3E2FE00F79F9B /* libsqlite3.tbd */,
+				24E684E41FABC0D500F79F9B /* DashiData.xcdatamodeld */,
 			);
-			name = Frameworks;
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		2FBC9B4B1FB2A58A003C0011 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */,
+				A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */,
+				A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */,
+				A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */,
+				2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */,
+				2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */,
+				2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		2FBC9B4C1FB2A669003C0011 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A38A773F1F9D914A0004874F /* PhotoManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2FBC9B4D1FB2A699003C0011 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				24A187D41FBBA37D002615A8 /* DashiData.xcdatamodeld */,
+				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
+				A347FD941F9A9EAF0091973F /* Info.plist */,
+			);
+			path = SupportFiles;
+			sourceTree = "<group>";
+		};
+		2FBC9B4E1FB2A6BE003C0011 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A31F54091F9AD6F5007CD82F /* PlayerView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		A347FD7C1F9A9EAF0091973F = {
 			isa = PBXGroup;
 			children = (
+				24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */,
 				A347FD871F9A9EAF0091973F /* Dashi */,
 				A347FD861F9A9EAF0091973F /* Products */,
-				24E684871FA3E2FE00F79F9B /* Frameworks */,
+				24A187D31FBBA2B5002615A8 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,19 +126,14 @@
 		A347FD871F9A9EAF0091973F /* Dashi */ = {
 			isa = PBXGroup;
 			children = (
-				A31F540D1F9AD6F5007CD82F /* Base.lproj */,
-				A38A773F1F9D914A0004874F /* PhotoManager.swift */,
-				A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */,
-				24E684E71FABE6C700F79F9B /* bridgingHeader.h */,
-				A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */,
-				A31F54091F9AD6F5007CD82F /* PlayerView.swift */,
-				A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */,
-				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
-				24E684E41FABC0D500F79F9B /* DashiData.xcdatamodeld */,
-				A347FD8C1F9A9EAF0091973F /* Main.storyboard */,
+				2FBC9B4E1FB2A6BE003C0011 /* Views */,
+				2FBC9B4D1FB2A699003C0011 /* SupportFiles */,
+				2FBC9B4C1FB2A669003C0011 /* Models */,
+				2FBC9B4B1FB2A58A003C0011 /* Controllers */,
+				A3CD1C7E1FABC8450061FEAB /* Base.lproj */,
+				A3CD1C7C1FABC8450061FEAB /* LaunchScreen.storyboard */,
+				A3CD1C7A1FABC8450061FEAB /* Main.storyboard */,
 				A347FD8F1F9A9EAF0091973F /* Assets.xcassets */,
-				A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */,
-				A347FD941F9A9EAF0091973F /* Info.plist */,
 			);
 			path = Dashi;
 			sourceTree = "<group>";
@@ -135,7 +179,6 @@
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
 			);
 			mainGroup = A347FD7C1F9A9EAF0091973F;
@@ -153,10 +196,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A347FD931F9A9EAF0091973F /* LaunchScreen.storyboard in Resources */,
+				A3CD1C801FABC8450061FEAB /* LaunchScreen.storyboard in Resources */,
 				A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */,
-				A31F54141F9AD6F5007CD82F /* Base.lproj in Resources */,
-				A347FD8E1F9A9EAF0091973F /* Main.storyboard in Resources */,
+				A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */,
+				A3CD1C7F1FABC8450061FEAB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,31 +210,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */,
 				A38A77401F9D914A0004874F /* PhotoManager.swift in Sources */,
+				A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */,
+				2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */,
 				A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */,
-				24E684E61FABC0D500F79F9B /* DashiData.xcdatamodeld in Sources */,
 				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
 				A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */,
+				2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */,
 				A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */,
 				A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */,
+				2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		A347FD8C1F9A9EAF0091973F /* Main.storyboard */ = {
+		A3CD1C7A1FABC8450061FEAB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A347FD8D1F9A9EAF0091973F /* Base */,
+				A3CD1C7B1FABC8450061FEAB /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		A347FD911F9A9EAF0091973F /* LaunchScreen.storyboard */ = {
+		A3CD1C7C1FABC8450061FEAB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A347FD921F9A9EAF0091973F /* Base */,
+				A3CD1C7D1FABC8450061FEAB /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -312,7 +359,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L28WS799LD;
-				INFOPLIST_FILE = Dashi/Info.plist;
+				INFOPLIST_FILE = Dashi/SupportFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dash.Dashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -329,7 +376,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L28WS799LD;
-				INFOPLIST_FILE = Dashi/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Dashi/SupportFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dash.Dashi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -364,6 +411,28 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		24A187D41FBBA37D002615A8 /* DashiData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				24A187D51FBBA37D002615A8 /* DashiData.xcdatamodel */,
+			);
+			currentVersion = 24A187D51FBBA37D002615A8 /* DashiData.xcdatamodel */;
+			name = DashiData.xcdatamodeld;
+			path = ../DashiData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				24A187D91FBBA568002615A8 /* DashiData.xcdatamodel */,
+			);
+			currentVersion = 24A187D91FBBA568002615A8 /* DashiData.xcdatamodel */;
+			name = DashiData.xcdatamodeld;
+			path = Dashi/SupportFiles/DashiData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		24E684E41FABC0D500F79F9B /* DashiData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (

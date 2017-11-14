@@ -29,7 +29,7 @@ class PhotoManager: NSObject {
     public func fetchAssetsFromLibrary(completion: @escaping (Bool, [PHAsset]?) -> Void) {
         
         var content = [PHAsset]()
-        let collections = PHAssetCollection.fetchAssetCollections(with: .moment, subtype: .any, options: nil)
+        let collections = PHAssetCollection.fetchAssetCollections(with: .moment, subtype: .smartAlbumVideos, options: nil)
         
         collections.enumerateObjects({ (collection, start, stop) in
             let assets = PHAsset.fetchAssets(in: collection, options: nil)
@@ -49,9 +49,14 @@ class PhotoManager: NSObject {
         let options = PHImageRequestOptions()
         var thumbnail = UIImage()
         options.isSynchronous = true
-        manager.requestImage(for: asset, targetSize: CGSize(width: 240.0, height: 135.0), contentMode: .aspectFill, options: options) { (result, info) in
+        manager.requestImage(for: asset, targetSize: CGSize(width: 360.0, height: 135.0), contentMode: .aspectFill, options: options) { (result, info) in
             //
-            thumbnail = result!
+            if let thumb = result{
+                thumbnail=thumb
+            }
+            else{
+                thumbnail=UIImage();
+            }
         }
         
         return thumbnail
