@@ -9,6 +9,7 @@
 import UIKit
 import AVKit
 import AVFoundation
+import CoreData
 
 class VideoPreviewViewController: UIViewController {
 
@@ -122,6 +123,7 @@ class VideoPreviewViewController: UIViewController {
 
     @IBAction func saveToLibrary() {
         self.saveVideoToUserLibrary()
+        self.saveVideoToCoreData()
     }
 
     @IBAction func playPauseButtonPressed() {
@@ -162,7 +164,38 @@ class VideoPreviewViewController: UIViewController {
             }
         }
     }
+    
+    // save the video to core data
+    func saveVideoToCoreData(){
+        
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Videos",
+                                       in: managedContext)!
+        
+        let video = NSManagedObject(entity: entity,
+                                     insertInto: managedContext)
+        
+        let videoData = NSData(contentsOf: (self.fileLocation)!)
 
+        video.setValue(2, forKeyPath: "id")
+        video.setValue(videoData, forKeyPath: "videoContent")
+        print(videoData)
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
     // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
