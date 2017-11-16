@@ -18,7 +18,11 @@ class VideoPreviewViewController: UIViewController {
     //    let cloudURL = "http://api.dashidashcam.com/Videos/id/content"
     let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Videos/id"
 
+    // player for playing the AV asset1
     @objc dynamic var player = AVPlayer()
+
+    // the GMT timestamp of when the video ended
+    var videoEndTimestamp = Date()
 
     /*
      * set the file location of the video being shown
@@ -138,12 +142,32 @@ class VideoPreviewViewController: UIViewController {
         request.httpMethod = "PUT"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        var movieLength = Int(Float((asset?.duration.value)!) / Float((asset?.duration.timescale)!))
+        // the duration of the video
+        let movieLength = Float((asset?.duration.value)!) / Float((asset?.duration.timescale)!)
+
+        // when the video started
+        let movieStart = self.videoEndTimestamp.addingTimeInterval(TimeInterval(-1 * movieLength))
+
         print("duration: \(movieLength) seconds")
-
         print("size: \(asset?.fileSize ?? 0)")
+        print("start: \(movieStart)")
 
-        asset.
+        // convert the headers to JSON
+        let headers: [String: Any] = [
+            "started": String(describing: movieStart),
+            "length": String(describing: movieLength),
+            "size": String(describing: asset?.fileSize),
+        ]
+
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: headers, options: .prettyPrinted)
+            // here "jsonData" is the dictionary encoded in JSON data
+            // nsdata.contentsof(url)
+
+            print(jsonData)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 
     // MARK: Callbacks

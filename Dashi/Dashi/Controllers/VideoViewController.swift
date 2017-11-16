@@ -59,6 +59,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
 
     // stop and start recording based off recording state
     @IBAction func recordVideoButtonPressed(sender _: AnyObject) {
+        print("button pressed at \(Date())")
         if movieFileOutput.isRecording {
             // stop recording
             movieFileOutput.stopRecording()
