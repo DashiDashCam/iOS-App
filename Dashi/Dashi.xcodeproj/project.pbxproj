@@ -10,6 +10,7 @@
 		2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */; };
 		2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */; };
 		2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */; };
+		2F721EE41FB5061500073881 /* VideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F721EE31FB5061500073881 /* VideoTableViewCell.swift */; };
 		A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F54091F9AD6F5007CD82F /* PlayerView.swift */; };
 		A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */; };
 		A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */; };
@@ -27,6 +28,7 @@
 		2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosTableViewController.swift; sourceTree = "<group>"; };
+		2F721EE31FB5061500073881 /* VideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTableViewCell.swift; sourceTree = "<group>"; };
 		A31F54091F9AD6F5007CD82F /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */,
 				2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */,
 				2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */,
+				2F721EE31FB5061500073881 /* VideoTableViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -121,43 +124,6 @@
 				A347FD8F1F9A9EAF0091973F /* Assets.xcassets */,
 			);
 			path = Dashi;
-			sourceTree = "<group>";
-		};
-		A3D4AD891FB292060027F0E8 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */,
-				A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */,
-				A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */,
-				A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */,
-				2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		A3EAB36C1FB2926B004F16E4 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				A31F54091F9AD6F5007CD82F /* PlayerView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		A3EAB36E1FB292C0004F16E4 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				A38A773F1F9D914A0004874F /* PhotoManager.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		A3EAB36F1FB292D7004F16E4 /* SupportFiles */ = {
-			isa = PBXGroup;
-			children = (
-				A347FD941F9A9EAF0091973F /* Info.plist */,
-				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
-			);
-			path = SupportFiles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,6 +201,7 @@
 				A38A77401F9D914A0004874F /* PhotoManager.swift in Sources */,
 				A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */,
 				2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */,
+				2F721EE41FB5061500073881 /* VideoTableViewCell.swift in Sources */,
 				A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */,
 				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
 				A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */,
@@ -379,7 +346,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5263K5LLWX;
+				DEVELOPMENT_TEAM = F69WJ27LN4;
 				INFOPLIST_FILE = Dashi/SupportFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
