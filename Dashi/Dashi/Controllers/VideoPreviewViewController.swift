@@ -16,7 +16,7 @@ class VideoPreviewViewController: UIViewController {
     static let assetKeysRequiredToPlay = ["playable", "hasProtectedContent"]
 
     //    let cloudURL = "http://api.dashidashcam.com/Videos/id/content"
-    let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Videos/id"
+    let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Account/Videos/id"
 
     // player for playing the AV asset1
     @objc dynamic var player = AVPlayer()
@@ -160,11 +160,53 @@ class VideoPreviewViewController: UIViewController {
         ]
 
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: headers, options: .prettyPrinted)
-            // here "jsonData" is the dictionary encoded in JSON data
-            // nsdata.contentsof(url)
+            let headers_jsonData = try JSONSerialization.data(withJSONObject: headers, options: .prettyPrinted)
+            let headers_jsonString = String(data: headers_jsonData, encoding: .utf8)
 
-            print(jsonData)
+            // push header request
+            var request = URLRequest(url: URL(string: self.cloudURL)!)
+            request.httpMethod = "PUT"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer eyJhbGciOiJIUzI1NiJ9e30XmN", forHTTPHeaderField: "Authorization")
+
+            // set json data as the HTTP Body
+            request.httpBody = headers_jsonString?.data(using: .utf8)
+
+            let task = URLSession.shared.dataTask(with: request) { _, response, error in
+                if let response = response as? HTTPURLResponse {
+                    print("------------")
+                    // push headers was successful
+                    if response.statusCode == 200 {
+                        // push the video body
+                        var request = URLRequest(url: URL(string: self.cloudURL)!)
+                        request.httpMethod = "PUT"
+                        request.addValue("video/mpeg", forHTTPHeaderField: "Content-Type")
+                        request.addValue("Bearer eyJhbGciOiJIUzI1NiJ9e30XmN", forHTTPHeaderField: "Authorization")
+
+                        // set the data of the video to be
+                        request.httpBody = NSData(contentsOf: self.fileLocation!) as Data?
+
+                        let task = URLSession.shared.dataTask(with: request) { _, response, error in
+                            if let response = response as? HTTPURLResponse {
+                                // push video body was successful
+                                if response.statusCode == 200 {
+                                    self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
+                                }
+                            } else {
+                                self.showAlert(title: "Error", message: "Unable to push to cloud. Please try again.", dismiss: true)
+                                print(error as Any)
+                            }
+                        }
+
+                        task.resume()
+                    }
+                } else {
+                    self.showAlert(title: "Error", message: "Unable to push to cloud. Please try again.", dismiss: true)
+                    print(error as Any)
+                }
+            }
+
+            task.resume()
         } catch {
             print(error.localizedDescription)
         }
