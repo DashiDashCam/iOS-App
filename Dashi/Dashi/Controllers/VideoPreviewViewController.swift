@@ -16,8 +16,15 @@ class VideoPreviewViewController: UIViewController {
     // keys to ensure playability of video
     static let assetKeysRequiredToPlay = ["playable", "hasProtectedContent"]
 
+
+    //    let cloudURL = "http://api.dashidashcam.com/Videos/id/content"
+    let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Account/Videos/id"
+
+    // player for playing the AV asset1
     @objc dynamic var player = AVPlayer()
 
+    // the GMT timestamp of when the video ended
+    var videoEndTimestamp = Date()
     /*
      * set the file location of the video being shown
      * Note: Setting this triggers a chain of reactions to load the media
@@ -52,7 +59,7 @@ class VideoPreviewViewController: UIViewController {
     @IBOutlet weak var playerView: PlayerView! // where video actually displays
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var playPauseButton: UIButton!
-
+    @IBOutlet weak var pushToCloudButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -130,6 +137,83 @@ class VideoPreviewViewController: UIViewController {
         self.updatePlayPauseButton()
     }
 
+
+    @IBAction func pushToCloud() {
+        // set up the initial request: header information
+        var request = URLRequest(url: URL(string: self.cloudURL)!)
+        request.httpMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        // the duration of the video
+        let movieLength = Float((asset?.duration.value)!) / Float((asset?.duration.timescale)!)
+
+        // when the video started
+        let movieStart = self.videoEndTimestamp.addingTimeInterval(TimeInterval(-1 * movieLength))
+
+        print("duration: \(movieLength) seconds")
+        print("size: \(asset?.fileSize ?? 0)")
+        print("start: \(movieStart)")
+
+        // convert the headers to JSON
+        let headers: [String: Any] = [
+            "started": String(describing: movieStart),
+            "length": String(describing: movieLength),
+            "size": String(describing: asset?.fileSize),
+        ]
+
+        do {
+            let headers_jsonData = try JSONSerialization.data(withJSONObject: headers, options: .prettyPrinted)
+            let headers_jsonString = String(data: headers_jsonData, encoding: .utf8)
+
+            // push header request
+            var request = URLRequest(url: URL(string: self.cloudURL)!)
+            request.httpMethod = "PUT"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer eyJhbGciOiJIUzI1NiJ9e30XmN", forHTTPHeaderField: "Authorization")
+
+            // set json data as the HTTP Body
+            request.httpBody = headers_jsonString?.data(using: .utf8)
+
+            let task = URLSession.shared.dataTask(with: request) { _, response, error in
+                if let response = response as? HTTPURLResponse {
+                    print("------------")
+                    // push headers was successful
+                    if response.statusCode == 200 {
+                        // push the video body
+                        var request = URLRequest(url: URL(string: self.cloudURL)!)
+                        request.httpMethod = "PUT"
+                        request.addValue("video/mpeg", forHTTPHeaderField: "Content-Type")
+                        request.addValue("Bearer eyJhbGciOiJIUzI1NiJ9e30XmN", forHTTPHeaderField: "Authorization")
+
+                        // set the data of the video to be
+                        request.httpBody = NSData(contentsOf: self.fileLocation!) as Data?
+
+                        let task = URLSession.shared.dataTask(with: request) { _, response, error in
+                            if let response = response as? HTTPURLResponse {
+                                // push video body was successful
+                                if response.statusCode == 200 {
+                                    self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
+                                }
+                            } else {
+                                self.showAlert(title: "Error", message: "Unable to push to cloud. Please try again.", dismiss: true)
+                                print(error as Any)
+                            }
+                        }
+
+                        task.resume()
+                    }
+                } else {
+                    self.showAlert(title: "Error", message: "Unable to push to cloud. Please try again.", dismiss: true)
+                    print(error as Any)
+                }
+            }
+
+            task.resume()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+
     // MARK: Callbacks
 
     // check for status of observers
@@ -164,7 +248,7 @@ class VideoPreviewViewController: UIViewController {
             }
         }
     }
-    
+
     // save the video to core data
     func saveVideoToCoreData(){
         
@@ -231,4 +315,16 @@ class VideoPreviewViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+
+}
+
+// returns the size in bytes of a AVURLAsset
+extension AVURLAsset {
+    var fileSize: Int? {
+        let keys: Set<URLResourceKey> = [.totalFileSizeKey, .fileSizeKey]
+        let resourceValues = try? url.resourceValues(forKeys: keys)
+
+        return resourceValues?.fileSize ?? resourceValues?.totalFileSize
+    }
+
 }

@@ -15,19 +15,17 @@ class PlayerView: UIView {
         get {
             return playerLayer.player
         }
-        
+
         set {
             playerLayer.player = newValue
         }
     }
-    
+
     var playerLayer: AVPlayerLayer {
         return layer as! AVPlayerLayer
     }
-    
-    override public class var layerClass:Swift.AnyClass {
-        get {
-            return AVPlayerLayer.self
-        }
+
+    public override class var layerClass: Swift.AnyClass {
+        return AVPlayerLayer.self
     }
 }

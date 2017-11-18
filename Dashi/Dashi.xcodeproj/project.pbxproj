@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */; };
+		2F0328EB1FC0E8AD00944477 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328E91FC0E8AD00944477 /* CloudManager.swift */; };
+		2F0328EC1FC0E8AD00944477 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */; };
 		2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */; };
 		2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */; };
 		2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */; };
@@ -18,7 +20,6 @@
 		A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A347FD881F9A9EAF0091973F /* AppDelegate.swift */; };
 		A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8F1F9A9EAF0091973F /* Assets.xcassets */; };
 		A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */; };
-		A38A77401F9D914A0004874F /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A773F1F9D914A0004874F /* PhotoManager.swift */; };
 		A3CD1C7F1FABC8450061FEAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7A1FABC8450061FEAB /* Main.storyboard */; };
 		A3CD1C801FABC8450061FEAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7C1FABC8450061FEAB /* LaunchScreen.storyboard */; };
 		A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7E1FABC8450061FEAB /* Base.lproj */; };
@@ -26,9 +27,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		24A187D51FBBA37D002615A8 /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
 		24A187D91FBBA568002615A8 /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
 		24E684E51FABC0D500F79F9B /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
+		2F0328E91FC0E8AD00944477 /* CloudManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
+		2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
 		2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosTableViewController.swift; sourceTree = "<group>"; };
@@ -41,7 +43,6 @@
 		A347FD8F1F9A9EAF0091973F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A347FD941F9A9EAF0091973F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
-		A38A773F1F9D914A0004874F /* PhotoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
 		A3CD1C7B1FABC8450061FEAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A3CD1C7D1FABC8450061FEAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A3CD1C7E1FABC8450061FEAB /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
@@ -85,7 +86,8 @@
 		2FBC9B4C1FB2A669003C0011 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A38A773F1F9D914A0004874F /* PhotoManager.swift */,
+				2F0328E91FC0E8AD00944477 /* CloudManager.swift */,
+				2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -93,7 +95,7 @@
 		2FBC9B4D1FB2A699003C0011 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
-				24A187D41FBBA37D002615A8 /* DashiData.xcdatamodeld */,
+				24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */,
 				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
 				A347FD941F9A9EAF0091973F /* Info.plist */,
 			);
@@ -111,7 +113,6 @@
 		A347FD7C1F9A9EAF0091973F = {
 			isa = PBXGroup;
 			children = (
-				24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */,
 				A347FD871F9A9EAF0091973F /* Dashi */,
 				A347FD861F9A9EAF0091973F /* Products */,
 				24A187D31FBBA2B5002615A8 /* Recovered References */,
@@ -213,13 +214,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F0328EB1FC0E8AD00944477 /* CloudManager.swift in Sources */,
 				24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */,
-				A38A77401F9D914A0004874F /* PhotoManager.swift in Sources */,
 				A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */,
 				2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */,
 				2F721EE41FB5061500073881 /* VideoTableViewCell.swift in Sources */,
 				A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */,
 				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
+				2F0328EC1FC0E8AD00944477 /* PhotoManager.swift in Sources */,
 				A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */,
 				2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */,
 				A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */,
@@ -362,7 +364,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5263K5LLWX;
+				DEVELOPMENT_TEAM = F69WJ27LN4;
 				INFOPLIST_FILE = Dashi/SupportFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
@@ -379,7 +381,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5263K5LLWX;
+				DEVELOPMENT_TEAM = F69WJ27LN4;
 				INFOPLIST_FILE = "$(SRCROOT)/Dashi/SupportFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
@@ -415,25 +417,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		24A187D41FBBA37D002615A8 /* DashiData.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				24A187D51FBBA37D002615A8 /* DashiData.xcdatamodel */,
-			);
-			currentVersion = 24A187D51FBBA37D002615A8 /* DashiData.xcdatamodel */;
-			name = DashiData.xcdatamodeld;
-			path = ../DashiData.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
 		24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				24A187D91FBBA568002615A8 /* DashiData.xcdatamodel */,
 			);
 			currentVersion = 24A187D91FBBA568002615A8 /* DashiData.xcdatamodel */;
-			name = DashiData.xcdatamodeld;
-			path = Dashi/SupportFiles/DashiData.xcdatamodeld;
+			path = DashiData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

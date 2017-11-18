@@ -24,7 +24,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cpy-bu-ULb">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </view>
-                            <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mwH-Xj-alT">
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mwH-Xj-alT">
                                 <rect key="frame" x="8" y="35" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="KAV-A3-aaa"/>
@@ -39,8 +39,8 @@
                                     <action selector="closePreview" destination="APL-xH-iKf" eventType="touchUpInside" id="cul-zw-qnR"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFV-je-gRe">
-                                <rect key="frame" x="157.5" y="587" width="60" height="60"/>
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFV-je-gRe">
+                                <rect key="frame" x="158" y="587" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Avx-PN-cJU"/>
                                     <constraint firstAttribute="width" constant="60" id="eLl-1H-dZo"/>
@@ -51,7 +51,7 @@
                                     <action selector="recordVideoButtonPressedWithSender:" destination="8p2-4V-4ok" eventType="touchUpInside" id="pbD-oy-DB5"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fYf-jW-5sq">
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fYf-jW-5sq">
                                 <rect key="frame" x="319" y="28" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="KoR-FX-A5t"/>
@@ -96,7 +96,11 @@
         <scene sceneID="Vzt-n4-ruR">
             <objects>
                 <tableViewController id="FkJ-At-WVc" customClass="VideosTableViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
+<<<<<<< HEAD
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gKC-C5-PK4">
+=======
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="gKC-C5-PK4">
+>>>>>>> master
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -179,7 +183,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </containerView>
-                            <button hidden="YES" opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZM0-AP-X0W">
+                            <button hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZM0-AP-X0W">
                                 <rect key="frame" x="16" y="615" width="32" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="NoK-a3-cDG"/>
@@ -192,8 +196,8 @@
                                     <action selector="saveToLibrary" destination="APL-xH-iKf" eventType="touchUpInside" id="TP1-0z-Fde"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pjr-40-7jK">
-                                <rect key="frame" x="162.5" y="308.5" width="50" height="50"/>
+                            <button hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pjr-40-7jK">
+                                <rect key="frame" x="163" y="309" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="9Ag-ci-Gie"/>
                                     <constraint firstAttribute="height" constant="50" id="hn8-m2-NE8"/>
@@ -204,7 +208,7 @@
                                     <action selector="playPauseButtonPressed" destination="APL-xH-iKf" eventType="touchUpInside" id="mNj-ET-e6p"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.69999999999999996" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37E-9J-E2Z">
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37E-9J-E2Z">
                                 <rect key="frame" x="16" y="20" width="46" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="46" id="Z4z-Gx-ED3"/>
@@ -219,24 +223,38 @@
                                     <action selector="closePreview" destination="APL-xH-iKf" eventType="touchUpInside" id="0gf-KT-SMi"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4h5-Zz-v2x">
+                                <rect key="frame" x="320" y="615" width="39" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="39" id="946-kI-ekP"/>
+                                </constraints>
+                                <state key="normal" image="push_to_cloud"/>
+                                <connections>
+                                    <action selector="pushToCloud" destination="APL-xH-iKf" eventType="touchUpInside" id="hfu-Cr-Vpw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="top" secondItem="mi5-6p-0HE" secondAttribute="top" id="5HH-4X-OA3"/>
                             <constraint firstItem="Pjr-40-7jK" firstAttribute="centerX" secondItem="ze8-ZF-MT6" secondAttribute="centerX" id="Bdh-rL-ELK"/>
+                            <constraint firstItem="4h5-Zz-v2x" firstAttribute="bottom" secondItem="ZM0-AP-X0W" secondAttribute="bottom" id="HSL-58-XLh"/>
                             <constraint firstAttribute="bottom" secondItem="ZM0-AP-X0W" secondAttribute="bottom" constant="20" symbolic="YES" id="PeT-q9-OXb"/>
                             <constraint firstItem="37E-9J-E2Z" firstAttribute="top" secondItem="ahp-Fm-06O" secondAttribute="bottom" constant="8" id="aoB-E1-91e"/>
                             <constraint firstAttribute="trailing" secondItem="ze8-ZF-MT6" secondAttribute="trailing" id="bUx-9m-soJ"/>
                             <constraint firstItem="37E-9J-E2Z" firstAttribute="trailing" secondItem="mi5-6p-0HE" secondAttribute="trailingMargin" id="emO-dP-xTp"/>
+                            <constraint firstItem="4h5-Zz-v2x" firstAttribute="top" secondItem="ZM0-AP-X0W" secondAttribute="top" id="fdq-sZ-Ujp"/>
                             <constraint firstItem="ZM0-AP-X0W" firstAttribute="leading" secondItem="mi5-6p-0HE" secondAttribute="leadingMargin" id="jDj-Xe-eol"/>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="bottom" secondItem="dJe-SU-QII" secondAttribute="top" id="lVo-gT-PMU"/>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="leading" secondItem="mi5-6p-0HE" secondAttribute="leading" id="oFs-lR-zrE"/>
+                            <constraint firstItem="4h5-Zz-v2x" firstAttribute="trailing" secondItem="mi5-6p-0HE" secondAttribute="trailingMargin" id="sJf-CA-Xhz"/>
                             <constraint firstItem="Pjr-40-7jK" firstAttribute="centerY" secondItem="mi5-6p-0HE" secondAttribute="centerY" id="yu9-aO-92p"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="playPauseButton" destination="Pjr-40-7jK" id="39D-xK-a4E"/>
                         <outlet property="playerView" destination="ze8-ZF-MT6" id="rxA-e7-DCK"/>
+                        <outlet property="pushToCloudButton" destination="4h5-Zz-v2x" id="qj2-Yo-E7I"/>
                         <outlet property="saveButton" destination="ZM0-AP-X0W" id="eaL-Wy-cbG"/>
                     </connections>
                 </viewController>
@@ -533,11 +551,16 @@
         <image name="Arrows-Back-icon" width="256" height="256"/>
         <image name="Dashi Logo" width="795" height="234"/>
         <image name="play" width="512" height="512"/>
+        <image name="push_to_cloud" width="512" height="425"/>
         <image name="record off" width="512" height="512"/>
         <image name="save_file" width="256" height="256"/>
         <image name="switch" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
+<<<<<<< HEAD
+        <segue reference="rN0-aV-jap"/>
+=======
         <segue reference="fgI-bi-jY3"/>
+>>>>>>> master
     </inferredMetricsTieBreakers>
 </document>

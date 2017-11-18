@@ -20,8 +20,9 @@ class HomeViewController: UIViewController, loggedIn {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
          self.performSegue(withIdentifier: "loginSegue", sender: self)
+
         // hide navigation bar
-        self.navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
     }
     override func viewDidAppear(_ animated: Bool) {
        /* if(!isLoggedIn){

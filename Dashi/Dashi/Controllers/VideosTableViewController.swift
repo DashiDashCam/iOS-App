@@ -71,6 +71,7 @@ class VideosTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
         let asset = assets[indexPath.row] as PHAsset
 
@@ -79,6 +80,7 @@ class VideosTableViewController: UITableViewController {
         cell.thumbnail.image = thumbnail
         cell.date.text = asset.creationDate?.description
         cell.location.text = "Location"
+
         return cell
     }
 
