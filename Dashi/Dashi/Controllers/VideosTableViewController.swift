@@ -71,12 +71,16 @@ class VideosTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell", for: indexPath)
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
         let asset = assets[indexPath.row] as PHAsset
 
         let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
         // Configure the cell...
-        cell.imageView?.image = thumbnail
+        cell.thumbnail.image = thumbnail
+        cell.date.text = asset.creationDate?.description
+        cell.location.text = "Location"
+
         return cell
     }
 
@@ -115,6 +119,7 @@ class VideosTableViewController: UITableViewController {
      }
      */
     func getURL(ofPhotoWith mPhasset: PHAsset, completionHandler: @escaping ((_ responseURL: URL?) -> Void)) {
+
         if mPhasset.mediaType == .image {
             let options: PHContentEditingInputRequestOptions = PHContentEditingInputRequestOptions()
             options.canHandleAdjustmentData = { (_: PHAdjustmentData) -> Bool in

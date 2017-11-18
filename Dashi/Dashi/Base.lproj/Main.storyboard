@@ -96,20 +96,60 @@
         <scene sceneID="Vzt-n4-ruR">
             <objects>
                 <tableViewController id="FkJ-At-WVc" customClass="VideosTableViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
+<<<<<<< HEAD
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gKC-C5-PK4">
+=======
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="gKC-C5-PK4">
+>>>>>>> master
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="vidCell" rowHeight="107" id="FGv-th-T6n">
-                                <rect key="frame" x="0.0" y="28" width="375" height="107"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="vidCell2" rowHeight="96" id="HSZ-3Y-0ZP" customClass="VideoTableViewCell" customModule="Dashi" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="96"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FGv-th-T6n" id="MCA-rX-331">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="106.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HSZ-3Y-0ZP" id="Vmz-gt-6CP">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="95.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Ab-qd-7hQ">
+                                            <rect key="frame" x="0.0" y="-17" width="128" height="128"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="va1-Pf-XSP">
+                                            <rect key="frame" x="186" y="61" width="133" height="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="133" id="tKz-FE-1AK"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8c-bx-xQw">
+                                            <rect key="frame" x="186" y="0.0" width="42" height="44"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="44" id="GFg-h8-uBd"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="2Ab-qd-7hQ" firstAttribute="leading" secondItem="Vmz-gt-6CP" secondAttribute="leading" id="6qK-ao-XZG"/>
+                                        <constraint firstItem="2Ab-qd-7hQ" firstAttribute="top" secondItem="Vmz-gt-6CP" secondAttribute="topMargin" constant="-28" id="Kfn-Td-wqu"/>
+                                        <constraint firstItem="va1-Pf-XSP" firstAttribute="leading" secondItem="2Ab-qd-7hQ" secondAttribute="trailing" constant="58" id="M1d-BG-Bfk"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="va1-Pf-XSP" secondAttribute="trailing" constant="40" id="QGp-Bg-Qc7"/>
+                                        <constraint firstItem="V8c-bx-xQw" firstAttribute="leading" secondItem="va1-Pf-XSP" secondAttribute="leading" id="XLo-QX-92d"/>
+                                        <constraint firstItem="V8c-bx-xQw" firstAttribute="top" secondItem="Vmz-gt-6CP" secondAttribute="top" id="cZ4-qB-q7g"/>
+                                        <constraint firstItem="2Ab-qd-7hQ" firstAttribute="centerY" secondItem="Vmz-gt-6CP" secondAttribute="centerY" id="eYs-pW-7dC"/>
+                                        <constraint firstItem="va1-Pf-XSP" firstAttribute="bottom" secondItem="Vmz-gt-6CP" secondAttribute="bottomMargin" id="g6n-lG-pIf"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="APL-xH-iKf" kind="presentation" id="5bN-3O-Ge9"/>
+                                    <outlet property="date" destination="V8c-bx-xQw" id="IDy-JF-bl8"/>
+                                    <outlet property="location" destination="va1-Pf-XSP" id="8GN-mS-q18"/>
+                                    <outlet property="thumbnail" destination="2Ab-qd-7hQ" id="oHt-cX-JoY"/>
+                                    <segue destination="APL-xH-iKf" kind="presentation" id="fgI-bi-jY3"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -125,7 +165,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxK-ZE-kJb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1933" y="608"/>
+            <point key="canvasLocation" x="1932" y="607.64617691154433"/>
         </scene>
         <!--Video Preview View Controller-->
         <scene sceneID="7pr-6M-0ze">
@@ -517,6 +557,10 @@
         <image name="switch" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
+<<<<<<< HEAD
         <segue reference="rN0-aV-jap"/>
+=======
+        <segue reference="fgI-bi-jY3"/>
+>>>>>>> master
     </inferredMetricsTieBreakers>
 </document>
