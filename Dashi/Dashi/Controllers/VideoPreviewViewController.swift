@@ -9,11 +9,13 @@
 import UIKit
 import AVKit
 import AVFoundation
+import CoreData
 
 class VideoPreviewViewController: UIViewController {
 
     // keys to ensure playability of video
     static let assetKeysRequiredToPlay = ["playable", "hasProtectedContent"]
+
 
     //    let cloudURL = "http://api.dashidashcam.com/Videos/id/content"
     let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Account/Videos/id"
@@ -23,7 +25,6 @@ class VideoPreviewViewController: UIViewController {
 
     // the GMT timestamp of when the video ended
     var videoEndTimestamp = Date()
-
     /*
      * set the file location of the video being shown
      * Note: Setting this triggers a chain of reactions to load the media
@@ -59,7 +60,6 @@ class VideoPreviewViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var pushToCloudButton: UIButton!
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -130,11 +130,13 @@ class VideoPreviewViewController: UIViewController {
 
     @IBAction func saveToLibrary() {
         self.saveVideoToUserLibrary()
+        self.saveVideoToCoreData()
     }
 
     @IBAction func playPauseButtonPressed() {
         self.updatePlayPauseButton()
     }
+
 
     @IBAction func pushToCloud() {
         // set up the initial request: header information
@@ -247,6 +249,37 @@ class VideoPreviewViewController: UIViewController {
         }
     }
 
+    // save the video to core data
+    func saveVideoToCoreData(){
+        
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Videos",
+                                       in: managedContext)!
+        
+        let video = NSManagedObject(entity: entity,
+                                     insertInto: managedContext)
+        
+        let videoData = NSData(contentsOf: (self.fileLocation)!)
+
+        video.setValue(2, forKeyPath: "id")
+        video.setValue(videoData, forKeyPath: "videoContent")
+        print(videoData)
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
     // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -282,6 +315,7 @@ class VideoPreviewViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+
 }
 
 // returns the size in bytes of a AVURLAsset
@@ -292,4 +326,5 @@ extension AVURLAsset {
 
         return resourceValues?.fileSize ?? resourceValues?.totalFileSize
     }
+
 }
