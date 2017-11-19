@@ -19,7 +19,6 @@ class VideoPreviewViewController: UIViewController {
 
     //    let cloudURL = "http://api.dashidashcam.com/Videos/id/content"
     let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Account/Videos/id"
-
     // player for playing the AV asset1
     @objc dynamic var player = AVPlayer()
 
@@ -271,7 +270,7 @@ class VideoPreviewViewController: UIViewController {
 
         video.setValue(2, forKeyPath: "id")
         video.setValue(videoData, forKeyPath: "videoContent")
-        print(videoData)
+        print("done")
         
         do {
             try managedContext.save()

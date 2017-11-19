@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 import CoreMedia
-
+import CoreData
 extension CMTime {
     var durationText: String {
         let totalSeconds = CMTimeGetSeconds(self)
@@ -26,7 +26,8 @@ class VideosTableViewController: UITableViewController {
     var assets = [PHAsset]()
     var selectedAssets = [String: PHAsset]()
     var delegate: MediaCollectionDelegateProtocol!
-
+    var videos: [NSManagedObject] = []
+    var videobytes: [NSData]=[]
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchAssets()
@@ -42,8 +43,30 @@ class VideosTableViewController: UITableViewController {
     }
 
     override func viewDidAppear(_: Bool) {
-        fetchAssets()
+        //1
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        
+        //3
+        do {
+            videos = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        for video in videos{
+            videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
+        }
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -59,7 +82,7 @@ class VideosTableViewController: UITableViewController {
 
     override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return assets.count
+        return videos.count;
     }
 
     func fetchAssets() {
@@ -73,8 +96,17 @@ class VideosTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
-        let asset = assets[indexPath.row] as PHAsset
+        var URLS: [AVURLAsset]=[]
+        let tempfp = NSTemporaryDirectory();
+        let manager=FileManager.default
+        
+        for video in videobytes{
+            manager.createFile(atPath: tempfp, contents: video as Data, attributes: nil)
+            
+        }
 
+        let asset = assets[indexPath.row] as PHAsset
+        
         let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
         // Configure the cell...
         cell.thumbnail.image = thumbnail
