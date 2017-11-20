@@ -27,10 +27,11 @@ class VideosTableViewController: UITableViewController {
     var selectedAssets = [String: PHAsset]()
     var delegate: MediaCollectionDelegateProtocol!
     var videos: [NSManagedObject] = []
-    var videobytes: [NSData]=[]
+    var dates: [Date] = []
+    var urls: [URL]=[]
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchAssets()
+      getVids()
 
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
@@ -43,28 +44,7 @@ class VideosTableViewController: UITableViewController {
     }
 
     override func viewDidAppear(_: Bool) {
-        //1
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        //2
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        
-        //3
-        do {
-            videos = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        for video in videos{
-            videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
-        }
+        getVids()
     }
     
 
@@ -93,24 +73,53 @@ class VideosTableViewController: UITableViewController {
         }
     }
 
+    func getVids(){
+        //1
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        let manager=FileManager.default
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        
+        //3
+        do {
+            videos = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        var i = 0;
+        for video in videos{
+            let data=video.value(forKeyPath: "videoContent") as! Data
+            //dates.append(video.value(forKeyPath: "startDate") as! Date)
+            let filename = String(i) + "vid.mp4"
+            let path = NSTemporaryDirectory()+filename
+            manager.createFile(atPath: path, contents: data, attributes: nil)
+            urls.append(URL(fileURLWithPath: path))
+            i = i+1
+            //  videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
+        }
+    }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
-        var URLS: [AVURLAsset]=[]
-        let tempfp = NSTemporaryDirectory();
-        let manager=FileManager.default
+        let asset2 = AVAsset(url: urls[indexPath.row])
+        let imgGenerator = AVAssetImageGenerator(asset: asset2)
         
-        for video in videobytes{
-            manager.createFile(atPath: tempfp, contents: video as Data, attributes: nil)
-            
-        }
-
-        let asset = assets[indexPath.row] as PHAsset
-        
-        let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
+        let cgImage =  try! imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+        // !! check the error before proceeding
+        let thumbnail = UIImage.init(cgImage: cgImage )
+       // let imageView = UIImageView(image: uiImage)
+        //let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
         // Configure the cell...
         cell.thumbnail.image = thumbnail
-        cell.date.text = asset.creationDate?.description
+        cell.date.text = "Date.description(Date())"
         cell.location.text = "Location"
 
         return cell
@@ -181,10 +190,8 @@ class VideosTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
-        let x = assets[(tableView.indexPath(for: (sender as! UITableViewCell))?.row)!]
-        getURL(ofPhotoWith: x, completionHandler: { URL in
-            preview.fileLocation = URL
+        let x = urls[(tableView.indexPath(for: (sender as! UITableViewCell))?.row)!]
+            preview.fileLocation = x
 
-        })
     }
 }
