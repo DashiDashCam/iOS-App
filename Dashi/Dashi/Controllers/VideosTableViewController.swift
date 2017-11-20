@@ -37,7 +37,7 @@ class VideosTableViewController: UITableViewController {
         navigationController?.isNavigationBarHidden = false
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+     //   self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
@@ -91,8 +91,8 @@ class VideosTableViewController: UITableViewController {
         //3
         do {
             videos = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
         }
         var i = 0;
         for video in videos{
@@ -118,8 +118,13 @@ class VideosTableViewController: UITableViewController {
        // let imageView = UIImageView(image: uiImage)
         //let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
         // Configure the cell...
+        let dateFormatter = DateFormatter()
+        
+        // US English Locale (en_US)
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .medium // Jan 2, 2001
         cell.thumbnail.image = thumbnail
-        cell.date.text = "Date.description(Date())"
+        cell.date.text =  dateFormatter.string(from: Date()) // Jan 2, 2001
         cell.location.text = "Location"
 
         return cell
