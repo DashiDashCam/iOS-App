@@ -97,7 +97,6 @@
             <objects>
                 <tableViewController id="FkJ-At-WVc" customClass="VideosTableViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gKC-C5-PK4">
-
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -113,7 +112,7 @@
                                             <rect key="frame" x="0.0" y="-17" width="128" height="128"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="va1-Pf-XSP">
-                                            <rect key="frame" x="186" y="61" width="133" height="24"/>
+                                            <rect key="frame" x="136" y="52" width="133" height="24"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="133" id="tKz-FE-1AK"/>
                                             </constraints>
@@ -122,7 +121,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8c-bx-xQw">
-                                            <rect key="frame" x="186" y="0.0" width="42" height="44"/>
+                                            <rect key="frame" x="136" y="11" width="42" height="44"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="44" id="GFg-h8-uBd"/>
                                             </constraints>
@@ -134,12 +133,12 @@
                                     <constraints>
                                         <constraint firstItem="2Ab-qd-7hQ" firstAttribute="leading" secondItem="Vmz-gt-6CP" secondAttribute="leading" id="6qK-ao-XZG"/>
                                         <constraint firstItem="2Ab-qd-7hQ" firstAttribute="top" secondItem="Vmz-gt-6CP" secondAttribute="topMargin" constant="-28" id="Kfn-Td-wqu"/>
-                                        <constraint firstItem="va1-Pf-XSP" firstAttribute="leading" secondItem="2Ab-qd-7hQ" secondAttribute="trailing" constant="58" id="M1d-BG-Bfk"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="va1-Pf-XSP" secondAttribute="trailing" constant="40" id="QGp-Bg-Qc7"/>
+                                        <constraint firstItem="va1-Pf-XSP" firstAttribute="leading" secondItem="2Ab-qd-7hQ" secondAttribute="trailing" constant="8" id="M1d-BG-Bfk"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="va1-Pf-XSP" secondAttribute="trailing" constant="90" id="QGp-Bg-Qc7"/>
                                         <constraint firstItem="V8c-bx-xQw" firstAttribute="leading" secondItem="va1-Pf-XSP" secondAttribute="leading" id="XLo-QX-92d"/>
-                                        <constraint firstItem="V8c-bx-xQw" firstAttribute="top" secondItem="Vmz-gt-6CP" secondAttribute="top" id="cZ4-qB-q7g"/>
+                                        <constraint firstItem="V8c-bx-xQw" firstAttribute="top" secondItem="Vmz-gt-6CP" secondAttribute="top" constant="11" id="cZ4-qB-q7g"/>
                                         <constraint firstItem="2Ab-qd-7hQ" firstAttribute="centerY" secondItem="Vmz-gt-6CP" secondAttribute="centerY" id="eYs-pW-7dC"/>
-                                        <constraint firstItem="va1-Pf-XSP" firstAttribute="bottom" secondItem="Vmz-gt-6CP" secondAttribute="bottomMargin" id="g6n-lG-pIf"/>
+                                        <constraint firstItem="va1-Pf-XSP" firstAttribute="bottom" secondItem="Vmz-gt-6CP" secondAttribute="bottomMargin" constant="-9" id="g6n-lG-pIf"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>

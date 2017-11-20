@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 import CoreMedia
-
+import CoreData
 extension CMTime {
     var durationText: String {
         let totalSeconds = CMTimeGetSeconds(self)
@@ -26,24 +26,27 @@ class VideosTableViewController: UITableViewController {
     var assets = [PHAsset]()
     var selectedAssets = [String: PHAsset]()
     var delegate: MediaCollectionDelegateProtocol!
-
+    var videos: [NSManagedObject] = []
+    var dates: [Date] = []
+    var urls: [URL]=[]
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchAssets()
+      getVids()
 
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+     //   self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func viewDidAppear(_: Bool) {
-        fetchAssets()
+        getVids()
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -59,7 +62,7 @@ class VideosTableViewController: UITableViewController {
 
     override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return assets.count
+        return videos.count;
     }
 
     func fetchAssets() {
@@ -70,15 +73,58 @@ class VideosTableViewController: UITableViewController {
         }
     }
 
+    func getVids(){
+        //1
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        let manager=FileManager.default
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        
+        //3
+        do {
+            videos = try managedContext.fetch(fetchRequest)
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        var i = 0;
+        for video in videos{
+            let data=video.value(forKeyPath: "videoContent") as! Data
+            //dates.append(video.value(forKeyPath: "startDate") as! Date)
+            let filename = String(i) + "vid.mp4"
+            let path = NSTemporaryDirectory()+filename
+            manager.createFile(atPath: path, contents: data, attributes: nil)
+            urls.append(URL(fileURLWithPath: path))
+            i = i+1
+            //  videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
+        }
+    }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        let row=indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
-        let asset = assets[indexPath.row] as PHAsset
-
-        let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
+        let asset2 = AVAsset(url: urls[row])
+        let imgGenerator = AVAssetImageGenerator(asset: asset2)
+        
+        let cgImage =  try! imgGenerator.copyCGImage(at: CMTimeMake(0, 6), actualTime: nil)
+        // !! check the error before proceeding
+        let thumbnail = UIImage.init(cgImage: cgImage )
+       // let imageView = UIImageView(image: uiImage)
+        //let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
         // Configure the cell...
+        let dateFormatter = DateFormatter()
+        
+        // US English Locale (en_US)
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .medium // Jan 2, 2001
         cell.thumbnail.image = thumbnail
-        cell.date.text = asset.creationDate?.description
+        cell.date.text =  dateFormatter.string(from: Date()) // Jan 2, 2001
         cell.location.text = "Location"
 
         return cell
@@ -118,29 +164,7 @@ class VideosTableViewController: UITableViewController {
      return true
      }
      */
-    func getURL(ofPhotoWith mPhasset: PHAsset, completionHandler: @escaping ((_ responseURL: URL?) -> Void)) {
 
-        if mPhasset.mediaType == .image {
-            let options: PHContentEditingInputRequestOptions = PHContentEditingInputRequestOptions()
-            options.canHandleAdjustmentData = { (_: PHAdjustmentData) -> Bool in
-                true
-            }
-            mPhasset.requestContentEditingInput(with: options, completionHandler: { contentEditingInput, _ in
-                completionHandler(contentEditingInput!.fullSizeImageURL)
-            })
-        } else if mPhasset.mediaType == .video {
-            let options: PHVideoRequestOptions = PHVideoRequestOptions()
-            options.version = .original
-            PHImageManager.default().requestAVAsset(forVideo: mPhasset, options: options, resultHandler: { asset, _, _ in
-                if let urlAsset = asset as? AVURLAsset {
-                    let localVideoUrl = urlAsset.url
-                    completionHandler(localVideoUrl)
-                } else {
-                    completionHandler(nil)
-                }
-            })
-        }
-    }
 
     // MARK: - Navigation
 
@@ -149,10 +173,9 @@ class VideosTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
-        let x = assets[(tableView.indexPath(for: (sender as! UITableViewCell))?.row)!]
-        getURL(ofPhotoWith: x, completionHandler: { URL in
-            preview.fileLocation = URL
+        let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
+        let fileURL = urls[row]
+        preview.fileLocation = fileURL
 
-        })
     }
 }
