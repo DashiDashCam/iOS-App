@@ -28,16 +28,16 @@ class VideosTableViewController: UITableViewController {
     var delegate: MediaCollectionDelegateProtocol!
     var videos: [NSManagedObject] = []
     var dates: [Date] = []
-    var urls: [URL]=[]
+    var urls: [URL] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-      getVids()
+        getVids()
 
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
         // Uncomment the following line to preserve selection between presentations
-     //   self.clearsSelectionOnViewWillAppear = false
+        //   self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
@@ -46,7 +46,6 @@ class VideosTableViewController: UITableViewController {
     override func viewDidAppear(_: Bool) {
         getVids()
     }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -62,7 +61,7 @@ class VideosTableViewController: UITableViewController {
 
     override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return videos.count;
+        return videos.count
     }
 
     func fetchAssets() {
@@ -73,58 +72,61 @@ class VideosTableViewController: UITableViewController {
         }
     }
 
-    func getVids(){
-        //1
+    func getVids() {
+        // 1
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
-                return
+            return
         }
-        let manager=FileManager.default
-        
+        let manager = FileManager.default
+
         let managedContext =
             appDelegate.persistentContainer.viewContext
-        
-        //2
+
+        // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        
-        //3
+
+        // 3
         do {
             videos = try managedContext.fetch(fetchRequest)
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
-        var i = 0;
-        for video in videos{
-            let data=video.value(forKeyPath: "videoContent") as! Data
-            //dates.append(video.value(forKeyPath: "startDate") as! Date)
+        var i = 0
+        for video in videos {
+            let data = video.value(forKeyPath: "videoContent") as! Data
+            dates.append(video.value(forKeyPath: "startDate") as! Date)
+
+            // dates.append(video.value(forKeyPath: "startDate") as! Date)
             let filename = String(i) + "vid.mp4"
-            let path = NSTemporaryDirectory()+filename
+            let path = NSTemporaryDirectory() + filename
             manager.createFile(atPath: path, contents: data, attributes: nil)
             urls.append(URL(fileURLWithPath: path))
-            i = i+1
+            i = i + 1
             //  videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
         }
     }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row=indexPath.row
+        let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
         let asset2 = AVAsset(url: urls[row])
         let imgGenerator = AVAssetImageGenerator(asset: asset2)
-        
-        let cgImage =  try! imgGenerator.copyCGImage(at: CMTimeMake(0, 6), actualTime: nil)
+
+        let cgImage = try! imgGenerator.copyCGImage(at: CMTimeMake(0, 6), actualTime: nil)
         // !! check the error before proceeding
-        let thumbnail = UIImage.init(cgImage: cgImage )
-       // let imageView = UIImageView(image: uiImage)
-        //let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
+        let thumbnail = UIImage(cgImage: cgImage)
+        // let imageView = UIImageView(image: uiImage)
+        // let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
         // Configure the cell...
         let dateFormatter = DateFormatter()
-        
+
         // US English Locale (en_US)
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .medium // Jan 2, 2001
         cell.thumbnail.image = thumbnail
-        cell.date.text =  dateFormatter.string(from: Date()) // Jan 2, 2001
+        cell.date.text = dateFormatter.string(from: dates[row]) // Jan 2, 2001
         cell.location.text = "Location"
 
         return cell
@@ -165,7 +167,6 @@ class VideosTableViewController: UITableViewController {
      }
      */
 
-
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -176,6 +177,5 @@ class VideosTableViewController: UITableViewController {
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
         let fileURL = urls[row]
         preview.fileLocation = fileURL
-
     }
 }

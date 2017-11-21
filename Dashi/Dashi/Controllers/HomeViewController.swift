@@ -11,24 +11,21 @@ import AVFoundation
 import CoreMedia
 
 class HomeViewController: UIViewController, loggedIn {
-   var isLoggedIn=false
+    var isLoggedIn = false
     func initialSetup() {
-        isLoggedIn=true
+        isLoggedIn = true
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-         self.performSegue(withIdentifier: "loginSegue", sender: self)
+        performSegue(withIdentifier: "loginSegue", sender: self)
 
         // hide navigation bar
         navigationController?.isNavigationBarHidden = true
     }
-    override func viewDidAppear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = true
 
-        /* if(!isLoggedIn){
-        self.performSegue(withIdentifier: "loginSegue", sender: self)
-        }*/
+    override func viewWillAppear(_: Bool) {
+        navigationController?.isNavigationBarHidden = true
     }
 }
