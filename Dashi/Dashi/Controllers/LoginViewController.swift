@@ -17,6 +17,7 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateConstraints()
 
         // Do any additional setup after loading the view.
     }
@@ -33,12 +34,21 @@ class LoginViewController: UIViewController {
 
     override func willTransition(to _: UITraitCollection, with _: UIViewControllerTransitionCoordinator) {
 
+        updateConstraints()
+    }
+
+    // updates the hardcoded contraints associated with this view
+    func updateConstraints() {
+        // loop through view constraints
         for constraint in view.constraints {
+            // the device is in landscape
             if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+                // "Username" label above input
                 if constraint.identifier == "usernameLabelMarginTop" {
                     constraint.constant = 10
                 }
             } else {
+                // "Username" label above input
                 if constraint.identifier == "usernameLabelMarginTop" {
                     constraint.constant = 45
                 }
