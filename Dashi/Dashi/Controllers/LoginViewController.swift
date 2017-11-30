@@ -32,8 +32,18 @@ class LoginViewController: UIViewController {
     }
 
     override func willTransition(to _: UITraitCollection, with _: UIViewControllerTransitionCoordinator) {
-        //        print(type(of: self.view.constraints))
-        //        print(self.view.constraints[usernameLabelTopMargin])
+
+        for constraint in view.constraints {
+            if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+                if constraint.identifier == "usernameLabelMarginTop" {
+                    constraint.constant = 10
+                }
+            } else {
+                if constraint.identifier == "usernameLabelMarginTop" {
+                    constraint.constant = 45
+                }
+            }
+        }
     }
 
     /*
