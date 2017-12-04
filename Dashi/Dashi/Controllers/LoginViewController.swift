@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import Alamofire
 protocol loggedIn {
     func initialSetup()
 }
 class LoginViewController: UIViewController {
+    
+    @IBOutlet weak var username: UITextField!
+    @IBOutlet weak var password: UILabel!
+    
     var delegate: loggedIn? = nil;
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +29,17 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginPushed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-        self.delegate?.initialSetup()
+        Alamofire.request(URL(string: "http://api.dashidashcam.com/oath/token")!,
+                          method: .post,
+                          parameters: ["username": username.text!,
+                                       "password": password.text!])
+            .responseJSON { response in
+            
+            if let JSON = response.result.value {
+                self.dismiss(animated: true, completion: nil)
+                self.delegate?.initialSetup()
+            }
+        }
     }
     
     /*

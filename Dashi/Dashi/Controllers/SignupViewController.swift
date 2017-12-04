@@ -7,9 +7,13 @@
 //
 
 import UIKit
-
+import Alamofire
 class SignupViewController: UIViewController {
 
+    @IBOutlet weak var username: UITextField!
+    @IBOutlet weak var email: UITextField!
+    @IBOutlet var password: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,7 +27,16 @@ class SignupViewController: UIViewController {
     
 
     @IBAction func signUpPushed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        Alamofire.request(URL(string: "http://api.dashidashcam.com/Accounts")!,
+                          method: .post,
+                          parameters: ["email": email.text!,
+                                       "password": password.text!])
+            .responseJSON { response in
+                
+                if let JSON = response.result.value {
+                    self.dismiss(animated: true, completion: nil)
+                }
+        }
     }
     
     /*
