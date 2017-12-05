@@ -11,6 +11,10 @@ protocol loggedIn {
     func initialSetup()
 }
 class LoginViewController: UIViewController {
+    
+    @IBOutlet weak var username: UITextField!
+    @IBOutlet weak var password: UITextField!
+    
     var delegate: loggedIn? = nil;
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +28,13 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginPushed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-        self.delegate?.initialSetup()
+        DashiAPI.loginWithPassword( username: username.text!, password: password.text!) { response in
+            
+            if let JSON = response.result.value {
+                self.dismiss(animated: true, completion: nil)
+                self.delegate?.initialSetup()
+            }
+        }
     }
     
     /*
