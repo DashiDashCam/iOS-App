@@ -403,7 +403,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdm-tX-5Gf">
-                                <rect key="frame" x="10" y="261" width="97" height="42"/>
+                                <rect key="frame" x="13" y="261" width="97" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Start Trip">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -413,7 +413,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fll-6s-RTq">
-                                <rect key="frame" x="177" y="261" width="133" height="42"/>
+                                <rect key="frame" x="180" y="261" width="133" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="View Videos">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -431,14 +431,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="2X9-xn-iJn" firstAttribute="leading" secondItem="xdm-tX-5Gf" secondAttribute="leading" id="6jC-0M-tcm"/>
                             <constraint firstItem="fll-6s-RTq" firstAttribute="centerY" secondItem="xdm-tX-5Gf" secondAttribute="centerY" id="Ci9-1N-FSY"/>
                             <constraint firstItem="fll-6s-RTq" firstAttribute="top" secondItem="2X9-xn-iJn" secondAttribute="bottom" constant="50" id="L2c-Fe-Lus"/>
                             <constraint firstItem="2X9-xn-iJn" firstAttribute="top" secondItem="uuA-7G-9i4" secondAttribute="bottom" constant="91" identifier="logoMarginTop" id="LIz-UV-jQJ"/>
                             <constraint firstItem="2X9-xn-iJn" firstAttribute="leading" secondItem="t5E-lq-CnG" secondAttribute="leadingMargin" constant="-6" id="QdL-vi-BXA"/>
                             <constraint firstItem="xdm-tX-5Gf" firstAttribute="top" secondItem="2X9-xn-iJn" secondAttribute="bottom" constant="50" id="gxg-1P-AKu"/>
+                            <constraint firstItem="2X9-xn-iJn" firstAttribute="centerX" secondItem="xdm-tX-5Gf" secondAttribute="trailing" constant="50" id="kKh-QT-JC9"/>
                             <constraint firstItem="2X9-xn-iJn" firstAttribute="centerX" secondItem="t5E-lq-CnG" secondAttribute="centerX" id="m7O-0w-xQt"/>
-                            <constraint firstItem="2X9-xn-iJn" firstAttribute="trailing" secondItem="fll-6s-RTq" secondAttribute="trailing" id="zdN-2t-TOh"/>
+                            <constraint firstItem="2X9-xn-iJn" firstAttribute="centerX" secondItem="fll-6s-RTq" secondAttribute="leading" constant="-20" id="zdN-2t-TOh"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Aul-21-M63"/>
