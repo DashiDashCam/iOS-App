@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import Alamofire
 protocol loggedIn {
     func initialSetup()
 }
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var username: UITextField!
-    @IBOutlet weak var password: UILabel!
+    @IBOutlet weak var password: UITextField!
     
     var delegate: loggedIn? = nil;
     override func viewDidLoad() {
@@ -29,11 +28,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginPushed(_ sender: Any) {
-        Alamofire.request(URL(string: "http://api.dashidashcam.com/oath/token")!,
-                          method: .post,
-                          parameters: ["username": username.text!,
-                                       "password": password.text!])
-            .responseJSON { response in
+        DashiAPI.loginWithPassword( username: username.text!, password: password.text!) { response in
             
             if let JSON = response.result.value {
                 self.dismiss(animated: true, completion: nil)

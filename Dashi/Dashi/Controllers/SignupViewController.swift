@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import Alamofire
 class SignupViewController: UIViewController {
 
-    @IBOutlet weak var username: UITextField!
+    @IBOutlet weak var name: UITextField!
     @IBOutlet weak var email: UITextField!
     @IBOutlet var password: UITextField!
     
@@ -27,11 +26,9 @@ class SignupViewController: UIViewController {
     
 
     @IBAction func signUpPushed(_ sender: Any) {
-        Alamofire.request(URL(string: "http://api.dashidashcam.com/Accounts")!,
-                          method: .post,
-                          parameters: ["email": email.text!,
-                                       "password": password.text!])
-            .responseJSON { response in
+        DashiAPI.createAccount( name: name.text!,
+                                email: email.text!,
+                                password: password.text!){ response in
                 
                 if let JSON = response.result.value {
                     self.dismiss(animated: true, completion: nil)
