@@ -38,13 +38,13 @@ class SignupViewController: UIViewController {
         for constraint in view.constraints {
             // the device is in landscape
             if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
-                // "Username" label above input
+                // margin above sign up button
                 if constraint.identifier == "signUpMarginTop" {
                     constraint.constant = 0
                     signUpButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
                 }
             } else {
-                // "Username" label above input
+                // margin above sign up button
                 if constraint.identifier == "signUpMarginTop" {
                     constraint.constant = 20
                 }
