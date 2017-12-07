@@ -10,11 +10,16 @@ import UIKit
 protocol loggedIn {
     func initialSetup()
 }
+
 class LoginViewController: UIViewController {
-    var delegate: loggedIn? = nil;
+
+    var delegate: loggedIn?
+    @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var password: UITextField!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Do any additional setup after loading the view.
     }
 
@@ -22,20 +27,24 @@ class LoginViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    @IBAction func loginPushed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
-        self.delegate?.initialSetup()
+
+    @IBAction func loginPushed(_: Any) {
+        DashiAPI.loginWithPassword(email: email.text!, password: password.text!)/* { response in
+
+            if let JSON = response.result.value {
+                self.dismiss(animated: true, completion: nil)
+                self.delegate?.initialSetup()
+            }
+        }*/
     }
-    
+
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
 }

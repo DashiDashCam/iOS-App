@@ -10,6 +10,11 @@ import UIKit
 
 class SignupViewController: UIViewController {
 
+    @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var confirm: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,7 +28,16 @@ class SignupViewController: UIViewController {
     
 
     @IBAction func signUpPushed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        if(password.text! == confirm.text!){
+            DashiAPI.createAccount( name: name.text!,
+                                    email: email.text!,
+                                    password: password.text!)/*{ response in
+                                        
+                                        if let JSON = response.result.value {
+                                            self.dismiss(animated: true, completion: nil)
+                                        }
+            }*/
+        }
     }
     
     /*

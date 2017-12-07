@@ -16,7 +16,6 @@ class VideoPreviewViewController: UIViewController {
     // keys to ensure playability of video
     static let assetKeysRequiredToPlay = ["playable", "hasProtectedContent"]
 
-
     //    let cloudURL = "http://api.dashidashcam.com/Videos/id/content"
     let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Account/Videos/id"
     // player for playing the AV asset1
@@ -136,7 +135,6 @@ class VideoPreviewViewController: UIViewController {
         self.updatePlayPauseButton()
     }
 
-
     @IBAction func pushToCloud() {
         // set up the initial request: header information
         var request = URLRequest(url: URL(string: self.cloudURL)!)
@@ -249,36 +247,36 @@ class VideoPreviewViewController: UIViewController {
     }
 
     // save the video to core data
-    func saveVideoToCoreData(){
-        
+    func saveVideoToCoreData() {
+
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
-                return
+            return
         }
-        
+
         let managedContext =
             appDelegate.persistentContainer.viewContext
-        
+
         let entity =
             NSEntityDescription.entity(forEntityName: "Videos",
                                        in: managedContext)!
-        
+
         let video = NSManagedObject(entity: entity,
-                                     insertInto: managedContext)
-        
+                                    insertInto: managedContext)
+
         let videoData = NSData(contentsOf: (self.fileLocation)!)
 
         video.setValue(2, forKeyPath: "id")
         video.setValue(videoData, forKeyPath: "videoContent")
         print("done")
-        
+
         do {
             try managedContext.save()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    
+
     // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -314,7 +312,6 @@ class VideoPreviewViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
-
 }
 
 // returns the size in bytes of a AVURLAsset
@@ -325,5 +322,4 @@ extension AVURLAsset {
 
         return resourceValues?.fileSize ?? resourceValues?.totalFileSize
     }
-
 }
