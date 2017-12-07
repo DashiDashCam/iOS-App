@@ -28,23 +28,4 @@ class HomeViewController: UIViewController, loggedIn {
     override func viewWillAppear(_: Bool) {
         navigationController?.isNavigationBarHidden = true
     }
-
-    // updates the hardcoded contraints associated with this view
-    func updateConstraints() {
-        // loop through view constraints
-        for constraint in view.constraints {
-            // the device is in landscape
-            if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
-                //
-                if constraint.identifier == "loginMarginTop" {
-                    constraint.constant = 0
-                }
-            } else {
-                //
-                if constraint.identifier == "signUpMarginTop" {
-                    constraint.constant = 20
-                }
-            }
-        }
-    }
 }
