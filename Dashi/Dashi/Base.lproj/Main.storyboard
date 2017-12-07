@@ -286,7 +286,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jff-Vr-qJw">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Full Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jff-Vr-qJw">
                                 <rect key="frame" x="54" y="140" width="267" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="fNr-fC-tyj"/>
@@ -322,8 +322,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSA-Zb-lyy">
-                                <rect key="frame" x="54" y="111" width="79" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSA-Zb-lyy">
+                                <rect key="frame" x="54" y="111" width="76.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -380,6 +380,12 @@
                             <constraint firstItem="CSA-Zb-lyy" firstAttribute="leading" secondItem="Jff-Vr-qJw" secondAttribute="leading" id="z0N-Tw-AQ4"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="confirm" destination="QIw-or-Yu7" id="rYr-XR-C1k"/>
+                        <outlet property="email" destination="v2f-Km-hne" id="4Ic-2e-yPg"/>
+                        <outlet property="name" destination="Jff-Vr-qJw" id="aJb-7J-1D2"/>
+                        <outlet property="password" destination="38w-aq-lJ5" id="WCY-3y-zKl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yYi-6S-hdR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -479,7 +485,7 @@
                                     <action selector="loginPushed:" destination="URh-3M-jNU" eventType="touchUpInside" id="GL4-re-s1J"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DDJ-Bb-Vf2">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DDJ-Bb-Vf2">
                                 <rect key="frame" x="43" y="119" width="178" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="178" id="tUg-ra-rjo"/>
@@ -509,7 +515,7 @@
                                     <segue destination="gFz-cT-npz" kind="presentation" identifier="signupSegue" id="z4e-cp-T4l"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6nQ-H0-ah3">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6nQ-H0-ah3">
                                 <rect key="frame" x="16" y="148" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -537,6 +543,10 @@
                             <constraint firstItem="DDJ-Bb-Vf2" firstAttribute="leading" secondItem="Gjf-fD-5a4" secondAttribute="leadingMargin" constant="27" id="xpi-d8-rcG"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="email" destination="6nQ-H0-ah3" id="nN6-dv-oK6"/>
+                        <outlet property="password" destination="YYg-R3-QD1" id="eqq-Mi-1xM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vnz-z4-lEo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
