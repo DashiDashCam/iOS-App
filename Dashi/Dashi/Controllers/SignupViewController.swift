@@ -31,12 +31,12 @@ class SignupViewController: UIViewController {
         if(password.text! == confirm.text!){
             DashiAPI.createAccount( name: name.text!,
                                     email: email.text!,
-                                    password: password.text!){ response in
+                                    password: password.text!)/*{ response in
                                         
                                         if let JSON = response.result.value {
                                             self.dismiss(animated: true, completion: nil)
                                         }
-            }
+            }*/
         }
     }
     
