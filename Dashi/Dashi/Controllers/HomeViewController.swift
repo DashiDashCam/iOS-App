@@ -10,12 +10,7 @@ import UIKit
 import AVFoundation
 import CoreMedia
 
-class HomeViewController: UIViewController, loggedIn {
-    var isLoggedIn = false
-    func initialSetup() {
-        isLoggedIn = true
-    }
-
+class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.

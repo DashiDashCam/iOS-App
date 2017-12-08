@@ -7,13 +7,8 @@
 //
 
 import UIKit
-protocol loggedIn {
-    func initialSetup()
-}
 
 class LoginViewController: UIViewController {
-
-    var delegate: loggedIn?
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
@@ -33,7 +28,6 @@ class LoginViewController: UIViewController {
     @IBAction func loginPushed(_: Any) {
         DashiAPI.loginWithPassword(email: email.text!, password: password.text!) {
             self.dismiss(animated: true, completion: nil)
-            self.delegate?.initialSetup()
         }
     }
 
