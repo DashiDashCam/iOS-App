@@ -127,7 +127,6 @@ class VideoPreviewViewController: UIViewController {
     }
 
     @IBAction func saveToLibrary() {
-        self.saveVideoToUserLibrary()
         self.saveVideoToCoreData()
     }
 
@@ -173,7 +172,6 @@ class VideoPreviewViewController: UIViewController {
 
             let task = URLSession.shared.dataTask(with: request) { _, response, error in
                 if let response = response as? HTTPURLResponse {
-                    print("------------")
                     // push headers was successful
                     if response.statusCode == 200 {
                         // push the video body
@@ -268,7 +266,7 @@ class VideoPreviewViewController: UIViewController {
 
         video.setValue(2, forKeyPath: "id")
         video.setValue(videoData, forKeyPath: "videoContent")
-        print("done")
+        video.setValue(Date(), forKeyPath: "startDate")
 
         do {
             try managedContext.save()

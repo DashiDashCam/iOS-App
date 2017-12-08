@@ -31,6 +31,24 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         // hide navigation bar
         navigationController?.isNavigationBarHidden = true
         initializeCamera()
+
+        // add observer for recognizing device rotation
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoViewController.deviceRotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // lock view orientation to portrait - doesn't lock video orientation
+        AppUtility.lockOrientation(.portrait)
+        setVideoOrientation()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // Unlock orientation
+        AppUtility.lockOrientation(.all)
     }
 
     // hide status bar
@@ -50,6 +68,26 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         }
     }
 
+    // detect the rotation of the device
+    @objc func deviceRotated() {
+        // the device is in landscape, rotate the appropriate buttons
+        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+            if UIDevice.current.orientation == .landscapeLeft {
+                toggleButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+                backButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+            } else if UIDevice.current.orientation == .landscapeRight {
+                toggleButton.transform = CGAffineTransform(rotationAngle: -1 * (CGFloat.pi / 2))
+                backButton.transform = CGAffineTransform(rotationAngle: -1 * (CGFloat.pi / 2))
+            }
+        }
+
+        // reset rotation of buttons when phone is portrait
+        if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
+            toggleButton.transform = CGAffineTransform(rotationAngle: 0)
+            backButton.transform = CGAffineTransform(rotationAngle: 0)
+        }
+    }
+
     // MARK: Button Actions
 
     // custom back button to leave this view
@@ -59,7 +97,6 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
 
     // stop and start recording based off recording state
     @IBAction func recordVideoButtonPressed(sender _: AnyObject) {
-        print("button pressed at \(Date())")
         if movieFileOutput.isRecording {
             // stop recording
             movieFileOutput.stopRecording()
@@ -301,5 +338,14 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
 
         let preview = segue.destination as! VideoPreviewViewController
         preview.fileLocation = self.outputFileLocation // triggers loading of video
+    }
+}
+
+// additional struct for locking orientation
+struct AppUtility {
+    static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
+        if let delegate = UIApplication.shared.delegate as? AppDelegate {
+            delegate.orientationLock = orientation
+        }
     }
 }

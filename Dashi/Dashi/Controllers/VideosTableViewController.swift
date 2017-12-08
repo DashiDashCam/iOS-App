@@ -96,6 +96,8 @@ class VideosTableViewController: UITableViewController {
         var i = 0
         for video in videos {
             let data = video.value(forKeyPath: "videoContent") as! Data
+            dates.append(video.value(forKeyPath: "startDate") as! Date)
+
             // dates.append(video.value(forKeyPath: "startDate") as! Date)
             let filename = String(i) + "vid.mp4"
             let path = NSTemporaryDirectory() + filename
@@ -124,7 +126,7 @@ class VideosTableViewController: UITableViewController {
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .medium // Jan 2, 2001
         cell.thumbnail.image = thumbnail
-        cell.date.text = dateFormatter.string(from: Date()) // Jan 2, 2001
+        cell.date.text = dateFormatter.string(from: dates[row]) // Jan 2, 2001
         cell.location.text = "Location"
 
         return cell

@@ -7,18 +7,15 @@
 //
 
 import UIKit
-protocol loggedIn {
-    func initialSetup()
-}
 
 class LoginViewController: UIViewController {
-
-    var delegate: loggedIn?
+    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateConstraints()
 
         // Do any additional setup after loading the view.
     }
@@ -30,8 +27,31 @@ class LoginViewController: UIViewController {
 
     @IBAction func loginPushed(_: Any) {
         DashiAPI.loginWithPassword(email: email.text!, password: password.text!) {
-                self.dismiss(animated: true, completion: nil)
-                self.delegate?.initialSetup()
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    override func willTransition(to _: UITraitCollection, with _: UIViewControllerTransitionCoordinator) {
+
+        updateConstraints()
+    }
+
+    // updates the hardcoded contraints associated with this view
+    func updateConstraints() {
+        // loop through view constraints
+        for constraint in view.constraints {
+            // the device is in landscape
+            if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+                // "Username" label above input
+                if constraint.identifier == "usernameLabelMarginTop" {
+                    constraint.constant = 10
+                }
+            } else {
+                // "Username" label above input
+                if constraint.identifier == "usernameLabelMarginTop" {
+                    constraint.constant = 45
+                }
+            }
         }
     }
 

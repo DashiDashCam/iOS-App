@@ -14,10 +14,11 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirm: UITextField!
-    
+    @IBOutlet weak var signUpButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        updateConstraints()
         // Do any additional setup after loading the view.
     }
 
@@ -25,26 +26,48 @@ class SignupViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
-    @IBAction func signUpPushed(_ sender: Any) {
-        if(password.text! == confirm.text!){
-            DashiAPI.createAccount( name: name.text!,
-                                    email: email.text!,
-                                    password: password.text!){
-                                            self.dismiss(animated: true, completion: nil)
+    @IBAction func signUpPushed(_: Any) {
+        if password.text! == confirm.text! {
+            DashiAPI.createAccount(name: name.text!,
+                                   email: email.text!,
+                                   password: password.text!) {
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func willTransition(to _: UITraitCollection, with _: UIViewControllerTransitionCoordinator) {
+        updateConstraints()
     }
-    */
 
+    // updates the hardcoded contraints associated with this view
+    func updateConstraints() {
+        // loop through view constraints
+        for constraint in view.constraints {
+            // the device is in landscape
+            if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+                // margin above sign up button
+                if constraint.identifier == "signUpMarginTop" {
+                    constraint.constant = 0
+                    signUpButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+                }
+            } else {
+                // margin above sign up button
+                if constraint.identifier == "signUpMarginTop" {
+                    constraint.constant = 20
+                }
+            }
+        }
+    }
+
+    /*
+     // MARK: - Navigation
+
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
 }

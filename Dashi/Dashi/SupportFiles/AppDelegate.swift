@@ -84,4 +84,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+
+    /// set orientations you want to be allowed in this property by default
+    var orientationLock = UIInterfaceOrientationMask.all
+
+    func application(_: UIApplication, supportedInterfaceOrientationsFor _: UIWindow?) -> UIInterfaceOrientationMask {
+        return orientationLock
+    }
 }

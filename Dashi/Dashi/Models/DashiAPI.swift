@@ -34,7 +34,7 @@ class DashiAPI {
     static func uploadVideoContent() {
     }
 
-    static func createAccount(name _: String, email _: String, password _: String, callback : (() -> Void)) {
+    static func createAccount(name _: String, email _: String, password _: String, callback: (() -> Void)) {
         callback()
     }
 
@@ -44,7 +44,7 @@ class DashiAPI {
     static func getAccountDetails() {
     }
 
-    static func loginWithPassword(email _: String, password _: String, callback : (() -> Void)) {
+    static func loginWithPassword(email _: String, password _: String, callback: (() -> Void)) {
         callback()
     }
 
