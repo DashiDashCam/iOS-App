@@ -384,6 +384,10 @@
                     </view>
                     <connections>
                         <outlet property="signUpButton" destination="T0j-Il-cjF" id="Bpk-A6-pLx"/>
+                        <outlet property="confirm" destination="QIw-or-Yu7" id="rYr-XR-C1k"/>
+                        <outlet property="email" destination="v2f-Km-hne" id="4Ic-2e-yPg"/>
+                        <outlet property="name" destination="Jff-Vr-qJw" id="aJb-7J-1D2"/>
+                        <outlet property="password" destination="38w-aq-lJ5" id="WCY-3y-zKl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yYi-6S-hdR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -547,6 +551,10 @@
                             <constraint firstItem="fbv-pJ-Y4T" firstAttribute="centerX" secondItem="KGa-uK-6k5" secondAttribute="centerX" id="qPh-Qd-L86"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="email" destination="6nQ-H0-ah3" id="nN6-dv-oK6"/>
+                        <outlet property="password" destination="YYg-R3-QD1" id="eqq-Mi-1xM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vnz-z4-lEo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

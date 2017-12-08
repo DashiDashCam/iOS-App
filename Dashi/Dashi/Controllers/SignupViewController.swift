@@ -10,6 +10,12 @@ import UIKit
 
 class SignupViewController: UIViewController {
 
+    @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var password: UITextField!
+    @IBOutlet weak var confirm: UITextField!
+    @IBOutlet weak var signUpButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         updateConstraints()
@@ -22,14 +28,18 @@ class SignupViewController: UIViewController {
     }
 
     @IBAction func signUpPushed(_: Any) {
-        dismiss(animated: true, completion: nil)
+        if password.text! == confirm.text! {
+            DashiAPI.createAccount(name: name.text!,
+                                   email: email.text!,
+                                   password: password.text!) {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 
     override func willTransition(to _: UITraitCollection, with _: UIViewControllerTransitionCoordinator) {
         updateConstraints()
     }
-
-    @IBOutlet weak var signUpButton: UIButton!
 
     // updates the hardcoded contraints associated with this view
     func updateConstraints() {
