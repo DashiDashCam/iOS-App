@@ -26,7 +26,6 @@ class SignupViewController: UIViewController {
     }
 
     override func willTransition(to _: UITraitCollection, with _: UIViewControllerTransitionCoordinator) {
-
         updateConstraints()
     }
 
