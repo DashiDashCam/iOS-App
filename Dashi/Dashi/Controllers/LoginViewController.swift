@@ -29,13 +29,10 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func loginPushed(_: Any) {
-        DashiAPI.loginWithPassword(email: email.text!, password: password.text!)/* { response in
-
-            if let JSON = response.result.value {
+        DashiAPI.loginWithPassword(email: email.text!, password: password.text!) {
                 self.dismiss(animated: true, completion: nil)
                 self.delegate?.initialSetup()
-            }
-        }*/
+        }
     }
 
     /*
