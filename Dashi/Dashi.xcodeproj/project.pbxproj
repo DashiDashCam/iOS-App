@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F2821CB60E060465D2E38E2 /* Pods_Dashi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68B438EB114BBD623DF3819 /* Pods_Dashi.framework */; };
 		24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */; };
 		2F0328EB1FC0E8AD00944477 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328E91FC0E8AD00944477 /* CloudManager.swift */; };
 		2F0328EC1FC0E8AD00944477 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */; };
@@ -48,6 +49,9 @@
 		A3CD1C7D1FABC8450061FEAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A3CD1C7E1FABC8450061FEAB /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.debug.xcconfig"; sourceTree = "<group>"; };
+		D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.release.xcconfig"; sourceTree = "<group>"; };
+		D68B438EB114BBD623DF3819 /* Pods_Dashi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dashi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D889C4251FC368280082052A /* DashiAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashiAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F2821CB60E060465D2E38E2 /* Pods_Dashi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,12 +118,31 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		3A11E2068AF2C25990420B88 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */,
+				D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		3EF5E8C70C77CF745AB68C5A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D68B438EB114BBD623DF3819 /* Pods_Dashi.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A347FD7C1F9A9EAF0091973F = {
 			isa = PBXGroup;
 			children = (
 				A347FD871F9A9EAF0091973F /* Dashi */,
 				A347FD861F9A9EAF0091973F /* Products */,
 				24A187D31FBBA2B5002615A8 /* Recovered References */,
+				3A11E2068AF2C25990420B88 /* Pods */,
+				3EF5E8C70C77CF745AB68C5A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -152,9 +176,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A347FD971F9A9EAF0091973F /* Build configuration list for PBXNativeTarget "Dashi" */;
 			buildPhases = (
+				CCB5FD44773DB2353E4B116E /* [CP] Check Pods Manifest.lock */,
 				A347FD811F9A9EAF0091973F /* Sources */,
 				A347FD821F9A9EAF0091973F /* Frameworks */,
 				A347FD831F9A9EAF0091973F /* Resources */,
+				6BFEA52FFD5BECFED5DD9DFE /* [CP] Embed Pods Frameworks */,
+				221C13EA8A6AA195019C4E2A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -211,6 +238,64 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		221C13EA8A6AA195019C4E2A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dashi/Pods-Dashi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6BFEA52FFD5BECFED5DD9DFE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Dashi/Pods-Dashi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dashi/Pods-Dashi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CCB5FD44773DB2353E4B116E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Dashi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A347FD811F9A9EAF0091973F /* Sources */ = {
@@ -365,6 +450,7 @@
 		};
 		A347FD981F9A9EAF0091973F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -382,6 +468,7 @@
 		};
 		A347FD991F9A9EAF0091973F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

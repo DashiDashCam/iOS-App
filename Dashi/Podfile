@@ -1,0 +1,8 @@
+platform :ios, '11.2'
+use_frameworks!
+
+target 'Dashi' do
+  pod 'Alamofire', '~> 4.5'
+  pod 'PromiseKit/Alamofire', '~> 4.0'
+  pod 'SwiftyJSON'
+end
