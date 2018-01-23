@@ -47,7 +47,7 @@ class DashiAPI {
         // If access token has expired, create a new one
         if self.accessTokenExpires! < now {
             // Chain modified headers to login request to allow it time to complete
-            return self.loginWithToken().then {
+            return self.loginWithToken().then { json in
                 return new_headers
             }
         }
@@ -102,7 +102,7 @@ class DashiAPI {
      *  @param The username portion of the user's username/password credentials.
      *  @param The password portion of the user's username/password credentials.
      */
-    static func loginWithPassword(username: String, password: String) -> Promise<Void> {
+    static func loginWithPassword(username: String, password: String) -> Promise<JSON> {
         let parameters: Parameters = [
             "grant_type": "password",
             "password": password,
@@ -118,7 +118,7 @@ class DashiAPI {
      *  use in subsequent function calls via the addAuthToken helper function.
      *  @param refreshToken The user's refresh token credential. If non supplied will use internal value.
      */
-    static func loginWithToken(refreshToken: String? = nil) -> Promise<Void> {
+    static func loginWithToken(refreshToken: String? = nil) -> Promise<JSON> {
         // Store the token internally if one is suppplied
         if refreshToken != nil {
             self.refreshToken = refreshToken
@@ -138,29 +138,44 @@ class DashiAPI {
      *  @param data The json body of the login request.
      *  @return The promise chain (empty or with error for caller to catch)
      */
-    private static func login(parameters: Parameters) -> Promise<Void> {
-        return Alamofire.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON().then { value -> Void in
+    private static func login(parameters: Parameters) -> Promise<JSON> {
+        return Alamofire.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON().then { value -> JSON in
             let json = JSON(value)
-            self.accessToken = json["access_token"].string
-            self.accessTokenExpires = Date().addingTimeInterval(json["expires_in"].double!)
-            self.refreshToken = json["refresh_token"].string
+            
+            if json["access_token"].exists() {
+                self.accessToken = json["access_token"].string
+                self.accessTokenExpires = Date().addingTimeInterval(json["expires_in"].double!)
+                self.refreshToken = json["refresh_token"].string
+                return JSON()
+            }
+            else {
+                return json
+            }
         }
     }
     
     /**
      *  Logs out the user by deleting their bearer token (meaning both refresh and access).
      */
-    static func logout() -> Promise<Void> {
+    static func logout() -> Promise<JSON> {
         let parameters: Parameters = [
             "refresh_token": self.refreshToken!
         ]
         
-        return Alamofire.request(API_ROOT + "/oauth/token", method: .delete, parameters: parameters, encoding: JSONEncoding.default).responseJSON().then { value -> Void in
+        return Alamofire.request(API_ROOT + "/oauth/token", method: .delete, parameters: parameters, encoding: JSONEncoding.default).responseJSON().then { value -> JSON in
             // Reset all static variables
             self.accessToken = nil
             self.accessTokenExpires = nil
             self.refreshToken = nil
+            return JSON(value)
         }
+    }
+    
+    /**
+     *
+     */
+    static func signUp() -> Promise<JSON> {
+        return JSON()
     }
 }
 
