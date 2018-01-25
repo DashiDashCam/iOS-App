@@ -28,7 +28,9 @@ class LoginViewController: UIViewController {
 
     @IBAction func loginPushed(_: Any) {
         DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { _ -> Void in
+
             self.dismiss(animated: true, completion: nil)
+
         }.catch { error in
             print(error)
         }
