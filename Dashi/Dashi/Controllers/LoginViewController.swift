@@ -8,6 +8,7 @@
 
 import UIKit
 import PromiseKit
+import SwiftyJSON
 
 class LoginViewController: UIViewController {
     @IBOutlet weak var usernameLabel: UILabel!
@@ -30,7 +31,10 @@ class LoginViewController: UIViewController {
         DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { _ -> Void in
             self.dismiss(animated: true, completion: nil)
         }.catch { error in
-            print(error)
+            if let e = error as? DashiServiceError {
+                print(e.statusCode)
+                print(JSON(e.body))
+            }
         }
     }
 
