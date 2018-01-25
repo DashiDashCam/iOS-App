@@ -47,8 +47,8 @@ class DashiAPI {
         // If access token has expired, create a new one
         if accessTokenExpires! < now {
             // Chain modified headers to login request to allow it time to complete
-            return loginWithToken().then { _ in
-                new_headers
+            return self.loginWithToken().then { json -> HTTPHeaders in
+                return new_headers
             }
         } else {
             // Wrap the headers in a promise manually, writing function in this way allows chaining
@@ -69,10 +69,6 @@ class DashiAPI {
     }
 
     static func uploadVideoContent() {
-    }
-
-    static func createAccount(name _: String, email _: String, password _: String, callback: (() -> Void)) {
-        callback()
     }
 
     static func modifiyAccount() {
@@ -133,18 +129,13 @@ class DashiAPI {
      *  @return The promise chain (empty or with error for caller to catch)
      */
     private static func login(parameters: Parameters) -> Promise<JSON> {
-        return Alamofire.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON().then { value -> JSON in
-
+        return Alamofire.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, response -> JSON in
             let json = JSON(value)
-
-            if json["access_token"].exists() {
-                self.accessToken = json["access_token"].string
-                self.accessTokenExpires = Date().addingTimeInterval(json["expires_in"].double!)
-                self.refreshToken = json["refresh_token"].string
-                return JSON()
-            } else {
-                return json
-            }
+            
+            self.accessToken = json["access_token"].string
+            self.accessTokenExpires = Date().addingTimeInterval(json["expires_in"].double!)
+            self.refreshToken = json["refresh_token"].string
+            return JSON()
         }
     }
 
@@ -168,7 +159,15 @@ class DashiAPI {
     /**
      *
      */
-    //    static func signUp() -> Promise<JSON> {
-    //        return JSON()
-    //    }
+    static func createAccount(email: String, password: String, fullName: String) -> Promise<JSON> {
+        let parameters: Parameters = [
+            "email" : email,
+            "password": password,
+            "fullName": fullName
+        ]
+        
+        return Alamofire.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON().then { value -> JSON in
+            return JSON(value)
+        }
+    }
 }

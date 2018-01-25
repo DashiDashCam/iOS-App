@@ -29,9 +29,7 @@ class SignupViewController: UIViewController {
 
     @IBAction func signUpPushed(_: Any) {
         if password.text! == confirm.text! {
-            DashiAPI.createAccount(name: name.text!,
-                                   email: email.text!,
-                                   password: password.text!) {
+            DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then {_ -> Void in
                 self.dismiss(animated: true, completion: nil)
             }
         }
