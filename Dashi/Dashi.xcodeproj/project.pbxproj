@@ -26,6 +26,8 @@
 		A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7E1FABC8450061FEAB /* Base.lproj */; };
 		A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */; };
 		D889C4261FC368280082052A /* DashiAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D889C4251FC368280082052A /* DashiAPI.swift */; };
+		D8FC2A59201A97EB00F3E532 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FC2A58201A97EB00F3E532 /* Account.swift */; };
+		D8FC2A5B201AA9B600F3E532 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FC2A5A201AA9B600F3E532 /* Video.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +55,8 @@
 		D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.release.xcconfig"; sourceTree = "<group>"; };
 		D68B438EB114BBD623DF3819 /* Pods_Dashi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dashi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D889C4251FC368280082052A /* DashiAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashiAPI.swift; sourceTree = "<group>"; };
+		D8FC2A58201A97EB00F3E532 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		D8FC2A5A201AA9B600F3E532 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,8 @@
 				2F0328E91FC0E8AD00944477 /* CloudManager.swift */,
 				2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */,
 				D889C4251FC368280082052A /* DashiAPI.swift */,
+				D8FC2A58201A97EB00F3E532 /* Account.swift */,
+				D8FC2A5A201AA9B600F3E532 /* Video.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -307,6 +313,7 @@
 				D889C4261FC368280082052A /* DashiAPI.swift in Sources */,
 				A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */,
 				2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */,
+				D8FC2A59201A97EB00F3E532 /* Account.swift in Sources */,
 				2F721EE41FB5061500073881 /* VideoTableViewCell.swift in Sources */,
 				A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */,
 				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
@@ -314,6 +321,7 @@
 				A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */,
 				2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */,
 				A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */,
+				D8FC2A5B201AA9B600F3E532 /* Video.swift in Sources */,
 				A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */,
 				2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */,
 			);
