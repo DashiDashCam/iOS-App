@@ -231,7 +231,7 @@ class DashiAPI {
             let json = JSON(value)
             
             self.accessToken = json["access_token"].stringValue
-            self.accessTokenExpires = Date().addingTimeInterval(json["expires_in"].doubleValue)
+            self.accessTokenExpires = Date(timeIntervalSinceNow: json["expires_in"].doubleValue)
             self.refreshToken = json["refresh_token"].stringValue
             return JSON()
         }

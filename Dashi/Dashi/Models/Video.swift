@@ -24,31 +24,35 @@ class Video {
      *  Initializes a Video object. Note that ID is initialized
      *  from the SHA256 hash of the content of the video
      */
-    init(started: Date, length: Int, size: Int, content: AVURLAsset) {
+    init(started: Date, content: AVURLAsset) {
         do {
             // get the data associated with the video's content and convert it to a string
             let contentData = try NSData(contentsOf: content.url) as Data
             let contentString = String(data: contentData, encoding: String.Encoding.utf8)
 
+            self.length = Int(Float((content.duration.value)) / Float((content.duration.timescale)))
+            self.size = contentData.count
+            
             // hash the video content to produce an ID
-            id = Hash.SHA256(contentString!)
+            self.id = Hash.SHA256(contentString!)
 
         } catch let error {
             print("Could not create video object. \(error)")
+            
+            self.length = -1
+            self.size = -1
         }
 
         // initialize other instances variables
         self.content = content
         self.started = started
-        self.length = length
-        self.size = size
     }
 
     init(video: JSON) {
-        id = video["id"].string
-        started = Date().addingTimeInterval(video["started"].doubleValue)
-        length = video["length"].intValue
-        size = video["size"].intValue
+        self.id = video["id"].string
+        self.started = Date().addingTimeInterval(video["started"].doubleValue)
+        self.length = video["length"].intValue
+        self.size = video["size"].intValue
     }
 
     public func setContent(content: AVURLAsset) {
