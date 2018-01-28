@@ -28,8 +28,13 @@ class Video {
     }
     
     init(video: JSON) {
+<<<<<<< Updated upstream
         self.id = video["id"].intValue
         self.started = Date().addingTimeInterval(video["started"].doubleValue)
+=======
+        self.id = video["id"].string
+        self.started = DateConv.toDate(timestamp: video["started"].stringValue)
+>>>>>>> Stashed changes
         self.length = video["length"].intValue
         self.size = video["size"].intValue
     }
