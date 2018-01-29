@@ -135,78 +135,8 @@ class VideoPreviewViewController: UIViewController {
     }
 
     @IBAction func pushToCloud() {
-        // set up the initial request: header information
-        var request = URLRequest(url: URL(string: self.cloudURL)!)
-        request.httpMethod = "PUT"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        // the duration of the video
-        let movieLength = Float((asset?.duration.value)!) / Float((asset?.duration.timescale)!)
-
-        // when the video started
-        let movieStart = self.videoEndTimestamp.addingTimeInterval(TimeInterval(-1 * movieLength))
-
-        print("duration: \(movieLength) seconds")
-        print("size: \(asset?.fileSize ?? 0)")
-        print("start: \(movieStart)")
-
-        // convert the headers to JSON
-        let headers: [String: Any] = [
-            "started": String(describing: movieStart),
-            "length": String(describing: movieLength),
-            "size": String(describing: asset?.fileSize),
-        ]
-
-        do {
-            let headers_jsonData = try JSONSerialization.data(withJSONObject: headers, options: .prettyPrinted)
-            let headers_jsonString = String(data: headers_jsonData, encoding: .utf8)
-
-            // push header request
-            var request = URLRequest(url: URL(string: self.cloudURL)!)
-            request.httpMethod = "PUT"
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.addValue("Bearer eyJhbGciOiJIUzI1NiJ9e30XmN", forHTTPHeaderField: "Authorization")
-
-            // set json data as the HTTP Body
-            request.httpBody = headers_jsonString?.data(using: .utf8)
-
-            let task = URLSession.shared.dataTask(with: request) { _, response, error in
-                if let response = response as? HTTPURLResponse {
-                    // push headers was successful
-                    if response.statusCode == 200 {
-                        // push the video body
-                        var request = URLRequest(url: URL(string: self.cloudURL)!)
-                        request.httpMethod = "PUT"
-                        request.addValue("video/mpeg", forHTTPHeaderField: "Content-Type")
-                        request.addValue("Bearer eyJhbGciOiJIUzI1NiJ9e30XmN", forHTTPHeaderField: "Authorization")
-
-                        // set the data of the video to be
-                        request.httpBody = NSData(contentsOf: self.fileLocation!) as Data?
-
-                        let task = URLSession.shared.dataTask(with: request) { _, response, error in
-                            if let response = response as? HTTPURLResponse {
-                                // push video body was successful
-                                if response.statusCode == 200 {
-                                    self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
-                                }
-                            } else {
-                                self.showAlert(title: "Error", message: "Unable to push to cloud. Please try again.", dismiss: true)
-                                print(error as Any)
-                            }
-                        }
-
-                        task.resume()
-                    }
-                } else {
-                    self.showAlert(title: "Error", message: "Unable to push to cloud. Please try again.", dismiss: true)
-                    print(error as Any)
-                }
-            }
-
-            task.resume()
-        } catch {
-            print(error.localizedDescription)
-        }
+        let response = DashiAPI.uploadVideoContent(video: Video(started: Date(), content: asset!), offset: 0)
+        print(response)
     }
 
     // MARK: Callbacks

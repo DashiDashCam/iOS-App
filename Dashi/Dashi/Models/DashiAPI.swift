@@ -48,8 +48,8 @@ class DashiAPI {
         // If access token has expired, create a new one
         if accessTokenExpires! < now {
             // Chain modified headers to login request to allow it time to complete
-            return self.loginWithToken().then { json -> HTTPHeaders in
-                return new_headers
+            return loginWithToken().then { _ -> HTTPHeaders in
+                new_headers
             }
         } else {
             // Wrap the headers in a promise manually, writing function in this way allows chaining
@@ -72,21 +72,20 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            return Alamofire.request(API_ROOT + "/Account/Videos", headers: headers).validate().responseJSON(with: .response).then { value -> [Video] in
+            Alamofire.request(API_ROOT + "/Account/Videos", headers: headers).validate().responseJSON(with: .response).then { value -> [Video] in
                 var videos: [Video] = []
-                
+
                 let data = JSON(value).array
                 for datum in data! {
                     videos.append(Video(video: datum))
                 }
-                
+
                 return videos
             }
         }
     }
 
-    public static func downloadVideoContent(id: Int) {
-    
+    public static func downloadVideoContent(id _: Int) {
     }
 
     /**
@@ -103,13 +102,13 @@ class DashiAPI {
         let parameters: Parameters = [
             "started": video.getStarted(),
             "length": video.getLength(),
-            "size": video.getSize()
+            "size": video.getSize(),
         ]
-        
+
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            return Alamofire.request(API_ROOT + "/Videos/" + String(video.getId()), method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
+            Alamofire.request(API_ROOT + "/Videos/" + String(video.getId()), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
                 return JSON(value)
             }
         }
@@ -125,8 +124,18 @@ class DashiAPI {
      *  @param video The video object (only the content and ID will be used, other metadata will be ignored)
      *  @return The JSON response from the server
      */
-    public static func uploadVideoContent(video: Video) { // -> Promise<JSON> {
-    
+    public static func uploadVideoContent(video: Video, offset: Int) -> Promise<JSON> {
+        let parameters: Parameters = [
+            "offset": offset,
+        ]
+
+        return firstly {
+            self.addAuthToken()
+        }.then { headers in
+            Alamofire.request(API_ROOT + "/Videos/" + String(video.getId()), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
+                return JSON(value)
+            }
+        }
     }
 
     /**
@@ -146,11 +155,11 @@ class DashiAPI {
         }.then { headers in
             let url: String = API_ROOT + "/Accounts/" + String(parameters["id"] as! Int)
             return Alamofire.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
-                return JSON(value)
+                JSON(value)
             }
         }
     }
-    
+
     /**
      *  Modifies the user's profile by uploading the current representation with
      *  every value that is valid to modify. This includes any fields that haven't
@@ -163,7 +172,7 @@ class DashiAPI {
      *  @return The JSON response from the server
      */
     public static func modifyAccount(account: Account) -> Promise<JSON> {
-        return self.modifyAccount(parameters: account.toParameters())
+        return modifyAccount(parameters: account.toParameters())
     }
 
     /**
@@ -227,9 +236,9 @@ class DashiAPI {
      *  @return The promise chain (empty or with error for caller to catch)
      */
     private static func login(parameters: Parameters) -> Promise<JSON> {
-        return Alamofire.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, response -> JSON in
+        return Alamofire.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, _ -> JSON in
             let json = JSON(value)
-            
+
             self.accessToken = json["access_token"].stringValue
             self.accessTokenExpires = Date(timeIntervalSinceNow: json["expires_in"].doubleValue)
             self.refreshToken = json["refresh_token"].stringValue
@@ -264,13 +273,13 @@ class DashiAPI {
      */
     public static func createAccount(email: String, password: String, fullName: String) -> Promise<JSON> {
         let parameters: Parameters = [
-            "email" : email,
+            "email": email,
             "password": password,
-            "fullName": fullName
+            "fullName": fullName,
         ]
-        
+
         return Alamofire.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
-            return JSON(value)
+            JSON(value)
         }
     }
 }
