@@ -49,10 +49,10 @@ class Video {
     }
 
     init(video: JSON) {
-        self.id = video["id"].intValue
-        self.started = DateConv.toDate(timestamp: video["started"].stringValue)
-        self.length = video["length"].intValue
-        self.size = video["size"].intValue
+        id = video["id"].stringValue
+        started = DateConv.toDate(timestamp: video["started"].stringValue)
+        length = video["length"].intValue
+        size = video["size"].intValue
     }
 
     public func setContent(content: AVURLAsset) {
