@@ -26,6 +26,7 @@
 		A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7E1FABC8450061FEAB /* Base.lproj */; };
 		A3F93310201FEFB9000C173B /* IMG_1800.MOV in Resources */ = {isa = PBXBuildFile; fileRef = A3F9330F201FEFB9000C173B /* IMG_1800.MOV */; };
 		A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */; };
+		D86D7481201E8E8000F62F4D /* DateConv.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86D7480201E8E8000F62F4D /* DateConv.swift */; };
 		D889C4261FC368280082052A /* DashiAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D889C4251FC368280082052A /* DashiAPI.swift */; };
 		D8FC2A59201A97EB00F3E532 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FC2A58201A97EB00F3E532 /* Account.swift */; };
 		D8FC2A5B201AA9B600F3E532 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FC2A5A201AA9B600F3E532 /* Video.swift */; };
@@ -56,6 +57,7 @@
 		BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.debug.xcconfig"; sourceTree = "<group>"; };
 		D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.release.xcconfig"; sourceTree = "<group>"; };
 		D68B438EB114BBD623DF3819 /* Pods_Dashi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dashi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D86D7480201E8E8000F62F4D /* DateConv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConv.swift; sourceTree = "<group>"; };
 		D889C4251FC368280082052A /* DashiAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashiAPI.swift; sourceTree = "<group>"; };
 		D8FC2A58201A97EB00F3E532 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		D8FC2A5A201AA9B600F3E532 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */,
 				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
 				A347FD941F9A9EAF0091973F /* Info.plist */,
+				D86D7480201E8E8000F62F4D /* DateConv.swift */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
 				2F0328EC1FC0E8AD00944477 /* PhotoManager.swift in Sources */,
 				A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */,
+				D86D7481201E8E8000F62F4D /* DateConv.swift in Sources */,
 				2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */,
 				A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */,
 				D8FC2A5B201AA9B600F3E532 /* Video.swift in Sources */,

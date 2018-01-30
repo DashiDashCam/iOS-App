@@ -22,7 +22,7 @@ class Account {
     
     init(account: JSON) {
         self.fullName = account["fullName"].stringValue
-        self.created = Date().addingTimeInterval(account["created"].doubleValue)
+        self.created = DateConv.toDate(timestamp: account["created"].stringValue)
         self.id = account["id"].intValue
         self.email = account["email"].stringValue
     }
