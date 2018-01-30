@@ -29,7 +29,7 @@ class Video {
     
     init(video: JSON) {
         self.id = video["id"].intValue
-        self.started = Date().addingTimeInterval(video["started"].doubleValue)
+        self.started = DateConv.toDate(timestamp: video["started"].stringValue)
         self.length = video["length"].intValue
         self.size = video["size"].intValue
     }
