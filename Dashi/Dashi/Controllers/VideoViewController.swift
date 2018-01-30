@@ -23,6 +23,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     var movieFileOutput = AVCaptureMovieFileOutput()
     var allowSwitch = true
     var outputFileLocation: URL?
+    var simulatorRecording = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,9 +98,15 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
 
     // stop and start recording based off recording state
     @IBAction func recordVideoButtonPressed(sender _: AnyObject) {
-        if movieFileOutput.isRecording {
+        if movieFileOutput.isRecording || simulatorRecording {
             // stop recording
             movieFileOutput.stopRecording()
+
+            // stop recording the simulator
+            if TARGET_OS_SIMULATOR != 0 {
+                // force seque to videoPreview
+                performSegue(withIdentifier: "videoPreview", sender: nil)
+            }
         } else {
             // not running simulator
             if TARGET_OS_SIMULATOR == 0 {
@@ -113,6 +120,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
                                                recordingDelegate: self)
             } else {
                 print("Recording in simulator")
+                simulatorRecording = true
             }
         }
 
@@ -345,7 +353,13 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         if TARGET_OS_SIMULATOR == 0 {
             preview.fileLocation = self.outputFileLocation // triggers loading of video
         } else {
-            preview.fileLocation =
+            print("stopped recording")
+            guard let path = Bundle.main.path(forResource: "IMG_1800", ofType: "MOV") else {
+                debugPrint("Placeholder video not found")
+                return
+            }
+            //            let player = AVPlayer(url: URL(fileURLWithPath: path))
+            preview.fileLocation = URL(fileURLWithPath: path)
         }
     }
 }
