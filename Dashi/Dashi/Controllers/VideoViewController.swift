@@ -106,6 +106,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             if TARGET_OS_SIMULATOR != 0 {
                 // force seque to videoPreview
                 performSegue(withIdentifier: "videoPreview", sender: nil)
+                updateRecordButtonTitle()
             }
         } else {
             // not running simulator
