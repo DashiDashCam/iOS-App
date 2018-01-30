@@ -26,7 +26,8 @@ class Video {
      */
     init(started: Date, content: AVURLAsset) {
         do {
-            // get the data associated with the video's content and convert it to a string            let contentData = try Data(contentsOf: content.url)
+            // get the data associated with the video's content and convert it to a string
+            let contentData = try Data(contentsOf: content.url)
             let contentString = String(data: contentData, encoding: String.Encoding.ascii)
 
             length = Int(Float((content.duration.value)) / Float((content.duration.timescale)))
