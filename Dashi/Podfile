@@ -5,4 +5,5 @@ target 'Dashi' do
   pod 'Alamofire', '~> 4.5'
   pod 'PromiseKit/Alamofire', '~> 4.0'
   pod 'SwiftyJSON'
+  pod 'Arcane'
 end

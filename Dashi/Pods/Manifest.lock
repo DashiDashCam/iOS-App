@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.6.0)
+  - Arcane (1.2.1)
   - PromiseKit/Alamofire (4.5.1):
     - Alamofire (~> 4.0)
     - PromiseKit/CorePromise
@@ -8,14 +9,16 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
+  - Arcane
   - PromiseKit/Alamofire (~> 4.0)
   - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Arcane: 870689a8ba7145a7dec0c2d7d7836b50c9f12636
   PromiseKit: 445dac9b2c3c3b4b31b5f842bc325700b848a8bd
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 1e6a6ca3e3953776d3dd7d3650813a4fe5ca2547
+PODFILE CHECKSUM: b68c919cc864c57d2bd9c9d48b1b4b5e58bae3f0
 
 COCOAPODS: 1.4.0
