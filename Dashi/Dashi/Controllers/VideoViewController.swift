@@ -101,16 +101,19 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             // stop recording
             movieFileOutput.stopRecording()
         } else {
-            // start recording
+            // not running simulator
+            if TARGET_OS_SIMULATOR == 0 {
+                // set video orientation of movie file output
+                movieFileOutput.connection(with: AVMediaType.video)?.videoOrientation = videoOrientation()
 
-            // set video orientation of movie file output
-            movieFileOutput.connection(with: AVMediaType.video)?.videoOrientation = videoOrientation()
+                movieFileOutput.maxRecordedDuration = maxRecordedDuration()
 
-            movieFileOutput.maxRecordedDuration = maxRecordedDuration()
-
-            // start recording
-            movieFileOutput.startRecording(to: URL(fileURLWithPath: videoFileLocation()), // output file
-                                           recordingDelegate: self)
+                // start recording
+                movieFileOutput.startRecording(to: URL(fileURLWithPath: videoFileLocation()), // output file
+                                               recordingDelegate: self)
+            } else {
+                print("Recording in simulator")
+            }
         }
 
         updateRecordButtonTitle()
@@ -337,7 +340,13 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         // Pass the selected object to the new view controller.
 
         let preview = segue.destination as! VideoPreviewViewController
-        preview.fileLocation = self.outputFileLocation // triggers loading of video
+
+        // not running simulator
+        if TARGET_OS_SIMULATOR == 0 {
+            preview.fileLocation = self.outputFileLocation // triggers loading of video
+        } else {
+            preview.fileLocation =
+        }
     }
 }
 
