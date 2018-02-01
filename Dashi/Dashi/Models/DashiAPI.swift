@@ -288,6 +288,6 @@ class DashiAPI {
      * Logged in is defined as the presence of a refresh token.
      */
     public static func isLoggedIn() -> Bool {
-        return self.refreshToken == nil
+        return self.refreshToken != nil
     }
 }
