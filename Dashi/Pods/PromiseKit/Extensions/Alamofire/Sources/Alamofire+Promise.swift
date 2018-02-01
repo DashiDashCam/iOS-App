@@ -81,12 +81,13 @@ extension Alamofire.DataRequest {
                 case .success(let value):
                     fulfill((value, PMKDataResponse(response)))
                 case .failure(let error):
-                    reject(error)
+                    //reject(DashiServiceError.statusCode(String(data: response.data!, encoding: String.Encoding.utf8)!))
+                    //reject(DashiServiceError.statusCode(response.data!))
+                    reject(DashiServiceError(statusCode: (response.response?.statusCode)!, body: response.data!))
                 }
             })
         }
     }
-
 
     /// Adds a handler to be called once the request has finished and the resulting JSON is rooted at a dictionary.
     public func responseJsonDictionary(options: JSONSerialization.ReadingOptions = .allowFragments) -> Promise<[String: Any]> {
@@ -164,4 +165,9 @@ public struct PMKDataResponse {
 
     /// The timeline of the complete lifecycle of the request.
     public let timeline: Timeline
+}
+
+public struct DashiServiceError: Error {
+    public let statusCode: Int
+    public let body: Data
 }
