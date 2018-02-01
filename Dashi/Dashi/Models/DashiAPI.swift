@@ -282,4 +282,12 @@ class DashiAPI {
             JSON(value)
         }
     }
+    
+    /**
+     * Used to check if the user is currently logged in.
+     * Logged in is defined as the presence of a refresh token.
+     */
+    public static func isLoggedIn() -> Bool {
+        return self.refreshToken == nil
+    }
 }
