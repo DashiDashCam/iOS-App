@@ -135,9 +135,12 @@ class VideoPreviewViewController: UIViewController {
     }
 
     @IBAction func pushToCloud() {
-        let response = DashiAPI.uploadVideoContent(video: Video(started: Date(), content: asset!), offset: 0)
-        print("----------")
-        print(response)
+        DashiAPI.uploadVideoContent(video: Video(started: Date(), content: asset!), offset: 0).then { value -> Void in
+
+            print("----------")
+            print(value)
+            print("----------")
+        }
     }
 
     // MARK: Callbacks
