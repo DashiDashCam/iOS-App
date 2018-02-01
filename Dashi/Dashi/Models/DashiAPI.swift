@@ -71,8 +71,15 @@ class DashiAPI {
     static func uploadVideoContent() {
     }
 
-    static func createAccount(name _: String, email _: String, password _: String, callback: (() -> Void)) {
-        callback()
+    static func createAccount(name : String, email : String, password : String) -> Promise<JSON> {
+        let parameters: Parameters = [
+            "email": email,
+            "password": password,
+            "username": name,
+            ]
+        
+        return Promise { fulfill, reject in
+            fulfill(JSON(parameters)) }
     }
 
     static func modifiyAccount() {

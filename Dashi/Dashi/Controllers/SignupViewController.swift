@@ -31,8 +31,12 @@ class SignupViewController: UIViewController {
         if password.text! == confirm.text! {
             DashiAPI.createAccount(name: name.text!,
                                    email: email.text!,
-                                   password: password.text!) {
-                self.dismiss(animated: true, completion: nil)
+                                   password: password.text!).then { _ -> Void in
+                                    
+                                    self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
+                                    
+                }.catch { error in
+                    print(error)
             }
         }
     }
