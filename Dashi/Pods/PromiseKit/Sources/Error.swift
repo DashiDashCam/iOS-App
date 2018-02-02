@@ -15,7 +15,7 @@ public enum PMKError: Error {
     case invalidCallingConvention
 
     /**
-     A handler returned its own promise. 99% of the time, this is likely a 
+     A handler returned its own promise. 99% of the time, this is likely a
      programming error. It is also invalid per Promises/A+.
      */
     case returnedSelf
@@ -36,7 +36,7 @@ extension PMKError: LocalizedError {
             return "A promise handler returned itself"
         case .whenConcurrentlyZero, .join:
             return "Bad input was provided to a PromiseKit function"
-        case .castError(let type):
+        case let .castError(type):
             return "Promise chain sequence failed to cast an object to \(type)."
         }
     }
@@ -69,9 +69,9 @@ public enum PMKURLError: Error {
         switch self {
         case .invalidImageData:
             return nil
-        case .badResponse(_, _, let rsp):
+        case let .badResponse(_, _, rsp):
             return rsp as! Foundation.HTTPURLResponse
-        case .stringEncoding(_, _, let rsp):
+        case let .stringEncoding(_, _, rsp):
             return rsp as! Foundation.HTTPURLResponse
         }
     }
@@ -97,7 +97,6 @@ public enum JSONError: Error {
     case unexpectedRootNode(Any)
 }
 
-
 //////////////////////////////////////////////////////////// Cancellation
 
 public protocol CancellableError: Error {
@@ -106,65 +105,64 @@ public protocol CancellableError: Error {
 
 #if !SWIFT_PACKAGE
 
-private struct ErrorPair: Hashable {
-    let domain: String
-    let code: Int
-    init(_ d: String, _ c: Int) {
-        domain = d; code = c
-    }
-    var hashValue: Int {
-        return "\(domain):\(code)".hashValue
-    }
-}
+    private struct ErrorPair: Hashable {
+        let domain: String
+        let code: Int
+        init(_ d: String, _ c: Int) {
+            domain = d; code = c
+        }
 
-private func ==(lhs: ErrorPair, rhs: ErrorPair) -> Bool {
-    return lhs.domain == rhs.domain && lhs.code == rhs.code
-}
-
-extension NSError {
-    @objc public class func cancelledError() -> NSError {
-        let info = [NSLocalizedDescriptionKey: "The operation was cancelled"]
-        return NSError(domain: PMKErrorDomain, code: PMKOperationCancelled, userInfo: info)
+        var hashValue: Int {
+            return "\(domain):\(code)".hashValue
+        }
     }
 
-    /**
-      - Warning: You must call this method before any promises in your application are rejected. Failure to ensure this may lead to concurrency crashes.
-      - Warning: You must call this method on the main thread. Failure to do this may lead to concurrency crashes.
-     */
-    @objc public class func registerCancelledErrorDomain(_ domain: String, code: Int) {
-        cancelledErrorIdentifiers.insert(ErrorPair(domain, code))
+    private func == (lhs: ErrorPair, rhs: ErrorPair) -> Bool {
+        return lhs.domain == rhs.domain && lhs.code == rhs.code
     }
 
-    /// - Returns: true if the error represents cancellation.
-    @objc public var isCancelled: Bool {
-        return (self as Error).isCancelledError
-    }
-}
+    extension NSError {
+        @objc public class func cancelledError() -> NSError {
+            let info = [NSLocalizedDescriptionKey: "The operation was cancelled"]
+            return NSError(domain: PMKErrorDomain, code: PMKOperationCancelled, userInfo: info)
+        }
 
-private var cancelledErrorIdentifiers = Set([
-    ErrorPair(PMKErrorDomain, PMKOperationCancelled),
-    ErrorPair(NSCocoaErrorDomain, NSUserCancelledError),
-    ErrorPair(NSURLErrorDomain, NSURLErrorCancelled),
-])
+        /**
+         - Warning: You must call this method before any promises in your application are rejected. Failure to ensure this may lead to concurrency crashes.
+         - Warning: You must call this method on the main thread. Failure to do this may lead to concurrency crashes.
+         */
+        @objc public class func registerCancelledErrorDomain(_ domain: String, code: Int) {
+            cancelledErrorIdentifiers.insert(ErrorPair(domain, code))
+        }
+
+        /// - Returns: true if the error represents cancellation.
+        @objc public var isCancelled: Bool {
+            return (self as Error).isCancelledError
+        }
+    }
+
+    private var cancelledErrorIdentifiers = Set([
+        ErrorPair(PMKErrorDomain, PMKOperationCancelled),
+        ErrorPair(NSCocoaErrorDomain, NSUserCancelledError),
+        ErrorPair(NSURLErrorDomain, NSURLErrorCancelled),
+    ])
 
 #endif
-
 
 extension Error {
     public var isCancelledError: Bool {
         if let ce = self as? CancellableError {
             return ce.isCancelled
         } else {
-          #if SWIFT_PACKAGE
-            return false
-          #else
-            let ne = self as NSError
-            return cancelledErrorIdentifiers.contains(ErrorPair(ne.domain, ne.code))
-          #endif
+            #if SWIFT_PACKAGE
+                return false
+            #else
+                let ne = self as NSError
+                return cancelledErrorIdentifiers.contains(ErrorPair(ne.domain, ne.code))
+            #endif
         }
     }
 }
-
 
 //////////////////////////////////////////////////////// Unhandled Errors
 class ErrorConsumptionToken {
@@ -177,11 +175,11 @@ class ErrorConsumptionToken {
 
     deinit {
         if !consumed {
-#if os(Linux) || os(Android)
-            PMKUnhandledErrorHandler(error)
-#else
-            PMKUnhandledErrorHandler(error as NSError)
-#endif
+            #if os(Linux) || os(Android)
+                PMKUnhandledErrorHandler(error)
+            #else
+                PMKUnhandledErrorHandler(error as NSError)
+            #endif
         }
     }
 }

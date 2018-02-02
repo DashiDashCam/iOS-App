@@ -10,6 +10,7 @@ import UIKit
 import AVKit
 import AVFoundation
 import CoreData
+import PromiseKit
 
 class VideoPreviewViewController: UIViewController {
 
@@ -135,11 +136,18 @@ class VideoPreviewViewController: UIViewController {
     }
 
     @IBAction func pushToCloud() {
-        DashiAPI.uploadVideoContent(video: Video(started: Date(), content: asset!), offset: 0).then { value -> Void in
+        let currentVideo = Video(started: Date(), asset: asset!)
 
-            print("----------")
+        DashiAPI.uploadVideoMetaData(video: currentVideo).then { value -> Void in
             print(value)
-            print("----------")
+            //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
+            //                print(value)
+            //            }.catch {
+            //                error in print(error)
+            //            }
+        }.catch {
+            error in
+            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
         }
     }
 

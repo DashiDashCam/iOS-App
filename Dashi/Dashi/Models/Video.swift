@@ -14,7 +14,7 @@ import Arcane
 class Video {
 
     // Protected members
-    var content: AVURLAsset?
+    var asset: AVURLAsset?
     var started: Date
     var length: Int
     var size: Int
@@ -24,13 +24,13 @@ class Video {
      *  Initializes a Video object. Note that ID is initialized
      *  from the SHA256 hash of the content of the video
      */
-    init(started: Date, content: AVURLAsset) {
+    init(started: Date, asset: AVURLAsset) {
         do {
             // get the data associated with the video's content and convert it to a string
-            let contentData = try Data(contentsOf: content.url)
+            let contentData = try Data(contentsOf: asset.url)
             let contentString = String(data: contentData, encoding: String.Encoding.ascii)
 
-            length = Int(Float((content.duration.value)) / Float((content.duration.timescale)))
+            length = Int(Float((asset.duration.value)) / Float((asset.duration.timescale)))
             size = contentData.count
 
             // hash the video content to produce an ID
@@ -44,7 +44,7 @@ class Video {
         }
 
         // initialize other instances variables
-        self.content = content
+        self.asset = asset
         self.started = started
     }
 
@@ -55,12 +55,22 @@ class Video {
         size = video["size"].intValue
     }
 
-    public func setContent(content: AVURLAsset) {
-        self.content = content
+    public func getContent() -> Data? {
+        do {
+            return try Data(contentsOf: asset!.url)
+        } catch let error {
+            print("Could not get video content. \(error)")
+        }
+
+        return nil
     }
 
-    public func getContent() -> AVURLAsset {
-        return content!
+    public func setAsset(asset: AVURLAsset) {
+        self.asset = asset
+    }
+
+    public func getAsset() -> AVURLAsset {
+        return asset!
     }
 
     public func getStarted() -> Date {

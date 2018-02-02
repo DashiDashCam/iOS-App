@@ -2,14 +2,14 @@ import Foundation
 
 /**
  AnyPromise is an Objective-C compatible promise.
-*/
+ */
 @objc(AnyPromise) public class AnyPromise: NSObject {
     let state: State<Any?>
 
     /**
      - Returns: A new `AnyPromise` bound to a `Promise<Any>`.
-    */
-    required public init(_ bridge: Promise<Any?>) {
+     */
+    public required init(_ bridge: Promise<Any?>) {
         state = bridge.state
     }
 
@@ -20,23 +20,23 @@ import Foundation
 
     /**
      - Returns: A new `AnyPromise` bound to a `Promise<T>`.
-    */
+     */
     public convenience init<T>(_ bridge: Promise<T?>) {
         self.init(force: bridge.then(on: zalgo) { $0 })
     }
 
     /**
      - Returns: A new `AnyPromise` bound to a `Promise<T>`.
-    */
-    convenience public init<T>(_ bridge: Promise<T>) {
+     */
+    public convenience init<T>(_ bridge: Promise<T>) {
         self.init(force: bridge.then(on: zalgo) { $0 })
     }
 
     /**
      - Returns: A new `AnyPromise` bound to a `Promise<Void>`.
      - Note: A “void” `AnyPromise` has a value of `nil`.
-    */
-    convenience public init(_ bridge: Promise<Void>) {
+     */
+    public convenience init(_ bridge: Promise<Void>) {
         self.init(force: bridge.then(on: zalgo) { nil })
     }
 
@@ -80,13 +80,13 @@ import Foundation
 
     /// - See: `Promise.always()`
     @discardableResult
-    public func always(on q: DispatchQueue = .default, execute body: @escaping () -> Void) -> Promise<Any?> {
+    public func always(on _: DispatchQueue = .default, execute body: @escaping () -> Void) -> Promise<Any?> {
         return asPromise().always(execute: body)
     }
 
     /// - See: `Promise.tap()`
     @discardableResult
-    public func tap(on q: DispatchQueue = .default, execute body: @escaping (Result<Any?>) -> Void) -> Promise<Any?> {
+    public func tap(on _: DispatchQueue = .default, execute body: @escaping (Result<Any?>) -> Void) -> Promise<Any?> {
         return asPromise().tap(execute: body)
     }
 
@@ -107,7 +107,7 @@ import Foundation
         state.catch(on: q, policy: policy, else: { _ in }, execute: body)
     }
 
-//MARK: ObjC methods
+    // MARK: ObjC methods
 
     /**
      A promise starts pending and eventually resolves.
@@ -131,7 +131,7 @@ import Foundation
      A promise has `nil` value if the asynchronous task it represents has not finished. If the value is `nil` the promise is still `pending`.
 
      - Warning: *Note* Our Swift variant’s value property returns nil if the promise is rejected where AnyPromise will return the error object. This fits with the pattern where AnyPromise is not strictly typed and is more dynamic, but you should be aware of the distinction.
-     
+
      - Note: If the AnyPromise was fulfilled with a `PMKManifold`, returns only the first fulfillment object.
 
      - Returns: The value with which this promise was resolved or `nil` if this promise is pending.
@@ -140,9 +140,9 @@ import Foundation
         switch state.get() {
         case nil:
             return nil
-        case .rejected(let error, _)?:
+        case let .rejected(error, _)?:
             return error
-        case .fulfilled(let obj)?:
+        case let .fulfilled(obj)?:
             return obj
         }
     }
@@ -233,13 +233,13 @@ import Foundation
     /**
      Convert an `AnyPromise` to `Promise<T>`.
 
-         anyPromise.toPromise(T).then { (t: T) -> U in ... }
-     
+     anyPromise.toPromise(T).then { (t: T) -> U in ... }
+
      - Returns: A `Promise<T>` with the requested type.
      - Throws: `CastingError.CastingAnyPromiseFailed(T)` if self's value cannot be downcasted to the given type.
      */
     public func asPromise<T>(type: T.Type) -> Promise<T> {
-        return self.then(on: zalgo) { (value: Any?) -> T in
+        return then(on: zalgo) { (value: Any?) -> T in
             if let value = value as? T {
                 return value
             }
@@ -251,22 +251,21 @@ import Foundation
     @objc func __pipe(_ body: @escaping (Any?) -> Void) {
         state.pipe { resolution in
             switch resolution {
-            case .rejected(let error, let token):
-                token.consumed = true  // when and join will create a new parent error that is unconsumed
+            case let .rejected(error, token):
+                token.consumed = true // when and join will create a new parent error that is unconsumed
                 body(error as NSError)
-            case .fulfilled(let value):
+            case let .fulfilled(value):
                 body(value)
             }
         }
     }
 }
 
-
 extension AnyPromise {
     /**
      - Returns: A description of the state of this promise.
      */
-    override public var description: String {
+    public override var description: String {
         return "AnyPromise: \(state)"
     }
 }

@@ -22,14 +22,14 @@ class State<T> {
     // it was a protocol. There is no work around. Update: nor Swift 3
 
     func get() -> Resolution<T>? { fatalError("Abstract Base Class") }
-    func get(body: @escaping (Seal<T>) -> Void) { fatalError("Abstract Base Class") }
+    func get(body _: @escaping (Seal<T>) -> Void) { fatalError("Abstract Base Class") }
 
     final func pipe(_ body: @escaping (Resolution<T>) -> Void) {
         get { seal in
             switch seal {
-            case .pending(let handlers):
+            case let .pending(handlers):
                 handlers.append(body)
-            case .resolved(let resolution):
+            case let .resolved(resolution):
                 body(resolution)
             }
         }
@@ -46,11 +46,11 @@ class State<T> {
     final func then<U>(on q: DispatchQueue, else rejecter: @escaping (Resolution<U>) -> Void, execute body: @escaping (T) throws -> Void) {
         pipe { resolution in
             switch resolution {
-            case .fulfilled(let value):
+            case let .fulfilled(value):
                 contain_zalgo(q, rejecter: rejecter) {
                     try body(value)
                 }
-            case .rejected(let error, let token):
+            case let .rejected(error, token):
                 rejecter(.rejected(error, token))
             }
         }
@@ -69,7 +69,7 @@ class State<T> {
             switch (resolution, policy) {
             case (.fulfilled, _):
                 resolve(resolution)
-            case (.rejected(let error, _), .allErrorsExceptCancellation) where error.isCancelledError:
+            case let (.rejected(error, _), .allErrorsExceptCancellation) where error.isCancelledError:
                 resolve(resolution)
             case (let .rejected(error, token), _):
                 contain_zalgo(q, rejecter: resolve) {
@@ -93,7 +93,7 @@ class UnsealedState<T>: State<T> {
     override func get() -> Resolution<T>? {
         var result: Resolution<T>?
         barrier.sync {
-            if case .resolved(let resolution) = self.seal {
+            if case let .resolved(resolution) = self.seal {
                 result = resolution
             }
         }
@@ -112,16 +112,16 @@ class UnsealedState<T>: State<T> {
         }
         if !sealed {
             barrier.sync(flags: .barrier) {
-                switch (self.seal) {
+                switch self.seal {
                 case .pending:
                     body(self.seal)
                 case .resolved:
-                    sealed = true  // welcome to race conditions
+                    sealed = true // welcome to race conditions
                 }
             }
         }
         if sealed {
-            body(seal)  // as much as possible we do things OUTSIDE the barrier_sync
+            body(seal) // as much as possible we do things OUTSIDE the barrier_sync
         }
     }
 
@@ -131,7 +131,7 @@ class UnsealedState<T>: State<T> {
         resolver = { resolution in
             var handlers: Handlers<T>?
             self.barrier.sync(flags: .barrier) {
-                if case .pending(let hh) = self.seal {
+                if case let .pending(hh) = self.seal {
                     self.seal = .resolved(resolution)
                     handlers = hh
                 }
@@ -143,22 +143,23 @@ class UnsealedState<T>: State<T> {
             }
         }
     }
-#if !PMKDisableWarnings
-    deinit {
-        if case .pending = seal {
-            NSLog("PromiseKit: Pending Promise deallocated! This is usually a bug")
+
+    #if !PMKDisableWarnings
+        deinit {
+            if case .pending = seal {
+                NSLog("PromiseKit: Pending Promise deallocated! This is usually a bug")
+            }
         }
-    }
-#endif
+    #endif
 }
 
 class SealedState<T>: State<T> {
     fileprivate let resolution: Resolution<T>
-    
+
     init(resolution: Resolution<T>) {
         self.resolution = resolution
     }
-    
+
     override func get() -> Resolution<T>? {
         return resolution
     }
@@ -167,7 +168,6 @@ class SealedState<T>: State<T> {
         body(.resolved(resolution))
     }
 }
-
 
 class Handlers<T>: Sequence {
     var bodies: [(Resolution<T>) -> Void] = []
@@ -185,13 +185,12 @@ class Handlers<T>: Sequence {
     }
 }
 
-
 extension Resolution: CustomStringConvertible {
     var description: String {
         switch self {
-        case .fulfilled(let value):
+        case let .fulfilled(value):
             return "Fulfilled with value: \(value)"
-        case .rejected(let error):
+        case let .rejected(error):
             return "Rejected with error: \(error)"
         }
     }
@@ -202,9 +201,9 @@ extension UnsealedState: CustomStringConvertible {
         var rv: String!
         get { seal in
             switch seal {
-            case .pending(let handlers):
+            case let .pending(handlers):
                 rv = "Pending with \(handlers.count) handlers"
-            case .resolved(let resolution):
+            case let .resolved(resolution):
                 rv = "\(resolution)"
             }
         }
