@@ -71,12 +71,14 @@ class VideosTableViewController: UITableViewController {
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
+    
         for meta in fetchedmeta {
-            let id = meta.value(forKeyPath: "id") as! String
-            let date = meta.value(forKeyPath: "startDate") as! Date
-            let thumbnailData =  meta.value(forKeyPath: "thumbnail") as! Data
-            let size =  meta.value(forKeyPath: "size") as! Int
-            let length =  meta.value(forKeyPath: "length") as! Int
+            
+            let id = meta.value(forKey: "id") as! String
+            let date = meta.value(forKey: "startDate") as! Date
+            let thumbnailData =  meta.value(forKey: "thumbnail") as! Data
+            let size =  meta.value(forKey: "size") as! Int
+            let length =  meta.value(forKey: "length") as! Int
             // dates.append(video.value(forKeyPath: "startDate") as! Date)
             let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size)
             videos.append(video)

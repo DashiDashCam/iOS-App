@@ -30,7 +30,7 @@ class Video {
             // get the data associated with the video's content and convert it to a string
             let contentData = try Data(contentsOf: asset.url)
             let contentString = String(data: contentData, encoding: String.Encoding.ascii)
-
+contentData.hashValue
             length = Int(Float((asset.duration.value)) / Float((asset.duration.timescale)))
             size = contentData.count
 
