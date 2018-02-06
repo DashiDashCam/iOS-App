@@ -19,6 +19,9 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         updateConstraints()
 
+        if(DashiAPI.isLoggedIn()){
+            self.dismiss(animated: true, completion: nil)
+        }
         // Do any additional setup after loading the view.
     }
 

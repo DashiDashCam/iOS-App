@@ -100,7 +100,7 @@ class DashiAPI {
      */
     public static func uploadVideoMetaData(video: Video) -> Promise<JSON> {
         let parameters: Parameters = [
-            "started": String(describing: video.getStarted()),
+            "started": DateConv.toString(date: video.getStarted()),
             "length": video.getLength(),
             "size": video.getSize(),
         ]
@@ -288,5 +288,13 @@ class DashiAPI {
         return Alamofire.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
             JSON(value)
         }
+    }
+    
+    /**
+     * Used to check if the user is currently logged in.
+     * Logged in is defined as the presence of a refresh token.
+     */
+    public static func isLoggedIn() -> Bool {
+        return self.refreshToken != nil
     }
 }

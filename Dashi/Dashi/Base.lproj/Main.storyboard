@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gxc-NO-NAH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gxc-NO-NAH">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -312,7 +312,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QIw-or-Yu7">
                                 <rect key="frame" x="16" y="271" width="288" height="30"/>
@@ -321,7 +321,7 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Full Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSA-Zb-lyy">
                                 <rect key="frame" x="16" y="31" width="77" height="21"/>
@@ -383,14 +383,16 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="signUpButton" destination="T0j-Il-cjF" id="Bpk-A6-pLx"/>
                         <outlet property="confirm" destination="QIw-or-Yu7" id="rYr-XR-C1k"/>
                         <outlet property="email" destination="v2f-Km-hne" id="4Ic-2e-yPg"/>
                         <outlet property="name" destination="Jff-Vr-qJw" id="aJb-7J-1D2"/>
                         <outlet property="password" destination="38w-aq-lJ5" id="WCY-3y-zKl"/>
+                        <outlet property="signUpButton" destination="T0j-Il-cjF" id="Bpk-A6-pLx"/>
+                        <segue destination="Sym-zT-QRZ" kind="unwind" identifier="unwindFromSignUp" unwindAction="unwindToMenuWithSegue:" id="6n4-gX-rrl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yYi-6S-hdR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Sym-zT-QRZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1008.8" y="-841.52923538230891"/>
         </scene>
@@ -469,7 +471,7 @@
                                 <rect key="frame" x="16" y="173" width="288" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DDJ-Bb-Vf2">
                                 <rect key="frame" x="16" y="65" width="74" height="21"/>
@@ -526,7 +528,7 @@
                                     </attributedString>
                                 </state>
                                 <connections>
-                                    <segue destination="gFz-cT-npz" kind="presentation" identifier="signupSegue" id="z4e-cp-T4l"/>
+                                    <segue destination="gFz-cT-npz" kind="presentation" identifier="signupSegue" modalTransitionStyle="flipHorizontal" id="z4e-cp-T4l"/>
                                 </connections>
                             </button>
                         </subviews>
