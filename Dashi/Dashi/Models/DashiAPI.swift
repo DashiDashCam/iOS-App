@@ -100,7 +100,7 @@ class DashiAPI {
      */
     public static func uploadVideoMetaData(video: Video) -> Promise<JSON> {
         let parameters: Parameters = [
-            "started": String(describing: video.getStarted()),
+            "started": DateConv.toString(date: video.getStarted()),
             "length": video.getLength(),
             "size": video.getSize(),
         ]
