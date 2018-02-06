@@ -175,20 +175,10 @@ class VideoPreviewViewController: UIViewController {
 
     // MARK: Helpers
 
-    // save the video to the user's library
-    func saveVideoToUserLibrary() {
-        PhotoManager().saveVideoToUserLibrary(fileUrl: self.fileLocation!) { success, error in
-            if success {
-                self.showAlert(title: "Success", message: "Video saved.", dismiss: true)
-            } else {
-                self.showAlert(title: "Error", message: (error?.localizedDescription)!, dismiss: false)
-            }
-        }
-    }
 
     // save the video to core data
     func saveVideoToCoreData() {
-
+         let currentVideo = Video(started: Date(), asset: asset!)
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -203,13 +193,13 @@ class VideoPreviewViewController: UIViewController {
 
         let video = NSManagedObject(entity: entity,
                                     insertInto: managedContext)
-
-        let videoData = NSData(contentsOf: (self.fileLocation)!)
-
-        video.setValue(2, forKeyPath: "id")
-        video.setValue(videoData, forKeyPath: "videoContent")
-        video.setValue(Date(), forKeyPath: "startDate")
-
+       
+        video.setValue(currentVideo.getId(), forKeyPath: "id")
+        video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
+        video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
+        video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
+        video.setValue(currentVideo.getLength(), forKeyPath: "length")
+        video.setValue(currentVideo.getSize(), forKey: "size")
         do {
             try managedContext.save()
         } catch let error as NSError {
