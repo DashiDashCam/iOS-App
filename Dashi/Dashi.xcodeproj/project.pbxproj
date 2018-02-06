@@ -475,7 +475,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Dashi/SupportFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi.das;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = Dashi/bridgingHeader.h;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -493,7 +493,7 @@
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Dashi/SupportFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi.das;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = Dashi/bridgingHeader.h;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
