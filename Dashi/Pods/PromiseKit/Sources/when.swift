@@ -5,21 +5,21 @@ private func _when<T>(_ promises: [Promise<T>]) -> Promise<Void> {
     let root = Promise<Void>.pending()
     var countdown = promises.count
     guard countdown > 0 else {
-      #if swift(>=4.0)
-        root.fulfill(())
-      #else
-        root.fulfill()
-      #endif
+        #if swift(>=4.0)
+            root.fulfill(())
+        #else
+            root.fulfill()
+        #endif
         return root.promise
     }
 
-#if PMKDisableProgress || os(Linux)
-    var progress: (completedUnitCount: Int, totalUnitCount: Int) = (0, 0)
-#else
-    let progress = Progress(totalUnitCount: Int64(promises.count))
-    progress.isCancellable = false
-    progress.isPausable = false
-#endif
+    #if PMKDisableProgress || os(Linux)
+        var progress: (completedUnitCount: Int, totalUnitCount: Int) = (0, 0)
+    #else
+        let progress = Progress(totalUnitCount: Int64(promises.count))
+        progress.isCancellable = false
+        progress.isPausable = false
+    #endif
 
     let barrier = DispatchQueue(label: "org.promisekit.barrier.when", attributes: .concurrent)
 
@@ -27,7 +27,7 @@ private func _when<T>(_ promises: [Promise<T>]) -> Promise<Void> {
         promise.state.pipe { resolution in
             barrier.sync(flags: .barrier) {
                 switch resolution {
-                case .rejected(let error, let token):
+                case let .rejected(error, token):
                     token.consumed = true
                     if root.promise.isPending {
                         progress.completedUnitCount = progress.totalUnitCount
@@ -38,11 +38,11 @@ private func _when<T>(_ promises: [Promise<T>]) -> Promise<Void> {
                     progress.completedUnitCount += 1
                     countdown -= 1
                     if countdown == 0 {
-                      #if swift(>=4.0)
-                        root.fulfill(())
-                      #else
-                        root.fulfill()
-                      #endif
+                        #if swift(>=4.0)
+                            root.fulfill(())
+                        #else
+                            root.fulfill()
+                        #endif
                     }
                 }
             }
@@ -57,16 +57,16 @@ private func _when<T>(_ promises: [Promise<T>]) -> Promise<Void> {
 
  For example:
 
-     when(fulfilled: promise1, promise2).then { results in
-         //…
-     }.catch { error in
-         switch error {
-         case URLError.notConnectedToInternet:
-             //…
-         case CLError.denied:
-             //…
-         }
-     }
+ when(fulfilled: promise1, promise2).then { results in
+ //…
+ }.catch { error in
+ switch error {
+ case URLError.notConnectedToInternet:
+ //…
+ case CLError.denied:
+ //…
+ }
+ }
 
  - Note: If *any* of the provided promises reject, the returned promise is immediately rejected with that error.
  - Warning: In the event of rejection the other promises will continue to resolve and, as per any other promise, will either fulfill or reject. This is the right pattern for `getter` style asynchronous tasks, but often for `setter` tasks (eg. storing data on a server), you most likely will need to wait on all tasks and then act based on which have succeeded and which have failed, in such situations use `when(resolved:)`.
@@ -74,9 +74,9 @@ private func _when<T>(_ promises: [Promise<T>]) -> Promise<Void> {
  - Returns: A new promise that resolves when all the provided promises fulfill or one of the provided promises rejects.
  - Note: `when` provides `NSProgress`.
  - SeeAlso: `when(resolved:)`
-*/
+ */
 public func when<T>(fulfilled promises: [Promise<T>]) -> Promise<[T]> {
-    return _when(promises).then(on: zalgo) { promises.map{ $0.value! } }
+    return _when(promises).then(on: zalgo) { promises.map { $0.value! } }
 }
 
 /// Wait for all promises in a set to fulfill.
@@ -113,25 +113,25 @@ public func when<U, V, W, X, Y>(fulfilled pu: Promise<U>, _ pv: Promise<V>, _ pw
  Generate promises at a limited rate and wait for all to fulfill.
 
  For example:
- 
-     func downloadFile(url: URL) -> Promise<Data> {
-         // ...
-     }
- 
-     let urls: [URL] = /*…*/
-     let urlGenerator = urls.makeIterator()
 
-     let generator = AnyIterator<Promise<Data>> {
-         guard url = urlGenerator.next() else {
-             return nil
-         }
+ func downloadFile(url: URL) -> Promise<Data> {
+ // ...
+ }
 
-         return downloadFile(url)
-     }
+ let urls: [URL] = /* … */
+ let urlGenerator = urls.makeIterator()
 
-     when(generator, concurrently: 3).then { datum: [Data] -> Void in
-         // ...
-     }
+ let generator = AnyIterator<Promise<Data>> {
+ guard url = urlGenerator.next() else {
+ return nil
+ }
+
+ return downloadFile(url)
+ }
+
+ when(generator, concurrently: 3).then { datum: [Data] -> Void in
+ // ...
+ }
 
  - Warning: Refer to the warnings on `when(fulfilled:)`
  - Parameter promiseGenerator: Generator of promises.
@@ -153,7 +153,7 @@ public func when<T, PromiseIterator: IteratorProtocol>(fulfilled promiseIterator
     let barrier = DispatchQueue(label: "org.promisekit.barrier.when", attributes: [.concurrent])
 
     func dequeue() {
-        guard root.promise.isPending else { return }  // don’t continue dequeueing if root has been rejected
+        guard root.promise.isPending else { return } // don’t continue dequeueing if root has been rejected
 
         var shouldDequeue = false
         barrier.sync {
@@ -177,7 +177,7 @@ public func when<T, PromiseIterator: IteratorProtocol>(fulfilled promiseIterator
         func testDone() {
             barrier.sync {
                 if pendingPromises == 0 {
-                    root.fulfill(promises.flatMap{ $0.value })
+                    root.fulfill(promises.flatMap { $0.value })
                 }
             }
         }
@@ -195,7 +195,7 @@ public func when<T, PromiseIterator: IteratorProtocol>(fulfilled promiseIterator
             case .fulfilled:
                 dequeue()
                 testDone()
-            case .rejected(let error, let token):
+            case let .rejected(error, token):
                 token.consumed = true
                 root.reject(error)
             }
@@ -203,7 +203,7 @@ public func when<T, PromiseIterator: IteratorProtocol>(fulfilled promiseIterator
 
         dequeue()
     }
-        
+
     dequeue()
 
     return root.promise
@@ -214,18 +214,18 @@ public func when<T, PromiseIterator: IteratorProtocol>(fulfilled promiseIterator
 
  `when(fulfilled:)` rejects as soon as one of the provided promises rejects. `when(resolved:)` waits on all provided promises and **never** rejects.
 
-     when(resolved: promise1, promise2, promise3).then { results in
-         for result in results where case .fulfilled(let value) {
-            //…
-         }
-     }.catch { error in
-         // invalid! Never rejects
-     }
+ when(resolved: promise1, promise2, promise3).then { results in
+ for result in results where case .fulfilled(let value) {
+ //…
+ }
+ }.catch { error in
+ // invalid! Never rejects
+ }
 
  - Returns: A new promise that resolves once all the provided promises resolve.
  - Warning: The returned promise can *not* be rejected.
  - Note: Any promises that error are implicitly consumed, your UnhandledErrorHandler will not be called.
-*/
+ */
 public func when<T>(resolved promises: Promise<T>...) -> Promise<[Result<T>]> {
     return when(resolved: promises)
 }
@@ -237,11 +237,11 @@ public func when<T>(resolved promises: [Promise<T>]) -> Promise<[Result<T>]> {
     var countdown = promises.count
     let barrier = DispatchQueue(label: "org.promisekit.barrier.join", attributes: .concurrent)
 
-    return Promise { fulfill, reject in
+    return Promise { fulfill, _ in
         for promise in promises {
             promise.state.pipe { resolution in
-                if case .rejected(_, let token) = resolution {
-                    token.consumed = true  // all errors are implicitly consumed
+                if case let .rejected(_, token) = resolution {
+                    token.consumed = true // all errors are implicitly consumed
                 }
                 var done = false
                 barrier.sync(flags: .barrier) {

@@ -100,15 +100,18 @@ class DashiAPI {
      */
     public static func uploadVideoMetaData(video: Video) -> Promise<JSON> {
         let parameters: Parameters = [
-            "started": video.getStarted(),
+            "started": DateConv.toString(date: video.getStarted()),
             "length": video.getLength(),
             "size": video.getSize(),
         ]
 
+        print("id ")
+        print(video.id)
+
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(API_ROOT + "/Videos/" + String(video.getId()), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
+            Alamofire.request(API_ROOT + "/Account/Videos/" + String(video.getId()), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
                 return JSON(value)
             }
         }
@@ -124,15 +127,19 @@ class DashiAPI {
      *  @param video The video object (only the content and ID will be used, other metadata will be ignored)
      *  @return The JSON response from the server
      */
-    public static func uploadVideoContent(video: Video, offset: Int) -> Promise<JSON> {
-        let parameters: Parameters = [
-            "offset": offset,
-        ]
+    public static func uploadVideoContent(video: Video, offset: Int? = nil) -> Promise<JSON> {
+        var url = API_ROOT + "/Account/Videos/" + String(video.getId()) + "/content"
+
+        if let o = offset {
+            url = url + "?offset=\(o)"
+        }
+
+        print("url: " + url)
 
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(API_ROOT + "/Videos/" + String(video.getId()), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
+            Alamofire.upload(video.getContent()!, to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
                 return JSON(value)
             }
         }

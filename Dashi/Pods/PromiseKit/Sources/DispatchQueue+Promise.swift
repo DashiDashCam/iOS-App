@@ -4,11 +4,11 @@ extension DispatchQueue {
     /**
      Submits a block for asynchronous execution on a dispatch queue.
 
-         DispatchQueue.global().promise {
-            try md5(input)
-         }.then { md5 in
-            //…
-         }
+     DispatchQueue.global().promise {
+     try md5(input)
+     }.then { md5 in
+     //…
+     }
 
      - Parameter body: The closure that resolves this promise.
      - Returns: A new promise resolved by the result of the provided closure.
@@ -32,7 +32,7 @@ extension DispatchQueue {
 
     /// Unavailable due to Swift compiler issues
     @available(*, unavailable)
-    public final func promise<T>(group: DispatchGroup? = nil, qos: DispatchQoS = .default, flags: DispatchWorkItemFlags = [], execute body: () throws -> Promise<T>) -> Promise<T> { fatalError() }
+    public final func promise<T>(group _: DispatchGroup? = nil, qos _: DispatchQoS = .default, flags _: DispatchWorkItemFlags = [], execute _: () throws -> Promise<T>) -> Promise<T> { fatalError() }
 
     /**
      The default queue for all handlers.
@@ -42,7 +42,7 @@ extension DispatchQueue {
      - SeeAlso: `PMKDefaultDispatchQueue()`
      - SeeAlso: `PMKSetDefaultDispatchQueue()`
      */
-    class public final var `default`: DispatchQueue {
+    public final class var `default`: DispatchQueue {
         get {
             return __PMKDefaultDispatchQueue()
         }
