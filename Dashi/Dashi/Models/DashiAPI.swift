@@ -74,14 +74,14 @@ class DashiAPI {
         }.then { headers in
             Alamofire.request(API_ROOT + "/Account/Videos", headers: headers).validate().responseJSON(with: .response).then { value -> [Video] in
                 var videos: [Video] = []
-
+                print(value)
                 let data = JSON(value).array
-                for datum in data! {
+                for datum in (data)! {
                     videos.append(Video(video: datum))
                 }
-
+                print("hellp")
                 return videos
-            }
+                }
         }
     }
 

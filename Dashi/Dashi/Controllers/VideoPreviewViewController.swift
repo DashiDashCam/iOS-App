@@ -140,6 +140,7 @@ class VideoPreviewViewController: UIViewController {
 
         DashiAPI.uploadVideoMetaData(video: currentVideo).then { value -> Void in
             print(value)
+            self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
             //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
             //                print(value)
             //            }.catch {
@@ -202,6 +203,7 @@ class VideoPreviewViewController: UIViewController {
         video.setValue(currentVideo.getSize(), forKey: "size")
         do {
             try managedContext.save()
+            self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }

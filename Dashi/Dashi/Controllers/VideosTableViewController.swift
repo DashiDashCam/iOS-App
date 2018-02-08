@@ -10,7 +10,7 @@ import UIKit
 import Photos
 import CoreMedia
 import CoreData
-
+import PromiseKit
 protocol MediaCollectionDelegateProtocol {
     func mediaSelected(selectedAssets: [String: PHAsset])
 }
@@ -34,7 +34,18 @@ class VideosTableViewController: UITableViewController {
     }
 
     override func viewWillAppear(_: Bool) {
-        getVids()
+        //getVids()
+        DashiAPI.getAllVideoMetaData().then { value -> Void in
+            print(value)
+            //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
+            //                print(value)
+            //            }.catch {
+            //                error in print(error)
+            //            }
+            }.catch {
+                error in
+                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+        }
     }
 
     override func didReceiveMemoryWarning() {
