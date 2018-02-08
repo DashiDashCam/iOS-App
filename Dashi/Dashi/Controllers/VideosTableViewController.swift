@@ -22,7 +22,7 @@ class VideosTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
@@ -34,7 +34,7 @@ class VideosTableViewController: UITableViewController {
     }
 
     override func viewWillAppear(_: Bool) {
-        //getVids()
+        // getVids()
         DashiAPI.getAllVideoMetaData().then { value -> Void in
             print(value)
             //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
@@ -42,9 +42,9 @@ class VideosTableViewController: UITableViewController {
             //            }.catch {
             //                error in print(error)
             //            }
-            }.catch {
-                error in
-                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+        }.catch {
+            error in
+            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
         }
     }
 
@@ -66,8 +66,7 @@ class VideosTableViewController: UITableViewController {
     }
 
     func getVids() {
-         var fetchedmeta: [NSManagedObject] = []
-    
+        var fetchedmeta: [NSManagedObject] = []
 
         let managedContext =
             appDelegate?.persistentContainer.viewContext
@@ -75,21 +74,21 @@ class VideosTableViewController: UITableViewController {
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-    fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id"]
+        fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id"]
         // 3
         do {
             fetchedmeta = (try managedContext?.fetch(fetchRequest))!
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
-    
+
         for meta in fetchedmeta {
-            
+
             let id = meta.value(forKey: "id") as! String
             let date = meta.value(forKey: "startDate") as! Date
-            let thumbnailData =  meta.value(forKey: "thumbnail") as! Data
-            let size =  meta.value(forKey: "size") as! Int
-            let length =  meta.value(forKey: "length") as! Int
+            let thumbnailData = meta.value(forKey: "thumbnail") as! Data
+            let size = meta.value(forKey: "size") as! Int
+            let length = meta.value(forKey: "length") as! Int
             // dates.append(video.value(forKeyPath: "startDate") as! Date)
             let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size)
             videos.append(video)
@@ -159,16 +158,15 @@ class VideosTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
-       preview.fileLocation = getUrl(id: videos[row].getId())
-     
+        preview.fileLocation = getUrl(id: videos[row].getId())
     }
-    
+
     func getUrl(id: String) -> URL? {
-       
+
         var content: [NSManagedObject]
         let managedContext =
             appDelegate?.persistentContainer.viewContext
-        
+
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
@@ -181,11 +179,11 @@ class VideosTableViewController: UITableViewController {
             print("Could not fetch. \(error), \(error.localizedDescription)")
             return nil
         }
-        
+
         var contentData = content[0].value(forKey: "videoContent") as! Data
-        let manager=FileManager.default
+        let manager = FileManager.default
         let filename = String(id) + "vid.mp4"
-        let path = NSTemporaryDirectory()+filename
+        let path = NSTemporaryDirectory() + filename
         manager.createFile(atPath: path, contents: contentData, attributes: nil)
         return URL(fileURLWithPath: path)
     }

@@ -75,13 +75,12 @@ class DashiAPI {
             Alamofire.request(API_ROOT + "/Account/Videos", headers: headers).validate().responseJSON(with: .response).then { value -> [Video] in
                 var videos: [Video] = []
                 print(value)
-                let data = JSON(value).array
-                for datum in (data)! {
-                    videos.append(Video(video: datum))
+                let data = JSON(value.0)
+                for datum in data {
+                    videos.append(Video(video: datum.1))
                 }
-                print("hellp")
                 return videos
-                }
+            }
         }
     }
 
@@ -289,12 +288,12 @@ class DashiAPI {
             JSON(value)
         }
     }
-    
+
     /**
      * Used to check if the user is currently logged in.
      * Logged in is defined as the presence of a refresh token.
      */
     public static func isLoggedIn() -> Bool {
-        return self.refreshToken != nil
+        return refreshToken != nil
     }
 }
