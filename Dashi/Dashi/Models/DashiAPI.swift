@@ -15,7 +15,14 @@ import SwiftyJSON
 
 class DashiAPI {
     /** Base URL to be prepended to all routes */
-    private static let API_ROOT = "http://api.dashidashcam.com"
+    private static let API_ROOT: String = {
+        if TARGET_OS_SIMULATOR != 0 {
+            return "http://192.168.33.105"
+        }
+        else {
+            return "http://45.33.31.110"
+        }
+    }()
 
     // TODO: Documentation implies NFC is now accesible on iOS, confirm if this is the case.
     // TODO: Determine if read/write refreshToken to disk is best handled here or externally
@@ -27,6 +34,16 @@ class DashiAPI {
 
     /** The timestamp that the current access token expires at */
     private static var accessTokenExpires: Date?
+
+    private static var sessionManager: SessionManager = {
+        var defaultHeaders = Alamofire.SessionManager.defaultHTTPHeaders
+        defaultHeaders["Host"] = "api.dashidashcam.com"
+        
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = defaultHeaders
+        
+        return Alamofire.SessionManager(configuration: configuration)
+    }()
 
     /**
      *  Convenience function that adds the Authroization header to the given request.
@@ -243,7 +260,8 @@ class DashiAPI {
      *  @return The promise chain (empty or with error for caller to catch)
      */
     private static func login(parameters: Parameters) -> Promise<JSON> {
-        return Alamofire.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, _ -> JSON in
+        print(self.API_ROOT)
+        return self.sessionManager.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, _ -> JSON in
             let json = JSON(value)
 
             self.accessToken = json["access_token"].stringValue
