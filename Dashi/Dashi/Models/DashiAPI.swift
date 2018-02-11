@@ -88,9 +88,14 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(url,method: .get, headers: headers  ).validate().responseJSON(with: .response).then { value -> JSON in
+            Alamofire.request(url, method: .get, headers: headers).validate().responseJSON(with: .response).then { value -> JSON in
                 print(value)
                 return JSON(value)
+            }
+        }.catch { error in
+            // convert the error body to a readable string and print
+            if let e = error as? DashiServiceError {
+                print(String(data: e.body, encoding: .utf8)!)
             }
         }
     }

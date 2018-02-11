@@ -161,7 +161,7 @@ class VideosTableViewController: UITableViewController {
                     print(e.statusCode)
                     print(JSON(e.body))
                 }
-            }}
+        } }
         else {
             preview.fileLocation = getUrlForLocal(id: videos[row].getId())
         }
