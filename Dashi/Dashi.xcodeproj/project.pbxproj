@@ -133,6 +133,7 @@
 		3A11E2068AF2C25990420B88 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				24A187D31FBBA2B5002615A8 /* Recovered References */,
 				BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */,
 				D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */,
 			);
@@ -152,7 +153,6 @@
 			children = (
 				A347FD871F9A9EAF0091973F /* Dashi */,
 				A347FD861F9A9EAF0091973F /* Products */,
-				24A187D31FBBA2B5002615A8 /* Recovered References */,
 				3A11E2068AF2C25990420B88 /* Pods */,
 				3EF5E8C70C77CF745AB68C5A /* Frameworks */,
 			);

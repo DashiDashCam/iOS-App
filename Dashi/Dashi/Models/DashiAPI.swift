@@ -102,7 +102,7 @@ class DashiAPI {
             "started": DateConv.toString(date: video.getStarted()),
             "length": video.getLength(),
             "size": video.getSize(),
-        ]
+            "thumbnail": video.getImageContent()!.base64EncodedString()        ]
 
         print("id ")
         print(video.id)

@@ -20,6 +20,7 @@ class Video {
     var size: Int
     var thumbnail: UIImage!
     var id: String?
+    var inCloud: Bool!
 
     /**
      *  Initializes a Video object. Note that ID is initialized
@@ -58,6 +59,8 @@ class Video {
         started = DateConv.toDate(timestamp: video["started"].stringValue)
         length = video["length"].intValue
         size = video["size"].intValue
+        thumbnail = UIImage(data: Data.init(base64Encoded: video["thumbnail"].stringValue)!)
+        inCloud = true
     }
 
     init(started: Date, imageData: Data, id: String, length: Int, size: Int) {
@@ -66,6 +69,7 @@ class Video {
         thumbnail = UIImage(data: imageData)
         self.length = length
         self.size = size
+        inCloud = false
     }
 
     public func getContent() -> Data? {

@@ -22,7 +22,8 @@ class VideosTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        getVidsFromCloud()
+        getVidsFromLocal()
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
@@ -32,22 +33,8 @@ class VideosTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
-    override func viewWillAppear(_: Bool) {
-        // getVids()
-        DashiAPI.getAllVideoMetaData().then { value -> Void in
-            print(value)
-            //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
-            //                print(value)
-            //            }.catch {
-            //                error in print(error)
-            //            }
-        }.catch {
-            error in
-            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
-        }
-    }
-
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -65,7 +52,22 @@ class VideosTableViewController: UITableViewController {
         return videos.count
     }
 
-    func getVids() {
+    func getVidsFromCloud() {
+        DashiAPI.getAllVideoMetaData().then { value -> Void in
+            self.videos.append(contentsOf: value)
+            self.tableView.reloadData()
+            //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
+            //                print(value)
+            //            }.catch {
+            //                error in print(error)
+            //            }
+            }.catch {
+                error in
+                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+        }
+
+    }
+    func getVidsFromLocal() {
         var fetchedmeta: [NSManagedObject] = []
 
         let managedContext =
@@ -158,10 +160,15 @@ class VideosTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
-        preview.fileLocation = getUrl(id: videos[row].getId())
+        if(videos[row].inCloud){
+            
+        }
+        else{
+            preview.fileLocation = getUrlForLocal(id: videos[row].getId())
+        }
     }
 
-    func getUrl(id: String) -> URL? {
+    func getUrlForLocal(id: String) -> URL? {
 
         var content: [NSManagedObject]
         let managedContext =
