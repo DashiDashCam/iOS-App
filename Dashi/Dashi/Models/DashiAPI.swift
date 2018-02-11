@@ -74,7 +74,6 @@ class DashiAPI {
         }.then { headers in
             Alamofire.request(API_ROOT + "/Account/Videos", headers: headers).validate().responseJSON(with: .response).then { value -> [Video] in
                 var videos: [Video] = []
-                print(value)
                 let data = JSON(value.0)
                 for datum in data {
                     videos.append(Video(video: datum.1))
@@ -89,7 +88,7 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(url, headers: headers).validate().responseJSON(with: .response).then { value -> JSON in
+            Alamofire.request(url,method: .get, headers: headers  ).validate().responseJSON(with: .response).then { value -> JSON in
                 print(value)
                 return JSON(value)
             }

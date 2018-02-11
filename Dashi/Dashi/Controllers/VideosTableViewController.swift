@@ -11,6 +11,7 @@ import Photos
 import CoreMedia
 import CoreData
 import PromiseKit
+import SwiftyJSON
 protocol MediaCollectionDelegateProtocol {
     func mediaSelected(selectedAssets: [String: PHAsset])
 }
@@ -155,8 +156,13 @@ class VideosTableViewController: UITableViewController {
         let preview = segue.destination as! VideoPreviewViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
         if videos[row].inCloud {
-            DashiAPI.downloadVideoContent(video: videos[row])
-        } else {
+            DashiAPI.downloadVideoContent(video: videos[row]).catch { error in
+                if let e = error as? DashiServiceError {
+                    print(e.statusCode)
+                    print(JSON(e.body))
+                }
+            }}
+        else {
             preview.fileLocation = getUrlForLocal(id: videos[row].getId())
         }
     }
