@@ -138,18 +138,18 @@ class VideoPreviewViewController: UIViewController {
     @IBAction func pushToCloud() {
         let currentVideo = Video(started: Date(), asset: asset!)
 
-        DashiAPI.uploadVideoMetaData(video: currentVideo).then { _ -> Void in
-        }.catch { error in
+        DashiAPI.uploadVideoMetaData(video: currentVideo).catch { error in
             if let e = error as? DashiServiceError {
                 // video was successfully uploaded
                 if e.statusCode == 201 {
-                    self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
-
                     // upload video content
-                    DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
-                        print(value)
-                    }.catch {
-                        error in print(error)
+                    DashiAPI.uploadVideoContent(video: currentVideo).catch { error in
+                        if let e = error as? DashiServiceError {
+                            // show success message
+                            if e.statusCode == 200 {
+                                self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
+                            }
+                        }
                     }
                 }
             }

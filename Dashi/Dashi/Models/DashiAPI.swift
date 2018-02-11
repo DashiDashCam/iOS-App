@@ -105,9 +105,6 @@ class DashiAPI {
             "thumbnail": video.getImageContent()!.base64EncodedString(),
         ]
 
-        print("id ")
-        print(video.id)
-
         return firstly {
             self.addAuthToken()
         }.then { headers in
