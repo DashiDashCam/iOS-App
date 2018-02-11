@@ -84,7 +84,16 @@ class DashiAPI {
         }
     }
 
-    public static func downloadVideoContent(id _: Int) {
+    public static func downloadVideoContent(video: Video) -> Promise<JSON> {
+        let url = API_ROOT + "/Account/Videos/" + video.getId() + "/content"
+        return firstly {
+            self.addAuthToken()
+        }.then { headers in
+            Alamofire.request(url, headers: headers).validate().responseJSON(with: .response).then { value -> JSON in
+                print(value)
+                return JSON(value)
+            }
+        }
     }
 
     /**
@@ -102,10 +111,8 @@ class DashiAPI {
             "started": DateConv.toString(date: video.getStarted()),
             "length": video.getLength(),
             "size": video.getSize(),
-            "thumbnail": video.getImageContent()!.base64EncodedString()        ]
-
-        print("id ")
-        print(video.id)
+            "thumbnail": video.getImageContent()!.base64EncodedString(),
+        ]
 
         return firstly {
             self.addAuthToken()

@@ -59,7 +59,7 @@ class Video {
         started = DateConv.toDate(timestamp: video["started"].stringValue)
         length = video["length"].intValue
         size = video["size"].intValue
-        thumbnail = UIImage(data: Data.init(base64Encoded: video["thumbnail"].stringValue)!)
+        thumbnail = UIImage(data: Data(base64Encoded: video["thumbnail"].stringValue)!)
         inCloud = true
     }
 

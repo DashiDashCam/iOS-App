@@ -33,8 +33,7 @@ class VideosTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -56,12 +55,12 @@ class VideosTableViewController: UITableViewController {
         DashiAPI.getAllVideoMetaData().then { value -> Void in
             self.videos.append(contentsOf: value)
             self.tableView.reloadData()
-            }.catch {
-                error in
-                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+        }.catch {
+            error in
+            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
         }
-
     }
+
     func getVidsFromLocal() {
         var fetchedmeta: [NSManagedObject] = []
 
@@ -155,10 +154,9 @@ class VideosTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
-        if(videos[row].inCloud){
-            
-        }
-        else{
+        if videos[row].inCloud {
+            DashiAPI.downloadVideoContent(video: videos[row])
+        } else {
             preview.fileLocation = getUrlForLocal(id: videos[row].getId())
         }
     }
