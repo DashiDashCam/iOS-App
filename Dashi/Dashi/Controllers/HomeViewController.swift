@@ -19,8 +19,8 @@ class HomeViewController: UIViewController {
         // hide navigation bar
         navigationController?.isNavigationBarHidden = true
     }
-    
-    @IBAction func unwindToMenu(segue: UIStoryboardSegue) {}
+
+    @IBAction func unwindToMenu(segue _: UIStoryboardSegue) {}
 
     override func viewWillAppear(_: Bool) {
         navigationController?.isNavigationBarHidden = true
