@@ -89,7 +89,7 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(API_ROOT + "/Account/Videos", headers: headers).validate().responseJSON(with: .response).then { value -> [Video] in
+            self.sessionManager.request(API_ROOT + "/Account/Videos", headers: headers).validate().responseJSON(with: .response).then { value -> [Video] in
                 var videos: [Video] = []
 
                 let data = JSON(value).array
@@ -128,7 +128,7 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(API_ROOT + "/Account/Videos/" + String(video.getId()), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
+            self.sessionManager.request(API_ROOT + "/Account/Videos/" + String(video.getId()), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
                 return JSON(value)
             }
         }
@@ -178,7 +178,7 @@ class DashiAPI {
             self.addAuthToken()
         }.then { headers in
             let url: String = API_ROOT + "/Accounts/" + String(parameters["id"] as! Int)
-            return Alamofire.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
+            return self.sessionManager.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
                 JSON(value)
             }
         }
@@ -208,7 +208,7 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(API_ROOT + "/Account", headers: headers).validate().responseJSON(with: .response).then { value in
+            self.sessionManager.request(API_ROOT + "/Account", headers: headers).validate().responseJSON(with: .response).then { value in
                 return Account(account: JSON(value))
             }
         }
@@ -260,7 +260,6 @@ class DashiAPI {
      *  @return The promise chain (empty or with error for caller to catch)
      */
     private static func login(parameters: Parameters) -> Promise<JSON> {
-        print(self.API_ROOT)
         return self.sessionManager.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, _ -> JSON in
             let json = JSON(value)
 
@@ -280,7 +279,7 @@ class DashiAPI {
             "refresh_token": self.refreshToken!,
         ]
 
-        return Alamofire.request(API_ROOT + "/oauth/token", method: .delete, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
+        return self.sessionManager.request(API_ROOT + "/oauth/token", method: .delete, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
             // Reset all static variables
             self.accessToken = nil
             self.accessTokenExpires = nil
@@ -303,7 +302,7 @@ class DashiAPI {
             "fullName": fullName,
         ]
 
-        return Alamofire.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
+        return self.sessionManager.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
             JSON(value)
         }
     }
