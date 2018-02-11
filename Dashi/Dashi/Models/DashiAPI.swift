@@ -35,6 +35,7 @@ class DashiAPI {
     /** The timestamp that the current access token expires at */
     private static var accessTokenExpires: Date?
 
+    /** Custom session manager manually adds host header to all requests, which allows us to use IPs */
     private static var sessionManager: SessionManager = {
         var defaultHeaders = Alamofire.SessionManager.defaultHTTPHeaders
         defaultHeaders["Host"] = "api.dashidashcam.com"
