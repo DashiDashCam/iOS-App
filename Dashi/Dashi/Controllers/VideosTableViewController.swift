@@ -56,11 +56,6 @@ class VideosTableViewController: UITableViewController {
         DashiAPI.getAllVideoMetaData().then { value -> Void in
             self.videos.append(contentsOf: value)
             self.tableView.reloadData()
-            //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
-            //                print(value)
-            //            }.catch {
-            //                error in print(error)
-            //            }
             }.catch {
                 error in
                 print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)

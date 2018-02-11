@@ -141,11 +141,11 @@ class VideoPreviewViewController: UIViewController {
         DashiAPI.uploadVideoMetaData(video: currentVideo).then { value -> Void in
             print(value)
             self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
-            //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
-            //                print(value)
-            //            }.catch {
-            //                error in print(error)
-            //            }
+                        DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
+                            print(value)
+                        }.catch {
+                            error in print(error)
+                       }
         }.catch {
             error in
             print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
