@@ -138,8 +138,7 @@ class VideoPreviewViewController: UIViewController {
     @IBAction func pushToCloud() {
         let currentVideo = Video(started: Date(), asset: asset!)
 
-        DashiAPI.uploadVideoMetaData(video: currentVideo).then { value -> Void in
-            print(value)
+        DashiAPI.uploadVideoMetaData(video: currentVideo).then { _ -> Void in
             //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
             //                print(value)
             //            }.catch {
@@ -175,10 +174,9 @@ class VideoPreviewViewController: UIViewController {
 
     // MARK: Helpers
 
-
     // save the video to core data
     func saveVideoToCoreData() {
-         let currentVideo = Video(started: Date(), asset: asset!)
+        let currentVideo = Video(started: Date(), asset: asset!)
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -193,7 +191,7 @@ class VideoPreviewViewController: UIViewController {
 
         let video = NSManagedObject(entity: entity,
                                     insertInto: managedContext)
-       
+
         video.setValue(currentVideo.getId(), forKeyPath: "id")
         video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
         video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
