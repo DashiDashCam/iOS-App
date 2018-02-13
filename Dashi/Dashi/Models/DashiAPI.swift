@@ -83,14 +83,14 @@ class DashiAPI {
         }
     }
 
-    public static func downloadVideoContent(video: Video) -> Promise<JSON> {
+    public static func downloadVideoContent(video: Video) -> Promise<Data> {
         let url = API_ROOT + "/Account/Videos/" + video.getId() + "/content"
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(url, method: .get, headers: headers).validate().responseJSON(with: .response).then { value -> JSON in
-                print(value)
-                return JSON(value)
+            Alamofire.request(url, method: .get, headers: headers).validate().responseData().then { value -> Data in
+            
+                return value
             }
         }.catch { error in
             // convert the error body to a readable string and print
@@ -100,6 +100,7 @@ class DashiAPI {
         }
     }
 
+    
     /**
      *  Uploads a video's metadeta to the user's library. This function is intended
      *  to be used when the user creates a new recording. The metadata portion should

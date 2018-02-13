@@ -156,7 +156,10 @@ class VideosTableViewController: UITableViewController {
         let preview = segue.destination as! VideoPreviewViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
         if videos[row].inCloud {
-            DashiAPI.downloadVideoContent(video: videos[row]).catch { error in
+            DashiAPI.downloadVideoContent(video: videos[row]).then{ val in
+                preview.fileLocation = self.getUrlForCloud(id: self.videos[row].getId(), data: val)
+                
+                }.catch { error in
                 if let e = error as? DashiServiceError {
                     print(e.statusCode)
                     print(JSON(e.body))
@@ -191,6 +194,15 @@ class VideosTableViewController: UITableViewController {
         let filename = String(id) + "vid.mp4"
         let path = NSTemporaryDirectory() + filename
         manager.createFile(atPath: path, contents: contentData, attributes: nil)
+        return URL(fileURLWithPath: path)
+    }
+    
+    func getUrlForCloud(id: String, data: Data) -> URL? {
+        
+        let manager = FileManager.default
+        let filename = String(id) + "vid.mp4"
+        let path = NSTemporaryDirectory() + filename
+        manager.createFile(atPath: path, contents: data, attributes: nil)
         return URL(fileURLWithPath: path)
     }
 }
