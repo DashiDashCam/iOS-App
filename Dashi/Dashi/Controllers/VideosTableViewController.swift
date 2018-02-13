@@ -10,7 +10,7 @@ import UIKit
 import Photos
 import CoreMedia
 import CoreData
-
+import PromiseKit
 protocol MediaCollectionDelegateProtocol {
     func mediaSelected(selectedAssets: [String: PHAsset])
 }
@@ -22,7 +22,8 @@ class VideosTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        getVidsFromCloud()
+        getVidsFromLocal()
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
@@ -31,10 +32,6 @@ class VideosTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-
-    override func viewWillAppear(_: Bool) {
-        getVids()
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,9 +51,23 @@ class VideosTableViewController: UITableViewController {
         return videos.count
     }
 
-    func getVids() {
-         var fetchedmeta: [NSManagedObject] = []
-    
+    func getVidsFromCloud() {
+        DashiAPI.getAllVideoMetaData().then { value -> Void in
+            self.videos.append(contentsOf: value)
+            self.tableView.reloadData()
+            //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
+            //                print(value)
+            //            }.catch {
+            //                error in print(error)
+            //            }
+        }.catch {
+            error in
+            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+        }
+    }
+
+    func getVidsFromLocal() {
+        var fetchedmeta: [NSManagedObject] = []
 
         let managedContext =
             appDelegate?.persistentContainer.viewContext
@@ -64,21 +75,21 @@ class VideosTableViewController: UITableViewController {
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-    fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id"]
+        fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id"]
         // 3
         do {
             fetchedmeta = (try managedContext?.fetch(fetchRequest))!
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
-    
+
         for meta in fetchedmeta {
-            
+
             let id = meta.value(forKey: "id") as! String
             let date = meta.value(forKey: "startDate") as! Date
-            let thumbnailData =  meta.value(forKey: "thumbnail") as! Data
-            let size =  meta.value(forKey: "size") as! Int
-            let length =  meta.value(forKey: "length") as! Int
+            let thumbnailData = meta.value(forKey: "thumbnail") as! Data
+            let size = meta.value(forKey: "size") as! Int
+            let length = meta.value(forKey: "length") as! Int
             // dates.append(video.value(forKeyPath: "startDate") as! Date)
             let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size)
             videos.append(video)
@@ -148,16 +159,19 @@ class VideosTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
-       preview.fileLocation = getUrl(id: videos[row].getId())
-     
+        if videos[row].inCloud {
+
+        } else {
+            preview.fileLocation = getUrlForLocal(id: videos[row].getId())
+        }
     }
-    
-    func getUrl(id: String) -> URL? {
-       
+
+    func getUrlForLocal(id: String) -> URL? {
+
         var content: [NSManagedObject]
         let managedContext =
             appDelegate?.persistentContainer.viewContext
-        
+
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
@@ -170,11 +184,11 @@ class VideosTableViewController: UITableViewController {
             print("Could not fetch. \(error), \(error.localizedDescription)")
             return nil
         }
-        
+
         var contentData = content[0].value(forKey: "videoContent") as! Data
-        let manager=FileManager.default
+        let manager = FileManager.default
         let filename = String(id) + "vid.mp4"
-        let path = NSTemporaryDirectory()+filename
+        let path = NSTemporaryDirectory() + filename
         manager.createFile(atPath: path, contents: contentData, attributes: nil)
         return URL(fileURLWithPath: path)
     }

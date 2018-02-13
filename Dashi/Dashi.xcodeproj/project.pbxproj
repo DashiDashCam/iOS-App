@@ -20,11 +20,11 @@
 		A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */; };
 		A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A347FD881F9A9EAF0091973F /* AppDelegate.swift */; };
 		A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8F1F9A9EAF0091973F /* Assets.xcassets */; };
+		A3719AD6202FEB9100E07AA4 /* IMG_1800.MOV in Resources */ = {isa = PBXBuildFile; fileRef = A3F9330F201FEFB9000C173B /* IMG_1800.MOV */; };
 		A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */; };
 		A3CD1C7F1FABC8450061FEAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7A1FABC8450061FEAB /* Main.storyboard */; };
 		A3CD1C801FABC8450061FEAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7C1FABC8450061FEAB /* LaunchScreen.storyboard */; };
 		A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7E1FABC8450061FEAB /* Base.lproj */; };
-		A3F93310201FEFB9000C173B /* IMG_1800.MOV in Resources */ = {isa = PBXBuildFile; fileRef = A3F9330F201FEFB9000C173B /* IMG_1800.MOV */; };
 		A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */; };
 		D86D7481201E8E8000F62F4D /* DateConv.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86D7480201E8E8000F62F4D /* DateConv.swift */; };
 		D889C4261FC368280082052A /* DashiAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D889C4251FC368280082052A /* DashiAPI.swift */; };
@@ -133,6 +133,7 @@
 		3A11E2068AF2C25990420B88 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				24A187D31FBBA2B5002615A8 /* Recovered References */,
 				BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */,
 				D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */,
 			);
@@ -152,7 +153,6 @@
 			children = (
 				A347FD871F9A9EAF0091973F /* Dashi */,
 				A347FD861F9A9EAF0091973F /* Products */,
-				24A187D31FBBA2B5002615A8 /* Recovered References */,
 				3A11E2068AF2C25990420B88 /* Pods */,
 				3EF5E8C70C77CF745AB68C5A /* Frameworks */,
 			);
@@ -242,10 +242,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3719AD6202FEB9100E07AA4 /* IMG_1800.MOV in Resources */,
 				A3CD1C801FABC8450061FEAB /* LaunchScreen.storyboard in Resources */,
 				A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */,
 				A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */,
-				A3F93310201FEFB9000C173B /* IMG_1800.MOV in Resources */,
 				A3CD1C7F1FABC8450061FEAB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

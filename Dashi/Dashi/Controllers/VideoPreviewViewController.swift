@@ -138,16 +138,21 @@ class VideoPreviewViewController: UIViewController {
     @IBAction func pushToCloud() {
         let currentVideo = Video(started: Date(), asset: asset!)
 
-        DashiAPI.uploadVideoMetaData(video: currentVideo).then { value -> Void in
-            print(value)
-            //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
-            //                print(value)
-            //            }.catch {
-            //                error in print(error)
-            //            }
-        }.catch {
-            error in
-            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+        DashiAPI.uploadVideoMetaData(video: currentVideo).catch { error in
+            if let e = error as? DashiServiceError {
+                // video was successfully uploaded
+                if e.statusCode == 201 {
+                    // upload video content
+                    DashiAPI.uploadVideoContent(video: currentVideo).catch { error in
+                        if let e = error as? DashiServiceError {
+                            // show success message
+                            if e.statusCode == 200 {
+                                self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -175,10 +180,9 @@ class VideoPreviewViewController: UIViewController {
 
     // MARK: Helpers
 
-
     // save the video to core data
     func saveVideoToCoreData() {
-         let currentVideo = Video(started: Date(), asset: asset!)
+        let currentVideo = Video(started: Date(), asset: asset!)
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -193,7 +197,7 @@ class VideoPreviewViewController: UIViewController {
 
         let video = NSManagedObject(entity: entity,
                                     insertInto: managedContext)
-       
+
         video.setValue(currentVideo.getId(), forKeyPath: "id")
         video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
         video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
@@ -202,6 +206,7 @@ class VideoPreviewViewController: UIViewController {
         video.setValue(currentVideo.getSize(), forKey: "size")
         do {
             try managedContext.save()
+            self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }

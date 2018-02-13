@@ -31,7 +31,7 @@ class SignupViewController: UIViewController {
 
     @IBAction func signUpPushed(_: Any) {
         if password.text! == confirm.text! {
-            DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then {_ -> Void in
+            DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then { _ -> Void in
                 self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
             }.catch { error in
                 if let e = error as? DashiServiceError {

@@ -92,12 +92,11 @@ class DashiAPI {
         }.then { headers in
             self.sessionManager.request(API_ROOT + "/Account/Videos", headers: headers).validate().responseJSON(with: .response).then { value -> [Video] in
                 var videos: [Video] = []
-
-                let data = JSON(value).array
-                for datum in data! {
-                    videos.append(Video(video: datum))
+                print(value)
+                let data = JSON(value.0)
+                for datum in data {
+                    videos.append(Video(video: datum.1))
                 }
-
                 return videos
             }
         }
@@ -121,10 +120,8 @@ class DashiAPI {
             "started": DateConv.toString(date: video.getStarted()),
             "length": video.getLength(),
             "size": video.getSize(),
+            "thumbnail": video.getImageContent()!.base64EncodedString(),
         ]
-
-        print("id ")
-        print(video.id)
 
         return firstly {
             self.addAuthToken()
@@ -307,12 +304,12 @@ class DashiAPI {
             JSON(value)
         }
     }
-    
+
     /**
      * Used to check if the user is currently logged in.
      * Logged in is defined as the presence of a refresh token.
      */
     public static func isLoggedIn() -> Bool {
-        return self.refreshToken != nil
+        return refreshToken != nil
     }
 }
