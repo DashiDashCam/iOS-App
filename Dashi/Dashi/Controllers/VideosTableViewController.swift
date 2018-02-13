@@ -11,6 +11,7 @@ import Photos
 import CoreMedia
 import CoreData
 import PromiseKit
+import SwiftyJSON
 protocol MediaCollectionDelegateProtocol {
     func mediaSelected(selectedAssets: [String: PHAsset])
 }
@@ -55,11 +56,6 @@ class VideosTableViewController: UITableViewController {
         DashiAPI.getAllVideoMetaData().then { value -> Void in
             self.videos.append(contentsOf: value)
             self.tableView.reloadData()
-            //            DashiAPI.uploadVideoContent(video: currentVideo).then { value -> Void in
-            //                print(value)
-            //            }.catch {
-            //                error in print(error)
-            //            }
         }.catch {
             error in
             print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
@@ -160,8 +156,16 @@ class VideosTableViewController: UITableViewController {
         let preview = segue.destination as! VideoPreviewViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
         if videos[row].inCloud {
-
-        } else {
+            DashiAPI.downloadVideoContent(video: videos[row]).then{ val in
+                preview.fileLocation = self.getUrlForCloud(id: self.videos[row].getId(), data: val)
+                
+                }.catch { error in
+                if let e = error as? DashiServiceError {
+                    print(e.statusCode)
+                    print(JSON(e.body))
+                }
+        } }
+        else {
             preview.fileLocation = getUrlForLocal(id: videos[row].getId())
         }
     }
@@ -190,6 +194,15 @@ class VideosTableViewController: UITableViewController {
         let filename = String(id) + "vid.mp4"
         let path = NSTemporaryDirectory() + filename
         manager.createFile(atPath: path, contents: contentData, attributes: nil)
+        return URL(fileURLWithPath: path)
+    }
+    
+    func getUrlForCloud(id: String, data: Data) -> URL? {
+        
+        let manager = FileManager.default
+        let filename = String(id) + "vid.mp4"
+        let path = NSTemporaryDirectory() + filename
+        manager.createFile(atPath: path, contents: data, attributes: nil)
         return URL(fileURLWithPath: path)
     }
 }
