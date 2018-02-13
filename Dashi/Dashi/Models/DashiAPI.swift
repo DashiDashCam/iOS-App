@@ -18,8 +18,7 @@ class DashiAPI {
     private static let API_ROOT: String = {
         if TARGET_OS_SIMULATOR != 0 {
             return "http://192.168.33.105"
-        }
-        else {
+        } else {
             return "http://45.33.31.110"
         }
     }()
@@ -39,10 +38,10 @@ class DashiAPI {
     private static var sessionManager: SessionManager = {
         var defaultHeaders = Alamofire.SessionManager.defaultHTTPHeaders
         defaultHeaders["Host"] = "api.dashidashcam.com"
-        
+
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = defaultHeaders
-        
+
         return Alamofire.SessionManager(configuration: configuration)
     }()
 
@@ -157,6 +156,8 @@ class DashiAPI {
             Alamofire.upload(video.getContent()!, to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
                 return JSON(value)
             }
+        }.catch { error in
+            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
         }
     }
 
@@ -258,7 +259,7 @@ class DashiAPI {
      *  @return The promise chain (empty or with error for caller to catch)
      */
     private static func login(parameters: Parameters) -> Promise<JSON> {
-        return self.sessionManager.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, _ -> JSON in
+        return sessionManager.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, _ -> JSON in
             let json = JSON(value)
 
             self.accessToken = json["access_token"].stringValue
@@ -277,7 +278,7 @@ class DashiAPI {
             "refresh_token": self.refreshToken!,
         ]
 
-        return self.sessionManager.request(API_ROOT + "/oauth/token", method: .delete, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
+        return sessionManager.request(API_ROOT + "/oauth/token", method: .delete, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
             // Reset all static variables
             self.accessToken = nil
             self.accessTokenExpires = nil
@@ -300,7 +301,7 @@ class DashiAPI {
             "fullName": fullName,
         ]
 
-        return self.sessionManager.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
+        return sessionManager.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
             JSON(value)
         }
     }

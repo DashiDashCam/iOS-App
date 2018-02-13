@@ -138,8 +138,13 @@ class VideoPreviewViewController: UIViewController {
     @IBAction func pushToCloud() {
         let currentVideo = Video(started: Date(), asset: asset!)
 
-        DashiAPI.uploadVideoMetaData(video: currentVideo).catch { error in
+        DashiAPI.uploadVideoMetaData(video: currentVideo).then { _ in
+            print("THEN!")
+        }.catch { error in
+            print("CATCH")
             if let e = error as? DashiServiceError {
+                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+
                 // video was successfully uploaded
                 if e.statusCode == 201 {
                     // upload video content
