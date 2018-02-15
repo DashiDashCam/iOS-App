@@ -10,43 +10,30 @@ import UIKit
 import Photos
 import CoreMedia
 import CoreData
-extension CMTime {
-    var durationText: String {
-        let totalSeconds = CMTimeGetSeconds(self)
-        let seconds: Int = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
-        return String(format: "%02i sec", seconds)
-    }
-}
-
+import PromiseKit
+import SwiftyJSON
 protocol MediaCollectionDelegateProtocol {
     func mediaSelected(selectedAssets: [String: PHAsset])
 }
 
 class VideosTableViewController: UITableViewController {
-    var assets = [PHAsset]()
-    var selectedAssets = [String: PHAsset]()
-    var delegate: MediaCollectionDelegateProtocol!
-    var videos: [NSManagedObject] = []
-    var dates: [Date] = []
-    var urls: [URL]=[]
+    var videos: [Video] = []
+    let appDelegate =
+        UIApplication.shared.delegate as? AppDelegate
+
     override func viewDidLoad() {
         super.viewDidLoad()
-      getVids()
-
+        getVidsFromCloud()
+        getVidsFromLocal()
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
         // Uncomment the following line to preserve selection between presentations
-     //   self.clearsSelectionOnViewWillAppear = false
+        //   self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
-    override func viewDidAppear(_: Bool) {
-        getVids()
-    }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -62,69 +49,64 @@ class VideosTableViewController: UITableViewController {
 
     override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return videos.count;
+        return videos.count
     }
 
-    func fetchAssets() {
-        PhotoManager().fetchAssetsFromLibrary { success, assets in
-            if success {
-                self.assets = assets!
-            }
+    func getVidsFromCloud() {
+        DashiAPI.getAllVideoMetaData().then { value -> Void in
+            self.videos.append(contentsOf: value)
+            self.tableView.reloadData()
+        }.catch {
+            error in
+            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
         }
     }
 
-    func getVids(){
-        //1
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        let manager=FileManager.default
-        
+    func getVidsFromLocal() {
+        var fetchedmeta: [NSManagedObject] = []
+
         let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        //2
+            appDelegate?.persistentContainer.viewContext
+
+        // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        
-        //3
+        fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id"]
+        // 3
         do {
-            videos = try managedContext.fetch(fetchRequest)
+            fetchedmeta = (try managedContext?.fetch(fetchRequest))!
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
-        var i = 0;
-        for video in videos{
-            let data=video.value(forKeyPath: "videoContent") as! Data
-            //dates.append(video.value(forKeyPath: "startDate") as! Date)
-            let filename = String(i) + "vid.mp4"
-            let path = NSTemporaryDirectory()+filename
-            manager.createFile(atPath: path, contents: data, attributes: nil)
-            urls.append(URL(fileURLWithPath: path))
-            i = i+1
+
+        for meta in fetchedmeta {
+
+            let id = meta.value(forKey: "id") as! String
+            let date = meta.value(forKey: "startDate") as! Date
+            let thumbnailData = meta.value(forKey: "thumbnail") as! Data
+            let size = meta.value(forKey: "size") as! Int
+            let length = meta.value(forKey: "length") as! Int
+            // dates.append(video.value(forKeyPath: "startDate") as! Date)
+            let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size)
+            videos.append(video)
             //  videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
         }
     }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row=indexPath.row
+        let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
-        let asset2 = AVAsset(url: urls[row])
-        let imgGenerator = AVAssetImageGenerator(asset: asset2)
-        
-        let cgImage =  try! imgGenerator.copyCGImage(at: CMTimeMake(0, 6), actualTime: nil)
         // !! check the error before proceeding
-        let thumbnail = UIImage.init(cgImage: cgImage )
-       // let imageView = UIImageView(image: uiImage)
-        //let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
+        // let imageView = UIImageView(image: uiImage)
+        // let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
         // Configure the cell...
         let dateFormatter = DateFormatter()
-        
+
         // US English Locale (en_US)
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .medium // Jan 2, 2001
-        cell.thumbnail.image = thumbnail
-        cell.date.text =  dateFormatter.string(from: Date()) // Jan 2, 2001
+        cell.thumbnail.image = videos[row].getThumbnail()
+        cell.date.text = dateFormatter.string(from: videos[row].getStarted()) // Jan 2, 2001
         cell.location.text = "Location"
 
         return cell
@@ -165,7 +147,6 @@ class VideosTableViewController: UITableViewController {
      }
      */
 
-
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -174,8 +155,54 @@ class VideosTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
-        let fileURL = urls[row]
-        preview.fileLocation = fileURL
+        if videos[row].inCloud {
+            DashiAPI.downloadVideoContent(video: videos[row]).then{ val in
+                preview.fileLocation = self.getUrlForCloud(id: self.videos[row].getId(), data: val)
+                
+                }.catch { error in
+                if let e = error as? DashiServiceError {
+                    print(e.statusCode)
+                    print(JSON(e.body))
+                }
+        } }
+        else {
+            preview.fileLocation = getUrlForLocal(id: videos[row].getId())
+        }
+    }
 
+    func getUrlForLocal(id: String) -> URL? {
+
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
+
+        // 2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        // 3
+        do {
+            content = (try managedContext?.fetch(fetchRequest))!
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+            return nil
+        }
+
+        var contentData = content[0].value(forKey: "videoContent") as! Data
+        let manager = FileManager.default
+        let filename = String(id) + "vid.mp4"
+        let path = NSTemporaryDirectory() + filename
+        manager.createFile(atPath: path, contents: contentData, attributes: nil)
+        return URL(fileURLWithPath: path)
+    }
+    
+    func getUrlForCloud(id: String, data: Data) -> URL? {
+        
+        let manager = FileManager.default
+        let filename = String(id) + "vid.mp4"
+        let path = NSTemporaryDirectory() + filename
+        manager.createFile(atPath: path, contents: data, attributes: nil)
+        return URL(fileURLWithPath: path)
     }
 }
