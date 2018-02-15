@@ -194,7 +194,20 @@ class VideoPreviewViewController: UIViewController {
         let entity =
             NSEntityDescription.entity(forEntityName: "Videos",
                                        in: managedContext)!
-
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", currentVideo.getId())
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+    
+        }
+        
+        if result.isEmpty{
         let video = NSManagedObject(entity: entity,
                                     insertInto: managedContext)
 
@@ -211,7 +224,10 @@ class VideoPreviewViewController: UIViewController {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-
+        else{
+             self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
+        }
+    }
     // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
