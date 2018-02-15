@@ -11,36 +11,36 @@ import Alamofire
 import SwiftyJSON
 
 class Account {
-    
+
     // Protected members
     var created: Date
     var id: Int
-    
+
     // Public members
     public var fullName: String
     public var email: String
-    
+
     init(account: JSON) {
-        self.fullName = account["fullName"].stringValue
-        self.created = DateConv.toDate(timestamp: account["created"].stringValue)
-        self.id = account["id"].intValue
-        self.email = account["email"].stringValue
+        fullName = account["fullName"].stringValue
+        created = DateConv.toDate(timestamp: account["created"].stringValue)
+        id = account["id"].intValue
+        email = account["email"].stringValue
     }
-    
+
     public func toParameters() -> Parameters {
         let parameters: Parameters = [
             "id": self.id,
             "fullName": self.fullName,
-            "email": self.email
+            "email": self.email,
         ]
         return parameters
     }
-    
+
     public func getCreated() -> Date {
-        return self.created
+        return created
     }
-    
+
     public func getId() -> Int {
-        return self.id
+        return id
     }
 }

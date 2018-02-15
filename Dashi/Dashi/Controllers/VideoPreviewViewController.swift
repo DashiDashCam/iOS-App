@@ -10,6 +10,7 @@ import UIKit
 import AVKit
 import AVFoundation
 import CoreData
+import PromiseKit
 
 class VideoPreviewViewController: UIViewController {
 
@@ -135,11 +136,28 @@ class VideoPreviewViewController: UIViewController {
     }
 
     @IBAction func pushToCloud() {
-        DashiAPI.uploadVideoContent(video: Video(started: Date(), content: asset!), offset: 0).then { value -> Void in
+        let currentVideo = Video(started: Date(), asset: asset!)
 
-            print("----------")
-            print(value)
-            print("----------")
+        DashiAPI.uploadVideoMetaData(video: currentVideo).then { _ in
+            print("THEN!")
+        }.catch { error in
+            print("CATCH")
+            if let e = error as? DashiServiceError {
+                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+
+                // video was successfully uploaded
+                if e.statusCode == 201 {
+                    // upload video content
+                    DashiAPI.uploadVideoContent(video: currentVideo).catch { error in
+                        if let e = error as? DashiServiceError {
+                            // show success message
+                            if e.statusCode == 200 {
+                                self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -167,20 +185,9 @@ class VideoPreviewViewController: UIViewController {
 
     // MARK: Helpers
 
-    // save the video to the user's library
-    func saveVideoToUserLibrary() {
-        PhotoManager().saveVideoToUserLibrary(fileUrl: self.fileLocation!) { success, error in
-            if success {
-                self.showAlert(title: "Success", message: "Video saved.", dismiss: true)
-            } else {
-                self.showAlert(title: "Error", message: (error?.localizedDescription)!, dismiss: false)
-            }
-        }
-    }
-
     // save the video to core data
     func saveVideoToCoreData() {
-
+        let currentVideo = Video(started: Date(), asset: asset!)
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -192,23 +199,40 @@ class VideoPreviewViewController: UIViewController {
         let entity =
             NSEntityDescription.entity(forEntityName: "Videos",
                                        in: managedContext)!
-
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", currentVideo.getId())
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+    
+        }
+        
+        if result.isEmpty{
         let video = NSManagedObject(entity: entity,
                                     insertInto: managedContext)
 
-        let videoData = NSData(contentsOf: (self.fileLocation)!)
-
-        video.setValue(2, forKeyPath: "id")
-        video.setValue(videoData, forKeyPath: "videoContent")
-        video.setValue(Date(), forKeyPath: "startDate")
-
+        video.setValue(currentVideo.getId(), forKeyPath: "id")
+        video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
+        video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
+        video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
+        video.setValue(currentVideo.getLength(), forKeyPath: "length")
+        video.setValue(currentVideo.getSize(), forKey: "size")
         do {
             try managedContext.save()
+            self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-
+        else{
+             self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
+        }
+    }
     // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)

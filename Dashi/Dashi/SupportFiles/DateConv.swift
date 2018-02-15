@@ -9,27 +9,27 @@
 import Foundation
 
 struct DateConv {
-    
-    private static var dateFormatter: DateFormatter? = nil
-    
+
+    private static var dateFormatter: DateFormatter?
+
     private static func initialize() {
-        self.dateFormatter = DateFormatter()
-        self.dateFormatter!.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter = DateFormatter()
+        dateFormatter!.dateFormat = "yyyy-MM-dd HH:mm:ss"
     }
-    
+
     public static func toDate(timestamp: String) -> Date {
-        if self.dateFormatter == nil {
-            self.initialize()
+        if dateFormatter == nil {
+            initialize()
         }
-        
-        return self.dateFormatter!.date(from: timestamp)!
+
+        return dateFormatter!.date(from: timestamp)!
     }
-    
+
     public static func toString(date: Date) -> String {
-        if self.dateFormatter == nil {
-            self.initialize()
+        if dateFormatter == nil {
+            initialize()
         }
-        
-        return self.dateFormatter!.string(from: date)
+
+        return dateFormatter!.string(from: date)
     }
 }

@@ -16,7 +16,13 @@ import CoreData
 
 class DashiAPI {
     /** Base URL to be prepended to all routes */
-    private static let API_ROOT = "http://api.dashidashcam.com"
+    private static let API_ROOT: String = {
+        if TARGET_OS_SIMULATOR != 0 {
+            return "http://192.168.33.105"
+        } else {
+            return "http://45.33.31.110"
+        }
+    }()
 
     // TODO: Documentation implies NFC is now accesible on iOS, confirm if this is the case.
     // TODO: Determine if read/write refreshToken to disk is best handled here or externally
@@ -28,6 +34,17 @@ class DashiAPI {
 
     /** The timestamp that the current access token expires at */
     private static var accessTokenExpires: Date?
+
+    /** Custom session manager manually adds host header to all requests, which allows us to use IPs */
+    private static var sessionManager: SessionManager = {
+        var defaultHeaders = Alamofire.SessionManager.defaultHTTPHeaders
+        defaultHeaders["Host"] = "api.dashidashcam.com"
+
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = defaultHeaders
+
+        return Alamofire.SessionManager(configuration: configuration)
+    }()
 
     /**
      *  Convenience function that adds the Authroization header to the given request.
@@ -198,22 +215,35 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(API_ROOT + "/Account/Videos", headers: headers).validate().responseJSON(with: .response).then { value -> [Video] in
+            self.sessionManager.request(API_ROOT + "/Account/Videos", headers: headers).validate().responseJSON(with: .response).then { value -> [Video] in
                 var videos: [Video] = []
-
-                let data = JSON(value).array
-                for datum in data! {
-                    videos.append(Video(video: datum))
+                let data = JSON(value.0)
+                for datum in data {
+                    videos.append(Video(video: datum.1))
                 }
-
                 return videos
             }
         }
     }
 
-    public static func downloadVideoContent(id _: Int) {
+    public static func downloadVideoContent(video: Video) -> Promise<Data> {
+        let url = API_ROOT + "/Account/Videos/" + video.getId() + "/content"
+        return firstly {
+            self.addAuthToken()
+        }.then { headers in
+            Alamofire.request(url, method: .get, headers: headers).validate().responseData().then { value -> Data in
+            
+                return value
+            }
+        }.catch { error in
+            // convert the error body to a readable string and print
+            if let e = error as? DashiServiceError {
+                print(String(data: e.body, encoding: .utf8)!)
+            }
+        }
     }
 
+    
     /**
      *  Uploads a video's metadeta to the user's library. This function is intended
      *  to be used when the user creates a new recording. The metadata portion should
@@ -226,15 +256,16 @@ class DashiAPI {
      */
     public static func uploadVideoMetaData(video: Video) -> Promise<JSON> {
         let parameters: Parameters = [
-            "started": video.getStarted(),
+            "started": DateConv.toString(date: video.getStarted()),
             "length": video.getLength(),
             "size": video.getSize(),
+            "thumbnail": video.getImageContent()!.base64EncodedString(),
         ]
 
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(API_ROOT + "/Videos/" + String(video.getId()), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
+            self.sessionManager.request(API_ROOT + "/Account/Videos/" + String(video.getId()), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
                 return JSON(value)
             }
         }
@@ -250,17 +281,23 @@ class DashiAPI {
      *  @param video The video object (only the content and ID will be used, other metadata will be ignored)
      *  @return The JSON response from the server
      */
-    public static func uploadVideoContent(video: Video, offset: Int) -> Promise<JSON> {
-        let parameters: Parameters = [
-            "offset": offset,
-        ]
+    public static func uploadVideoContent(video: Video, offset: Int? = nil) -> Promise<JSON> {
+        var url = API_ROOT + "/Account/Videos/" + String(video.getId()) + "/content"
+
+        if let o = offset {
+            url = url + "?offset=\(o)"
+        }
+
+        print("url: " + url)
 
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(API_ROOT + "/Videos/" + String(video.getId()), method: .put, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
+            Alamofire.upload(video.getContent()!, to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
                 return JSON(value)
             }
+        }.catch { error in
+            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
         }
     }
 
@@ -280,7 +317,7 @@ class DashiAPI {
             self.addAuthToken()
         }.then { headers in
             let url: String = API_ROOT + "/Accounts/" + String(parameters["id"] as! Int)
-            return Alamofire.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
+            return self.sessionManager.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseJSON(with: .response).then { value in
                 JSON(value)
             }
         }
@@ -310,7 +347,7 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(API_ROOT + "/Account", headers: headers).validate().responseJSON(with: .response).then { value in
+            self.sessionManager.request(API_ROOT + "/Account", headers: headers).validate().responseJSON(with: .response).then { value in
                 return Account(account: JSON(value))
             }
         }
@@ -362,7 +399,7 @@ class DashiAPI {
      *  @return The promise chain (empty or with error for caller to catch)
      */
     private static func login(parameters: Parameters) -> Promise<JSON> {
-        return Alamofire.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, _ -> JSON in
+        return sessionManager.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, _ -> JSON in
             let json = JSON(value)
 
             self.accessToken = json["access_token"].stringValue
@@ -384,7 +421,7 @@ class DashiAPI {
             "refresh_token": self.refreshToken!,
         ]
 
-        return Alamofire.request(API_ROOT + "/oauth/token", method: .delete, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
+        return sessionManager.request(API_ROOT + "/oauth/token", method: .delete, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
             // Reset all static variables
             self.accessToken = nil
             self.accessTokenExpires = nil
@@ -410,7 +447,7 @@ class DashiAPI {
             "fullName": fullName,
         ]
 
-        return Alamofire.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
+        return sessionManager.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
             let json = JSON(value)
             
             self.accessToken = json["access_token"].stringValue
@@ -431,12 +468,12 @@ class DashiAPI {
             self.refreshToken = nil
         }
     }
-    
+
     /**
      * Used to check if the user is currently logged in.
      * Logged in is defined as the presence of a refresh token.
      */
     public static func isLoggedIn() -> Bool {
-        return self.refreshToken != nil
+        return refreshToken != nil
     }
 }

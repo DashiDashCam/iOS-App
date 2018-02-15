@@ -8,12 +8,12 @@ extension Promise {
      - Parameter body: The closure that is executed when this promise fulfills.
      - Returns: A new promise that resolves when the `AnyPromise` returned from the provided closure resolves. For example:
 
-           URLSession.GET(url).then { (data: NSData) -> AnyPromise in
-               //…
-               return SCNetworkReachability()
-           }.then { _ in
-               //…
-           }
+     URLSession.GET(url).then { (data: NSData) -> AnyPromise in
+     //…
+     return SCNetworkReachability()
+     }.then { _ in
+     //…
+     }
      */
     @discardableResult
     public func then(on q: DispatchQueue = .default, execute body: @escaping (T) throws -> AnyPromise) -> Promise<Any?> {
@@ -25,12 +25,12 @@ extension Promise {
     }
 
     @available(*, unavailable, message: "unwrap the promise")
-    public func then(on: DispatchQueue = .default, execute body: (T) throws -> AnyPromise?) -> Promise<AnyObject?> { fatalError() }
+    public func then(on _: DispatchQueue = .default, execute _: (T) throws -> AnyPromise?) -> Promise<AnyObject?> { fatalError() }
 }
 
 /**
  `firstly` can make chains more readable.
-*/
+ */
 public func firstly(execute body: () throws -> AnyPromise) -> Promise<Any?> {
     return Promise(sealant: { resolve in
         do {

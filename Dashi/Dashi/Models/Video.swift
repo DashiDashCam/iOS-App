@@ -14,28 +14,34 @@ import Arcane
 class Video {
 
     // Protected members
-    var content: AVURLAsset?
+    var asset: AVURLAsset?
     var started: Date
     var length: Int
     var size: Int
+    var thumbnail: UIImage!
     var id: String?
+    var inCloud: Bool!
 
     /**
      *  Initializes a Video object. Note that ID is initialized
      *  from the SHA256 hash of the content of the video
      */
-    init(started: Date, content: AVURLAsset) {
+    init(started: Date, asset: AVURLAsset) {
         do {
             // get the data associated with the video's content and convert it to a string
-            let contentData = try Data(contentsOf: content.url)
+            let contentData = try Data(contentsOf: asset.url)
             let contentString = String(data: contentData, encoding: String.Encoding.ascii)
-
-            length = Int(Float((content.duration.value)) / Float((content.duration.timescale)))
+            contentData.hashValue
+            length = Int(Float((asset.duration.value)) / Float((asset.duration.timescale)))
             size = contentData.count
 
             // hash the video content to produce an ID
             id = Hash.SHA256(contentString!)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
 
+            let cgImage = try! imgGenerator.copyCGImage(at: CMTimeMake(0, 6), actualTime: nil)
+            // !! check the error before proceeding
+            thumbnail = UIImage(cgImage: cgImage)
         } catch let error {
             print("Could not create video object. \(error)")
 
@@ -44,7 +50,7 @@ class Video {
         }
 
         // initialize other instances variables
-        self.content = content
+        self.asset = asset
         self.started = started
     }
 
@@ -53,14 +59,39 @@ class Video {
         started = DateConv.toDate(timestamp: video["started"].stringValue)
         length = video["length"].intValue
         size = video["size"].intValue
+        thumbnail = UIImage(data: Data(base64Encoded: video["thumbnail"].stringValue)!)
+        inCloud = true
     }
 
-    public func setContent(content: AVURLAsset) {
-        self.content = content
+    init(started: Date, imageData: Data, id: String, length: Int, size: Int) {
+        self.id = id
+        self.started = started
+        thumbnail = UIImage(data: imageData)
+        self.length = length
+        self.size = size
+        inCloud = false
     }
 
-    public func getContent() -> AVURLAsset {
-        return content!
+    public func getContent() -> Data? {
+        do {
+            return try Data(contentsOf: asset!.url)
+        } catch let error {
+            print("Could not get video content. \(error)")
+        }
+
+        return nil
+    }
+
+    public func getImageContent() -> Data? {
+        return UIImageJPEGRepresentation(thumbnail, 0.5)
+    }
+
+    public func setAsset(asset: AVURLAsset) {
+        self.asset = asset
+    }
+
+    public func getAsset() -> AVURLAsset {
+        return asset!
     }
 
     public func getStarted() -> Date {
@@ -77,5 +108,9 @@ class Video {
 
     public func getId() -> String {
         return id!
+    }
+
+    public func getThumbnail() -> UIImage {
+        return thumbnail
     }
 }

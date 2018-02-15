@@ -8,7 +8,7 @@ extension Promise {
             return nil
         case .some(.fulfilled):
             return nil
-        case .some(.rejected(let error, _)):
+        case let .some(.rejected(error, _)):
             return error
         }
     }
@@ -48,7 +48,7 @@ extension Promise {
         switch state.get() {
         case .none:
             return nil
-        case .some(.fulfilled(let value)):
+        case let .some(.fulfilled(value)):
             return value
         case .some(.rejected):
             return nil
