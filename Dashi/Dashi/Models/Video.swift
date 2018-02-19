@@ -20,7 +20,7 @@ class Video {
     var size: Int
     var thumbnail: UIImage!
     var id: String?
-    var inCloud: Bool!
+    var storageStat: String!
 
     /**
      *  Initializes a Video object. Note that ID is initialized
@@ -60,7 +60,7 @@ class Video {
         length = video["length"].intValue
         size = video["size"].intValue
         thumbnail = UIImage(data: Data(base64Encoded: video["thumbnail"].stringValue)!)
-        inCloud = true
+        storageStat = "cloud"
     }
 
     init(started: Date, imageData: Data, id: String, length: Int, size: Int) {
@@ -69,7 +69,7 @@ class Video {
         thumbnail = UIImage(data: imageData)
         self.length = length
         self.size = size
-        inCloud = false
+        storageStat = "local"
     }
 
     public func getContent() -> Data? {
@@ -112,5 +112,12 @@ class Video {
 
     public func getThumbnail() -> UIImage {
         return thumbnail
+    }
+    public func getStorageStat() -> String {
+        return storageStat!
+    }
+    
+    public func changeStorageToBoth(){
+        storageStat = "both"
     }
 }

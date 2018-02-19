@@ -18,13 +18,14 @@ protocol MediaCollectionDelegateProtocol {
 
 class VideosTableViewController: UITableViewController {
     var videos: [Video] = []
+    var ids: [String] = []
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        getVidsFromCloud()
         getVidsFromLocal()
+        getVidsFromCloud()
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
@@ -54,7 +55,15 @@ class VideosTableViewController: UITableViewController {
 
     func getVidsFromCloud() {
         DashiAPI.getAllVideoMetaData().then { value -> Void in
-            self.videos.append(contentsOf: value)
+            for video in value{
+                if let index = self.ids.index(of: video.getId()){
+                    self.videos[index].changeStorageToBoth()
+                }
+                else{
+                    self.videos.append(video)
+                }
+            }
+            
             self.tableView.reloadData()
         }.catch {
             error in
@@ -90,6 +99,7 @@ class VideosTableViewController: UITableViewController {
             let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size)
             videos.append(video)
             //  videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
+            ids.append(id)
         }
     }
 
@@ -104,11 +114,11 @@ class VideosTableViewController: UITableViewController {
 
         // US English Locale (en_US)
         dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .medium // Jan 2, 2001
+        dateFormatter.timeStyle = .short // Jan 2, 2001
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted()) // Jan 2, 2001
         cell.location.text = "Location"
-
+        cell.storageIcon.image = UIImage(named: videos[row].getStorageStat())
         return cell
     }
 
@@ -155,7 +165,7 @@ class VideosTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
-        if videos[row].inCloud {
+        if videos[row].getStorageStat() == "cloud" {
             DashiAPI.downloadVideoContent(video: videos[row]).then{ val in
                 preview.fileLocation = self.getUrlForCloud(id: self.videos[row].getId(), data: val)
                 

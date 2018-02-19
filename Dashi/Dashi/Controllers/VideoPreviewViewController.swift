@@ -11,12 +11,13 @@ import AVKit
 import AVFoundation
 import CoreData
 import PromiseKit
+import CoreLocation
 
 class VideoPreviewViewController: UIViewController {
 
     // keys to ensure playability of video
     static let assetKeysRequiredToPlay = ["playable", "hasProtectedContent"]
-
+    var locationManager =  LocationManager()
     //    let cloudURL = "http://api.dashidashcam.com/Videos/id/content"
     let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Account/Videos/id"
     // player for playing the AV asset1
@@ -63,8 +64,8 @@ class VideoPreviewViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-
         // observer for the status of the current item
+        locationManager.determineMyCurrentLocation()
         addObserver(self, forKeyPath: "player.currentItem.status", options: .new, context: nil)
 
         addObserver(self, forKeyPath: "player.rate", options: [.new, .initial], context: nil)

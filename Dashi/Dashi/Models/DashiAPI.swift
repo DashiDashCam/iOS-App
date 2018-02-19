@@ -130,7 +130,7 @@ class DashiAPI {
         
         //init fetch request for refresh tokens
         let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "RefreshToken")
+            NSFetchRequest<NSManagedObject>(entityName: "RefreshTokens")
         
         fetchRequest.fetchLimit = 1
         let sort = NSSortDescriptor(key: "created", ascending: false)
@@ -154,7 +154,7 @@ class DashiAPI {
                 createdAfter = cal.date(byAdding: .minute, value: 1, to: createdAfter!)
                 
                 if(loggedOut == false && created >= createdAfter!) {
-                    return token.value(forKeyPath: "token") as! String
+                    return token.value(forKeyPath: "refreshToken") as! String
                 }
             }
         } catch let error as NSError {
