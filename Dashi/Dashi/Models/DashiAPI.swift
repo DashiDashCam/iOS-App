@@ -260,6 +260,10 @@ class DashiAPI {
             "length": video.getLength(),
             "size": video.getSize(),
             "thumbnail": video.getImageContent()!.base64EncodedString(),
+            "startLat": video.getStartLat(),
+            "startLong": video.getStartLong(),
+            "endLat": video.getEndLat(),
+            "endLong": video.getEndLong()
         ]
 
         return firstly {

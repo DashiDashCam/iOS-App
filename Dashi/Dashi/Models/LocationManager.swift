@@ -7,24 +7,34 @@
 //
 
 import CoreLocation
+
+protocol locationHandlerDelegate {
+    func handleUpdate(coordinate: CLLocationCoordinate2D)
+}
 class LocationManager: NSObject, CLLocationManagerDelegate
 {
     
     var locationManager:CLLocationManager!
+    var delegate: locationHandlerDelegate!
     
- 
     override init(){
+        super.init()
         locationManager = CLLocationManager()
-   
-    }
-    func determineMyCurrentLocation() {
-        locationManager.delegate=self
+        locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
+   
+        
+    }
+    func startLocUpdate() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.startUpdatingLocation()
             //locationManager.startUpdatingHeading()
         }
+    }
+    
+    func stopLocUpdate(){
+        locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -34,7 +44,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate
         // other wise this function will be called every time when user location changes.
         
         // manager.stopUpdatingLocation()
-        
+       delegate.handleUpdate(coordinate: userLocation.coordinate)
         print("user latitude = \(userLocation.coordinate.latitude)")
         print("user longitude = \(userLocation.coordinate.longitude)")
     }

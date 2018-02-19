@@ -10,6 +10,7 @@ import Foundation
 import AVKit
 import SwiftyJSON
 import Arcane
+import CoreLocation
 
 class Video {
 
@@ -21,20 +22,26 @@ class Video {
     var thumbnail: UIImage!
     var id: String?
     var storageStat: String!
+    var startLat: CLLocationDegrees!
+    var endLat: CLLocationDegrees!
+    var startLong: CLLocationDegrees!
+    var endLong: CLLocationDegrees!
 
     /**
      *  Initializes a Video object. Note that ID is initialized
      *  from the SHA256 hash of the content of the video
      */
-    init(started: Date, asset: AVURLAsset) {
+    init(started: Date, asset: AVURLAsset, startLoc:CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
         do {
             // get the data associated with the video's content and convert it to a string
             let contentData = try Data(contentsOf: asset.url)
             let contentString = String(data: contentData, encoding: String.Encoding.ascii)
-            contentData.hashValue
             length = Int(Float((asset.duration.value)) / Float((asset.duration.timescale)))
             size = contentData.count
-
+            startLat=startLoc.latitude
+            startLong=startLoc.longitude
+            endLat=endLoc.latitude
+            endLong=endLoc.longitude
             // hash the video content to produce an ID
             id = Hash.SHA256(contentString!)
             let imgGenerator = AVAssetImageGenerator(asset: asset)
@@ -60,16 +67,24 @@ class Video {
         length = video["length"].intValue
         size = video["size"].intValue
         thumbnail = UIImage(data: Data(base64Encoded: video["thumbnail"].stringValue)!)
+        startLat = video["startLat"].doubleValue
+        startLong = video["startLong"].doubleValue
+        endLat = video["endLat"].doubleValue
+        endLong = video["endLong"].doubleValue
         storageStat = "cloud"
     }
 
-    init(started: Date, imageData: Data, id: String, length: Int, size: Int) {
+    init(started: Date, imageData: Data, id: String, length: Int, size: Int, startLoc:CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
         self.id = id
         self.started = started
         thumbnail = UIImage(data: imageData)
         self.length = length
         self.size = size
         storageStat = "local"
+        startLat=startLoc.latitude
+        startLong=startLoc.longitude
+        endLat=endLoc.latitude
+        endLong=endLoc.longitude
     }
 
     public func getContent() -> Data? {
@@ -119,5 +134,18 @@ class Video {
     
     public func changeStorageToBoth(){
         storageStat = "both"
+    }
+    
+    public func getStartLat() -> CLLocationDegrees{
+       return startLat
+    }
+    public func getStartLong() -> CLLocationDegrees{
+        return startLong
+    }
+    public func getEndLat() -> CLLocationDegrees{
+        return endLat
+    }
+    public func getEndLong() -> CLLocationDegrees{
+        return endLong
     }
 }

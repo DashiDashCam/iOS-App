@@ -14,10 +14,11 @@ import PromiseKit
 import CoreLocation
 
 class VideoPreviewViewController: UIViewController {
+    var startLoc: CLLocationCoordinate2D!
+    var endLoc: CLLocationCoordinate2D!
 
     // keys to ensure playability of video
     static let assetKeysRequiredToPlay = ["playable", "hasProtectedContent"]
-    var locationManager =  LocationManager()
     //    let cloudURL = "http://api.dashidashcam.com/Videos/id/content"
     let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Account/Videos/id"
     // player for playing the AV asset1
@@ -62,10 +63,8 @@ class VideoPreviewViewController: UIViewController {
     @IBOutlet weak var pushToCloudButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
         // observer for the status of the current item
-        locationManager.determineMyCurrentLocation()
         addObserver(self, forKeyPath: "player.currentItem.status", options: .new, context: nil)
 
         addObserver(self, forKeyPath: "player.rate", options: [.new, .initial], context: nil)
@@ -137,7 +136,7 @@ class VideoPreviewViewController: UIViewController {
     }
 
     @IBAction func pushToCloud() {
-        let currentVideo = Video(started: Date(), asset: asset!)
+        let currentVideo = Video(started: Date(), asset: asset!, startLoc: startLoc, endLoc: endLoc)
 
         DashiAPI.uploadVideoMetaData(video: currentVideo).then { _ in
             print("THEN!")
@@ -188,7 +187,7 @@ class VideoPreviewViewController: UIViewController {
 
     // save the video to core data
     func saveVideoToCoreData() {
-        let currentVideo = Video(started: Date(), asset: asset!)
+        let currentVideo = Video(started: Date(), asset: asset!, startLoc: startLoc, endLoc: endLoc)
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -223,6 +222,10 @@ class VideoPreviewViewController: UIViewController {
         video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
         video.setValue(currentVideo.getLength(), forKeyPath: "length")
         video.setValue(currentVideo.getSize(), forKey: "size")
+        video.setValue(currentVideo.getStartLat(), forKey: "startLat")
+        video.setValue(currentVideo.getStartLong(), forKey: "startLong")
+            video.setValue(currentVideo.getEndLat(), forKey: "endLat")
+        video.setValue(currentVideo.getEndLong(), forKey: "endLong")
         do {
             try managedContext.save()
             self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)

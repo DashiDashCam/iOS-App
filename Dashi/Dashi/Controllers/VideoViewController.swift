@@ -9,9 +9,14 @@
 import UIKit
 import AVFoundation
 import CoreMedia
+import CoreLocation
 
-class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
-
+class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegate, locationHandlerDelegate {
+    func handleUpdate(coordinate: CLLocationCoordinate2D) {
+        currentLoc = coordinate
+    }
+    
+    
     @IBOutlet weak var previewView: UIView! // displays capture stream
     @IBOutlet weak var recordButton: UIButton! // stop/start recording
     @IBOutlet weak var toggleButton: UIButton! // switch camera
@@ -24,11 +29,15 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     var allowSwitch = true
     var outputFileLocation: URL?
     var simulatorRecording = false
-
+    let locationManager = LocationManager()
+    var startLoc: CLLocationCoordinate2D!
+    var endLoc: CLLocationCoordinate2D!
+    var currentLoc: CLLocationCoordinate2D!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
+        locationManager.delegate=self
+        locationManager.startLocUpdate()
         // hide navigation bar
         navigationController?.isNavigationBarHidden = true
         initializeCamera()
@@ -101,7 +110,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         if movieFileOutput.isRecording || simulatorRecording {
             // stop recording
             movieFileOutput.stopRecording()
-
+            endLoc = currentLoc
             // stop recording the simulator
             if TARGET_OS_SIMULATOR != 0 {
                 // force seque to videoPreview
@@ -109,6 +118,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
                 updateRecordButtonTitle()
             }
         } else {
+            startLoc = currentLoc
             // not running simulator
             if TARGET_OS_SIMULATOR == 0 {
                 // set video orientation of movie file output
@@ -349,7 +359,8 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         // Pass the selected object to the new view controller.
 
         let preview = segue.destination as! VideoPreviewViewController
-
+        preview.startLoc = startLoc
+        preview.endLoc = endLoc
         // not running simulator
         if TARGET_OS_SIMULATOR == 0 {
             preview.fileLocation = self.outputFileLocation // triggers loading of video
