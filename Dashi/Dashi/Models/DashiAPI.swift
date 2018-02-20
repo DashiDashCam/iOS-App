@@ -77,7 +77,7 @@ class DashiAPI {
             }
         }
     }
-    
+
     /**
      * Used to store a new refresh token in coredata
      * Stores token, loggedOut as false, and current date
@@ -85,34 +85,34 @@ class DashiAPI {
     private static func storeRefreshTokenLocal(token: String) {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
-                return
+            return
         }
-        
-        //coredata context
+
+        // coredata context
         let managedContext =
             appDelegate.persistentContainer.viewContext
-        
-        //create refresh token entity
+
+        // create refresh token entity
         let entity =
             NSEntityDescription.entity(forEntityName: "RefreshTokens",
                                        in: managedContext)!
-        
-        //insert entity into context
+
+        // insert entity into context
         let tokenRow = NSManagedObject(entity: entity,
-                                    insertInto: managedContext)
-        
+                                       insertInto: managedContext)
+
         tokenRow.setValue(token, forKeyPath: "refreshToken")
         tokenRow.setValue(false, forKeyPath: "loggedOut")
         tokenRow.setValue(Date(), forKeyPath: "created")
-        
+
         do {
-            //commit changes to context
+            // commit changes to context
             try managedContext.save()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    
+
     /**
      * Fetches the most recently created refresh token
      * Checks if it was created within the last 3 months and was not logged out
@@ -121,39 +121,40 @@ class DashiAPI {
     private static func fetchRefreshTokenLocal() -> String {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
-                return ""
+            return ""
         }
-        
-        //get coredata context
+
+        // get coredata context
         let managedContext =
             appDelegate.persistentContainer.viewContext
-        
-        //init fetch request for refresh tokens
+
+        // init fetch request for refresh tokens
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "RefreshTokens")
-        
+
         fetchRequest.fetchLimit = 1
         let sort = NSSortDescriptor(key: "created", ascending: false)
         fetchRequest.sortDescriptors = [sort]
-        
+
         do {
             let tokens = try managedContext.fetch(fetchRequest)
-            
-            //expect 1 or 0 results
-            if(tokens.count > 0) {
+
+            // expect 1 or 0 results
+            if tokens.count > 0 {
                 let token = tokens[0]
                 let loggedOut = token.value(forKeyPath: "loggedOut") as! Bool
                 let created = token.value(forKeyPath: "created") as! Date
-                
-                //finds the time after which the token must have been created to still be valid
+
+                // finds the time after which the token must have been created to still be valid
                 let cal = Calendar.current
                 var createdAfter = cal.date(byAdding: .month, value: -3, to: Date())
-                
-                //decreases valid interval length by 1 minute to account for effect of network latency
-                //ie. to prevent the token from dieing in transit to the backend
+
+                // decreases valid interval length by 1 minute to account for effect of network latency
+                // ie. to prevent the token from dieing in transit to the backend
                 createdAfter = cal.date(byAdding: .minute, value: 1, to: createdAfter!)
-                
-                if(loggedOut == false && created >= createdAfter!) {
+
+                if loggedOut == false && created >= createdAfter! {
+                    print(token.value(forKeyPath: "refreshToken"))
                     return token.value(forKeyPath: "refreshToken") as! String
                 }
             }
@@ -162,37 +163,37 @@ class DashiAPI {
         }
         return ""
     }
-    
+
     /**
      * Marks the most recently created refresh token as logged out
      */
     private static func logoutRefreshTokenLocal() {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
-                return
+            return
         }
-        
-        //get coredata context
+
+        // get coredata context
         let managedContext =
             appDelegate.persistentContainer.viewContext
-        
-        //init fetch request for refresh tokens
+
+        // init fetch request for refresh tokens
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "RefreshToken")
-        
+
         fetchRequest.fetchLimit = 1
         let sort = NSSortDescriptor(key: "created", ascending: false)
         fetchRequest.sortDescriptors = [sort]
-        
+
         do {
             let tokens = try managedContext.fetch(fetchRequest)
-            
-            //expect 1 or 0 results
-            if(tokens.count > 0) {
+
+            // expect 1 or 0 results
+            if tokens.count > 0 {
                 let token = tokens[0]
                 token.setValue(true, forKeyPath: "loggedOut")
                 do {
-                    //commit changes to context
+                    // commit changes to context
                     try managedContext.save()
                 } catch let error as NSError {
                     print("Could not save. \(error), \(error.userInfo)")
@@ -232,7 +233,7 @@ class DashiAPI {
             self.addAuthToken()
         }.then { headers in
             Alamofire.request(url, method: .get, headers: headers).validate().responseData().then { value -> Data in
-            
+
                 return value
             }
         }.catch { error in
@@ -243,7 +244,6 @@ class DashiAPI {
         }
     }
 
-    
     /**
      *  Uploads a video's metadeta to the user's library. This function is intended
      *  to be used when the user creates a new recording. The metadata portion should
@@ -263,7 +263,7 @@ class DashiAPI {
             "startLat": video.getStartLat(),
             "startLong": video.getStartLong(),
             "endLat": video.getEndLat(),
-            "endLong": video.getEndLong()
+            "endLong": video.getEndLong(),
         ]
 
         return firstly {
@@ -409,9 +409,9 @@ class DashiAPI {
             self.accessToken = json["access_token"].stringValue
             self.accessTokenExpires = Date(timeIntervalSinceNow: json["expires_in"].doubleValue)
             self.refreshToken = json["refresh_token"].stringValue
-            
+
             storeRefreshTokenLocal(token: self.refreshToken!)
-            
+
             return JSON()
         }
     }
@@ -430,9 +430,9 @@ class DashiAPI {
             self.accessToken = nil
             self.accessTokenExpires = nil
             self.refreshToken = nil
-            
+
             logoutRefreshTokenLocal()
-            
+
             return JSON(value)
         }
     }
@@ -453,23 +453,23 @@ class DashiAPI {
 
         return sessionManager.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
             let json = JSON(value)
-            
+
             self.accessToken = json["access_token"].stringValue
             self.accessTokenExpires = Date(timeIntervalSinceNow: json["expires_in"].doubleValue)
             self.refreshToken = json["refresh_token"].stringValue
-            
+
             storeRefreshTokenLocal(token: self.refreshToken!)
-            
+
             return JSON()
         }
     }
-    
-    public static func fetchStoredRefreshToken() -> Void {
+
+    public static func fetchStoredRefreshToken() {
         let rToken = fetchRefreshTokenLocal()
-        if(rToken != "") {
-            self.refreshToken = rToken
+        if rToken != "" {
+            refreshToken = rToken
         } else {
-            self.refreshToken = nil
+            refreshToken = nil
         }
     }
 
@@ -478,6 +478,8 @@ class DashiAPI {
      * Logged in is defined as the presence of a refresh token.
      */
     public static func isLoggedIn() -> Bool {
+        print("refresh token:")
+        print(refreshToken != nil)
         return refreshToken != nil
     }
 }

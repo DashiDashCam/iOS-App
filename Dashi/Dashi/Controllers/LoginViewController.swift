@@ -18,14 +18,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateConstraints()
-        
-        //load a stored refresh token if one exists
-        DashiAPI.fetchStoredRefreshToken()
 
-        //complete login process with stored refresh token automatically if one exists
-        if(DashiAPI.isLoggedIn()){
-            self.dismiss(animated: true, completion: nil)
-        }
         // Do any additional setup after loading the view.
     }
 
