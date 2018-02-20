@@ -14,7 +14,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
-
+    @IBOutlet weak var errorMessage: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateConstraints()
@@ -38,11 +39,13 @@ class LoginViewController: UIViewController {
         DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { _ -> Void in
 
             self.dismiss(animated: true, completion: nil)
+            self.errorMessage.text = ""
 
         }.catch { error in
             if let e = error as? DashiServiceError {
                 print(e.statusCode)
                 print(JSON(e.body))
+                self.errorMessage.text = "Username or password is incorrect"
             }
         }
     }

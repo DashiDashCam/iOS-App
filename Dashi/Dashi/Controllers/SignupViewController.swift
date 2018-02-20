@@ -17,7 +17,8 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirm: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
-
+    @IBOutlet weak var errorMessage: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateConstraints()
@@ -30,6 +31,7 @@ class SignupViewController: UIViewController {
     }
 
     @IBAction func signUpPushed(_: Any) {
+        self.errorMessage.text = ""
         if password.text! == confirm.text! {
             DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then { _ -> Void in
                 self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
@@ -37,8 +39,11 @@ class SignupViewController: UIViewController {
                 if let e = error as? DashiServiceError {
                     print(e.statusCode)
                     print(JSON(e.body))
+                    self.errorMessage.text = "Username already exists, or password did not meet security rules"
                 }
             }
+        } else {
+            self.errorMessage.text = "Password and Confirm Password do not match"
         }
     }
 
