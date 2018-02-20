@@ -209,30 +209,29 @@ class VideoPreviewViewController: UIViewController {
             result = (try managedContext.fetch(fetchRequest))
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
-    
         }
-        
-        if result.isEmpty{
-        let video = NSManagedObject(entity: entity,
-                                    insertInto: managedContext)
 
-        video.setValue(currentVideo.getId(), forKeyPath: "id")
-        video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
-        video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
-        video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
-        video.setValue(currentVideo.getLength(), forKeyPath: "length")
-        video.setValue(currentVideo.getSize(), forKey: "size")
-        do {
-            try managedContext.save()
-            self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+        if result.isEmpty {
+            let video = NSManagedObject(entity: entity,
+                                        insertInto: managedContext)
+
+            video.setValue(currentVideo.getId(), forKeyPath: "id")
+            video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
+            video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
+            video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
+            video.setValue(currentVideo.getLength(), forKeyPath: "length")
+            video.setValue(currentVideo.getSize(), forKey: "size")
+            do {
+                try managedContext.save()
+                self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: false)
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        } else {
+            self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
         }
     }
-        else{
-             self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
-        }
-    }
+
     // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
