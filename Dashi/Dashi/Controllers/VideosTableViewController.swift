@@ -115,7 +115,9 @@ class VideosTableViewController: UITableViewController {
         // let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
         // Configure the cell...
         let dateFormatter = DateFormatter()
-        geoCoder.reverseGeocodeLocation(CLLocation.init(latitude: videos[row].getStartLat(), longitude: videos[row].getStartLong())) { placemarks, error in
+        let endLoc = CLLocation(latitude: videos[row].getEndLat(), longitude: videos[row].getEndLong())
+        
+        geoCoder.reverseGeocodeLocation(endLoc) { placemarks, error in
             
             if let e = error {
                 
@@ -123,23 +125,22 @@ class VideosTableViewController: UITableViewController {
                 
             } else {
                 
-                let placeArray = placemarks as! [CLPlacemark]
+                let placeArray = placemarks as [CLPlacemark]!
                 
                 var placeMark: CLPlacemark!
                 
-                placeMark = placeArray[0]
-                
-                cell.location.text = placeMark.locality! + " " + placeMark.country!
+                placeMark = placeArray![0]
+                cell.location.text = placeMark.locality! + ", " + placeMark.country!
             }
             
+            
         }
-
+        
         // US English Locale (en_US)
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short // Jan 2, 2001
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted()) // Jan 2, 2001
-        cell.location.text = "Location"
         cell.storageIcon.image = UIImage(named: videos[row].getStorageStat())
         return cell
     }
