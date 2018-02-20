@@ -12,19 +12,20 @@ import CoreMedia
 import CoreData
 import PromiseKit
 import SwiftyJSON
-protocol MediaCollectionDelegateProtocol {
-    func mediaSelected(selectedAssets: [String: PHAsset])
-}
+import MapKit
+
 
 class VideosTableViewController: UITableViewController {
     var videos: [Video] = []
+    var ids: [String] = []
+     let geoCoder = CLGeocoder()
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        getVidsFromCloud()
         getVidsFromLocal()
+        getVidsFromCloud()
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
@@ -54,7 +55,15 @@ class VideosTableViewController: UITableViewController {
 
     func getVidsFromCloud() {
         DashiAPI.getAllVideoMetaData().then { value -> Void in
-            self.videos.append(contentsOf: value)
+            for video in value{
+                if let index = self.ids.index(of: video.getId()){
+                    self.videos[index].changeStorageToBoth()
+                }
+                else{
+                    self.videos.append(video)
+                }
+            }
+            
             self.tableView.reloadData()
         }.catch {
             error in
@@ -71,7 +80,7 @@ class VideosTableViewController: UITableViewController {
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id"]
+        fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id", "startLat", "startLong", "endLat", "endLong"]
         // 3
         do {
             fetchedmeta = (try managedContext?.fetch(fetchRequest))!
@@ -86,10 +95,15 @@ class VideosTableViewController: UITableViewController {
             let thumbnailData = meta.value(forKey: "thumbnail") as! Data
             let size = meta.value(forKey: "size") as! Int
             let length = meta.value(forKey: "length") as! Int
+            let startLat = meta.value(forKey: "startLat") as! CLLocationDegrees
+            let startLong = meta.value(forKey: "startLong") as! CLLocationDegrees
+            let endLat = meta.value(forKey: "endLat") as! CLLocationDegrees
+            let endLong = meta.value(forKey: "endLong") as! CLLocationDegrees
             // dates.append(video.value(forKeyPath: "startDate") as! Date)
-            let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size)
+            let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D( latitude:startLat,longitude: startLong), endLoc: CLLocationCoordinate2D( latitude:endLat,longitude: endLong))
             videos.append(video)
             //  videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
+            ids.append(id)
         }
     }
 
@@ -101,14 +115,33 @@ class VideosTableViewController: UITableViewController {
         // let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
         // Configure the cell...
         let dateFormatter = DateFormatter()
-
+        let endLoc = CLLocation(latitude: videos[row].getEndLat(), longitude: videos[row].getEndLong())
+        
+        geoCoder.reverseGeocodeLocation(endLoc) { placemarks, error in
+            
+            if let e = error {
+                
+               print(e)
+                
+            } else {
+                
+                let placeArray = placemarks as [CLPlacemark]!
+                
+                var placeMark: CLPlacemark!
+                
+                placeMark = placeArray![0]
+                cell.location.text = placeMark.locality! + ", " + placeMark.country!
+            }
+            
+            
+        }
+        
         // US English Locale (en_US)
         dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .medium // Jan 2, 2001
+        dateFormatter.timeStyle = .short // Jan 2, 2001
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted()) // Jan 2, 2001
-        cell.location.text = "Location"
-
+        cell.storageIcon.image = UIImage(named: videos[row].getStorageStat())
         return cell
     }
 
@@ -155,7 +188,7 @@ class VideosTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
-        if videos[row].inCloud {
+        if videos[row].getStorageStat() == "cloud" {
             DashiAPI.downloadVideoContent(video: videos[row]).then{ val in
                 preview.fileLocation = self.getUrlForCloud(id: self.videos[row].getId(), data: val)
                 

@@ -13,8 +13,14 @@ import CoreMedia
 class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        performSegue(withIdentifier: "loginSegue", sender: self)
+
+        // load a stored refresh token if one exists
+        DashiAPI.fetchStoredRefreshToken()
+
+        // complete login process with stored refresh token automatically if one exists
+        if !DashiAPI.isLoggedIn() {
+            performSegue(withIdentifier: "loginSegue", sender: self)
+        }
 
         // hide navigation bar
         navigationController?.isNavigationBarHidden = true

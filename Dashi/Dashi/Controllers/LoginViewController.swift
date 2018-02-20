@@ -19,14 +19,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateConstraints()
-        
-        //load a stored refresh token if one exists
-        DashiAPI.fetchStoredRefreshToken()
 
-        //complete login process with stored refresh token automatically if one exists
-        if(DashiAPI.isLoggedIn()){
-            self.dismiss(animated: true, completion: nil)
-        }
         // Do any additional setup after loading the view.
     }
 
@@ -83,4 +76,18 @@ class LoginViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+}
+
+extension LoginViewController: UITextFieldDelegate {
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case email:
+            password.becomeFirstResponder()
+        default:
+            password.resignFirstResponder()
+        }
+
+        return true
+    }
 }
