@@ -209,7 +209,6 @@ class VideoPreviewViewController: UIViewController {
             result = (try managedContext.fetch(fetchRequest))
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
-    
         }
         
         if result.isEmpty{
@@ -237,6 +236,7 @@ class VideoPreviewViewController: UIViewController {
              self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
         }
     }
+
     // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
