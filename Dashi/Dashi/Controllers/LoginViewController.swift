@@ -29,10 +29,20 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func loginPushed(_: Any) {
-        DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { _ -> Void in
+        self.errorMessage.text = ""
+        DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { json -> Void in
 
-            self.dismiss(animated: true, completion: nil)
-            self.errorMessage.text = ""
+            if(json["errors"] == JSON.null){
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                
+                if(json["errors"].array != nil) {
+                    self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
+                } else {
+                    self.errorMessage.text = json["errors"]["message"].string
+                }
+                
+            }
 
         }.catch { error in
             if let e = error as? DashiServiceError {
