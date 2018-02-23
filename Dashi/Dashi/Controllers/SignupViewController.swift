@@ -35,26 +35,30 @@ class SignupViewController: UIViewController {
         if password.text! == confirm.text! {
             DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then { json -> Void in
                 print(json)
-                if(json["errors"] == JSON.null){
                     
-                    DashiAPI.loginWithPassword(username: self.email.text!, password: self.password.text!).then { _ -> Void in
-                        self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
-                    }
-                    
-                } else {
-                    
-                    if(json["errors"].array != nil) {
-                        self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
-                    } else {
-                        self.errorMessage.text = json["errors"]["message"].string
-                    }
-                    
+                DashiAPI.loginWithPassword(username: self.email.text!, password: self.password.text!).then { _ -> Void in
+                    self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
                 }
+                    
             }.catch { error in
                 if let e = error as? DashiServiceError {
                     print(e.statusCode)
-                    print(JSON(e.body))
-                    self.errorMessage.text = "Something unexpected... happened"
+                    
+                    //requests not having a 200 code are thrown as errors
+                    if(e.statusCode == 201){
+                        DashiAPI.loginWithPassword(username: self.email.text!, password: self.password.text!).then { _ -> Void in
+                            self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
+                        }
+                    } else {
+                    
+                        print(JSON(e.body))
+                        let json = JSON(e.body)
+                        if(json["errors"].array != nil) {
+                            self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
+                        } else {
+                            self.errorMessage.text = json["errors"]["message"].string
+                        }
+                    }
                 }
             }
         } else {

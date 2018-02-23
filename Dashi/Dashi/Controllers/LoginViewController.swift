@@ -34,21 +34,18 @@ class LoginViewController: UIViewController {
 
             if(json["errors"] == JSON.null){
                 self.dismiss(animated: true, completion: nil)
-            } else {
-                
-                if(json["errors"].array != nil) {
-                    self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
-                } else {
-                    self.errorMessage.text = json["errors"]["message"].string
-                }
-                
             }
 
         }.catch { error in
             if let e = error as? DashiServiceError {
                 print(e.statusCode)
                 print(JSON(e.body))
-                self.errorMessage.text = "Username or password is incorrect"
+                let json = JSON(e.body)
+                if(json["errors"].array != nil) {
+                    self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
+                } else {
+                    self.errorMessage.text = json["errors"]["message"].string
+                }
             }
         }
     }

@@ -453,7 +453,7 @@ class DashiAPI {
             "fullName": fullName,
         ]
 
-        return sessionManager.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
+        return sessionManager.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value -> JSON in
             let json = JSON(value.0)
 
             return json
