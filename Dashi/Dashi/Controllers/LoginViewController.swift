@@ -14,7 +14,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
-
+    @IBOutlet weak var errorMessage: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateConstraints()
@@ -28,14 +29,23 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func loginPushed(_: Any) {
-        DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { _ -> Void in
+        self.errorMessage.text = ""
+        DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { json -> Void in
 
-            self.dismiss(animated: true, completion: nil)
+            if(json["errors"] == JSON.null){
+                self.dismiss(animated: true, completion: nil)
+            }
 
         }.catch { error in
             if let e = error as? DashiServiceError {
                 print(e.statusCode)
                 print(JSON(e.body))
+                let json = JSON(e.body)
+                if(json["errors"].array != nil) {
+                    self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
+                } else {
+                    self.errorMessage.text = json["errors"]["message"].string
+                }
             }
         }
     }

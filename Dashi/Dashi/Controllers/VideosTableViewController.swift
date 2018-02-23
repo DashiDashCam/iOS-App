@@ -222,12 +222,41 @@ class VideosTableViewController: UITableViewController {
             return nil
         }
 
-        var contentData = content[0].value(forKey: "videoContent") as! Data
+        let contentData = content[0].value(forKey: "videoContent") as! Data
         let manager = FileManager.default
         let filename = String(id) + "vid.mp4"
         let path = NSTemporaryDirectory() + filename
         manager.createFile(atPath: path, contents: contentData, attributes: nil)
         return URL(fileURLWithPath: path)
+    }
+    
+    //pass the id of a desired video to delete it from core data
+    func deleteLocal(id: String) -> Void {
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
+        
+        
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        
+        do {
+            
+            content = (try managedContext?.fetch(fetchRequest))!
+            managedContext?.delete(content[0])
+            
+            do {
+                //commit changes to context
+                try managedContext!.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+            return
+        }
     }
     
     func getUrlForCloud(id: String, data: Data) -> URL? {

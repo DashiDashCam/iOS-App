@@ -17,7 +17,8 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var confirm: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
-
+    @IBOutlet weak var errorMessage: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateConstraints()
@@ -30,16 +31,38 @@ class SignupViewController: UIViewController {
     }
 
     @IBAction func signUpPushed(_: Any) {
+        self.errorMessage.text = ""
         if password.text! == confirm.text! {
-            DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then { _ -> Void in
-                self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
-
+            DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then { json -> Void in
+                print(json)
+                    
+                DashiAPI.loginWithPassword(username: self.email.text!, password: self.password.text!).then { _ -> Void in
+                    self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
+                }
+                    
             }.catch { error in
                 if let e = error as? DashiServiceError {
                     print(e.statusCode)
-                    print(JSON(e.body))
+                    
+                    //requests not having a 200 code are thrown as errors
+                    if(e.statusCode == 201){
+                        DashiAPI.loginWithPassword(username: self.email.text!, password: self.password.text!).then { _ -> Void in
+                            self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
+                        }
+                    } else {
+                    
+                        print(JSON(e.body))
+                        let json = JSON(e.body)
+                        if(json["errors"].array != nil) {
+                            self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
+                        } else {
+                            self.errorMessage.text = json["errors"]["message"].string
+                        }
+                    }
                 }
             }
+        } else {
+            self.errorMessage.text = "Password and Confirm Password do not match"
         }
     }
 
