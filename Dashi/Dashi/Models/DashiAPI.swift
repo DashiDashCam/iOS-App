@@ -276,6 +276,35 @@ class DashiAPI {
     }
 
     /**
+     *  Helper function for file upload chunking
+     */
+    private static func uploadChunk (id: String, video: Data, part: Int, retry: Int) -> Promise<JSON> {
+        let base_url = API_ROOT + "/Account/Videos/" + id + "content"
+        
+        // Constant defining max file chunk size (in bytes)
+        let CHUNK_SIZE = 2000000
+        
+        // Constant defining the max number of retries allowed
+        let RETRY_LIMIT = 3
+        let url = base_url + "?offset=\(part)"
+        
+        return firstly {
+            self.addAuthToken()
+            }.then { headers in
+                Alamofire.upload(video.getContent()!, to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
+                    return JSON(value)
+                }
+            }.recover { error -> Promise<JSON> in
+                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+                
+                // Retry if limit not hit
+                guard retry < RETRY_LIMIT else { throw error }
+                print("Retry Limit Exceeded on Part: \(part)")
+                return uploadChunk(id: id, video: video, part: part, retry: retry + 1)
+        }
+    }
+    
+    /**
      *  Uploads a video's content to the user's library. This function is intended
      *  to be used when the user wishes to backup one of their videos in the cloud.
      *  This can be manually trigerred by the user and/or automatically done in the
@@ -285,24 +314,12 @@ class DashiAPI {
      *  @param video The video object (only the content and ID will be used, other metadata will be ignored)
      *  @return The JSON response from the server
      */
-    public static func uploadVideoContent(video: Video, offset: Int? = nil) -> Promise<JSON> {
-        var url = API_ROOT + "/Account/Videos/" + String(video.getId()) + "/content"
-
-        if let o = offset {
-            url = url + "?offset=\(o)"
-        }
-
-        print("url: " + url)
-
-        return firstly {
-            self.addAuthToken()
-        }.then { headers in
-            Alamofire.upload(video.getContent()!, to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
-                return JSON(value)
-            }
-        }.catch { error in
-            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
-        }
+    public static func uploadVideoContent(video: Video) -> Promise<JSON> {
+        // Video.getContent() loads each time, so load once and just pass the returned Data object
+        let content = video.getContent()!
+        
+        // Begin recursive call chain (required b/c of promises; loop would spawn many parallel threads)
+        return uploadChunk(id: video.getId(), video: content, part: 0, retry: 0)
     }
 
     /**
@@ -478,8 +495,6 @@ class DashiAPI {
      * Logged in is defined as the presence of a refresh token.
      */
     public static func isLoggedIn() -> Bool {
-        print("refresh token:")
-        print(refreshToken != nil)
         return refreshToken != nil
     }
 }
