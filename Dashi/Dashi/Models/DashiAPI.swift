@@ -232,7 +232,7 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            Alamofire.request(url, method: .get, headers: headers).validate().responseData().then { value -> Data in
+            self.sessionManager.request(url, method: .get, headers: headers).validate().responseData().then { value -> Data in
 
                 return value
             }
@@ -279,28 +279,40 @@ class DashiAPI {
      *  Helper function for file upload chunking
      */
     private static func uploadChunk (id: String, video: Data, part: Int, retry: Int) -> Promise<JSON> {
-        let base_url = API_ROOT + "/Account/Videos/" + id + "content"
-        
-        // Constant defining max file chunk size (in bytes)
-        let CHUNK_SIZE = 2000000
-        
-        // Constant defining the max number of retries allowed
-        let RETRY_LIMIT = 3
-        let url = base_url + "?offset=\(part)"
+        // Constants
+        let BASE_URL = API_ROOT + "/Account/Videos/" + id + "content"
+        let CHUNK_SIZE = 2000000    // Constant defining max file chunk size (in bytes)
+        let RETRY_LIMIT = 3         // Constant defining the max number of retries allowed
+        let UPLOAD_COMPELTED = 1    // Constant defining the finished uploading signal
         
         return firstly {
             self.addAuthToken()
-            }.then { headers in
-                Alamofire.upload(video.getContent()!, to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
+        }.then { headers in
+            // Determine video slice
+            let start = part * CHUNK_SIZE
+            
+            // Chunk(s) exist that haven't been uploaded
+            if start < video.count {
+                let url = BASE_URL + "?offset=\(part)"
+                let end = (start + CHUNK_SIZE) < video.count ? (start + CHUNK_SIZE - 1) : (video.count - 1)
+                return self.sessionManager.upload(video[start...end], to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
+                    return uploadChunk(id: id, video: video, part: part + 1, retry: 0)
+                }
+            }
+            // All chunk(s) have been uploaded
+            else {
+                let url = BASE_URL + "?offset=\(UPLOAD_COMPELTED)"
+                return self.sessionManager.request(url, method: .put).validate().responseJSON(with: .response).then { value in
                     return JSON(value)
                 }
-            }.recover { error -> Promise<JSON> in
-                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+            }
+        }.recover { error -> Promise<JSON> in
+            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
                 
-                // Retry if limit not hit
-                guard retry < RETRY_LIMIT else { throw error }
-                print("Retry Limit Exceeded on Part: \(part)")
-                return uploadChunk(id: id, video: video, part: part, retry: retry + 1)
+            // Retry if limit not hit
+            guard retry < RETRY_LIMIT else { throw error }
+            print("Retry Limit Exceeded on Part: \(part)")
+            return uploadChunk(id: id, video: video, part: part, retry: retry + 1)
         }
     }
     
