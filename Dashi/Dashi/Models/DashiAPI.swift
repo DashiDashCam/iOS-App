@@ -179,7 +179,7 @@ class DashiAPI {
 
         // init fetch request for refresh tokens
         let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "RefreshToken")
+            NSFetchRequest<NSManagedObject>(entityName: "RefreshTokens")
 
         fetchRequest.fetchLimit = 1
         let sort = NSSortDescriptor(key: "created", ascending: false)
