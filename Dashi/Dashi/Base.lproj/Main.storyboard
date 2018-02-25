@@ -395,6 +395,13 @@
                                     <action selector="signUpPushed:" destination="gFz-cT-npz" eventType="touchUpInside" id="Ees-LV-uhR"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzK-iy-SCL">
+                                <rect key="frame" x="71" y="402" width="177" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -425,6 +432,7 @@
                     <connections>
                         <outlet property="confirm" destination="QIw-or-Yu7" id="rYr-XR-C1k"/>
                         <outlet property="email" destination="v2f-Km-hne" id="4Ic-2e-yPg"/>
+                        <outlet property="errorMessage" destination="pzK-iy-SCL" id="ife-Gm-WDh"/>
                         <outlet property="name" destination="Jff-Vr-qJw" id="aJb-7J-1D2"/>
                         <outlet property="password" destination="38w-aq-lJ5" id="WCY-3y-zKl"/>
                         <outlet property="signUpButton" destination="T0j-Il-cjF" id="Bpk-A6-pLx"/>
@@ -434,7 +442,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yYi-6S-hdR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Sym-zT-QRZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1008.8" y="-841.52923538230891"/>
+            <point key="canvasLocation" x="1008.75" y="-841.90140845070425"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="PRv-ez-c14">
@@ -577,6 +585,13 @@
                                     <segue destination="gFz-cT-npz" kind="presentation" identifier="signupSegue" modalTransitionStyle="flipHorizontal" id="z4e-cp-T4l"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AiU-52-mNs">
+                                <rect key="frame" x="80" y="402" width="159" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -601,6 +616,7 @@
                     </view>
                     <connections>
                         <outlet property="email" destination="6nQ-H0-ah3" id="nN6-dv-oK6"/>
+                        <outlet property="errorMessage" destination="AiU-52-mNs" id="UNO-i1-ixu"/>
                         <outlet property="password" destination="YYg-R3-QD1" id="eqq-Mi-1xM"/>
                     </connections>
                 </viewController>

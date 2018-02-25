@@ -406,13 +406,15 @@ class DashiAPI {
         return sessionManager.request(API_ROOT + "/oauth/token", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value, _ -> JSON in
             let json = JSON(value)
 
+            print(json)
+
             self.accessToken = json["access_token"].stringValue
             self.accessTokenExpires = Date(timeIntervalSinceNow: json["expires_in"].doubleValue)
             self.refreshToken = json["refresh_token"].stringValue
 
             storeRefreshTokenLocal(token: self.refreshToken!)
 
-            return JSON()
+            return json
         }
     }
 
@@ -451,16 +453,10 @@ class DashiAPI {
             "fullName": fullName,
         ]
 
-        return sessionManager.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON(with: .response).then { value -> JSON in
-            let json = JSON(value)
+        return sessionManager.request(API_ROOT + "/Accounts", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value -> JSON in
+            let json = JSON(value.0)
 
-            self.accessToken = json["access_token"].stringValue
-            self.accessTokenExpires = Date(timeIntervalSinceNow: json["expires_in"].doubleValue)
-            self.refreshToken = json["refresh_token"].stringValue
-
-            storeRefreshTokenLocal(token: self.refreshToken!)
-
-            return JSON()
+            return json
         }
     }
 
