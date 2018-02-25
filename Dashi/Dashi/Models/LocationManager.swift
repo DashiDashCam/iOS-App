@@ -8,6 +8,7 @@
 
 import CoreLocation
 
+//delegate has to handle the location updates
 protocol locationHandlerDelegate {
     func handleUpdate(coordinate: CLLocationCoordinate2D)
 }
@@ -26,6 +27,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate
    
         
     }
+    
+    //start getting location updates
     func startLocUpdate() {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.startUpdatingLocation()
@@ -33,10 +36,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate
         }
     }
     
+    //stop getting updates
     func stopLocUpdate(){
         locationManager.stopUpdatingLocation()
     }
     
+    //Do something with update
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation:CLLocation = locations[0] as CLLocation
         
@@ -48,6 +53,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate
         print("user latitude = \(userLocation.coordinate.latitude)")
         print("user longitude = \(userLocation.coordinate.longitude)")
     }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
     {
         print("Error \(error)")

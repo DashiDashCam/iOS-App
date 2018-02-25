@@ -184,7 +184,7 @@ class DashiAPI {
         fetchRequest.fetchLimit = 1
         let sort = NSSortDescriptor(key: "created", ascending: false)
         fetchRequest.sortDescriptors = [sort]
-
+ 
         do {
             let tokens = try managedContext.fetch(fetchRequest)
 
