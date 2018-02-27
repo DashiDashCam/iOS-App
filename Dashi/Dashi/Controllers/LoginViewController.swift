@@ -38,6 +38,9 @@ class LoginViewController: UIViewController {
 
         }.catch { error in
             if let e = error as? DashiServiceError {
+                // prints a more detailed error message from slim
+                //                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+
                 print(e.statusCode)
                 print(JSON(e.body))
                 let json = JSON(e.body)

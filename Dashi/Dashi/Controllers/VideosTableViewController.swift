@@ -183,22 +183,12 @@ class VideosTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let preview = segue.destination as! VideoPreviewViewController
+        let preview = segue.destination as! VideoDetailViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
 
-        if videos[row].getStorageStat() == "cloud" {
-            DashiAPI.downloadVideoContent(video: videos[row]).then { val in
-                preview.fileLocation = self.getUrlForCloud(id: self.videos[row].getId(), data: val)
+        let selectedVideo = videos[row]
 
-            }.catch { error in
-                if let e = error as? DashiServiceError {
-                    print(e.statusCode)
-                    print(JSON(e.body))
-                }
-        } }
-        else {
-            preview.fileLocation = getUrlForLocal(id: videos[row].getId())
-        }
+        preview.selectedVideo = selectedVideo
     }
 
     // creates url for video content in local db given id
