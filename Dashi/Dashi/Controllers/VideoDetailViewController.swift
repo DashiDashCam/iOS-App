@@ -12,8 +12,25 @@ import UIKit
 class VideoDetailViewController: UIViewController {
     var selectedVideo: Video!
 
+    @IBOutlet weak var videoTime: UILabel!
+    @IBOutlet weak var videoDate: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadVideoContent()
+    }
+
+    func loadVideoContent() {
+        // get the date from the video and format it
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM dd, yyyy"
+
+        let dateString = formatter.string(from: selectedVideo.getStarted())
+        videoDate.text = dateString
+
+        formatter.dateFormat = "hh:mm a"
+        let timeString = formatter.string(from: selectedVideo.getStarted())
+        videoTime.text = timeString
     }
 
     //        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
