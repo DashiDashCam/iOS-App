@@ -255,6 +255,7 @@ class DashiAPI {
      *  @return The JSON response from the server
      */
     public static func uploadVideoMetaData(video: Video) -> Promise<JSON> {
+        print("Uploading MetaData")
         let parameters: Parameters = [
             "started": DateConv.toString(date: video.getStarted()),
             "length": video.getLength(),
@@ -280,10 +281,10 @@ class DashiAPI {
      */
     private static func uploadChunk (id: String, video: Data, part: Int, retry: Int) -> Promise<JSON> {
         // Constants
-        let BASE_URL = API_ROOT + "/Account/Videos/" + id + "content"
-        let CHUNK_SIZE = 2000000    // Constant defining max file chunk size (in bytes)
+        let BASE_URL = API_ROOT + "/Account/Videos/" + id + "/content"
+        let CHUNK_SIZE = 1048576    // Constant defining max file chunk size (in bytes)
         let RETRY_LIMIT = 3         // Constant defining the max number of retries allowed
-        let UPLOAD_COMPELTED = 1    // Constant defining the finished uploading signal
+        let UPLOAD_COMPELTED = -1   // Constant defining the finished uploading signal
         
         return firstly {
             self.addAuthToken()
@@ -302,7 +303,7 @@ class DashiAPI {
             // All chunk(s) have been uploaded
             else {
                 let url = BASE_URL + "?offset=\(UPLOAD_COMPELTED)"
-                return self.sessionManager.request(url, method: .put).validate().responseJSON(with: .response).then { value in
+                return self.sessionManager.request(url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
                     return JSON(value)
                 }
             }
@@ -310,8 +311,15 @@ class DashiAPI {
             print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
                 
             // Retry if limit not hit
-            guard retry < RETRY_LIMIT else { throw error }
-            print("Retry Limit Exceeded on Part: \(part)")
+            guard retry < RETRY_LIMIT else {
+                print("Retry Limit Exceeded on Part: \(part)")
+                throw error
+            }
+            if let e = error as? DashiServiceError {
+                print(e.statusCode)
+                print(JSON(e.body))
+            }
+            
             return uploadChunk(id: id, video: video, part: part, retry: retry + 1)
         }
     }
@@ -327,6 +335,8 @@ class DashiAPI {
      *  @return The JSON response from the server
      */
     public static func uploadVideoContent(video: Video) -> Promise<JSON> {
+        print("Uploading Content")
+        
         // Video.getContent() loads each time, so load once and just pass the returned Data object
         let content = video.getContent()!
         
@@ -493,20 +503,22 @@ class DashiAPI {
         }
     }
 
-    public static func fetchStoredRefreshToken() {
+    public static func fetchStoredRefreshToken() -> Bool {
         let rToken = fetchRefreshTokenLocal()
         if rToken != "" {
             refreshToken = rToken
+            return true
         } else {
             refreshToken = nil
+            return false
         }
     }
 
     /**
      * Used to check if the user is currently logged in.
-     * Logged in is defined as the presence of a refresh token.
+     * Logged in is defined as the presence of an access token.
      */
     public static func isLoggedIn() -> Bool {
-        return refreshToken != nil
+        return accessToken != nil
     }
 }
