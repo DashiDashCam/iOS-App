@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 import CoreMedia
-
+import PromiseKit
 class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +28,12 @@ class HomeViewController: UIViewController {
 
     @IBAction func unwindToMenu(segue _: UIStoryboardSegue) {}
 
+    @IBAction func logout(_ sender: Any) {
+        DashiAPI.logout().then{val -> Void in
+            print(val)
+            self.performSegue(withIdentifier: "loginSegue", sender: self)
+        }
+    }
     override func viewWillAppear(_: Bool) {
         navigationController?.isNavigationBarHidden = true
 
