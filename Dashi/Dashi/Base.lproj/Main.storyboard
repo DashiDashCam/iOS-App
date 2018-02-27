@@ -464,14 +464,26 @@
                                     <segue destination="FkJ-At-WVc" kind="show" id="2wZ-e2-AG5"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ie-fk-jWQ">
+                                <rect key="frame" x="123" y="385" width="76" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="logout:" destination="8Bz-be-hOT" eventType="touchUpInside" id="5cq-pd-aKR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="xdm-tX-5Gf" firstAttribute="baseline" secondItem="fll-6s-RTq" secondAttribute="baseline" id="0Xi-m5-AVv"/>
                             <constraint firstItem="xdm-tX-5Gf" firstAttribute="top" secondItem="2X9-xn-iJn" secondAttribute="bottom" constant="8" symbolic="YES" id="BGc-N6-CXI"/>
                             <constraint firstItem="fll-6s-RTq" firstAttribute="trailing" secondItem="2X9-xn-iJn" secondAttribute="trailing" id="Nlq-W3-Cg7"/>
+                            <constraint firstItem="4ie-fk-jWQ" firstAttribute="top" secondItem="fll-6s-RTq" secondAttribute="bottom" constant="81" id="Uue-iA-qmn"/>
                             <constraint firstItem="2X9-xn-iJn" firstAttribute="top" secondItem="t5E-lq-CnG" secondAttribute="top" constant="20" symbolic="YES" id="gzC-mC-Q05"/>
                             <constraint firstItem="2X9-xn-iJn" firstAttribute="centerX" secondItem="t5E-lq-CnG" secondAttribute="centerX" id="qlJ-1G-h2D"/>
+                            <constraint firstItem="4ie-fk-jWQ" firstAttribute="leading" secondItem="t5E-lq-CnG" secondAttribute="leading" constant="123" id="roB-h5-g6l"/>
                             <constraint firstItem="xdm-tX-5Gf" firstAttribute="leading" secondItem="2X9-xn-iJn" secondAttribute="leading" id="sEE-rG-8v2"/>
                         </constraints>
                     </view>

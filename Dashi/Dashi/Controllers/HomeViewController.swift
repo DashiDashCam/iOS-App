@@ -9,17 +9,19 @@
 import UIKit
 import AVFoundation
 import CoreMedia
-
+import PromiseKit
 class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // load a stored refresh token if one exists
-        DashiAPI.fetchStoredRefreshToken()
-
-        // complete login process with stored refresh token automatically if one exists
-        if !DashiAPI.isLoggedIn() {
-            performSegue(withIdentifier: "loginSegue", sender: self)
+        // Login automatically with stored refresh token if one exists
+        if DashiAPI.fetchStoredRefreshToken() {
+            DashiAPI.loginWithToken().then { value -> Void in
+                print("Authenticated with stored refresh token")
+            }
+        }
+        else {
+            self.performSegue(withIdentifier: "loginSegue", sender: self)
         }
 
         // hide navigation bar
@@ -28,6 +30,12 @@ class HomeViewController: UIViewController {
 
     @IBAction func unwindToMenu(segue _: UIStoryboardSegue) {}
 
+    @IBAction func logout(_ sender: Any) {
+        DashiAPI.logout().then{val -> Void in
+            print(val)
+            self.performSegue(withIdentifier: "loginSegue", sender: self)
+        }
+    }
     override func viewWillAppear(_: Bool) {
         navigationController?.isNavigationBarHidden = true
 
