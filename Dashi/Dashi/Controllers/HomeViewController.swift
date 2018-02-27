@@ -14,13 +14,14 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let this = self
-        
         // Login automatically with stored refresh token if one exists
         if DashiAPI.fetchStoredRefreshToken() {
-            DashiAPI.loginWithToken().then { value in
-                self.performSegue(withIdentifier: "loginSegue", sender: this)
+            DashiAPI.loginWithToken().then { value -> Void in
+                print("Authenticated with stored refresh token")
             }
+        }
+        else {
+            self.performSegue(withIdentifier: "loginSegue", sender: self)
         }
 
         // hide navigation bar
