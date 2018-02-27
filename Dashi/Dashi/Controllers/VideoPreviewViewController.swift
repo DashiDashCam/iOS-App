@@ -139,24 +139,19 @@ class VideoPreviewViewController: UIViewController {
         let currentVideo = Video(started: Date(), asset: asset!, startLoc: startLoc, endLoc: endLoc)
 
         DashiAPI.uploadVideoMetaData(video: currentVideo).then { _ in
-            print("THEN!")
+            // upload video content
+            DashiAPI.uploadVideoContent(video: currentVideo).catch { error in
+                if let e = error as? DashiServiceError {
+                    // show success message
+                    if e.statusCode == 200 {
+                        self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
+                    }
+                }
+            }
         }.catch { error in
             print("CATCH")
             if let e = error as? DashiServiceError {
-                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
-
-                // video was successfully uploaded
-                if e.statusCode == 201 {
-                    // upload video content
-                    DashiAPI.uploadVideoContent(video: currentVideo).catch { error in
-                        if let e = error as? DashiServiceError {
-                            // show success message
-                            if e.statusCode == 200 {
-                                self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
-                            }
-                        }
-                    }
-                }
+                print(String(data: e.body, encoding: String.Encoding.utf8)!)
             }
         }
     }

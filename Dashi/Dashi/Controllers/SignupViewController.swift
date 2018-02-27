@@ -34,7 +34,6 @@ class SignupViewController: UIViewController {
         self.errorMessage.text = ""
         if password.text! == confirm.text! {
             DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then { json -> Void in
-                print(json)
                     
                 DashiAPI.loginWithPassword(username: self.email.text!, password: self.password.text!).then { _ -> Void in
                     self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
@@ -42,23 +41,13 @@ class SignupViewController: UIViewController {
                     
             }.catch { error in
                 if let e = error as? DashiServiceError {
-                    print(e.statusCode)
                     
-                    //requests not having a 200 code are thrown as errors
-                    if(e.statusCode == 201){
-                        DashiAPI.loginWithPassword(username: self.email.text!, password: self.password.text!).then { _ -> Void in
-                            self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
-                        }
-                    } else {
-                    
-                        print(JSON(e.body))
                         let json = JSON(e.body)
                         if(json["errors"].array != nil) {
                             self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
                         } else {
                             self.errorMessage.text = json["errors"]["message"].string
                         }
-                    }
                 }
             }
         } else {
