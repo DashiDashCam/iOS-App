@@ -200,6 +200,13 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="videoLocation" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsS-EU-Sgb">
+                                <rect key="frame" x="16" y="124" width="288" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
@@ -207,6 +214,7 @@
                         <outlet property="VideoDate" destination="fKq-Ev-LRD" id="HlU-AQ-QSr"/>
                         <outlet property="VideoTime" destination="WtE-Gr-Psp" id="pvg-fP-0sW"/>
                         <outlet property="videoDate" destination="fKq-Ev-LRD" id="863-34-xL6"/>
+                        <outlet property="videoLocation" destination="EsS-EU-Sgb" id="ONW-uU-J29"/>
                         <outlet property="videoTime" destination="WtE-Gr-Psp" id="3Oh-yd-Jjz"/>
                     </connections>
                 </viewController>

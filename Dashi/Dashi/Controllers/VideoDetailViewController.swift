@@ -8,10 +8,12 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 class VideoDetailViewController: UIViewController {
     var selectedVideo: Video!
 
+    @IBOutlet weak var videoLocation: UILabel!
     @IBOutlet weak var videoTime: UILabel!
     @IBOutlet weak var videoDate: UILabel!
 
@@ -21,13 +23,23 @@ class VideoDetailViewController: UIViewController {
     }
 
     func loadVideoContent() {
-        // get the date from the video and format it
+        // format location and set label
+        //        self.videoLocation = self.selectedVideo.
+
+        let endLoc = CLLocation(latitude: selectedVideo.getEndLat(), longitude: selectedVideo.getEndLong())
+
+        let locationStart: String
+        let locationEnd: String
+
+        // lookup location of
+
+        // format the date and set label
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM dd, yyyy"
-
         let dateString = formatter.string(from: selectedVideo.getStarted())
         videoDate.text = dateString
 
+        // format the time and set label
         formatter.dateFormat = "hh:mm a"
         let timeString = formatter.string(from: selectedVideo.getStarted())
         videoTime.text = timeString

@@ -11,6 +11,7 @@ import AVKit
 import SwiftyJSON
 import Arcane
 import CoreLocation
+import MapKit
 
 class Video {
 
@@ -31,17 +32,17 @@ class Video {
      *  Initializes a Video object. Note that ID is initialized
      *  from the SHA256 hash of the content of the video
      */
-    init(started: Date, asset: AVURLAsset, startLoc:CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
+    init(started: Date, asset: AVURLAsset, startLoc: CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
         do {
             // get the data associated with the video's content and convert it to a string
             let contentData = try Data(contentsOf: asset.url)
             let contentString = String(data: contentData, encoding: String.Encoding.ascii)
             length = Int(Float((asset.duration.value)) / Float((asset.duration.timescale)))
             size = contentData.count
-            startLat=startLoc.latitude
-            startLong=startLoc.longitude
-            endLat=endLoc.latitude
-            endLong=endLoc.longitude
+            startLat = startLoc.latitude
+            startLong = startLoc.longitude
+            endLat = endLoc.latitude
+            endLong = endLoc.longitude
             // hash the video content to produce an ID
             id = Hash.SHA256(contentString!)
             let imgGenerator = AVAssetImageGenerator(asset: asset)
@@ -74,17 +75,17 @@ class Video {
         storageStat = "cloud"
     }
 
-    init(started: Date, imageData: Data, id: String, length: Int, size: Int, startLoc:CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
+    init(started: Date, imageData: Data, id: String, length: Int, size: Int, startLoc: CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
         self.id = id
         self.started = started
         thumbnail = UIImage(data: imageData)
         self.length = length
         self.size = size
         storageStat = "local"
-        startLat=startLoc.latitude
-        startLong=startLoc.longitude
-        endLat=endLoc.latitude
-        endLong=endLoc.longitude
+        startLat = startLoc.latitude
+        startLong = startLoc.longitude
+        endLat = endLoc.latitude
+        endLong = endLoc.longitude
     }
 
     public func getContent() -> Data? {
@@ -128,24 +129,59 @@ class Video {
     public func getThumbnail() -> UIImage {
         return thumbnail
     }
+
     public func getStorageStat() -> String {
         return storageStat!
     }
-    
-    public func changeStorageToBoth(){
+
+    public func changeStorageToBoth() {
         storageStat = "both"
     }
-    
-    public func getStartLat() -> CLLocationDegrees{
-       return startLat
+
+    public func getStartLat() -> CLLocationDegrees {
+        return startLat
     }
-    public func getStartLong() -> CLLocationDegrees{
+
+    public func getStartLong() -> CLLocationDegrees {
         return startLong
     }
-    public func getEndLat() -> CLLocationDegrees{
+
+    public func getEndLat() -> CLLocationDegrees {
         return endLat
     }
-    public func getEndLong() -> CLLocationDegrees{
+
+    public func getEndLong() -> CLLocationDegrees {
         return endLong
+    }
+
+    public func getStartLocation() -> String {
+        return getLocation(lattitude: startLat, longitude: startLong)
+    }
+
+    public func getEndLocation() -> String {
+        return getLocation(lattitude: endLat, longitude: endLong)
+    }
+
+    // helper function to get the location (in string format) given a lattitude and longitude
+    private func getLocation(lattitude: CLLocationDegrees, longitude: CLLocationDegrees) -> String {
+        var locString = "Location not found"
+
+        let geoCoder = CLGeocoder()
+        let loc = CLLocation(latitude: lattitude, longitude: longitude)
+
+        geoCoder.reverseGeocodeLocation(loc) { placemarks, error in
+            if let e = error {
+                print("Error finding location: ")
+                print(e)
+            } else {
+                let placeArray = placemarks as [CLPlacemark]!
+                var placeMark: CLPlacemark!
+                placeMark = placeArray![0]
+
+                locString = placeMark.locality! + ", " + placeMark.country!
+            }
+        }
+
+        return locString
     }
 }
