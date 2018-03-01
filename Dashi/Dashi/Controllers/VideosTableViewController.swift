@@ -14,14 +14,13 @@ import PromiseKit
 import SwiftyJSON
 import MapKit
 
-
 class VideosTableViewController: UITableViewController {
     var videos: [Video] = []
     var ids: [String] = []
-     let geoCoder = CLGeocoder()
+    let geoCoder = CLGeocoder()
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
-  // get's video metadata from local db and cloud
+    // get's video metadata from local db and cloud
     override func viewDidLoad() {
         super.viewDidLoad()
         getVidsFromLocal()
@@ -47,24 +46,24 @@ class VideosTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
+
     // returns how many of each type of cell the table has
     override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return videos.count
     }
-    
-    //gets video metadata from cloud and stores it in videos object. Reloads table data after callback
+
+    // gets video metadata from cloud and stores it in videos object. Reloads table data after callback
     func getVidsFromCloud() {
         DashiAPI.getAllVideoMetaData().then { value -> Void in
-            for video in value{
-                if let index = self.ids.index(of: video.getId()){
+            for video in value {
+                if let index = self.ids.index(of: video.getId()) {
                     self.videos[index].changeStorageToBoth()
-                }
-                else{
+                } else {
                     self.videos.append(video)
                 }
             }
-            
+
             self.tableView.reloadData()
         }.catch {
             error in
@@ -101,40 +100,40 @@ class VideosTableViewController: UITableViewController {
             let endLat = meta.value(forKey: "endLat") as! CLLocationDegrees
             let endLong = meta.value(forKey: "endLong") as! CLLocationDegrees
             // dates.append(video.value(forKeyPath: "startDate") as! Date)
-            let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D( latitude:startLat,longitude: startLong), endLoc: CLLocationCoordinate2D( latitude:endLat,longitude: endLong))
+            let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: startLat, longitude: startLong), endLoc: CLLocationCoordinate2D(latitude: endLat, longitude: endLong))
             videos.append(video)
             //  videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
             ids.append(id)
         }
     }
-    
-    //sets cell data for each video
+
+    // sets cell data for each video
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let row = indexPath.row
         let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
 
         let dateFormatter = DateFormatter()
         let endLoc = CLLocation(latitude: videos[row].getEndLat(), longitude: videos[row].getEndLong())
-        
+
         geoCoder.reverseGeocodeLocation(endLoc) { placemarks, error in
-            
+
             if let e = error {
-                
-               print(e)
-                
+
+                print(e)
+
             } else {
-                
+
                 let placeArray = placemarks as [CLPlacemark]!
-                
+
                 var placeMark: CLPlacemark!
-                
+
                 placeMark = placeArray![0]
                 cell.location.text = placeMark.locality! + ", " + placeMark.country!
             }
-            
-            
         }
-        
+
+        // US English Locale (en_US)
+
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short
         cell.thumbnail.image = videos[row].getThumbnail()
@@ -184,70 +183,34 @@ class VideosTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let preview = segue.destination as! VideoPreviewViewController
+        let preview = segue.destination as! VideoDetailViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
-        if videos[row].getStorageStat() == "cloud" {
-            DashiAPI.downloadVideoContent(video: videos[row]).then{ val in
-                preview.fileLocation = self.getUrlForCloud(id: self.videos[row].getId(), data: val)
-                
-                }.catch { error in
-                if let e = error as? DashiServiceError {
-                    print(e.statusCode)
-                    print(JSON(e.body))
-                }
-        } }
-        else {
-            preview.fileLocation = getUrlForLocal(id: videos[row].getId())
-        }
-    }
-    
-    //creates url for video content in local db given id
-    func getUrlForLocal(id: String) -> URL? {
 
+        let selectedVideo = videos[row]
+
+        preview.selectedVideo = selectedVideo
+    }
+
+    
+
+    // pass the id of a desired video to delete it from core data
+    func deleteLocal(id: String) {
         var content: [NSManagedObject]
         let managedContext =
             appDelegate?.persistentContainer.viewContext
 
-        // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["videoContent"]
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        // 3
-        do {
-            content = (try managedContext?.fetch(fetchRequest))!
-        } catch let error as Error {
-            print("Could not fetch. \(error), \(error.localizedDescription)")
-            return nil
-        }
 
-        let contentData = content[0].value(forKey: "videoContent") as! Data
-        let manager = FileManager.default
-        let filename = String(id) + "vid.mp4"
-        let path = NSTemporaryDirectory() + filename
-        manager.createFile(atPath: path, contents: contentData, attributes: nil)
-        return URL(fileURLWithPath: path)
-    }
-    
-    //pass the id of a desired video to delete it from core data
-    func deleteLocal(id: String) -> Void {
-        var content: [NSManagedObject]
-        let managedContext =
-            appDelegate?.persistentContainer.viewContext
-        
-        
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.propertiesToFetch = ["videoContent"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        
         do {
-            
+
             content = (try managedContext?.fetch(fetchRequest))!
             managedContext?.delete(content[0])
-            
+
             do {
-                //commit changes to context
+                // commit changes to context
                 try managedContext!.save()
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
@@ -257,14 +220,6 @@ class VideosTableViewController: UITableViewController {
             return
         }
     }
-    
-    ////creates url for video content in cloud db given id
-    func getUrlForCloud(id: String, data: Data) -> URL? {
-        
-        let manager = FileManager.default
-        let filename = String(id) + "vid.mp4"
-        let path = NSTemporaryDirectory() + filename
-        manager.createFile(atPath: path, contents: data, attributes: nil)
-        return URL(fileURLWithPath: path)
-    }
+
+   
 }

@@ -16,12 +16,11 @@ class HomeViewController: UIViewController {
 
         // Login automatically with stored refresh token if one exists
         if DashiAPI.fetchStoredRefreshToken() {
-            DashiAPI.loginWithToken().then { value -> Void in
+            DashiAPI.loginWithToken().then { _ -> Void in
                 print("Authenticated with stored refresh token")
             }
-        }
-        else {
-            self.performSegue(withIdentifier: "loginSegue", sender: self)
+        } else {
+            performSegue(withIdentifier: "loginSegue", sender: self)
         }
 
         // hide navigation bar
@@ -30,8 +29,8 @@ class HomeViewController: UIViewController {
 
     @IBAction func unwindToMenu(segue _: UIStoryboardSegue) {}
 
-    @IBAction func logout(_ sender: Any) {
-        DashiAPI.logout().then{val -> Void in
+    @IBAction func logout(_: Any) {
+        DashiAPI.logout().then { val -> Void in
             print(val)
             self.performSegue(withIdentifier: "loginSegue", sender: self)
         }
