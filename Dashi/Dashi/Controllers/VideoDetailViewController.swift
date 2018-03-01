@@ -13,9 +13,11 @@ import MapKit
 class VideoDetailViewController: UIViewController {
     var selectedVideo: Video!
 
+    @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var videoLocation: UILabel!
     @IBOutlet weak var videoTime: UILabel!
     @IBOutlet weak var videoDate: UILabel!
+    @IBOutlet weak var videoLength: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,15 +25,39 @@ class VideoDetailViewController: UIViewController {
     }
 
     func loadVideoContent() {
-        // format location and set label
-        //        self.videoLocation = self.selectedVideo.
+        // set thumbmail image
+        videoThumbnail.image = selectedVideo.getThumbnail()
 
+        // get length of video
+        let (h, m, s) = selectedVideo.secondsToHoursMinutesSeconds()
+        var lengthString: String
+
+        // format length as necessary
+        if m > 0 {
+            lengthString = String(format: "%02d", h) + ":" + String(format: "%02d", m)
+        } else {
+            lengthString = String(s) + " seconds"
+        }
+
+        // set the length label
+        videoLength.text = lengthString
+
+        // ending location
         let endLoc = CLLocation(latitude: selectedVideo.getEndLat(), longitude: selectedVideo.getEndLong())
 
-        let locationStart: String
-        let locationEnd: String
+        // lookup location based off ending cordinates
+        CLGeocoder().reverseGeocodeLocation(endLoc) { placemarks, error in
+            if let e = error {
+                print(e)
+            } else {
+                let placeArray = placemarks as [CLPlacemark]!
+                var placeMark: CLPlacemark!
+                placeMark = placeArray![0]
 
-        // lookup location of
+                // format location and set label
+                self.videoLocation.text = placeMark.locality!
+            }
+        }
 
         // format the date and set label
         let formatter = DateFormatter()

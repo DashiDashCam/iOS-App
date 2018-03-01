@@ -184,4 +184,9 @@ class Video {
 
         return locString
     }
+
+    // helper function for converting seconds to hours
+    func secondsToHoursMinutesSeconds() -> (Int, Int, Int) {
+        return (length / 3600, (length % 3600) / 60, (length % 3600) % 60)
+    }
 }
