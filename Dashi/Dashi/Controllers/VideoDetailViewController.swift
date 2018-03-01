@@ -9,10 +9,13 @@
 import Foundation
 import UIKit
 import MapKit
-
+import SwiftyJSON
+import CoreData
+import PromiseKit
 class VideoDetailViewController: UIViewController {
     var selectedVideo: Video!
-
+    let appDelegate =
+        UIApplication.shared.delegate as? AppDelegate
     @IBOutlet weak var videoThumbnail: UIImageView!
     @IBOutlet weak var videoLocation: UILabel!
     @IBOutlet weak var videoTime: UILabel!
@@ -36,7 +39,7 @@ class VideoDetailViewController: UIViewController {
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
         if (gesture.view as? UIImageView) != nil {
-            print("Image Tapped")
+            self.performSegue(withIdentifier: "viewVideoSegue", sender: self)
             // Here you can initiate your new ViewController
         }
     }
@@ -107,4 +110,42 @@ class VideoDetailViewController: UIViewController {
             preview.fileLocation = getUrlForLocal(id: selectedVideo.getId())
         }
     }
+    ////creates url for video content in cloud db given id
+    func getUrlForCloud(id: String, data: Data) -> URL? {
+        
+        let manager = FileManager.default
+        let filename = String(id) + "vid.mp4"
+        let path = NSTemporaryDirectory() + filename
+        manager.createFile(atPath: path, contents: data, attributes: nil)
+        return URL(fileURLWithPath: path)
+    }
+    
+    // creates url for video content in local db given id
+    func getUrlForLocal(id: String) -> URL? {
+        
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
+        
+        // 2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        // 3
+        do {
+            content = (try managedContext?.fetch(fetchRequest))!
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+            return nil
+        }
+        
+        let contentData = content[0].value(forKey: "videoContent") as! Data
+        let manager = FileManager.default
+        let filename = String(id) + "vid.mp4"
+        let path = NSTemporaryDirectory() + filename
+        manager.createFile(atPath: path, contents: contentData, attributes: nil)
+        return URL(fileURLWithPath: path)
+    }
+    
 }

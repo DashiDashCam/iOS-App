@@ -191,33 +191,7 @@ class VideosTableViewController: UITableViewController {
         preview.selectedVideo = selectedVideo
     }
 
-    // creates url for video content in local db given id
-    func getUrlForLocal(id: String) -> URL? {
-
-        var content: [NSManagedObject]
-        let managedContext =
-            appDelegate?.persistentContainer.viewContext
-
-        // 2
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.propertiesToFetch = ["videoContent"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        // 3
-        do {
-            content = (try managedContext?.fetch(fetchRequest))!
-        } catch let error as Error {
-            print("Could not fetch. \(error), \(error.localizedDescription)")
-            return nil
-        }
-
-        let contentData = content[0].value(forKey: "videoContent") as! Data
-        let manager = FileManager.default
-        let filename = String(id) + "vid.mp4"
-        let path = NSTemporaryDirectory() + filename
-        manager.createFile(atPath: path, contents: contentData, attributes: nil)
-        return URL(fileURLWithPath: path)
-    }
+    
 
     // pass the id of a desired video to delete it from core data
     func deleteLocal(id: String) {
@@ -247,13 +221,5 @@ class VideosTableViewController: UITableViewController {
         }
     }
 
-    ////creates url for video content in cloud db given id
-    func getUrlForCloud(id: String, data: Data) -> URL? {
-
-        let manager = FileManager.default
-        let filename = String(id) + "vid.mp4"
-        let path = NSTemporaryDirectory() + filename
-        manager.createFile(atPath: path, contents: data, attributes: nil)
-        return URL(fileURLWithPath: path)
-    }
+   
 }
