@@ -15,8 +15,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     func handleUpdate(coordinate: CLLocationCoordinate2D) {
         currentLoc = coordinate
     }
-    
-    
+
     @IBOutlet weak var previewView: UIView! // displays capture stream
     @IBOutlet weak var recordButton: UIButton! // stop/start recording
     @IBOutlet weak var toggleButton: UIButton! // switch camera
@@ -36,7 +35,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        locationManager.delegate=self
+        locationManager.delegate = self
         locationManager.startLocUpdate()
         // hide navigation bar
         navigationController?.isNavigationBarHidden = true

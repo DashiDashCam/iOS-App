@@ -18,7 +18,7 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var confirm: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var errorMessage: UILabel!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         updateConstraints()
@@ -31,19 +31,18 @@ class SignupViewController: UIViewController {
     }
 
     @IBAction func signUpPushed(_: Any) {
-        self.errorMessage.text = ""
+        errorMessage.text = ""
         if password.text! == confirm.text! {
             DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then { json -> Void in
-                    
+
                 DashiAPI.loginWithPassword(username: self.email.text!, password: self.password.text!).then { _ -> Void in
                     self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
                 }
-                    
+
             }.catch { error in
                 if let e = error as? DashiServiceError {
-                    
                         let json = JSON(e.body)
-                        if(json["errors"].array != nil) {
+                        if json["errors"].array != nil {
                             self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
                         } else {
                             self.errorMessage.text = json["errors"]["message"].string
@@ -51,7 +50,7 @@ class SignupViewController: UIViewController {
                 }
             }
         } else {
-            self.errorMessage.text = "Password and Confirm Password do not match"
+            errorMessage.text = "Password and Confirm Password do not match"
         }
     }
 
