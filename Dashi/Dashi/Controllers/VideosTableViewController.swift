@@ -140,6 +140,7 @@ class VideosTableViewController: UITableViewController {
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted())
         cell.storageIcon.image = UIImage(named: videos[row].getStorageStat())
+        cell.id = videos[row].getId()
         return cell
     }
 
@@ -266,5 +267,13 @@ class VideosTableViewController: UITableViewController {
         let path = NSTemporaryDirectory() + filename
         manager.createFile(atPath: path, contents: data, attributes: nil)
         return URL(fileURLWithPath: path)
+    }
+    
+    @IBAction func shareVideoLink() -> Void{
+        let this = self
+        DashiAPI.createDownloadLink(id: id).then{ videoLink -> Void in
+            let activityViewController = UIActivityViewController(activityItems: [videoLink as NSString], applicationActivities: nil)
+            this.present(activityViewController)
+        }
     }
 }

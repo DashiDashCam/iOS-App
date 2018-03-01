@@ -498,6 +498,25 @@ class DashiAPI {
             return json
         }
     }
+    
+    /**
+     *  Creates a shareable download link for a video with a given id.
+     *  @param id The id of the video to create a download link for.
+     *  @return A promise that fulfills with the download link
+     */
+    public static func createDownloadLink(id: String) -> Promise<String> {
+        let parameters: Parameters = [
+            "id": id,
+            ]
+        
+        return sessionManager.request(API_ROOT + "/Share", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value -> String in
+            let json = JSON(value)
+            
+            
+            
+            return API_ROOT+"/Share/"+json["videoId"].stringValue
+        }
+    }
 
     public static func fetchStoredRefreshToken() -> Bool {
         let rToken = fetchRefreshTokenLocal()
