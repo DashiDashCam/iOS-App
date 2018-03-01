@@ -210,30 +210,29 @@ class VideoPreviewViewController: UIViewController {
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
-        
-        if result.isEmpty{
-        let video = NSManagedObject(entity: entity,
-                                    insertInto: managedContext)
 
-        video.setValue(currentVideo.getId(), forKeyPath: "id")
-        video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
-        video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
-        video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
-        video.setValue(currentVideo.getLength(), forKeyPath: "length")
-        video.setValue(currentVideo.getSize(), forKey: "size")
-        video.setValue(currentVideo.getStartLat(), forKey: "startLat")
-        video.setValue(currentVideo.getStartLong(), forKey: "startLong")
+        if result.isEmpty {
+            let video = NSManagedObject(entity: entity,
+                                        insertInto: managedContext)
+
+            video.setValue(currentVideo.getId(), forKeyPath: "id")
+            video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
+            video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
+            video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
+            video.setValue(currentVideo.getLength(), forKeyPath: "length")
+            video.setValue(currentVideo.getSize(), forKey: "size")
+            video.setValue(currentVideo.getStartLat(), forKey: "startLat")
+            video.setValue(currentVideo.getStartLong(), forKey: "startLong")
             video.setValue(currentVideo.getEndLat(), forKey: "endLat")
-        video.setValue(currentVideo.getEndLong(), forKey: "endLong")
-        do {
-            try managedContext.save()
-            self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-        else{
-             self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
+            video.setValue(currentVideo.getEndLong(), forKey: "endLong")
+            do {
+                try managedContext.save()
+                self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        } else {
+            self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
         }
     }
 

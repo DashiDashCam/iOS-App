@@ -22,6 +22,23 @@ class VideoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadVideoContent()
+
+        // create tap gesture recognizer for when user taps thumbnail
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
+
+        // add it to the image view;
+        videoThumbnail.addGestureRecognizer(tapGesture)
+        // make sure imageView can be interacted with by user
+        videoThumbnail.isUserInteractionEnabled = true
+    }
+
+    // called when user taps thumbnail
+    @objc func imageTapped(gesture: UIGestureRecognizer) {
+        // if the tapped view is a UIImageView then set it to imageview
+        if (gesture.view as? UIImageView) != nil {
+            print("Image Tapped")
+            // Here you can initiate your new ViewController
+        }
     }
 
     func loadVideoContent() {
@@ -71,23 +88,23 @@ class VideoDetailViewController: UIViewController {
         videoTime.text = timeString
     }
 
-    //        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //            // Get the new view controller using segue.destinationViewController.
-    //            // Pass the selected object to the new view controller.
-    //            let preview = segue.destination as! VideoPreviewViewController
-    //            let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
-    //            if videos[row].getStorageStat() == "cloud" {
-    //                DashiAPI.downloadVideoContent(video: videos[row]).then{ val in
-    //                    preview.fileLocation = self.getUrlForCloud(id: self.videos[row].getId(), data: val)
-    //
-    //                    }.catch { error in
-    //                        if let e = error as? DashiServiceError {
-    //                            print(e.statusCode)
-    //                            print(JSON(e.body))
-    //                        }
-    //                } }
-    //            else {
-    //                preview.fileLocation = getUrlForLocal(id: videos[row].getId())
-    //            }
-    //        }
+    override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
+        //         Get the new view controller using segue.destinationViewController.
+        //         Pass the selected object to the new view controller.
+        let preview = segue.destination as! VideoPreviewViewController
+
+        if selectedVideo.getStorageStat() == "cloud" {
+            DashiAPI.downloadVideoContent(video: selectedVideo).then { val in
+                preview.fileLocation = self.getUrlForCloud(id: self.selectedVideo.getId(), data: val)
+
+            }.catch { error in
+                if let e = error as? DashiServiceError {
+                    print(e.statusCode)
+                    print(JSON(e.body))
+                }
+        } }
+        else {
+            preview.fileLocation = getUrlForLocal(id: selectedVideo.getId())
+        }
+    }
 }
