@@ -22,13 +22,17 @@ class VideoDetailViewController: UIViewController {
     @IBOutlet weak var videoDate: UILabel!
     @IBOutlet weak var videoLength: UILabel!
 
+    @IBOutlet weak var uploadProgress: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         loadVideoContent()
 
         // create tap gesture recognizer for when user taps thumbnail
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
+        self.uploadProgress.text = (selectedVideo.getProgress()).description
+        
 
+        
         // add it to the image view;
         videoThumbnail.addGestureRecognizer(tapGesture)
         // make sure imageView can be interacted with by user

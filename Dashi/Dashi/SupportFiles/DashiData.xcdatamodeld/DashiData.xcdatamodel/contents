@@ -5,6 +5,10 @@
         <attribute name="loggedOut" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="refreshToken" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="UploadStatus" representedClassName="UploadStatus" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uploadProgress" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
     <entity name="Videos" representedClassName="Videos" syncable="YES" codeGenerationType="class">
         <attribute name="endLat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="endLong" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -20,5 +24,6 @@
     <elements>
         <element name="RefreshTokens" positionX="-63" positionY="9" width="128" height="90"/>
         <element name="Videos" positionX="-63" positionY="-18" width="128" height="195"/>
+        <element name="UploadStatus" positionX="-63" positionY="54" width="128" height="75"/>
     </elements>
 </model>
