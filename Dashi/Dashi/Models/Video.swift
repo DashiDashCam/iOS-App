@@ -12,6 +12,7 @@ import SwiftyJSON
 import Arcane
 import CoreLocation
 import MapKit
+import CoreData
 
 class Video {
 
@@ -27,7 +28,9 @@ class Video {
     var endLat: CLLocationDegrees!
     var startLong: CLLocationDegrees!
     var endLong: CLLocationDegrees!
-
+    var uploadProgress: Double!
+    let appDelegate =
+        UIApplication.shared.delegate as? AppDelegate
     /**
      *  Initializes a Video object. Note that ID is initialized
      *  from the SHA256 hash of the content of the video
@@ -88,6 +91,11 @@ class Video {
         endLong = endLoc.longitude
     }
 
+    
+    public func getProgress() -> Double{
+        updateProgressFromCoreData();
+        return self.uploadProgress
+    }
     public func getContent() -> Data? {
         do {
             return try Data(contentsOf: asset!.url)
@@ -184,7 +192,33 @@ class Video {
 
         return locString
     }
+    
+    //gets progress from core data
+    func updateProgressFromCoreData() {
+        if self.storageStat == "local"{
+            uploadProgress = 100.00
+        }
+        else{
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
+        
+        // 2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "UploadStatus")
+        fetchRequest.propertiesToFetch = ["uploadProgress"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        // 3
+        do {
+            content = (try managedContext?.fetch(fetchRequest))!
+        self.uploadProgress = content[0].value(forKey: "uploadProgress") as!  Double
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
 
+        }
+        }
+   
+    }
     // helper function for converting seconds to hours
     func secondsToHoursMinutesSeconds() -> (Int, Int, Int) {
         return (length / 3600, (length % 3600) / 60, (length % 3600) % 60)

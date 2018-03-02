@@ -234,6 +234,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAa-tW-XuK">
+                                <rect key="frame" x="112" y="472" width="42" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="crY-uC-O3y"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -242,7 +251,9 @@
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="trailing" secondItem="gSY-Tl-6Kr" secondAttribute="trailing" id="2xL-Ls-k4p"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="top" secondItem="4YS-yv-EmS" secondAttribute="bottom" constant="8" symbolic="YES" id="4mt-Bw-1Ms"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="top" secondItem="YHS-f5-UEK" secondAttribute="bottom" constant="8" symbolic="YES" id="D73-Cp-laU"/>
+                            <constraint firstItem="QAa-tW-XuK" firstAttribute="leading" secondItem="cKC-Km-GYU" secondAttribute="leadingMargin" constant="96" id="GJF-qy-87o"/>
                             <constraint firstItem="WtE-Gr-Psp" firstAttribute="leading" secondItem="fKq-Ev-LRD" secondAttribute="trailing" constant="8" symbolic="YES" id="HkL-SS-HgK"/>
+                            <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="QAa-tW-XuK" secondAttribute="bottom" constant="46" id="LdE-Nn-tEv"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="trailing" secondItem="cKC-Km-GYU" secondAttribute="trailingMargin" id="NBE-6P-ymW"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="leading" secondItem="gSY-Tl-6Kr" secondAttribute="leading" id="Ok2-ta-2TB"/>
                             <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="WtE-Gr-Psp" secondAttribute="bottom" constant="242" id="QRZ-il-G4q"/>
@@ -261,6 +272,7 @@
                     <connections>
                         <outlet property="VideoDate" destination="fKq-Ev-LRD" id="HlU-AQ-QSr"/>
                         <outlet property="VideoTime" destination="WtE-Gr-Psp" id="pvg-fP-0sW"/>
+                        <outlet property="uploadProgress" destination="QAa-tW-XuK" id="4H8-wV-f1L"/>
                         <outlet property="videoDate" destination="fKq-Ev-LRD" id="863-34-xL6"/>
                         <outlet property="videoLength" destination="gSY-Tl-6Kr" id="aHI-b8-Dee"/>
                         <outlet property="videoLocation" destination="EsS-EU-Sgb" id="ONW-uU-J29"/>
