@@ -91,11 +91,11 @@ class Video {
         endLong = endLoc.longitude
     }
 
-    
-    public func getProgress() -> Double{
-        updateProgressFromCoreData();
-        return self.uploadProgress
+    public func getProgress() -> Double {
+        updateProgressFromCoreData()
+        return uploadProgress
     }
+
     public func getContent() -> Data? {
         do {
             return try Data(contentsOf: asset!.url)
@@ -162,63 +162,30 @@ class Video {
         return endLong
     }
 
-    public func getStartLocation() -> String {
-        return getLocation(lattitude: startLat, longitude: startLong)
-    }
+    // gets progress from core data
+    func updateProgressFromCoreData() {
+        if storageStat == "local" {
+            uploadProgress = 0.00
+        } else {
+            var content: [NSManagedObject]
+            let managedContext =
+                appDelegate?.persistentContainer.viewContext
 
-    public func getEndLocation() -> String {
-        return getLocation(lattitude: endLat, longitude: endLong)
-    }
-
-    // helper function to get the location (in string format) given a lattitude and longitude
-    private func getLocation(lattitude: CLLocationDegrees, longitude: CLLocationDegrees) -> String {
-        var locString = "Location not found"
-
-        let geoCoder = CLGeocoder()
-        let loc = CLLocation(latitude: lattitude, longitude: longitude)
-
-        geoCoder.reverseGeocodeLocation(loc) { placemarks, error in
-            if let e = error {
-                print("Error finding location: ")
-                print(e)
-            } else {
-                let placeArray = placemarks as [CLPlacemark]!
-                var placeMark: CLPlacemark!
-                placeMark = placeArray![0]
-
-                locString = placeMark.locality! + ", " + placeMark.country!
+            // 2
+            let fetchRequest =
+                NSFetchRequest<NSManagedObject>(entityName: "UploadStatus")
+            fetchRequest.propertiesToFetch = ["uploadProgress"]
+            fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+            // 3
+            do {
+                content = (try managedContext?.fetch(fetchRequest))!
+                uploadProgress = content[0].value(forKey: "uploadProgress") as! Double
+            } catch let error as Error {
+                print("Could not fetch. \(error), \(error.localizedDescription)")
             }
         }
-
-        return locString
     }
-    
-    //gets progress from core data
-    func updateProgressFromCoreData() {
-        if self.storageStat == "local"{
-            uploadProgress = 100.00
-        }
-        else{
-        var content: [NSManagedObject]
-        let managedContext =
-            appDelegate?.persistentContainer.viewContext
-        
-        // 2
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "UploadStatus")
-        fetchRequest.propertiesToFetch = ["uploadProgress"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
-        // 3
-        do {
-            content = (try managedContext?.fetch(fetchRequest))!
-        self.uploadProgress = content[0].value(forKey: "uploadProgress") as!  Double
-        } catch let error as Error {
-            print("Could not fetch. \(error), \(error.localizedDescription)")
 
-        }
-        }
-   
-    }
     // helper function for converting seconds to hours
     func secondsToHoursMinutesSeconds() -> (Int, Int, Int) {
         return (length / 3600, (length % 3600) / 60, (length % 3600) % 60)
