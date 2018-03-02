@@ -139,6 +139,7 @@ class VideosTableViewController: UITableViewController {
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted())
         cell.storageIcon.image = UIImage(named: videos[row].getStorageStat())
+        cell.id = videos[row].getId()
         return cell
     }
 
@@ -221,5 +222,4 @@ class VideosTableViewController: UITableViewController {
         }
     }
 
-   
 }
