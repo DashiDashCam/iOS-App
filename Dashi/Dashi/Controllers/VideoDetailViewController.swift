@@ -21,7 +21,6 @@ class VideoDetailViewController: UIViewController {
     @IBOutlet weak var videoTime: UILabel!
     @IBOutlet weak var videoDate: UILabel!
     @IBOutlet weak var videoLength: UILabel!
-    var id: String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +47,6 @@ class VideoDetailViewController: UIViewController {
     func loadVideoContent() {
         // set thumbmail image
         videoThumbnail.image = selectedVideo.getThumbnail()
-        
-        id = selectedVideo.getId()
 
         // get length of video
         let (h, m, s) = selectedVideo.secondsToHoursMinutesSeconds()
@@ -149,15 +146,6 @@ class VideoDetailViewController: UIViewController {
         let path = NSTemporaryDirectory() + filename
         manager.createFile(atPath: path, contents: contentData, attributes: nil)
         return URL(fileURLWithPath: path)
-    }
-    
-    @IBAction func shareVideoLink() -> Void{
-        let this = self
-        DashiAPI.createDownloadLink(id: id).then{ videoLink -> Void in
-            print(videoLink)
-            let activityViewController = UIActivityViewController(activityItems: [videoLink as NSString], applicationActivities: nil)
-            this.present(activityViewController, animated: true)
-        }
     }
     
 }
