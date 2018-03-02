@@ -21,6 +21,7 @@ class VideoDetailViewController: UIViewController {
     @IBOutlet weak var videoTime: UILabel!
     @IBOutlet weak var videoDate: UILabel!
     @IBOutlet weak var videoLength: UILabel!
+    var id: String!
 
     @IBOutlet weak var uploadProgress: UILabel!
     override func viewDidLoad() {
@@ -29,10 +30,8 @@ class VideoDetailViewController: UIViewController {
 
         // create tap gesture recognizer for when user taps thumbnail
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
-        self.uploadProgress.text = (selectedVideo.getProgress()).description
-        
+        uploadProgress.text = (selectedVideo.getProgress()).description
 
-        
         // add it to the image view;
         videoThumbnail.addGestureRecognizer(tapGesture)
         // make sure imageView can be interacted with by user
@@ -43,7 +42,7 @@ class VideoDetailViewController: UIViewController {
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
         if (gesture.view as? UIImageView) != nil {
-            self.performSegue(withIdentifier: "viewVideoSegue", sender: self)
+            performSegue(withIdentifier: "viewVideoSegue", sender: self)
             // Here you can initiate your new ViewController
         }
     }
@@ -51,6 +50,8 @@ class VideoDetailViewController: UIViewController {
     func loadVideoContent() {
         // set thumbmail image
         videoThumbnail.image = selectedVideo.getThumbnail()
+
+        id = selectedVideo.getId()
 
         // get length of video
         let (h, m, s) = selectedVideo.secondsToHoursMinutesSeconds()
@@ -114,23 +115,24 @@ class VideoDetailViewController: UIViewController {
             preview.fileLocation = getUrlForLocal(id: selectedVideo.getId())
         }
     }
+
     ////creates url for video content in cloud db given id
     func getUrlForCloud(id: String, data: Data) -> URL? {
-        
+
         let manager = FileManager.default
         let filename = String(id) + "vid.mp4"
         let path = NSTemporaryDirectory() + filename
         manager.createFile(atPath: path, contents: data, attributes: nil)
         return URL(fileURLWithPath: path)
     }
-    
+
     // creates url for video content in local db given id
     func getUrlForLocal(id: String) -> URL? {
-        
+
         var content: [NSManagedObject]
         let managedContext =
             appDelegate?.persistentContainer.viewContext
-        
+
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
@@ -143,7 +145,7 @@ class VideoDetailViewController: UIViewController {
             print("Could not fetch. \(error), \(error.localizedDescription)")
             return nil
         }
-        
+
         let contentData = content[0].value(forKey: "videoContent") as! Data
         let manager = FileManager.default
         let filename = String(id) + "vid.mp4"
@@ -151,5 +153,13 @@ class VideoDetailViewController: UIViewController {
         manager.createFile(atPath: path, contents: contentData, attributes: nil)
         return URL(fileURLWithPath: path)
     }
-    
+
+    @IBAction func shareVideoLink() {
+        let this = self
+        DashiAPI.createDownloadLink(id: id).then { videoLink -> Void in
+            print(videoLink)
+            let activityViewController = UIActivityViewController(activityItems: [videoLink as NSString], applicationActivities: nil)
+            this.present(activityViewController, animated: true)
+        }
+    }
 }

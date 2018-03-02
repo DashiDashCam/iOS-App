@@ -139,6 +139,7 @@ class VideosTableViewController: UITableViewController {
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted())
         cell.storageIcon.image = UIImage(named: videos[row].getStorageStat())
+        cell.id = videos[row].getId()
         return cell
     }
 
@@ -191,8 +192,6 @@ class VideosTableViewController: UITableViewController {
         preview.selectedVideo = selectedVideo
     }
 
-    
-
     // pass the id of a desired video to delete it from core data
     func deleteLocal(id: String) {
         var content: [NSManagedObject]
@@ -220,6 +219,4 @@ class VideosTableViewController: UITableViewController {
             return
         }
     }
-
-   
 }
