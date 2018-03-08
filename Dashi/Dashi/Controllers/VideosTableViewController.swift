@@ -28,6 +28,11 @@ class VideosTableViewController: UITableViewController {
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
+        // override back button to ensure it always returns to the home screen
+        if let rootVC = navigationController?.viewControllers.first {
+            navigationController?.viewControllers = [rootVC, self]
+        }
+
         // Uncomment the following line to preserve selection between presentations
         //   self.clearsSelectionOnViewWillAppear = false
 

@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import CoreMedia
 import CoreLocation
+import CoreData
 
 class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegate, locationHandlerDelegate {
     func handleUpdate(coordinate: CLLocationCoordinate2D) {
@@ -20,6 +21,9 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     @IBOutlet weak var recordButton: UIButton! // stop/start recording
     @IBOutlet weak var toggleButton: UIButton! // switch camera
     @IBOutlet weak var backButton: UIButton! // custom back button
+
+    let appDelegate =
+        UIApplication.shared.delegate as? AppDelegate
 
     let captureSession = AVCaptureSession()
     var videoCaptureDevice: AVCaptureDevice?
@@ -112,8 +116,8 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             endLoc = currentLoc
             // stop recording the simulator
             if TARGET_OS_SIMULATOR != 0 {
-                // force seque to videoPreview
-                performSegue(withIdentifier: "videoPreview", sender: nil)
+                // force seque to previousTrips
+                performSegue(withIdentifier: "previousTrips", sender: nil)
                 updateRecordButtonTitle()
             }
         } else {
@@ -350,28 +354,81 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         return nil
     }
 
-    // MARK: - Navigation
+    // save the video to core data
+    func saveVideoToCoreData() {
+        let path = Bundle.main.path(forResource: "IMG_1800", ofType: "MOV")
+        let asset = AVURLAsset(url: URL(fileURLWithPath: path!))
+
+        let currentVideo = Video(started: Date(), asset: asset, startLoc: startLoc, endLoc: endLoc)
+
+        let managedContext =
+            appDelegate!.persistentContainer.viewContext
+
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Videos",
+                                       in: managedContext)!
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", currentVideo.getId())
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+
+        if result.isEmpty {
+            let video = NSManagedObject(entity: entity,
+                                        insertInto: managedContext)
+
+            video.setValue(currentVideo.getId(), forKeyPath: "id")
+            video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
+            video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
+            video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
+            video.setValue(currentVideo.getLength(), forKeyPath: "length")
+            video.setValue(currentVideo.getSize(), forKey: "size")
+            video.setValue(currentVideo.getStartLat(), forKey: "startLat")
+            video.setValue(currentVideo.getStartLong(), forKey: "startLong")
+            video.setValue(currentVideo.getEndLat(), forKey: "endLat")
+            video.setValue(currentVideo.getEndLong(), forKey: "endLong")
+            do {
+                try managedContext.save()
+                //                self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        } else {
+            //            self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
+            print("already saved")
+        }
+    }
 
     // prepare to seque to another view
     override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
 
-        let preview = segue.destination as! VideoPreviewViewController
-        preview.startLoc = startLoc
-        preview.endLoc = endLoc
-        // not running simulator
-        if TARGET_OS_SIMULATOR == 0 {
-            preview.fileLocation = self.outputFileLocation // triggers loading of video
-        } else {
-            print("stopped recording")
-            guard let path = Bundle.main.path(forResource: "IMG_1800", ofType: "MOV") else {
-                debugPrint("Placeholder video not found")
-                return
-            }
-            //            let player = AVPlayer(url: URL(fileURLWithPath: path))
-            preview.fileLocation = URL(fileURLWithPath: path)
-        }
+        let preview = segue.destination as! VideosTableViewController
+        //        preview.startLoc = startLoc
+        //        preview.endLoc = endLoc
+
+        // let VideoPreviewController know where we are sequeing from
+        //        preview.previousView = "VideoViewController"
+
+        //        // not running simulator
+        //        if TARGET_OS_SIMULATOR == 0 {
+        //            preview.fileLocation = self.outputFileLocation // triggers loading of video
+        //        } else {
+        //            print("stopped recording")
+        //            guard let path = Bundle.main.path(forResource: "IMG_1800", ofType: "MOV") else {
+        //                debugPrint("Placeholder video not found")
+        //                return
+        //            }
+        //            //            let player = AVPlayer(url: URL(fileURLWithPath: path))
+        //            preview.fileLocation = URL(fileURLWithPath: path)
+        //        }
     }
 }
 
