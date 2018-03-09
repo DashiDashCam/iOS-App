@@ -36,6 +36,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     var startLoc: CLLocationCoordinate2D!
     var endLoc: CLLocationCoordinate2D!
     var currentLoc: CLLocationCoordinate2D!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -110,17 +111,18 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
 
     // stop and start recording based off recording state
     @IBAction func recordVideoButtonPressed(sender _: AnyObject) {
+        // end recording
         if movieFileOutput.isRecording || simulatorRecording {
             // stop recording
-            movieFileOutput.stopRecording()
-            endLoc = currentLoc
+            movieFileOutput.stopRecording() // calls fileOutput() method below
+
             // stop recording the simulator
             if TARGET_OS_SIMULATOR != 0 {
                 // force seque to previousTrips
                 performSegue(withIdentifier: "previousTrips", sender: nil)
                 updateRecordButtonTitle()
             }
-        } else {
+        } else { // start recording
             startLoc = currentLoc
             // not running simulator
             if TARGET_OS_SIMULATOR == 0 {
@@ -281,8 +283,14 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         // set output file location
         self.outputFileLocation = outputFileURL
 
-        // seque to videoPreview
-        self.performSegue(withIdentifier: "videoPreview", sender: nil)
+        // set end location
+        self.endLoc = self.currentLoc
+
+        // automatically save video to core data
+        self.saveVideoToCoreData()
+
+        // seque to previousTrips
+        self.performSegue(withIdentifier: "previousTrips", sender: nil)
     }
 
     // MARK: Helpers
@@ -356,10 +364,10 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
 
     // save the video to core data
     func saveVideoToCoreData() {
-        let path = Bundle.main.path(forResource: "IMG_1800", ofType: "MOV")
-        let asset = AVURLAsset(url: URL(fileURLWithPath: path!))
+        // load recorded video into asset
+        let asset = AVURLAsset(url: self.outputFileLocation!)
 
-        let currentVideo = Video(started: Date(), asset: asset, startLoc: startLoc, endLoc: endLoc)
+        let currentVideo = Video(started: Date(), asset: asset, startLoc: startLoc, endLoc: startLoc)
 
         let managedContext =
             appDelegate!.persistentContainer.viewContext
