@@ -129,7 +129,8 @@ class VideoPreviewViewController: UIViewController {
 
     // MARK: Actions
     @IBAction func closePreview() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
+        //        self.dismiss(animated: true, completion: nil)
     }
 
     @IBAction func saveToLibrary() {
