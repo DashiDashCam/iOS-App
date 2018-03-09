@@ -86,6 +86,9 @@ class VideoPreviewViewController: UIViewController {
     override func viewWillDisappear(_: Bool) {
         removeObserver(self, forKeyPath: "player.currentItem.status", context: nil)
         removeObserver(self, forKeyPath: "player.rate", context: nil)
+
+        // show the navigation bar
+        self.navigationController?.isNavigationBarHidden = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -130,7 +133,6 @@ class VideoPreviewViewController: UIViewController {
     // MARK: Actions
     @IBAction func closePreview() {
         self.navigationController?.popViewController(animated: true)
-        //        self.dismiss(animated: true, completion: nil)
     }
 
     @IBAction func saveToLibrary() {
