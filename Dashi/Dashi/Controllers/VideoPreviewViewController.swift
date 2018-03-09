@@ -77,6 +77,9 @@ class VideoPreviewViewController: UIViewController {
 
         // set the player layer to the AVPlayer object
         self.playerView.playerLayer.player = player
+
+        // hide the navigation bar
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     // remove the observers from viewDidLoad()
