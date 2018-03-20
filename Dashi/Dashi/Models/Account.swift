@@ -127,4 +127,15 @@ class Account {
     public func getId() -> Int {
         return id
     }
+    
+    public func getSettings() -> Dictionary<String, Any>{
+        let settings = [
+            "wifiOnlyBackup": wifiOnlyBackup,
+            "maxLocalStorage":maxLocalStorage,
+            "localRetentionTime":localRetentionTime,
+            "cloudRetentionTime":cloudRetentionTime,
+            "autoBackUp":autoBackUp,
+            "autoDelete": autoDelete] as [String : Any]
+        return settings
+    }
 }
