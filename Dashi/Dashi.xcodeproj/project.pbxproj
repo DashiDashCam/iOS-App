@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F2821CB60E060465D2E38E2 /* Pods_Dashi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68B438EB114BBD623DF3819 /* Pods_Dashi.framework */; };
+		241CAA1A206453FB0098FD29 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241CAA19206453FB0098FD29 /* SettingsViewController.swift */; };
 		24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */; };
 		2F0328EB1FC0E8AD00944477 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328E91FC0E8AD00944477 /* CloudManager.swift */; };
 		2F0328EC1FC0E8AD00944477 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		241CAA19206453FB0098FD29 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		24A187D91FBBA568002615A8 /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
 		24E684E51FABC0D500F79F9B /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
 		2F0328E91FC0E8AD00944477 /* CloudManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */,
 				2F721EE31FB5061500073881 /* VideoTableViewCell.swift */,
 				A359F071204092C500DA88BB /* VideoDetailViewController.swift */,
+				241CAA19206453FB0098FD29 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				A359F072204092C500DA88BB /* VideoDetailViewController.swift in Sources */,
 				2F0328EB1FC0E8AD00944477 /* CloudManager.swift in Sources */,
 				24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */,
+				241CAA1A206453FB0098FD29 /* SettingsViewController.swift in Sources */,
 				D889C4261FC368280082052A /* DashiAPI.swift in Sources */,
 				A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */,
 				2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */,
