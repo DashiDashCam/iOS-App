@@ -244,6 +244,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="teG-Sz-wcO">
+                                <rect key="frame" x="105" y="473" width="111" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Upload to Cloud"/>
+                                <connections>
+                                    <action selector="pushToCloud:" destination="V0s-R8-uJe" eventType="touchUpInside" id="hNQ-pQ-RWr"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCI-hj-7xk">
                                 <rect key="frame" x="137" y="435" width="46" height="30"/>
                                 <state key="normal" title="Share"/>
@@ -285,6 +293,7 @@
                         <outlet property="VideoDate" destination="fKq-Ev-LRD" id="HlU-AQ-QSr"/>
                         <outlet property="VideoTime" destination="WtE-Gr-Psp" id="pvg-fP-0sW"/>
                         <outlet property="uploadProgress" destination="QAa-tW-XuK" id="4H8-wV-f1L"/>
+                        <outlet property="uploadToCloud" destination="teG-Sz-wcO" id="vp2-44-ccl"/>
                         <outlet property="videoDate" destination="fKq-Ev-LRD" id="863-34-xL6"/>
                         <outlet property="videoLength" destination="gSY-Tl-6Kr" id="aHI-b8-Dee"/>
                         <outlet property="videoLocation" destination="EsS-EU-Sgb" id="ONW-uU-J29"/>
