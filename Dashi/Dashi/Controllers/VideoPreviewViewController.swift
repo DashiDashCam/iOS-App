@@ -143,27 +143,6 @@ class VideoPreviewViewController: UIViewController {
         self.updatePlayPauseButton()
     }
 
-    @IBAction func pushToCloud() {
-        let currentVideo = Video(started: Date(), asset: asset!, startLoc: startLoc, endLoc: endLoc)
-
-        DashiAPI.uploadVideoMetaData(video: currentVideo).then { _ -> Void in
-            self.initProgress(id: currentVideo.getId())
-            DashiAPI.uploadVideoContent(video: currentVideo).then { _ in
-                self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
-
-            }.catch { error in
-                if let e = error as? DashiServiceError {
-                    print(String(data: e.body, encoding: String.Encoding.utf8)!)
-                }
-            }
-        }.catch { error in
-            print("CATCH")
-            if let e = error as? DashiServiceError {
-                print(String(data: e.body, encoding: String.Encoding.utf8)!)
-            }
-        }
-    }
-
     // MARK: Callbacks
 
     // check for status of observers
