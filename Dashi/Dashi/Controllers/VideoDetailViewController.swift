@@ -58,7 +58,6 @@ class VideoDetailViewController: UIViewController {
         DashiAPI.uploadVideoMetaData(video: selectedVideo).then { _ -> Void in
             self.initProgress(id: self.selectedVideo.getId())
             DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ in
-                print("uploaded to cloud")
                 self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
 
             }.catch { error in
