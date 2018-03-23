@@ -87,7 +87,7 @@
                         <outlet property="previewView" destination="cpy-bu-ULb" id="2eV-Lv-pPT"/>
                         <outlet property="recordButton" destination="xFV-je-gRe" id="jKC-ap-eGk"/>
                         <outlet property="toggleButton" destination="fYf-jW-5sq" id="COm-an-3uv"/>
-                        <segue destination="APL-xH-iKf" kind="presentation" identifier="videoPreview" id="rN0-aV-jap"/>
+                        <segue destination="FkJ-At-WVc" kind="show" identifier="previousTrips" id="9eM-jC-Tl4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jgk-6F-2aJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -170,10 +170,14 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="gKo-uT-gfN"/>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <segue destination="Msh-kT-ece" kind="unwind" unwindAction="unwindToMenuWithSegue:" id="KhN-HF-UcI"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxK-ZE-kJb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Msh-kT-ece" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1931.25" y="607.3943661971831"/>
+            <point key="canvasLocation" x="1941" y="822"/>
         </scene>
         <!--Video Detail View Controller-->
         <scene sceneID="UQl-HB-hhu">
@@ -235,17 +239,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QAa-tW-XuK">
-                                <rect key="frame" x="112" y="472" width="42" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="crY-uC-O3y"/>
-                                </constraints>
+                                <rect key="frame" x="262" y="328" width="42" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCI-hj-7xk">
-                                <rect key="frame" x="137" y="437" width="46" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="teG-Sz-wcO">
+                                <rect key="frame" x="105" y="473" width="111" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Upload to Cloud"/>
+                                <connections>
+                                    <action selector="pushToCloud:" destination="V0s-R8-uJe" eventType="touchUpInside" id="hNQ-pQ-RWr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCI-hj-7xk">
+                                <rect key="frame" x="137" y="435" width="46" height="30"/>
                                 <state key="normal" title="Share"/>
                                 <connections>
                                     <action selector="shareVideoLink" destination="V0s-R8-uJe" eventType="touchUpInside" id="DdI-1V-Coc"/>
@@ -258,16 +266,20 @@
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="leading" secondItem="fKq-Ev-LRD" secondAttribute="leading" id="0Wy-M4-0Nu"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="trailing" secondItem="gSY-Tl-6Kr" secondAttribute="trailing" id="2xL-Ls-k4p"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="top" secondItem="4YS-yv-EmS" secondAttribute="bottom" constant="8" symbolic="YES" id="4mt-Bw-1Ms"/>
+                            <constraint firstItem="tCI-hj-7xk" firstAttribute="centerX" secondItem="60K-Wr-D8l" secondAttribute="centerX" id="6db-GM-CRa"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="top" secondItem="YHS-f5-UEK" secondAttribute="bottom" constant="8" symbolic="YES" id="D73-Cp-laU"/>
-                            <constraint firstItem="QAa-tW-XuK" firstAttribute="leading" secondItem="cKC-Km-GYU" secondAttribute="leadingMargin" constant="96" id="GJF-qy-87o"/>
                             <constraint firstItem="WtE-Gr-Psp" firstAttribute="leading" secondItem="fKq-Ev-LRD" secondAttribute="trailing" constant="8" symbolic="YES" id="HkL-SS-HgK"/>
-                            <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="QAa-tW-XuK" secondAttribute="bottom" constant="46" id="LdE-Nn-tEv"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="trailing" secondItem="cKC-Km-GYU" secondAttribute="trailingMargin" id="NBE-6P-ymW"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="leading" secondItem="gSY-Tl-6Kr" secondAttribute="leading" id="Ok2-ta-2TB"/>
                             <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="WtE-Gr-Psp" secondAttribute="bottom" constant="242" id="QRZ-il-G4q"/>
+                            <constraint firstItem="QAa-tW-XuK" firstAttribute="trailing" secondItem="WtE-Gr-Psp" secondAttribute="trailing" id="a32-p3-Ufd"/>
+                            <constraint firstItem="QAa-tW-XuK" firstAttribute="centerY" secondItem="gSY-Tl-6Kr" secondAttribute="centerY" id="aHl-gv-wrp"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="baseline" secondItem="EsS-EU-Sgb" secondAttribute="baseline" id="bE9-qI-I2F"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="centerY" secondItem="WtE-Gr-Psp" secondAttribute="centerY" id="fbs-pu-q3j"/>
+                            <constraint firstItem="QAa-tW-XuK" firstAttribute="top" secondItem="WtE-Gr-Psp" secondAttribute="bottom" constant="2" id="iZt-jM-KdS"/>
                             <constraint firstItem="gSY-Tl-6Kr" firstAttribute="top" secondItem="fKq-Ev-LRD" secondAttribute="bottom" constant="14" id="lJR-k1-9Z3"/>
+                            <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="tCI-hj-7xk" secondAttribute="bottom" constant="103" id="m7Z-8E-nGH"/>
+                            <constraint firstItem="tCI-hj-7xk" firstAttribute="trailing" secondItem="fKq-Ev-LRD" secondAttribute="trailing" id="mqE-D9-k4c"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="top" secondItem="60K-Wr-D8l" secondAttribute="bottom" constant="20" id="mw6-aP-z87"/>
                             <constraint firstItem="EsS-EU-Sgb" firstAttribute="trailing" secondItem="WtE-Gr-Psp" secondAttribute="trailing" id="ttJ-E0-BXw"/>
                             <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="gSY-Tl-6Kr" secondAttribute="bottom" constant="201" id="u2S-MF-sH1"/>
@@ -281,6 +293,7 @@
                         <outlet property="VideoDate" destination="fKq-Ev-LRD" id="HlU-AQ-QSr"/>
                         <outlet property="VideoTime" destination="WtE-Gr-Psp" id="pvg-fP-0sW"/>
                         <outlet property="uploadProgress" destination="QAa-tW-XuK" id="4H8-wV-f1L"/>
+                        <outlet property="uploadToCloud" destination="teG-Sz-wcO" id="vp2-44-ccl"/>
                         <outlet property="videoDate" destination="fKq-Ev-LRD" id="863-34-xL6"/>
                         <outlet property="videoLength" destination="gSY-Tl-6Kr" id="aHI-b8-Dee"/>
                         <outlet property="videoLocation" destination="EsS-EU-Sgb" id="ONW-uU-J29"/>
@@ -291,7 +304,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TMU-DW-ttM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2720.625" y="606.33802816901414"/>
+            <point key="canvasLocation" x="2769" y="822"/>
         </scene>
         <!--Video Preview View Controller-->
         <scene sceneID="7pr-6M-0ze">
@@ -349,38 +362,24 @@
                                     <action selector="closePreview" destination="APL-xH-iKf" eventType="touchUpInside" id="0gf-KT-SMi"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4h5-Zz-v2x">
-                                <rect key="frame" x="265" y="516" width="39" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="39" id="946-kI-ekP"/>
-                                </constraints>
-                                <state key="normal" image="push_to_cloud"/>
-                                <connections>
-                                    <action selector="pushToCloud" destination="APL-xH-iKf" eventType="touchUpInside" id="hfu-Cr-Vpw"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="top" secondItem="mi5-6p-0HE" secondAttribute="top" id="5HH-4X-OA3"/>
                             <constraint firstItem="Pjr-40-7jK" firstAttribute="centerX" secondItem="ze8-ZF-MT6" secondAttribute="centerX" id="Bdh-rL-ELK"/>
-                            <constraint firstItem="4h5-Zz-v2x" firstAttribute="bottom" secondItem="ZM0-AP-X0W" secondAttribute="bottom" id="HSL-58-XLh"/>
                             <constraint firstAttribute="bottom" secondItem="ZM0-AP-X0W" secondAttribute="bottom" constant="20" symbolic="YES" id="PeT-q9-OXb"/>
                             <constraint firstItem="37E-9J-E2Z" firstAttribute="top" secondItem="ahp-Fm-06O" secondAttribute="bottom" constant="8" id="aoB-E1-91e"/>
                             <constraint firstAttribute="trailing" secondItem="ze8-ZF-MT6" secondAttribute="trailing" id="bUx-9m-soJ"/>
                             <constraint firstItem="37E-9J-E2Z" firstAttribute="trailing" secondItem="mi5-6p-0HE" secondAttribute="trailingMargin" id="emO-dP-xTp"/>
-                            <constraint firstItem="4h5-Zz-v2x" firstAttribute="top" secondItem="ZM0-AP-X0W" secondAttribute="top" id="fdq-sZ-Ujp"/>
                             <constraint firstItem="ZM0-AP-X0W" firstAttribute="leading" secondItem="mi5-6p-0HE" secondAttribute="leadingMargin" id="jDj-Xe-eol"/>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="bottom" secondItem="dJe-SU-QII" secondAttribute="top" id="lVo-gT-PMU"/>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="leading" secondItem="mi5-6p-0HE" secondAttribute="leading" id="oFs-lR-zrE"/>
-                            <constraint firstItem="4h5-Zz-v2x" firstAttribute="trailing" secondItem="mi5-6p-0HE" secondAttribute="trailingMargin" id="sJf-CA-Xhz"/>
                             <constraint firstItem="Pjr-40-7jK" firstAttribute="centerY" secondItem="mi5-6p-0HE" secondAttribute="centerY" id="yu9-aO-92p"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="playPauseButton" destination="Pjr-40-7jK" id="39D-xK-a4E"/>
                         <outlet property="playerView" destination="ze8-ZF-MT6" id="rxA-e7-DCK"/>
-                        <outlet property="pushToCloudButton" destination="4h5-Zz-v2x" id="qj2-Yo-E7I"/>
                         <outlet property="saveButton" destination="ZM0-AP-X0W" id="eaL-Wy-cbG"/>
                     </connections>
                 </viewController>
@@ -911,12 +910,11 @@
         <image name="Arrows-Back-icon" width="256" height="256"/>
         <image name="Dashi Logo" width="795" height="234"/>
         <image name="play" width="512" height="512"/>
-        <image name="push_to_cloud" width="512" height="425"/>
         <image name="record off" width="512" height="512"/>
         <image name="save_file" width="256" height="256"/>
         <image name="switch" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="jri-M0-YjI"/>
+        <segue reference="2wZ-e2-AG5"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -16,7 +16,7 @@ import CoreLocation
 class VideoPreviewViewController: UIViewController {
     var startLoc: CLLocationCoordinate2D!
     var endLoc: CLLocationCoordinate2D!
-     let appDelegate =
+    let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
     // keys to ensure playability of video
     static let assetKeysRequiredToPlay = ["playable", "hasProtectedContent"]
@@ -62,6 +62,7 @@ class VideoPreviewViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var pushToCloudButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -76,12 +77,18 @@ class VideoPreviewViewController: UIViewController {
 
         // set the player layer to the AVPlayer object
         self.playerView.playerLayer.player = player
+
+        // hide the navigation bar
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     // remove the observers from viewDidLoad()
     override func viewWillDisappear(_: Bool) {
         removeObserver(self, forKeyPath: "player.currentItem.status", context: nil)
         removeObserver(self, forKeyPath: "player.rate", context: nil)
+
+        // show the navigation bar
+        self.navigationController?.isNavigationBarHidden = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -125,7 +132,7 @@ class VideoPreviewViewController: UIViewController {
 
     // MARK: Actions
     @IBAction func closePreview() {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 
     @IBAction func saveToLibrary() {
@@ -134,29 +141,6 @@ class VideoPreviewViewController: UIViewController {
 
     @IBAction func playPauseButtonPressed() {
         self.updatePlayPauseButton()
-    }
-
-    @IBAction func pushToCloud() {
-        let currentVideo = Video(started: Date(), asset: asset!, startLoc: startLoc, endLoc: endLoc)
-
-        DashiAPI.uploadVideoMetaData(video: currentVideo).then { _ -> Void in
-            self.initProgress(id: currentVideo.getId())
-            DashiAPI.uploadVideoContent(video: currentVideo).then{ _ in
-                    self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
-                
-                }.catch { error in
-                    if let e = error as? DashiServiceError {
-                        print(String(data: e.body, encoding: String.Encoding.utf8)!)
-                }
-            }
-        }.catch { error in
-            print("CATCH")
-            if let e = error as? DashiServiceError {
-                print(String(data: e.body, encoding: String.Encoding.utf8)!)
-            }
-        }
-        
-        
     }
 
     // MARK: Callbacks
@@ -186,7 +170,7 @@ class VideoPreviewViewController: UIViewController {
     // save the video to core data
     func saveVideoToCoreData() {
         let currentVideo = Video(started: Date(), asset: asset!, startLoc: startLoc, endLoc: endLoc)
-        
+
         let managedContext =
             appDelegate!.persistentContainer.viewContext
 
@@ -244,10 +228,11 @@ class VideoPreviewViewController: UIViewController {
 
         self.present(controller, animated: true, completion: nil)
     }
-    func initProgress(id:String) {
+
+    func initProgress(id: String) {
         let managedContext =
             appDelegate!.persistentContainer.viewContext
-        
+
         let entity =
             NSEntityDescription.entity(forEntityName: "UploadStatus",
                                        in: managedContext)!
@@ -256,19 +241,20 @@ class VideoPreviewViewController: UIViewController {
         fetchRequest.propertiesToFetch = ["videoContent"]
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         var result: [NSManagedObject] = []
-            let video = NSManagedObject(entity: entity,
-                                        insertInto: managedContext)
-        
-            video.setValue(id, forKeyPath: "id")
-            video.setValue(0.0, forKeyPath: "uploadProgress")
-        
-            do {
-                try managedContext.save()
-                self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
-            }
+        let video = NSManagedObject(entity: entity,
+                                    insertInto: managedContext)
+
+        video.setValue(id, forKeyPath: "id")
+        video.setValue(0.0, forKeyPath: "uploadProgress")
+
+        do {
+            try managedContext.save()
+            self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
         }
+    }
+
     // update image in Play/Pause button, play and pause video
     func updatePlayPauseButton() {
         if player.rate > 0 {
