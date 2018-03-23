@@ -43,6 +43,21 @@ class VideoDetailViewController: UIViewController {
         videoThumbnail.isUserInteractionEnabled = true
     }
 
+    override func viewWillAppear(_: Bool) {
+        super.viewWillAppear(true)
+
+        var uploadStatus = selectedVideo.storageStat
+
+        if uploadStatus == "both" {
+            print("both")
+        } else if selectedVideo.storageStat == "cloud" {
+            // hide Upload to Cloud if video is in cloud
+            uploadToCloud.isHidden = true
+
+            // replace with statusbar
+        }
+    }
+
     // called when user taps thumbnail
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
