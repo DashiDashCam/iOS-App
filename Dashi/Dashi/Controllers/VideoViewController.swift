@@ -47,7 +47,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        navigationController?.isNavigationBarHidden = true
         // lock view orientation to portrait - doesn't lock video orientation
         AppUtility.lockOrientation(.portrait)
         setVideoOrientation()

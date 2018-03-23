@@ -42,4 +42,8 @@ class HomeViewController: UIViewController {
          self.performSegue(withIdentifier: "loginSegue", sender: self)
          }*/
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.isNavigationBarHidden = false;
+    }
 }
