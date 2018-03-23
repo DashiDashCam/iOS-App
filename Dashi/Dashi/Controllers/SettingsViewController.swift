@@ -11,24 +11,11 @@ import AVFoundation
 import CoreMedia
 import CoreLocation
 
-class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        <#code#>
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        <#code#>
-    }
+class SettingsViewController: UIViewController{
     
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
     
-    @IBOutlet weak var retentionLocalPicker: UIPickerView!
-    var retentionLocalPickerData: [String] = [String]()
-    @IBOutlet weak var storageLocalPicker: UIPickerView!
-    var storageLocalPickerData: [String] = [String]()
-    @IBOutlet weak var retentionCloudPicker: UIPickerView!
-    var retentionCloudPickerData: [String] = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,8 +25,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         //I think this works by associating the picker name
         //with the array (pickerName)Data automatically
         
-        self.retentionLocalPicker.delegate = self
-        self.retentionLocalPicker.dataSource = self
         
         // create tap gesture recognizer for when user taps thumbnail
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
