@@ -118,6 +118,10 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
 
             // stop recording the simulator
             if TARGET_OS_SIMULATOR != 0 {
+                // save the placeholdervideo
+                outputFileLocation = NSURL.fileURL(withPath: Bundle.main.path(forResource: "IMG_1800", ofType: "MOV")!)
+                saveVideoToCoreData()
+
                 // force seque to previousTrips
                 performSegue(withIdentifier: "previousTrips", sender: nil)
                 updateRecordButtonTitle()
@@ -418,24 +422,16 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
 
-        let preview = segue.destination as! VideosTableViewController
-        //        preview.startLoc = startLoc
-        //        preview.endLoc = endLoc
+        let table = segue.destination as! VideosTableViewController
 
-        // let VideoPreviewController know where we are sequeing from
-        //        preview.previousView = "VideoViewController"
-
-        //        // not running simulator
-        //        if TARGET_OS_SIMULATOR == 0 {
-        //            preview.fileLocation = self.outputFileLocation // triggers loading of video
-        //        } else {
+        // running simulator
+        //        if TARGET_OS_SIMULATOR != 0 {
         //            print("stopped recording")
         //            guard let path = Bundle.main.path(forResource: "IMG_1800", ofType: "MOV") else {
         //                debugPrint("Placeholder video not found")
         //                return
         //            }
-        //            //            let player = AVPlayer(url: URL(fileURLWithPath: path))
-        //            preview.fileLocation = URL(fileURLWithPath: path)
+        ////            saveVideoToCoreData()
         //        }
     }
 }

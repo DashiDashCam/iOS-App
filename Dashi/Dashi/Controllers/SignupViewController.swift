@@ -33,7 +33,7 @@ class SignupViewController: UIViewController {
     @IBAction func signUpPushed(_: Any) {
         errorMessage.text = ""
         if password.text! == confirm.text! {
-            DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then { json -> Void in
+            DashiAPI.createAccount(email: email.text!, password: password.text!, fullName: name.text!).then { _ -> Void in
 
                 DashiAPI.loginWithPassword(username: self.email.text!, password: self.password.text!).then { _ -> Void in
                     self.performSegue(withIdentifier: "unwindFromSignUp", sender: self)
@@ -41,12 +41,12 @@ class SignupViewController: UIViewController {
 
             }.catch { error in
                 if let e = error as? DashiServiceError {
-                        let json = JSON(e.body)
-                        if json["errors"].array != nil {
-                            self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
-                        } else {
-                            self.errorMessage.text = json["errors"]["message"].string
-                        }
+                    let json = JSON(e.body)
+                    if json["errors"].array != nil {
+                        self.errorMessage.text = json["errors"].arrayValue[0]["message"].string
+                    } else {
+                        self.errorMessage.text = json["errors"]["message"].string
+                    }
                 }
             }
         } else {
