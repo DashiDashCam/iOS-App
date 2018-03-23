@@ -23,7 +23,7 @@ class Video {
     var size: Int
     var thumbnail: UIImage!
     var id: String?
-    var storageStat: String!
+    var storageStat: String! // "cloud", "local", or "both"
     var startLat: CLLocationDegrees!
     var endLat: CLLocationDegrees!
     var startLong: CLLocationDegrees!

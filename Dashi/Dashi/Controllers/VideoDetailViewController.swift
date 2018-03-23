@@ -12,6 +12,9 @@ import MapKit
 import SwiftyJSON
 import CoreData
 import PromiseKit
+import AVFoundation
+import AVKit
+
 class VideoDetailViewController: UIViewController {
     var selectedVideo: Video!
     let appDelegate =
@@ -21,6 +24,8 @@ class VideoDetailViewController: UIViewController {
     @IBOutlet weak var videoTime: UILabel!
     @IBOutlet weak var videoDate: UILabel!
     @IBOutlet weak var videoLength: UILabel!
+    @IBOutlet weak var uploadToCloud: UIButton!
+
     var id: String!
 
     @IBOutlet weak var uploadProgress: UILabel!
@@ -38,12 +43,88 @@ class VideoDetailViewController: UIViewController {
         videoThumbnail.isUserInteractionEnabled = true
     }
 
+    override func viewWillAppear(_: Bool) {
+        super.viewWillAppear(true)
+
+        var uploadStatus = selectedVideo.storageStat
+
+        if uploadStatus == "both" {
+            print("both")
+        } else if selectedVideo.storageStat == "cloud" {
+            // hide Upload to Cloud if video is in cloud
+            uploadToCloud.isHidden = true
+
+            // replace with statusbar
+        }
+    }
+
     // called when user taps thumbnail
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
         if (gesture.view as? UIImageView) != nil {
             performSegue(withIdentifier: "viewVideoSegue", sender: self)
-            // Here you can initiate your new ViewController
+        }
+    }
+
+    @IBAction func pushToCloud(_: Any) {
+        // select video content from CoreData
+        selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
+
+        DashiAPI.uploadVideoMetaData(video: selectedVideo).then { _ -> Void in
+            self.initProgress(id: self.selectedVideo.getId())
+            DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ in
+                self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
+
+            }.catch { error in
+                if let e = error as? DashiServiceError {
+                    print(String(data: e.body, encoding: String.Encoding.utf8)!)
+                }
+            }
+        }.catch { error in
+            print("CATCH")
+            if let e = error as? DashiServiceError {
+                print(String(data: e.body, encoding: String.Encoding.utf8)!)
+            }
+        }
+    }
+
+    // shows alert to user
+    func showAlert(title: String, message: String, dismiss: Bool) {
+        let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+        if dismiss {
+            controller.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                self.dismiss(animated: true, completion: nil)
+            }))
+        } else {
+            controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        }
+
+        present(controller, animated: true, completion: nil)
+    }
+
+    func initProgress(id: String) {
+        let managedContext =
+            appDelegate!.persistentContainer.viewContext
+
+        let entity =
+            NSEntityDescription.entity(forEntityName: "UploadStatus",
+                                       in: managedContext)!
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "UploadStatus")
+        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        var result: [NSManagedObject] = []
+        let video = NSManagedObject(entity: entity,
+                                    insertInto: managedContext)
+
+        video.setValue(id, forKeyPath: "id")
+        video.setValue(0.0, forKeyPath: "uploadProgress")
+
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
         }
     }
 
@@ -101,7 +182,9 @@ class VideoDetailViewController: UIViewController {
         //         Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
 
+        // the video is in the cloud
         if selectedVideo.getStorageStat() == "cloud" {
+            // download video content from cloud
             DashiAPI.downloadVideoContent(video: selectedVideo).then { val in
                 preview.fileLocation = self.getUrlForCloud(id: self.selectedVideo.getId(), data: val)
 
@@ -112,6 +195,7 @@ class VideoDetailViewController: UIViewController {
                 }
         } }
         else {
+            // get the video content from CoreData
             preview.fileLocation = getUrlForLocal(id: selectedVideo.getId())
         }
     }
