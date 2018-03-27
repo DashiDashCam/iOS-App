@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import CoreData
+import PromiseKit
 class Account {
 
     // Protected members
@@ -54,6 +55,7 @@ class Account {
             autoDelete = true;
             autoBackUp = true;
             initializeSettings()
+            initializeMetaData()
         }
         else{
              wifiOnlyBackup = result[0].value(forKeyPath: "wifiOnlyBackup") as! Bool
@@ -83,7 +85,36 @@ class Account {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    
+    func initializeMetaData() {
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Videos",
+                                       in: managedContext)!
+        let video = NSManagedObject(entity: entity,
+                                    insertInto: managedContext)
+        DashiAPI.getAllVideoMetaData().then { value -> Void in
+            for currentVideo in value {
+             
+                
+                video.setValue(currentVideo.getId(), forKeyPath: "id")
+                video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
+                video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
+                video.setValue(currentVideo.getLength(), forKeyPath: "length")
+                video.setValue(currentVideo.getSize(), forKey: "size")
+                video.setValue(currentVideo.getStartLat(), forKey: "startLat")
+                video.setValue(currentVideo.getStartLong(), forKey: "startLong")
+                video.setValue(currentVideo.getEndLat(), forKey: "endLat")
+                video.setValue(currentVideo.getEndLong(), forKey: "endLong")
+                do {
+                    try self.managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+            }
+            }.catch {
+                error in
+                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+        }
+    }
     public func saveCurrentSettingLocally(){
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Settings")

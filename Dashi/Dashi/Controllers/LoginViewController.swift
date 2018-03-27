@@ -41,9 +41,12 @@ class LoginViewController: UIViewController {
         DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { json -> Void in
 
             if json["errors"] == JSON.null {
+                DispatchQueue.main.async {
+                    
+                
                 self.dismiss(animated: true, completion: nil)
             }
-
+            }
         }.catch { error in
             if let e = error as? DashiServiceError {
                 // prints a more detailed error message from slim
