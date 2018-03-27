@@ -22,12 +22,12 @@ class LoginViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
+
+    override func viewWillAppear(_: Bool) {
         navigationController?.isNavigationBarHidden = true
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
+
+    override func viewWillDisappear(_: Bool) {
         navigationController?.isNavigationBarHidden = false
     }
 
@@ -39,8 +39,7 @@ class LoginViewController: UIViewController {
     @IBAction func loginPushed(_: Any) {
         errorMessage.text = ""
         DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { json -> Void in
-            
-            if json["errors"] == JSON.null {
+            if json["error"] == JSON.null {
                 self.dismiss(animated: true, completion: nil)
             }
 
