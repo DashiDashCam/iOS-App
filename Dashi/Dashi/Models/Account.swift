@@ -10,8 +10,11 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import CoreData
-class Account {
 
+var sharedAccount: Account? = nil
+
+class Account {
+    
     // Protected members
     var created: Date
     var id: Int
@@ -21,8 +24,7 @@ class Account {
     var cloudRetentionTime: Int
     var autoDelete: Bool
     var autoBackUp: Bool
-    let appDelegate =
-        UIApplication.shared.delegate as? AppDelegate
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var managedContext:NSManagedObjectContext
     
     

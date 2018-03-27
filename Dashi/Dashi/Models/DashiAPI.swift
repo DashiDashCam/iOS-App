@@ -451,6 +451,10 @@ class DashiAPI {
             self.refreshToken = json["refresh_token"].stringValue
 
             storeRefreshTokenLocal(token: self.refreshToken!)
+            
+            DashiAPI.getAccountDetails().then{ account in
+                sharedAccount = account
+            }
 
             return json
         }

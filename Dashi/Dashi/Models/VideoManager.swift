@@ -67,17 +67,32 @@ class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
         debugPrint("Task completed: \(task), error: \(error)")
     }
     
-    func retensionCheck() {
-    
+    private static func retensionCheck(settings: Dictionary<String, Any>) {
+        print("BACKGROUND TASK: Beginning Retentsion Check...")
+        
     }
     
-    func uploadCheck() {
-        
+    private static func uploadCheck(settings: Dictionary<String, Any>) {
+        print("BACKGROUND TASK: Beginning Upload Check...")
+    }
+    
+    static func performBackgroundTasks() {
+        if DashiAPI.isLoggedIn() {
+            var settings = sharedAccount!.getSettings()
+            print("BACKGROUND TASK: Beginning...")
+            print("BACKGROUND TASK: Loading User Settings...")
+            VideoManager.retensionCheck(settings: settings)
+            VideoManager.uploadCheck(settings: settings)
+            print("BACKGROUND TASK: Finished...")
+        }
+        else {
+            print("BACKGROUND TASK: Not logged in, nothing to process")
+        }
     }
     
     static func getBackgroundTaskTimer() -> RepeatingTimer {
         return RepeatingTimer(repeating: .seconds(1)) {
-            print("test")
+            VideoManager.performBackgroundTasks()
         }
     }
 }
