@@ -40,7 +40,8 @@ class DashiAPI {
         var defaultHeaders = Alamofire.SessionManager.defaultHTTPHeaders
         defaultHeaders["Host"] = "api.dashidashcam.com"
 
-        let configuration = URLSessionConfiguration.default
+        // let configuration = URLSessionConfiguration.default
+        let configuration = URLSessionConfiguration.background(withIdentifier: "com.dashidashcam.app.background")
         configuration.httpAdditionalHeaders = defaultHeaders
 
         return Alamofire.SessionManager(configuration: configuration)

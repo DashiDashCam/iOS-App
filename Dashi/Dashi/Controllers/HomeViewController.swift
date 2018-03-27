@@ -13,7 +13,7 @@ import PromiseKit
 class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Login automatically with stored refresh token if one exists
         if DashiAPI.fetchStoredRefreshToken() {
             DashiAPI.loginWithToken().then { _ -> Void in

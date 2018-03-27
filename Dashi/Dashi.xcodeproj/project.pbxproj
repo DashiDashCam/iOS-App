@@ -31,6 +31,8 @@
 		A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */; };
 		D86D7481201E8E8000F62F4D /* DateConv.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86D7480201E8E8000F62F4D /* DateConv.swift */; };
 		D889C4261FC368280082052A /* DashiAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D889C4251FC368280082052A /* DashiAPI.swift */; };
+		D8EDD7BC206ABFDE00BDB658 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EDD7BB206ABFDE00BDB658 /* RepeatingTimer.swift */; };
+		D8EDD7BE206AD0C500BDB658 /* VideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EDD7BD206AD0C500BDB658 /* VideoManager.swift */; };
 		D8FC2A59201A97EB00F3E532 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FC2A58201A97EB00F3E532 /* Account.swift */; };
 		D8FC2A5B201AA9B600F3E532 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FC2A5A201AA9B600F3E532 /* Video.swift */; };
 /* End PBXBuildFile section */
@@ -65,6 +67,8 @@
 		D68B438EB114BBD623DF3819 /* Pods_Dashi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dashi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D86D7480201E8E8000F62F4D /* DateConv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConv.swift; sourceTree = "<group>"; };
 		D889C4251FC368280082052A /* DashiAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashiAPI.swift; sourceTree = "<group>"; };
+		D8EDD7BB206ABFDE00BDB658 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
+		D8EDD7BD206AD0C500BDB658 /* VideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoManager.swift; sourceTree = "<group>"; };
 		D8FC2A58201A97EB00F3E532 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		D8FC2A5A201AA9B600F3E532 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +119,7 @@
 				D8FC2A58201A97EB00F3E532 /* Account.swift */,
 				D8FC2A5A201AA9B600F3E532 /* Video.swift */,
 				2F89D729203B147E008EEAE9 /* LocationManager.swift */,
+				D8EDD7BD206AD0C500BDB658 /* VideoManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -127,6 +132,7 @@
 				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
 				A347FD941F9A9EAF0091973F /* Info.plist */,
 				D86D7480201E8E8000F62F4D /* DateConv.swift */,
+				D8EDD7BB206ABFDE00BDB658 /* RepeatingTimer.swift */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";
@@ -330,6 +336,7 @@
 				2F0328EB1FC0E8AD00944477 /* CloudManager.swift in Sources */,
 				24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */,
 				241CAA1A206453FB0098FD29 /* SettingsViewController.swift in Sources */,
+				D8EDD7BE206AD0C500BDB658 /* VideoManager.swift in Sources */,
 				D889C4261FC368280082052A /* DashiAPI.swift in Sources */,
 				A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */,
 				2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */,
@@ -346,6 +353,7 @@
 				D8FC2A5B201AA9B600F3E532 /* Video.swift in Sources */,
 				A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */,
 				2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */,
+				D8EDD7BC206ABFDE00BDB658 /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
