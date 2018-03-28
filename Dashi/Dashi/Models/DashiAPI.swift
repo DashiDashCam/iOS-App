@@ -233,9 +233,34 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            self.sessionManager.request(url, method: .get, headers: headers).validate().responseData().then { value -> Data in
-
-                return value
+            self.sessionManager.download(url, method: .get, headers: headers).downloadProgress { progress in
+                print("Download Progress: \(progress.fractionCompleted)")
+                
+                // Pull meta data for stored videos
+                guard let appDelegate =
+                    UIApplication.shared.delegate as? AppDelegate else {
+                        return
+                }
+                let managedContext = appDelegate.persistentContainer.viewContext
+                let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
+                fetchRequest.propertiesToFetch = ["id", "downloadProgress"]
+                fetchRequest.predicate = NSPredicate(format: "id == %@", video.getId())
+                var videos: [NSManagedObject] = []
+                do {
+                    videos = (try managedContext.fetch(fetchRequest))
+                } catch let error as Error {
+                    print("Could not fetch. \(error), \(error.localizedDescription)")
+                }
+                
+                videos[0].setValue(progress.fractionCompleted, forKey: "downloadProgress")
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not fetch. \(error), \(error.localizedDescription)")
+                }
+            }
+            .validate().responseData().then { resp -> Data in
+                return resp.result.value!
             }
         }.catch { error in
             // convert the error body to a readable string and print
@@ -389,8 +414,8 @@ class DashiAPI {
         return firstly {
             self.addAuthToken()
         }.then { headers in
-            self.sessionManager.request(API_ROOT + "/Account", headers: headers).validate().responseJSON(with: .response).then { value in
-                return Account(account: JSON(value))
+            self.sessionManager.request(API_ROOT + "/Account", headers: headers).validate().responseJSON(with: .response).then { value -> Account in
+                return Account(account: JSON(value.0))
             }
         }
     }

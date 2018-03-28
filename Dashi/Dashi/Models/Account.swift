@@ -33,38 +33,37 @@ class Account {
     public var email: String
     
     init(account: JSON) {
-        managedContext = (appDelegate?.persistentContainer.viewContext)!
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Settings")
         fullName = account["fullName"].stringValue
         created = DateConv.toDate(timestamp: account["created"].stringValue)
         id = account["id"].intValue
         email = account["email"].stringValue
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        var result: [NSManagedObject] = []
-        // 3
-        do {
-            result = (try managedContext.fetch(fetchRequest))
-        } catch let error as Error {
-            print("Could not fetch. \(error), \(error.localizedDescription)")
-        }
-        if result.isEmpty{
+        
+//        var result: [NSManagedObject] = []
+//        do {
+            managedContext = (appDelegate?.persistentContainer.viewContext)!
+//            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Settings")
+//            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+//            result = (try managedContext.fetch(fetchRequest))
+//        } catch let error as Error {
+//            print("Could not fetch. \(error), \(error.localizedDescription)")
+//        }
+//        if result.isEmpty{
             wifiOnlyBackup = true
             maxLocalStorage = 5;
             localRetentionTime = 7;
             cloudRetentionTime = 30;
             autoDelete = true;
             autoBackUp = true;
-            initializeSettings()
-        }
-        else{
-             wifiOnlyBackup = result[0].value(forKeyPath: "wifiOnlyBackup") as! Bool
-             maxLocalStorage = result[0].value(forKeyPath: "maxLocalStorage") as! Int
-             localRetentionTime = result[0].value(forKeyPath: "localRetentionTime") as! Int
-             cloudRetentionTime = result[0].value(forKeyPath: "cloudRetentionTime") as! Int
-             autoDelete = result[0].value(forKeyPath: "autoDelete") as! Bool
-             autoBackUp = result[0].value(forKeyPath: "autoBackUp") as! Bool
-        }
+//            initializeSettings()
+//        }
+//        else{
+//             wifiOnlyBackup = result[0].value(forKeyPath: "wifiOnlyBackup") as! Bool
+//             maxLocalStorage = result[0].value(forKeyPath: "maxLocalStorage") as! Int
+//             localRetentionTime = result[0].value(forKeyPath: "localRetentionTime") as! Int
+//             cloudRetentionTime = result[0].value(forKeyPath: "cloudRetentionTime") as! Int
+//             autoDelete = result[0].value(forKeyPath: "autoDelete") as! Bool
+//             autoBackUp = result[0].value(forKeyPath: "autoBackUp") as! Bool
+//        }
     }
     func initializeSettings(){
         let entity =

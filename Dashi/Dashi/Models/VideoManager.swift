@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+import UIKit
 
 class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
 
@@ -68,16 +70,102 @@ class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
     }
     
     private static func retensionCheck(settings: Dictionary<String, Any>) {
-        print("BACKGROUND TASK: Beginning Retentsion Check...")
+        print("BACKGROUND TASK: Beginning Retension Check...")
         
+        // If auto delete is enabled, simply flush cache
+        if settings["autoDelete"] as! Bool {
+            VideoManager.flushCache(ignoreDownloaded: false)
+        }
+        
+        // Pull meta data for stored videos
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["id", "startDate", "downloaded", "uploadProgress", "size"]
+        fetchRequest.predicate = NSPredicate(format: "videoContent != nil")
+        var videos: [NSManagedObject] = []
+        do {
+            videos = (try managedContext.fetch(fetchRequest))
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        
+        var totalSize: Int64 = 0
+        
+        // Remove videos according to retension time policy
+        for video in videos {
+            let now = Date()
+            
+            // Calculate start date based cutoff
+            let startDate = video.value(forKey: "startDate") as! Date
+            var dayComp = DateComponents()
+            dayComp.day = -1 * (settings["localRetentionTime"] as! Int)
+            let startCutoffDate = Calendar.current.date(byAdding: dayComp, to: Date())
+            Calendar.current.component(.weekday, from: startCutoffDate!)
+            
+            // Calculate downloaded date based cutoff
+            let downloadDate = video.value(forKey: "downloaded") as? Date
+            dayComp = DateComponents()
+            dayComp.day = -1 * (settings["localRetentionTime"] as! Int)
+            let downloadedCutoffDate = Calendar.current.date(byAdding: dayComp, to: Date())
+            Calendar.current.component(.weekday, from: downloadedCutoffDate!)
+            
+            // Old video that hasn't been manually downloaded recently
+            if startCutoffDate! < now && (downloadDate == nil || downloadedCutoffDate! < now)  {
+                // Delete the cached video content
+                video.setValue(nil, forKey: "videoContent")
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not fetch. \(error), \(error.localizedDescription)")
+                }
+            }
+            else {
+                totalSize += (video.value(forKey: "size") as! Int64)
+            }
+        }
+        
+        // Enforce max file size
+        if totalSize > (settings["maxLocalStorage"] as! Int) {
+            VideoManager.flushCache()
+        }
     }
     
     private static func uploadCheck(settings: Dictionary<String, Any>) {
         print("BACKGROUND TASK: Beginning Upload Check...")
+        
+//        // Find videos that need to be uploaded
+//        guard let appDelegate =
+//            UIApplication.shared.delegate as? AppDelegate else {
+//                return
+//        }
+//        
+//        // Get coredata context
+//        let managedContext = appDelegate.persistentContainer.viewContext
+//        
+//        // Load video dates and upload status
+//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
+//        fetchRequest.propertiesToFetch = ["id", "uploadProgress", "size", "downloaded"]
+//        fetchRequest.predicate = NSPredicate(format: "videoContent != nil")
+//        
+//        var videos: [NSManagedObject] = []
+//        do {
+//            videos = (try managedContext.fetch(fetchRequest))
+//        } catch let error as Error {
+//            print("Could not fetch. \(error), \(error.localizedDescription)")
+//        }
+//        
+//        // Schedule upload tasks
+//        for video in videos {
+//            
+//        }
     }
     
     static func performBackgroundTasks() {
-        if DashiAPI.isLoggedIn() {
+        if sharedAccount != nil {
             var settings = sharedAccount!.getSettings()
             print("BACKGROUND TASK: Beginning...")
             print("BACKGROUND TASK: Loading User Settings...")
@@ -93,6 +181,43 @@ class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
     static func getBackgroundTaskTimer() -> RepeatingTimer {
         return RepeatingTimer(repeating: .seconds(1)) {
             VideoManager.performBackgroundTasks()
+        }
+    }
+    
+    // Handle max storage case by flushing all or auto
+    static func flushCache(ignoreDownloaded: Bool = true) {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // Get coredata context
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        // Load video dates and upload status
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["id", "uploadProgress", "size", "downloaded"]
+        fetchRequest.predicate = NSPredicate(format: "videoContent != nil")
+        
+        var videos: [NSManagedObject] = []
+        do {
+            videos = (try managedContext.fetch(fetchRequest))
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        
+        for video in videos {
+            // If completely uploaded, delete cached content
+            if (video.value(forKey: "size") as! Int32) - (video.value(forKey: "uploadProgress") as! Int32) == 0 &&
+                (ignoreDownloaded || (video.value(forKey: "downloaded") as? Date) != nil) {
+                // Delete the cached video content
+                video.setValue(nil, forKey: "videoContent")
+                do {
+                    try managedContext.save()
+                } catch let error as NSError {
+                    print("Could not fetch. \(error), \(error.localizedDescription)")
+                }
+            }
         }
     }
 }
