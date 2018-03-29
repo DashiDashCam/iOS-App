@@ -48,13 +48,20 @@ class VideoDetailViewController: UIViewController {
 
         var uploadStatus = selectedVideo.storageStat
 
-        if uploadStatus == "both" {
+        if uploadStatus == "both" || selectedVideo.storageStat == "cloud" {
             print("both")
-        } else if selectedVideo.storageStat == "cloud" {
-            // hide Upload to Cloud if video is in cloud
+
+            // hide Upload to Cloud
             uploadToCloud.isHidden = true
 
-            // replace with statusbar
+            // TODO: replace with statusbar
+            uploadProgress.text = String(format: "%.2f", selectedVideo.uploadProgress) + " % uploaded"
+        } else { // local only
+            // hide status bar
+            uploadProgress.isHidden = true
+
+            // show Upload to Cloud
+            uploadToCloud.isHidden = false
         }
     }
 
@@ -72,9 +79,10 @@ class VideoDetailViewController: UIViewController {
 
         DashiAPI.uploadVideoMetaData(video: selectedVideo).then { _ -> Void in
             self.initProgress(id: self.selectedVideo.getId())
+            self.selectedVideo.changeStorageToBoth() // mark the video as uploaded to both
+
             DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ in
                 self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
-
             }.catch { error in
                 if let e = error as? DashiServiceError {
                     print(String(data: e.body, encoding: String.Encoding.utf8)!)
