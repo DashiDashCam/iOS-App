@@ -11,6 +11,8 @@ import Alamofire
 import SwiftyJSON
 import CoreData
 import PromiseKit
+
+var
 class Account {
 
     // Protected members

@@ -619,7 +619,7 @@
                     <navigationItem key="navigationItem" id="Aul-21-M63"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <segue destination="URh-3M-jNU" kind="show" identifier="loginSegue" id="0Tq-rb-Qul"/>
+                        <segue destination="URh-3M-jNU" kind="presentation" identifier="loginSegue" id="0Tq-rb-Qul"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ikB-jz-X0Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
