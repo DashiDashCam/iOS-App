@@ -484,10 +484,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5263K5LLWX;
+				DEVELOPMENT_TEAM = L28WS799LD;
 				INFOPLIST_FILE = Dashi/SupportFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = Dashi/bridgingHeader.h;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -502,10 +502,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5263K5LLWX;
+				DEVELOPMENT_TEAM = L28WS799LD;
 				INFOPLIST_FILE = "$(SRCROOT)/Dashi/SupportFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = Dashi/bridgingHeader.h;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
