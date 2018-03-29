@@ -102,14 +102,14 @@ class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
             // Calculate start date based cutoff
             let startDate = video.value(forKey: "startDate") as! Date
             var dayComp = DateComponents()
-            dayComp.day = -1 * (settings["localRetentionTime"] as! Int)
+            dayComp.day = (settings["localRetentionTime"] as! Int)
             let startCutoffDate = Calendar.current.date(byAdding: dayComp, to: Date())
             Calendar.current.component(.weekday, from: startCutoffDate!)
             
             // Calculate downloaded date based cutoff
             let downloadDate = video.value(forKey: "downloaded") as? Date
             dayComp = DateComponents()
-            dayComp.day = -1 * (settings["localRetentionTime"] as! Int)
+            dayComp.day = (settings["localRetentionTime"] as! Int)
             let downloadedCutoffDate = Calendar.current.date(byAdding: dayComp, to: Date())
             Calendar.current.component(.weekday, from: downloadedCutoffDate!)
             

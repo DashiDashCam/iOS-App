@@ -220,7 +220,7 @@ class VideoDetailViewController: UIViewController {
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.propertiesToFetch = ["videoContent", "id"]
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         // 3
         do {
@@ -229,7 +229,7 @@ class VideoDetailViewController: UIViewController {
             print("Could not fetch. \(error), \(error.localizedDescription)")
             return nil
         }
-
+let id = content[0].value(forKey: "id") as! String
         let contentData = content[0].value(forKey: "videoContent") as! Data
         let manager = FileManager.default
         let filename = String(id) + "vid.mp4"
