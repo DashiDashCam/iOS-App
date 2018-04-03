@@ -11,8 +11,11 @@ import Alamofire
 import SwiftyJSON
 import CoreData
 import PromiseKit
-class Account {
 
+var sharedAccount: Account? = nil
+
+class Account {
+    
     // Protected members
     var created: Date
     var id: Int
@@ -22,8 +25,7 @@ class Account {
     var cloudRetentionTime: Int
     var autoDelete: Bool
     var autoBackUp: Bool
-    let appDelegate =
-        UIApplication.shared.delegate as? AppDelegate
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var managedContext:NSManagedObjectContext
     
     
@@ -39,7 +41,7 @@ class Account {
         created = DateConv.toDate(timestamp: account["created"].stringValue)
         id = account["id"].intValue
         email = account["email"].stringValue
-        fetchRequest.predicate = NSPredicate(format: "id == %ls", id)
+        fetchRequest.predicate = NSPredicate(format: "accountID == %ls", id)
         var result: [NSManagedObject] = []
         // 3
         do {
@@ -58,12 +60,12 @@ class Account {
             initializeMetaData()
         }
         else{
-             wifiOnlyBackup = result[0].value(forKeyPath: "wifiOnlyBackup") as! Bool
-             maxLocalStorage = result[0].value(forKeyPath: "maxLocalStorage") as! Int
-             localRetentionTime = result[0].value(forKeyPath: "localRetentionTime") as! Int
-             cloudRetentionTime = result[0].value(forKeyPath: "cloudRetentionTime") as! Int
-             autoDelete = result[0].value(forKeyPath: "autoDelete") as! Bool
-             autoBackUp = result[0].value(forKeyPath: "autoBackUp") as! Bool
+            wifiOnlyBackup = result[0].value(forKeyPath: "wifiOnlyBackup") as! Bool
+            maxLocalStorage = result[0].value(forKeyPath: "maxLocalStorage") as! Int
+            localRetentionTime = result[0].value(forKeyPath: "localRetentionTime") as! Int
+            cloudRetentionTime = result[0].value(forKeyPath: "cloudRetentionTime") as! Int
+            autoDelete = result[0].value(forKeyPath: "autoDelete") as! Bool
+            autoBackUp = result[0].value(forKeyPath: "autoBackUp") as! Bool
         }
     }
     func initializeSettings(){
@@ -73,11 +75,11 @@ class Account {
         let setting = NSManagedObject(entity: entity,
                                     insertInto: managedContext)
         setting.setValue(wifiOnlyBackup, forKey: "wifiOnlyBackup")
-        setting.setValue(id, forKey: "id")
+        setting.setValue(id, forKey: "accountID")
         setting.setValue(maxLocalStorage, forKey: "maxLocalStorage")
         setting.setValue(localRetentionTime, forKey: "localRetentionTime")
         setting.setValue(cloudRetentionTime, forKey: "cloudRetentionTime")
-        setting.setValue(autoBackUp, forKey: "autoBackUp")
+        setting.setValue(autoBackUp, forKey: "autoBackup")
         setting.setValue(autoDelete, forKey: "autoDelete")
         do {
             try managedContext.save()
