@@ -189,9 +189,10 @@ class VideoDetailViewController: UIViewController {
         //         Get the new view controller using segue.destinationViewController.
         //         Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
-
-        // the video is in the cloud
-        if selectedVideo.getStorageStat() == "cloud" {
+        if let url =  getUrlForLocal(id: selectedVideo.getId()){
+               preview.fileLocation = url
+        }
+        else{
             // download video content from cloud
             DashiAPI.downloadVideoContent(video: selectedVideo).then { val in
                 preview.fileLocation = self.getUrlForCloud(id: self.selectedVideo.getId(), data: val)
@@ -202,10 +203,7 @@ class VideoDetailViewController: UIViewController {
                     print(JSON(e.body))
                 }
         } }
-        else {
-            // get the video content from CoreData
-            preview.fileLocation = getUrlForLocal(id: selectedVideo.getId())
-        }
+        
     }
 
     ////creates url for video content in cloud db given id
@@ -238,12 +236,15 @@ class VideoDetailViewController: UIViewController {
             return nil
         }
 
-        let contentData = content[0].value(forKey: "videoContent") as! Data
-        let manager = FileManager.default
-        let filename = String(id) + "vid.mp4"
-        let path = NSTemporaryDirectory() + filename
-        manager.createFile(atPath: path, contents: contentData, attributes: nil)
-        return URL(fileURLWithPath: path)
+        if  let contentData = content[0].value(forKey: "videoContent") as! Data?{
+            let manager = FileManager.default
+            let filename = String(id) + "vid.mp4"
+            let path = NSTemporaryDirectory() + filename
+            manager.createFile(atPath: path, contents: contentData, attributes: nil)
+            return URL(fileURLWithPath: path)
+        }
+        return nil
+        
     }
 
     @IBAction func shareVideoLink() {
