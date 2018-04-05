@@ -41,7 +41,7 @@ class Account {
         created = DateConv.toDate(timestamp: account["created"].stringValue)
         id = account["id"].intValue
         email = account["email"].stringValue
-        fetchRequest.predicate = NSPredicate(format: "accountID == %ls", id)
+        fetchRequest.predicate = NSPredicate(format: "accountID == %d", id)
         var result: [NSManagedObject] = []
         // 3
         do {
@@ -65,7 +65,7 @@ class Account {
             localRetentionTime = result[0].value(forKeyPath: "localRetentionTime") as! Int
             cloudRetentionTime = result[0].value(forKeyPath: "cloudRetentionTime") as! Int
             autoDelete = result[0].value(forKeyPath: "autoDelete") as! Bool
-            autoBackUp = result[0].value(forKeyPath: "autoBackUp") as! Bool
+            autoBackUp = result[0].value(forKeyPath: "autoBackup") as! Bool
         }
     }
     func initializeSettings(){
@@ -91,7 +91,7 @@ class Account {
     public func saveCurrentSettingLocally(){
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Settings")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "accountID == %d", id)
         var result: [NSManagedObject] = []
         // 3
         do {
@@ -135,12 +135,11 @@ class Account {
         let entity =
             NSEntityDescription.entity(forEntityName: "Videos",
                                        in: managedContext)!
-        let video = NSManagedObject(entity: entity,
-                                    insertInto: managedContext)
+      
         DashiAPI.getAllVideoMetaData().then { value -> Void in
             for currentVideo in value {
-                
-                
+                let video = NSManagedObject(entity: entity,
+                                            insertInto: self.managedContext)
                 video.setValue(currentVideo.getId(), forKeyPath: "id")
                 video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
                 video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
@@ -150,6 +149,8 @@ class Account {
                 video.setValue(currentVideo.getStartLong(), forKey: "startLong")
                 video.setValue(currentVideo.getEndLat(), forKey: "endLat")
                 video.setValue(currentVideo.getEndLong(), forKey: "endLong")
+                video.setValue(100, forKey: "uploadProgress")
+                video.setValue("cloud", forKey: "storageStat")
                 do {
                     try self.managedContext.save()
                 } catch let error as NSError {

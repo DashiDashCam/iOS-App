@@ -46,11 +46,11 @@ class VideoDetailViewController: UIViewController {
     override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
 
-        var uploadStatus = selectedVideo.storageStat
+        var uploadStatus = selectedVideo.getStorageStat()
 
-        if uploadStatus == "both" {
-            print("both")
-        } else if selectedVideo.storageStat == "cloud" {
+        if uploadStatus == "local" {
+            print("local")
+        } else  {
             // hide Upload to Cloud if video is in cloud
             uploadToCloud.isHidden = true
 
@@ -68,12 +68,14 @@ class VideoDetailViewController: UIViewController {
 
     @IBAction func pushToCloud(_: Any) {
         // select video content from CoreData
+        selectedVideo.changeStorageToBoth()
         selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
 
         DashiAPI.uploadVideoMetaData(video: selectedVideo).then { _ -> Void in
             self.initProgress(id: self.selectedVideo.getId())
-            DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ in
+            DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ -> Void in
                 self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
+                self.uploadToCloud.isHidden = true
 
             }.catch { error in
                 if let e = error as? DashiServiceError {
@@ -108,10 +110,10 @@ class VideoDetailViewController: UIViewController {
             appDelegate!.persistentContainer.viewContext
 
         let entity =
-            NSEntityDescription.entity(forEntityName: "UploadStatus",
+            NSEntityDescription.entity(forEntityName: "Videos",
                                        in: managedContext)!
         let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "UploadStatus")
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["videoContent"]
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         var result: [NSManagedObject] = []
