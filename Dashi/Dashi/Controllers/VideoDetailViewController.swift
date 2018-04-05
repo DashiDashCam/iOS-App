@@ -50,12 +50,19 @@ class VideoDetailViewController: UIViewController {
 
         if uploadStatus == "local" {
             print("local")
+            uploadProgress.isHidden = true
+            
+            // show Upload to Cloud
+            uploadToCloud.isHidden = false
+
         } else  {
             // hide Upload to Cloud if video is in cloud
             uploadToCloud.isHidden = true
 
-            // replace with statusbar
+            // TODO: replace with statusbar
+            uploadProgress.text = String(format: "%.2f", selectedVideo.uploadProgress) + " % uploaded"
         }
+        
     }
 
     // called when user taps thumbnail

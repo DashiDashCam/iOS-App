@@ -24,7 +24,7 @@ class Account {
     var localRetentionTime: Int
     var cloudRetentionTime: Int
     var autoDelete: Bool
-    var autoBackUp: Bool
+    var autoBackup: Bool
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var managedContext:NSManagedObjectContext
     
@@ -55,7 +55,7 @@ class Account {
             localRetentionTime = 7;
             cloudRetentionTime = 30;
             autoDelete = true;
-            autoBackUp = true;
+            autoBackup = true;
             initializeSettings()
             initializeMetaData()
         }
@@ -65,7 +65,7 @@ class Account {
             localRetentionTime = result[0].value(forKeyPath: "localRetentionTime") as! Int
             cloudRetentionTime = result[0].value(forKeyPath: "cloudRetentionTime") as! Int
             autoDelete = result[0].value(forKeyPath: "autoDelete") as! Bool
-            autoBackUp = result[0].value(forKeyPath: "autoBackup") as! Bool
+            autoBackup = result[0].value(forKeyPath: "autoBackup") as! Bool
         }
     }
     func initializeSettings(){
@@ -79,13 +79,22 @@ class Account {
         setting.setValue(maxLocalStorage, forKey: "maxLocalStorage")
         setting.setValue(localRetentionTime, forKey: "localRetentionTime")
         setting.setValue(cloudRetentionTime, forKey: "cloudRetentionTime")
-        setting.setValue(autoBackUp, forKey: "autoBackup")
+        setting.setValue(autoBackup, forKey: "autoBackup")
         setting.setValue(autoDelete, forKey: "autoDelete")
         do {
             try managedContext.save()
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+    }
+    
+    public func updateSettingsVariables(settings: Dictionary<String, Any>){
+        wifiOnlyBackup = settings["wifiOnlyBackup"] as! Bool
+        maxLocalStorage = settings["maxLocalStorage"] as! Int
+        localRetentionTime = settings["localRetentionTime"] as! Int
+        cloudRetentionTime = settings["cloudRetentionTime"] as! Int
+        autoBackup = settings["autoBackup"] as! Bool
+        autoDelete = settings["autoDelete"] as! Bool
     }
     
     public func saveCurrentSettingLocally(){
@@ -102,11 +111,11 @@ class Account {
         let setting = result[0]
         
         setting.setValue(wifiOnlyBackup, forKey: "wifiOnlyBackup")
-        setting.setValue(id, forKey: "id")
+        setting.setValue(id, forKey: "accountID")
         setting.setValue(maxLocalStorage, forKey: "maxLocalStorage")
         setting.setValue(localRetentionTime, forKey: "localRetentionTime")
         setting.setValue(cloudRetentionTime, forKey: "cloudRetentionTime")
-        setting.setValue(autoBackUp, forKey: "autoBackUp")
+        setting.setValue(autoBackup, forKey: "autoBackup")
         setting.setValue(autoDelete, forKey: "autoDelete")
         do {
             try managedContext.save()
@@ -162,13 +171,15 @@ class Account {
                 print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
         }
     }
+    
+    
     public func getSettings() -> Dictionary<String, Any>{
         let settings = [
             "wifiOnlyBackup": wifiOnlyBackup,
             "maxLocalStorage":maxLocalStorage,
             "localRetentionTime":localRetentionTime,
             "cloudRetentionTime":cloudRetentionTime,
-            "autoBackUp":autoBackUp,
+            "autoBackup":autoBackup,
             "autoDelete": autoDelete] as [String : Any]
         return settings
     }
