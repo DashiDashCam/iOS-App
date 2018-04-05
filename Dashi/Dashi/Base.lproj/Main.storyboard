@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gxc-NO-NAH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gxc-NO-NAH">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -629,7 +629,7 @@
         <!--Settings View Controller-->
         <scene sceneID="Kcf-lO-La7">
             <objects>
-                <tableViewController id="NEl-Dr-Ksr" customClass="SettingsViewController" customModule="Dashi" sceneMemberID="viewController">
+                <tableViewController id="NEl-Dr-Ksr" customClass="SettingsViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="2Yj-ym-BOu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -648,6 +648,9 @@
                                                     <rect key="frame" x="258" y="7" width="49" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="onTintColor" red="0.51324521020000002" green="1" blue="0.59140928569999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="autoDeleteChanged:" destination="NEl-Dr-Ksr" eventType="valueChanged" id="YKy-V7-WKe"/>
+                                                    </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Auto Delete Old Videos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yz4-h5-n4j">
                                                     <rect key="frame" x="16" y="11" width="255" height="21"/>
@@ -702,6 +705,9 @@
                                                     <rect key="frame" x="256" y="6" width="49" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="onTintColor" red="0.51324521020000002" green="1" blue="0.59140928569999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="wifiOnlyChanged:" destination="NEl-Dr-Ksr" eventType="valueChanged" id="EMV-PO-fbz"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -724,6 +730,9 @@
                                                     <rect key="frame" x="256" y="6" width="49" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="onTintColor" red="0.51324521020000002" green="1" blue="0.59140928569999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <connections>
+                                                        <action selector="autoBackupChanged:" destination="NEl-Dr-Ksr" eventType="valueChanged" id="rYS-M8-mPB"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -787,9 +796,12 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="autoBackupSwitch" destination="VFS-lB-RUm" id="3LB-p0-rnA"/>
+                        <outlet property="autoDeleteSwitch" destination="hI3-Bn-GlR" id="OVT-f4-EvK"/>
                         <outlet property="retentionCloud" destination="iAy-2i-VE2" id="0SB-LR-LgD"/>
                         <outlet property="retentionLocal" destination="HzM-0g-IUW" id="aGW-8x-arP"/>
                         <outlet property="storageLocal" destination="xvg-R8-bBv" id="Gzc-Ow-UdP"/>
+                        <outlet property="wifiOnlyBackupSwitch" destination="oRe-FX-qbW" id="lQB-L2-QHb"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9de-cy-wLh" userLabel="First Responder" sceneMemberID="firstResponder"/>
