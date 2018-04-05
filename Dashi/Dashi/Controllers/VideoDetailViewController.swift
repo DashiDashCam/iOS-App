@@ -46,16 +46,23 @@ class VideoDetailViewController: UIViewController {
     override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
 
-        var uploadStatus = selectedVideo.storageStat
+        var uploadStatus = selectedVideo.getStorageStat()
 
-        if uploadStatus == "both" {
-            print("both")
-        } else if selectedVideo.storageStat == "cloud" {
+        if uploadStatus == "local" {
+            print("local")
+            uploadProgress.isHidden = true
+            
+            // show Upload to Cloud
+            uploadToCloud.isHidden = false
+
+        } else  {
             // hide Upload to Cloud if video is in cloud
             uploadToCloud.isHidden = true
 
-            // replace with statusbar
+            // TODO: replace with statusbar
+            uploadProgress.text = String(format: "%.2f", selectedVideo.uploadProgress) + " % uploaded"
         }
+        
     }
 
     // called when user taps thumbnail
@@ -68,12 +75,14 @@ class VideoDetailViewController: UIViewController {
 
     @IBAction func pushToCloud(_: Any) {
         // select video content from CoreData
+        selectedVideo.changeStorageToBoth()
         selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
 
         DashiAPI.uploadVideoMetaData(video: selectedVideo).then { _ -> Void in
             self.initProgress(id: self.selectedVideo.getId())
-            DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ in
+            DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ -> Void in
                 self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
+                self.uploadToCloud.isHidden = true
 
             }.catch { error in
                 if let e = error as? DashiServiceError {
@@ -108,10 +117,10 @@ class VideoDetailViewController: UIViewController {
             appDelegate!.persistentContainer.viewContext
 
         let entity =
-            NSEntityDescription.entity(forEntityName: "UploadStatus",
+            NSEntityDescription.entity(forEntityName: "Videos",
                                        in: managedContext)!
         let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "UploadStatus")
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["videoContent"]
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         var result: [NSManagedObject] = []
@@ -181,9 +190,10 @@ class VideoDetailViewController: UIViewController {
         //         Get the new view controller using segue.destinationViewController.
         //         Pass the selected object to the new view controller.
         let preview = segue.destination as! VideoPreviewViewController
-
-        // the video is in the cloud
-        if selectedVideo.getStorageStat() == "cloud" {
+        if let url =  getUrlForLocal(id: selectedVideo.getId()){
+               preview.fileLocation = url
+        }
+        else{
             // download video content from cloud
             DashiAPI.downloadVideoContent(video: selectedVideo).then { val in
                 preview.fileLocation = self.getUrlForCloud(id: self.selectedVideo.getId(), data: val)
@@ -194,10 +204,7 @@ class VideoDetailViewController: UIViewController {
                     print(JSON(e.body))
                 }
         } }
-        else {
-            // get the video content from CoreData
-            preview.fileLocation = getUrlForLocal(id: selectedVideo.getId())
-        }
+        
     }
 
     ////creates url for video content in cloud db given id
@@ -230,12 +237,15 @@ class VideoDetailViewController: UIViewController {
             return nil
         }
 
-        let contentData = content[0].value(forKey: "videoContent") as! Data
-        let manager = FileManager.default
-        let filename = String(id) + "vid.mp4"
-        let path = NSTemporaryDirectory() + filename
-        manager.createFile(atPath: path, contents: contentData, attributes: nil)
-        return URL(fileURLWithPath: path)
+        if  let contentData = content[0].value(forKey: "videoContent") as! Data?{
+            let manager = FileManager.default
+            let filename = String(id) + "vid.mp4"
+            let path = NSTemporaryDirectory() + filename
+            manager.createFile(atPath: path, contents: contentData, attributes: nil)
+            return URL(fileURLWithPath: path)
+        }
+        return nil
+        
     }
 
     @IBAction func shareVideoLink() {

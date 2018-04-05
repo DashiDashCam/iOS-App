@@ -31,11 +31,13 @@ class Video {
     var uploadProgress: Double!
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
+    var managedContext:NSManagedObjectContext
     /**
      *  Initializes a Video object. Note that ID is initialized
      *  from the SHA256 hash of the content of the video
      */
     init(started: Date, asset: AVURLAsset, startLoc: CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
+         managedContext = (appDelegate?.persistentContainer.viewContext)!
         do {
             // get the data associated with the video's content and convert it to a string
             let contentData = try Data(contentsOf: asset.url)
@@ -66,6 +68,7 @@ class Video {
     }
 
     init(video: JSON) {
+         managedContext = (appDelegate?.persistentContainer.viewContext)!
         id = video["id"].stringValue
         started = DateConv.toDate(timestamp: video["started"].stringValue)
         length = video["length"].intValue
@@ -75,7 +78,6 @@ class Video {
         startLong = video["startLong"].doubleValue
         endLat = video["endLat"].doubleValue
         endLong = video["endLong"].doubleValue
-        storageStat = "cloud"
     }
 
     init(started: Date, imageData: Data, id: String, length: Int, size: Int, startLoc: CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
@@ -84,11 +86,11 @@ class Video {
         thumbnail = UIImage(data: imageData)
         self.length = length
         self.size = size
-        storageStat = "local"
         startLat = startLoc.latitude
         startLong = startLoc.longitude
         endLat = endLoc.latitude
         endLong = endLoc.longitude
+         managedContext = (appDelegate?.persistentContainer.viewContext)!
     }
 
     public func getProgress() -> Double {
@@ -102,10 +104,10 @@ class Video {
         } catch let error {
             print("Could not get video content. \(error)")
         }
-
+        
         return nil
     }
-
+    
     public func getImageContent() -> Data? {
         return UIImageJPEGRepresentation(thumbnail, 0.5)
     }
@@ -139,10 +141,32 @@ class Video {
     }
 
     public func getStorageStat() -> String {
+        if storageStat == nil{
+            getStorageStatFromCore()
+        }
         return storageStat!
     }
 
     public func changeStorageToBoth() {
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        let setting = result[0]
+        
+        setting.setValue("both", forKey: "storageStat")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
         storageStat = "both"
     }
 
@@ -161,7 +185,26 @@ class Video {
     public func getEndLong() -> CLLocationDegrees {
         return endLong
     }
+    
+    func getStorageStatFromCore(){
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
+        
+        // 2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["storageStat"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        // 3
+        do {
+            content = (try managedContext?.fetch(fetchRequest))!
+            storageStat = content[0].value(forKey: "storageStat") as! String
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
 
+    }
     // gets progress from core data
     func updateProgressFromCoreData() {
         if storageStat == "local" {
@@ -173,7 +216,7 @@ class Video {
 
             // 2
             let fetchRequest =
-                NSFetchRequest<NSManagedObject>(entityName: "UploadStatus")
+                NSFetchRequest<NSManagedObject>(entityName: "Videos")
             fetchRequest.propertiesToFetch = ["uploadProgress"]
             fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
             // 3

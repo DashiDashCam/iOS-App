@@ -23,8 +23,7 @@ class VideosTableViewController: UITableViewController {
     // get's video metadata from local db and cloud
     override func viewDidLoad() {
         super.viewDidLoad()
-        getVidsFromLocal()
-        getVidsFromCloud()
+        getMetaData()
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
@@ -39,7 +38,7 @@ class VideosTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -58,25 +57,8 @@ class VideosTableViewController: UITableViewController {
         return videos.count
     }
 
-    // gets video metadata from cloud and stores it in videos object. Reloads table data after callback
-    func getVidsFromCloud() {
-        DashiAPI.getAllVideoMetaData().then { value -> Void in
-            for video in value {
-                if let index = self.ids.index(of: video.getId()) {
-                    self.videos[index].changeStorageToBoth()
-                } else {
-                    self.videos.append(video)
-                }
-            }
-
-            self.tableView.reloadData()
-        }.catch {
-            error in
-            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
-        }
-    }
-
-    func getVidsFromLocal() {
+   
+    func getMetaData() {
         var fetchedmeta: [NSManagedObject] = []
 
         let managedContext =
@@ -92,7 +74,7 @@ class VideosTableViewController: UITableViewController {
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
-
+        
         for meta in fetchedmeta {
 
             let id = meta.value(forKey: "id") as! String
