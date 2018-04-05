@@ -322,7 +322,11 @@ class DashiAPI {
             if start < video.count {
                 let url = BASE_URL + "?offset=\(part)"
                 let end = (start + CHUNK_SIZE) < video.count ? (start + CHUNK_SIZE - 1) : (video.count - 1)
-                return self.sessionManager.upload(video[start ... end], to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { _ in
+                print("Uploading Chunk: \(part)")
+                // Background upload/downloads must occur from disk, so dump to temp file
+                let tempFile = TempFile(extension: "mov", content: video[start ... end])
+                sleep(1)
+                return self.sessionManager.upload(tempFile.tmpFileURL.contentURL, to: url).validate().responseJSON(with: .response).then { _ in
                     uploadChunk(id: id, video: video, part: part + 1, retry: 0)
                 }
             } else {
