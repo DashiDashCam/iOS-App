@@ -203,6 +203,7 @@ class VideoPreviewViewController: UIViewController {
             video.setValue(currentVideo.getStartLong(), forKey: "startLong")
             video.setValue(currentVideo.getEndLat(), forKey: "endLat")
             video.setValue(currentVideo.getEndLong(), forKey: "endLong")
+            video.setValue("local", forKey: "storageStat")
             do {
                 try managedContext.save()
                 self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)

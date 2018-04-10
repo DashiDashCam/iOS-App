@@ -10,6 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 import CoreData
+import PromiseKit
 
 var sharedAccount: Account? = nil
 
@@ -23,7 +24,7 @@ class Account {
     var localRetentionTime: Int
     var cloudRetentionTime: Int
     var autoDelete: Bool
-    var autoBackUp: Bool
+    var autoBackup: Bool
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     var managedContext:NSManagedObjectContext
     
@@ -33,37 +34,39 @@ class Account {
     public var email: String
     
     init(account: JSON) {
+        managedContext = (appDelegate?.persistentContainer.viewContext)!
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Settings")
         fullName = account["fullName"].stringValue
         created = DateConv.toDate(timestamp: account["created"].stringValue)
         id = account["id"].intValue
         email = account["email"].stringValue
-        
-//        var result: [NSManagedObject] = []
-//        do {
-            managedContext = (appDelegate?.persistentContainer.viewContext)!
-//            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Settings")
-//            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-//            result = (try managedContext.fetch(fetchRequest))
-//        } catch let error as Error {
-//            print("Could not fetch. \(error), \(error.localizedDescription)")
-//        }
-//        if result.isEmpty{
+        fetchRequest.predicate = NSPredicate(format: "accountID == %d", id)
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        if result.isEmpty{
             wifiOnlyBackup = true
             maxLocalStorage = 5;
             localRetentionTime = 7;
             cloudRetentionTime = 30;
             autoDelete = true;
-            autoBackUp = true;
-//            initializeSettings()
-//        }
-//        else{
-//             wifiOnlyBackup = result[0].value(forKeyPath: "wifiOnlyBackup") as! Bool
-//             maxLocalStorage = result[0].value(forKeyPath: "maxLocalStorage") as! Int
-//             localRetentionTime = result[0].value(forKeyPath: "localRetentionTime") as! Int
-//             cloudRetentionTime = result[0].value(forKeyPath: "cloudRetentionTime") as! Int
-//             autoDelete = result[0].value(forKeyPath: "autoDelete") as! Bool
-//             autoBackUp = result[0].value(forKeyPath: "autoBackUp") as! Bool
-//        }
+            autoBackup = true;
+            initializeSettings()
+            initializeMetaData()
+        }
+        else{
+            wifiOnlyBackup = result[0].value(forKeyPath: "wifiOnlyBackup") as! Bool
+            maxLocalStorage = result[0].value(forKeyPath: "maxLocalStorage") as! Int
+            localRetentionTime = result[0].value(forKeyPath: "localRetentionTime") as! Int
+            cloudRetentionTime = result[0].value(forKeyPath: "cloudRetentionTime") as! Int
+            autoDelete = result[0].value(forKeyPath: "autoDelete") as! Bool
+            autoBackup = result[0].value(forKeyPath: "autoBackup") as! Bool
+        }
     }
     func initializeSettings(){
         let entity =
@@ -72,11 +75,11 @@ class Account {
         let setting = NSManagedObject(entity: entity,
                                     insertInto: managedContext)
         setting.setValue(wifiOnlyBackup, forKey: "wifiOnlyBackup")
-        setting.setValue(id, forKey: "id")
+        setting.setValue(id, forKey: "accountID")
         setting.setValue(maxLocalStorage, forKey: "maxLocalStorage")
         setting.setValue(localRetentionTime, forKey: "localRetentionTime")
         setting.setValue(cloudRetentionTime, forKey: "cloudRetentionTime")
-        setting.setValue(autoBackUp, forKey: "autoBackUp")
+        setting.setValue(autoBackup, forKey: "autoBackup")
         setting.setValue(autoDelete, forKey: "autoDelete")
         do {
             try managedContext.save()
@@ -85,10 +88,19 @@ class Account {
         }
     }
     
+    public func updateSettingsVariables(settings: Dictionary<String, Any>){
+        wifiOnlyBackup = settings["wifiOnlyBackup"] as! Bool
+        maxLocalStorage = settings["maxLocalStorage"] as! Int
+        localRetentionTime = settings["localRetentionTime"] as! Int
+        cloudRetentionTime = settings["cloudRetentionTime"] as! Int
+        autoBackup = settings["autoBackup"] as! Bool
+        autoDelete = settings["autoDelete"] as! Bool
+    }
+    
     public func saveCurrentSettingLocally(){
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Settings")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "accountID == %d", id)
         var result: [NSManagedObject] = []
         // 3
         do {
@@ -99,11 +111,11 @@ class Account {
         let setting = result[0]
         
         setting.setValue(wifiOnlyBackup, forKey: "wifiOnlyBackup")
-        setting.setValue(id, forKey: "id")
+        setting.setValue(id, forKey: "accountID")
         setting.setValue(maxLocalStorage, forKey: "maxLocalStorage")
         setting.setValue(localRetentionTime, forKey: "localRetentionTime")
         setting.setValue(cloudRetentionTime, forKey: "cloudRetentionTime")
-        setting.setValue(autoBackUp, forKey: "autoBackUp")
+        setting.setValue(autoBackup, forKey: "autoBackup")
         setting.setValue(autoDelete, forKey: "autoDelete")
         do {
             try managedContext.save()
@@ -128,6 +140,38 @@ class Account {
     public func getId() -> Int {
         return id
     }
+    func initializeMetaData() {
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Videos",
+                                       in: managedContext)!
+      
+        DashiAPI.getAllVideoMetaData().then { value -> Void in
+            for currentVideo in value {
+                let video = NSManagedObject(entity: entity,
+                                            insertInto: self.managedContext)
+                video.setValue(currentVideo.getId(), forKeyPath: "id")
+                video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
+                video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
+                video.setValue(currentVideo.getLength(), forKeyPath: "length")
+                video.setValue(currentVideo.getSize(), forKey: "size")
+                video.setValue(currentVideo.getStartLat(), forKey: "startLat")
+                video.setValue(currentVideo.getStartLong(), forKey: "startLong")
+                video.setValue(currentVideo.getEndLat(), forKey: "endLat")
+                video.setValue(currentVideo.getEndLong(), forKey: "endLong")
+                video.setValue(100, forKey: "uploadProgress")
+                video.setValue("cloud", forKey: "storageStat")
+                do {
+                    try self.managedContext.save()
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
+                }
+            }
+            }.catch {
+                error in
+                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+        }
+    }
+    
     
     public func getSettings() -> Dictionary<String, Any>{
         let settings = [
@@ -135,7 +179,7 @@ class Account {
             "maxLocalStorage":maxLocalStorage,
             "localRetentionTime":localRetentionTime,
             "cloudRetentionTime":cloudRetentionTime,
-            "autoBackUp":autoBackUp,
+            "autoBackup":autoBackup,
             "autoDelete": autoDelete] as [String : Any]
         return settings
     }
