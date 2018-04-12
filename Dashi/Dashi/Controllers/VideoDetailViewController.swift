@@ -86,7 +86,7 @@ class VideoDetailViewController: UIViewController {
     }
 
     @IBAction func downloadVideo(_ sender: Any) {
-       
+       downloadFromCloud.isEnabled = false
         DashiAPI.downloadVideoContent(video: selectedVideo).then { val -> Void in
             
             let managedContext =
@@ -119,6 +119,7 @@ class VideoDetailViewController: UIViewController {
     }
     @IBAction func pushToCloud(_: Any) {
         // select video content from CoreData
+        uploadToCloud.isEnabled = true
         selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
 
         DashiAPI.uploadVideoMetaData(video: selectedVideo).then { _ -> Void in
