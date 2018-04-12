@@ -119,7 +119,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             // stop recording the simulator
             if TARGET_OS_SIMULATOR != 0 {
                 // save the placeholdervideo
-                outputFileLocation = NSURL.fileURL(withPath: Bundle.main.path(forResource: "IMG_1800", ofType: "MOV")!)
+                outputFileLocation = NSURL.fileURL(withPath: Bundle.main.path(forResource: "IMG_1801", ofType: "MOV")!)
                 saveVideoToCoreData()
 
                 // force seque to previousTrips
