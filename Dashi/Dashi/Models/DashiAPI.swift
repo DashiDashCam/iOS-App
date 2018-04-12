@@ -226,7 +226,10 @@ class DashiAPI {
     }
     
     public static func downloadVideoContent(video: Video) -> Promise<Data> {
-        let url = API_ROOT + "/Account/Videos/" + video.getId() + "/content"
+        let url = URL(string: API_ROOT + "/Account/Videos/" + video.getId() + "/content")!
+        let task = DownloadManager.shared.activate().downloadTask(with: url)
+        task.resume()
+        
         return firstly {
             self.addAuthToken()
             }.then { headers in
@@ -234,6 +237,7 @@ class DashiAPI {
                     
                     return value
                 }
+                
             }.catch { error in
                 // convert the error body to a readable string and print
                 if let e = error as? DashiServiceError {

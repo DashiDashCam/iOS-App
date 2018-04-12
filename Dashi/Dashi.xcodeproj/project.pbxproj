@@ -32,6 +32,7 @@
 		D85BD86320730A8000C27E35 /* TempFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85BD86220730A8000C27E35 /* TempFile.swift */; };
 		D85BD865207FFFC000C27E35 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85BD864207FFFC000C27E35 /* RepeatingTimer.swift */; };
 		D85BD8672080006700C27E35 /* VideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85BD8662080006700C27E35 /* VideoManager.swift */; };
+		D85BD8692080085000C27E35 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85BD8682080085000C27E35 /* DownloadManager.swift */; };
 		D86D7481201E8E8000F62F4D /* DateConv.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86D7480201E8E8000F62F4D /* DateConv.swift */; };
 		D889C4261FC368280082052A /* DashiAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D889C4251FC368280082052A /* DashiAPI.swift */; };
 		D8FC2A59201A97EB00F3E532 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FC2A58201A97EB00F3E532 /* Account.swift */; };
@@ -69,6 +70,7 @@
 		D85BD86220730A8000C27E35 /* TempFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempFile.swift; sourceTree = "<group>"; };
 		D85BD864207FFFC000C27E35 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		D85BD8662080006700C27E35 /* VideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoManager.swift; sourceTree = "<group>"; };
+		D85BD8682080085000C27E35 /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
 		D86D7480201E8E8000F62F4D /* DateConv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConv.swift; sourceTree = "<group>"; };
 		D889C4251FC368280082052A /* DashiAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashiAPI.swift; sourceTree = "<group>"; };
 		D8FC2A58201A97EB00F3E532 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				D8FC2A5A201AA9B600F3E532 /* Video.swift */,
 				2F89D729203B147E008EEAE9 /* LocationManager.swift */,
 				D85BD8662080006700C27E35 /* VideoManager.swift */,
+				D85BD8682080085000C27E35 /* DownloadManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				D85BD8672080006700C27E35 /* VideoManager.swift in Sources */,
 				2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */,
 				D85BD86320730A8000C27E35 /* TempFile.swift in Sources */,
+				D85BD8692080085000C27E35 /* DownloadManager.swift in Sources */,
 				A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */,
 				D8FC2A5B201AA9B600F3E532 /* Video.swift in Sources */,
 				A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */,
