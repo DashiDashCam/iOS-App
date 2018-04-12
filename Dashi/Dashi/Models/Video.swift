@@ -28,7 +28,8 @@ class Video {
     var endLat: CLLocationDegrees!
     var startLong: CLLocationDegrees!
     var endLong: CLLocationDegrees!
-    var uploadProgress: Double!
+    var uploadProgress: Int!
+    var downloadProgress: Int!
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
     var managedContext:NSManagedObjectContext
@@ -93,11 +94,16 @@ class Video {
          managedContext = (appDelegate?.persistentContainer.viewContext)!
     }
 
-    public func getProgress() -> Double {
+    public func getUploadProgress() -> Int {
         updateProgressFromCoreData()
         return uploadProgress
     }
-
+    
+    public func getDownloadProgress() -> Int {
+        updateProgressFromCoreData()
+        return downloadProgress
+    }
+    
     public func getContent() -> Data? {
         do {
             return try Data(contentsOf: asset!.url)
@@ -186,6 +192,7 @@ class Video {
         return endLong
     }
     
+    
     func getStorageStatFromCore(){
         var content: [NSManagedObject]
         let managedContext =
@@ -207,9 +214,7 @@ class Video {
     }
     // gets progress from core data
     func updateProgressFromCoreData() {
-        if storageStat == "local" {
-            uploadProgress = 0.00
-        } else {
+
             var content: [NSManagedObject]
             let managedContext =
                 appDelegate?.persistentContainer.viewContext
@@ -217,17 +222,17 @@ class Video {
             // 2
             let fetchRequest =
                 NSFetchRequest<NSManagedObject>(entityName: "Videos")
-            fetchRequest.propertiesToFetch = ["uploadProgress"]
+            fetchRequest.propertiesToFetch = ["uploadProgress", "downloadProgress"]
             fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
             // 3
             do {
                 content = (try managedContext?.fetch(fetchRequest))!
-                uploadProgress = content[0].value(forKey: "uploadProgress") as! Double
+                uploadProgress = content[0].value(forKey: "uploadProgress") as! Int
+                downloadProgress  = content[0].value(forKey: "downloadProgress") as! Int
             } catch let error as Error {
                 print("Could not fetch. \(error), \(error.localizedDescription)")
             }
         }
-    }
 
     // helper function for converting seconds to hours
     func secondsToHoursMinutesSeconds() -> (Int, Int, Int) {
