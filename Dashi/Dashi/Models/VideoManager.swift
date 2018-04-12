@@ -11,7 +11,7 @@ import CoreData
 import UIKit
 
 class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
-
+    
     static var shared = VideoManager()
     
     typealias ProgressHandler = (Float) -> ()
@@ -137,31 +137,31 @@ class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
     private static func uploadCheck(settings: Dictionary<String, Any>) {
         print("BACKGROUND TASK: Beginning Upload Check...")
         
-//        // Find videos that need to be uploaded
-//        guard let appDelegate =
-//            UIApplication.shared.delegate as? AppDelegate else {
-//                return
-//        }
-//        
-//        // Get coredata context
-//        let managedContext = appDelegate.persistentContainer.viewContext
-//        
-//        // Load video dates and upload status
-//        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
-//        fetchRequest.propertiesToFetch = ["id", "uploadProgress", "size", "downloaded"]
-//        fetchRequest.predicate = NSPredicate(format: "videoContent != nil")
-//        
-//        var videos: [NSManagedObject] = []
-//        do {
-//            videos = (try managedContext.fetch(fetchRequest))
-//        } catch let error as Error {
-//            print("Could not fetch. \(error), \(error.localizedDescription)")
-//        }
-//        
-//        // Schedule upload tasks
-//        for video in videos {
-//            
-//        }
+        //        // Find videos that need to be uploaded
+        //        guard let appDelegate =
+        //            UIApplication.shared.delegate as? AppDelegate else {
+        //                return
+        //        }
+        //
+        //        // Get coredata context
+        //        let managedContext = appDelegate.persistentContainer.viewContext
+        //
+        //        // Load video dates and upload status
+        //        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        //        fetchRequest.propertiesToFetch = ["id", "uploadProgress", "size", "downloaded"]
+        //        fetchRequest.predicate = NSPredicate(format: "videoContent != nil")
+        //
+        //        var videos: [NSManagedObject] = []
+        //        do {
+        //            videos = (try managedContext.fetch(fetchRequest))
+        //        } catch let error as Error {
+        //            print("Could not fetch. \(error), \(error.localizedDescription)")
+        //        }
+        //
+        //        // Schedule upload tasks
+        //        for video in videos {
+        //
+        //        }
     }
     
     static func performBackgroundTasks() {

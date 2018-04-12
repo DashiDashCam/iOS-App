@@ -284,6 +284,9 @@ class DashiAPI {
         let RETRY_LIMIT = 3 // Constant defining the max number of retries allowed
         let UPLOAD_COMPELTED = -1 // Constant defining the finished uploading signal
         
+        let config = URLSessionConfiguration.background(withIdentifier: "com.dashidashcam.sdf.background")
+        config.httpAdditionalHeaders = ["Host": "api.dashidashcam.com"]
+        
         return firstly {
             self.addAuthToken()
         }.then { headers in
@@ -308,7 +311,7 @@ class DashiAPI {
                     JSON(value)
                 }
 
-                }
+            }
         }.recover { error -> Promise<JSON> in
             print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
             
