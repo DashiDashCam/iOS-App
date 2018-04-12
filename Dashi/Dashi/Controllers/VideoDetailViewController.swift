@@ -119,6 +119,7 @@ class VideoDetailViewController: UIViewController {
     }
     @IBAction func pushToCloud(_: Any) {
         // select video content from CoreData
+        uploadToCloud.isEnabled = true
         selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
 
         DashiAPI.uploadVideoMetaData(video: selectedVideo).then { _ -> Void in
