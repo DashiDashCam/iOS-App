@@ -86,7 +86,7 @@ class VideoDetailViewController: UIViewController {
     }
 
     @IBAction func downloadVideo(_ sender: Any) {
-       
+       downloadFromCloud.isEnabled = false
         DashiAPI.downloadVideoContent(video: selectedVideo).then { val -> Void in
             
             let managedContext =
