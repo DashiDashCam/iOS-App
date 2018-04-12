@@ -12,6 +12,7 @@
 		24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */; };
 		2F0328EB1FC0E8AD00944477 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328E91FC0E8AD00944477 /* CloudManager.swift */; };
 		2F0328EC1FC0E8AD00944477 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */; };
+		2F343E01207AF44900F009F0 /* IMG_1801.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 2F343E00207AF44900F009F0 /* IMG_1801.MOV */; };
 		2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */; };
 		2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */; };
 		2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */; };
@@ -23,7 +24,6 @@
 		A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A347FD881F9A9EAF0091973F /* AppDelegate.swift */; };
 		A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8F1F9A9EAF0091973F /* Assets.xcassets */; };
 		A359F072204092C500DA88BB /* VideoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A359F071204092C500DA88BB /* VideoDetailViewController.swift */; };
-		A3719AD6202FEB9100E07AA4 /* IMG_1800.MOV in Resources */ = {isa = PBXBuildFile; fileRef = A3F9330F201FEFB9000C173B /* IMG_1800.MOV */; };
 		A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */; };
 		A3CD1C7F1FABC8450061FEAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7A1FABC8450061FEAB /* Main.storyboard */; };
 		A3CD1C801FABC8450061FEAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7C1FABC8450061FEAB /* LaunchScreen.storyboard */; };
@@ -41,6 +41,7 @@
 		24E684E51FABC0D500F79F9B /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
 		2F0328E91FC0E8AD00944477 /* CloudManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
+		2F343E00207AF44900F009F0 /* IMG_1801.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_1801.MOV; sourceTree = "<group>"; };
 		2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosTableViewController.swift; sourceTree = "<group>"; };
@@ -58,7 +59,6 @@
 		A3CD1C7B1FABC8450061FEAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A3CD1C7D1FABC8450061FEAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A3CD1C7E1FABC8450061FEAB /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
-		A3F9330F201FEFB9000C173B /* IMG_1800.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_1800.MOV; sourceTree = "<group>"; };
 		A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.debug.xcconfig"; sourceTree = "<group>"; };
 		D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.release.xcconfig"; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 		2FBC9B4D1FB2A699003C0011 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
-				A3F9330F201FEFB9000C173B /* IMG_1800.MOV */,
+				2F343E00207AF44900F009F0 /* IMG_1801.MOV */,
 				24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */,
 				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
 				A347FD941F9A9EAF0091973F /* Info.plist */,
@@ -251,7 +251,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3719AD6202FEB9100E07AA4 /* IMG_1800.MOV in Resources */,
+				2F343E01207AF44900F009F0 /* IMG_1801.MOV in Resources */,
 				A3CD1C801FABC8450061FEAB /* LaunchScreen.storyboard in Resources */,
 				A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */,
 				A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */,
