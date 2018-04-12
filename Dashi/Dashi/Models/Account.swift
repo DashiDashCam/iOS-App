@@ -160,6 +160,7 @@ class Account {
                 video.setValue(currentVideo.getEndLong(), forKey: "endLong")
                 video.setValue(100, forKey: "uploadProgress")
                 video.setValue("cloud", forKey: "storageStat")
+                video.setValue(0, forKey: "downloadProgress")
                 do {
                     try self.managedContext.save()
                 } catch let error as NSError {
