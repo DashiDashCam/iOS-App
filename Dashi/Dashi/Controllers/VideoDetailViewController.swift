@@ -25,18 +25,20 @@ class VideoDetailViewController: UIViewController {
     @IBOutlet weak var videoDate: UILabel!
     @IBOutlet weak var videoLength: UILabel!
     @IBOutlet weak var uploadToCloud: UIButton!
-
+    @IBOutlet weak var downloadProgress: UILabel!
+    @IBOutlet weak var uploadProgressBar: UIProgressView!
+    @IBOutlet weak var downloadFromCloud: UIButton!
+    
     var id: String!
-
-    @IBOutlet weak var uploadProgress: UILabel!
+    var timer: Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         loadVideoContent()
 
         // create tap gesture recognizer for when user taps thumbnail
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
-        uploadProgress.text = (selectedVideo.getProgress()).description
-
+        downloadProgress.text = (selectedVideo.getDownloadProgress()).description
         // add it to the image view;
         videoThumbnail.addGestureRecognizer(tapGesture)
         // make sure imageView can be interacted with by user
@@ -46,21 +48,31 @@ class VideoDetailViewController: UIViewController {
     override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
 
-        var uploadStatus = selectedVideo.getStorageStat()
+        let uploadStatus = selectedVideo.getStorageStat()
 
-        if uploadStatus == "local" {
+        if uploadStatus == "local" { 
             print("local")
-            uploadProgress.isHidden = true
             
             // show Upload to Cloud
             uploadToCloud.isHidden = false
+            uploadProgressBar.isHidden = false
+             downloadProgress.text = String(format: "%d", selectedVideo.getDownloadProgress()) + " % downloaded"
+            downloadFromCloud.isHidden = true
 
-        } else  {
+        }
+        else if uploadStatus == "cloud"{
+            downloadFromCloud.isHidden = false
+            downloadProgress.isHidden = true
+            uploadToCloud.isHidden = true
+            uploadProgressBar.isHidden = true
+        }
+        else  {
             // hide Upload to Cloud if video is in cloud
             uploadToCloud.isHidden = true
-
+            uploadProgressBar.isHidden = true
+            downloadFromCloud.isHidden = true
             // TODO: replace with statusbar
-            uploadProgress.text = String(format: "%.2f", selectedVideo.uploadProgress) + " % uploaded"
+             downloadProgress.text = String(format: "%1d", selectedVideo.getDownloadProgress()) + " % downloaded"
         }
         
     }
@@ -73,17 +85,50 @@ class VideoDetailViewController: UIViewController {
         }
     }
 
+    @IBAction func downloadVideo(_ sender: Any) {
+       
+        DashiAPI.downloadVideoContent(video: selectedVideo).then { val -> Void in
+            
+            let managedContext =
+                self.appDelegate?.persistentContainer.viewContext
+            
+            let fetchRequest =
+                NSFetchRequest<NSManagedObject>(entityName: "Videos")
+            fetchRequest.predicate = NSPredicate(format: "id == %@", self.selectedVideo.getId())
+            var result: [NSManagedObject] = []
+            // 3
+            do {
+                result = (try managedContext?.fetch(fetchRequest))!
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.localizedDescription)")
+            }
+            let video = result[0]
+            video.setValue(val, forKey: "videoContent")
+            do {
+                try managedContext?.save()
+                self.selectedVideo.changeStorageToBoth()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }}.catch { error in
+                if let e = error as? DashiServiceError {
+                    print(e.statusCode)
+                    print(JSON(e.body))
+                }
+                print(error)
+        }
+    }
     @IBAction func pushToCloud(_: Any) {
         // select video content from CoreData
-        selectedVideo.changeStorageToBoth()
         selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
-
+        self.uploadToCloud.setTitle("Uploading", for: .normal)
         DashiAPI.uploadVideoMetaData(video: selectedVideo).then { _ -> Void in
-            self.initProgress(id: self.selectedVideo.getId())
             DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ -> Void in
-                self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
-                self.uploadToCloud.isHidden = true
-
+                self.selectedVideo.changeStorageToBoth()
+                self.uploadToCloud.setTitle("Upload Complete", for: .normal)
+                self.timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: {timer in
+                    self.uploadToCloud.isHidden = true
+                    self.uploadProgressBar.isHidden = true
+                })
             }.catch { error in
                 if let e = error as? DashiServiceError {
                     print(String(data: e.body, encoding: String.Encoding.utf8)!)
@@ -95,6 +140,16 @@ class VideoDetailViewController: UIViewController {
                 print(String(data: e.body, encoding: String.Encoding.utf8)!)
             }
         }
+        
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {timer in
+            let progress = Float(self.selectedVideo.getUploadProgress())/100.0
+            if(progress >= 1.0){
+                self.timer?.invalidate()
+            }
+            self.uploadProgressBar.progress = progress
+            
+        })
     }
 
     // shows alert to user
@@ -110,31 +165,6 @@ class VideoDetailViewController: UIViewController {
         }
 
         present(controller, animated: true, completion: nil)
-    }
-
-    func initProgress(id: String) {
-        let managedContext =
-            appDelegate!.persistentContainer.viewContext
-
-        let entity =
-            NSEntityDescription.entity(forEntityName: "Videos",
-                                       in: managedContext)!
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.propertiesToFetch = ["videoContent"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        var result: [NSManagedObject] = []
-        let video = NSManagedObject(entity: entity,
-                                    insertInto: managedContext)
-
-        video.setValue(id, forKeyPath: "id")
-        video.setValue(0.0, forKeyPath: "uploadProgress")
-
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
     }
 
     func loadVideoContent() {
@@ -203,6 +233,7 @@ class VideoDetailViewController: UIViewController {
                     print(e.statusCode)
                     print(JSON(e.body))
                 }
+                print(error)
         } }
         
     }
