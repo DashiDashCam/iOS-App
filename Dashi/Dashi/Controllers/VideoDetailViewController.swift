@@ -87,35 +87,8 @@ class VideoDetailViewController: UIViewController {
 
     @IBAction func downloadVideo(_ sender: Any) {
        downloadFromCloud.isEnabled = false
-        DashiAPI.downloadVideoContent(video: selectedVideo).then { val -> Void in
-            
-            let managedContext =
-                self.appDelegate?.persistentContainer.viewContext
-            
-            let fetchRequest =
-                NSFetchRequest<NSManagedObject>(entityName: "Videos")
-            fetchRequest.predicate = NSPredicate(format: "id == %@", self.selectedVideo.getId())
-            var result: [NSManagedObject] = []
-            // 3
-            do {
-                result = (try managedContext?.fetch(fetchRequest))!
-            } catch let error as NSError {
-                print("Could not fetch. \(error), \(error.localizedDescription)")
-            }
-            let video = result[0]
-            video.setValue(val, forKey: "videoContent")
-            do {
-                try managedContext?.save()
-                self.selectedVideo.changeStorageToBoth()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
-            }}.catch { error in
-                if let e = error as? DashiServiceError {
-                    print(e.statusCode)
-                    print(JSON(e.body))
-                }
-                print(error)
-        }
+        DashiAPI.downloadVideoContent(video: selectedVideo)
+        self.selectedVideo.changeStorageToBoth()
     }
     @IBAction func pushToCloud(_: Any) {
         // select video content from CoreData

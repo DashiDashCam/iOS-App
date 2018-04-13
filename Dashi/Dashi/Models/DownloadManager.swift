@@ -3,6 +3,8 @@
 // Source    https://www.ralfebert.de/snippets/ios/urlsession-background-downloads/
 
 import Foundation
+import CoreData
+import UIKit
 
 class DownloadManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
     
@@ -53,17 +55,92 @@ class DownloadManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate
             }
             let progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
             debugPrint("Progress \(downloadTask) \(progress)")
-            
+            updateDownloadProgress(id: downloadTask.taskDescription!, progress: Int(progress*100))
         }
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         debugPrint("Download finished: \(location)")
+        saveVideoToCoreDB(id: downloadTask.taskDescription!, file: location)
         try? FileManager.default.removeItem(at: location)
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         debugPrint("Task completed: \(task), error: \(error)")
+    }
+    
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        
+        if challenge.previousFailureCount > 0 {
+            completionHandler(Foundation.URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge, nil)
+        } else if let serverTrust = challenge.protectionSpace.serverTrust {
+            completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: serverTrust))
+        } else {
+            print("unknown state. error: \(challenge.error)")
+            // do something w/ completionHandler here
+        }
+    }
+    
+    private func updateDownloadProgress(id: String , progress: Int){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // coredata context
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        let video = result[0]
+        
+        video.setValue(progress, forKey: "downloadProgress")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    private func saveVideoToCoreDB(id: String, file: URL) {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        let video = result[0]
+        do {
+            let val = try Data(contentsOf: file)
+            video.setValue(val, forKey: "videoContent")
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        } catch let error as NSError {
+            print("Could not load downloaded file. \(error), \(error.userInfo)")
+        }
     }
     
 }

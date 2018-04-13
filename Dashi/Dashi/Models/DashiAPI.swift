@@ -53,7 +53,7 @@ class DashiAPI {
      *  @param headers (optional) The request headers the Authorization header is added to
      *  @return The supplied request headers with an added Authroization
      */
-    private static func addAuthToken(headers: HTTPHeaders = [:]) -> Promise<HTTPHeaders> {
+    public static func addAuthToken(headers: HTTPHeaders = [:]) -> Promise<HTTPHeaders> {
         // Add authorization header to the HTTPHeaders object
         var new_headers = headers
         new_headers["Authorization"] = "Bearer " + accessToken!
@@ -106,38 +106,6 @@ class DashiAPI {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    
-    private static func updateDownloadProgress(id: String , progress: Int){
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        // coredata context
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        var result: [NSManagedObject] = []
-        // 3
-        do {
-            result = (try managedContext.fetch(fetchRequest))
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.localizedDescription)")
-        }
-        let video = result[0]
-        
-        video.setValue(progress, forKey: "downloadProgress")
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-    
     
     /**
      * Used to store a new refresh token in coredata
@@ -288,7 +256,7 @@ class DashiAPI {
         }
     }
     
-    public static func downloadVideoContent(video: Video) -> Promise<Data> {
+    public static func downloadVideoContent(video: Video) {
         let url = URL(string: API_ROOT + "/Account/Videos/" + video.getId() + "/content")!
         let task = DownloadManager.shared.activate().downloadTask(with: url)
         task.resume()
@@ -374,7 +342,7 @@ class DashiAPI {
                 return self.sessionManager.upload(tempFile.tmpFileURL.contentURL, to: url).validate().responseJSON(with: .response).then { _ in
                     let progress = (Double(end)/Double(video.count))*100;
                     self.updateUploadProgress(id: id, progress: Int(progress))
-                    uploadChunk(id: id, video: video, part: part + 1, retry: 0)
+                    return uploadChunk(id: id, video: video, part: part + 1, retry: 0)
                 }
             }
             else {
