@@ -46,6 +46,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if(pickerView == retentionLocal){
+            retentionLocalDisplay.text = retentionLocalSource[row]
             if(retentionLocalSource[row] == "No Limit"){
                 settings["localRetentionTime"] = -1
             }
@@ -54,6 +55,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
             }
         }
         else if(pickerView == storageLocal){
+            storageLocalDisplay.text = storageLocalSource[row]
             if(storageLocalSource[row] == "Max Available"){
                 settings["maxLocalStorage"] = -1
             }
@@ -62,6 +64,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
             }
         }
         else if(pickerView == retentionCloud){
+            retentionCloudDisplay.text = retentionCloudSource[row]
             if(retentionCloudSource[row] == "No Limit"){
                 settings["cloudRetentionTime"] = -1
             }
@@ -87,9 +90,13 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
         }
     }
     
-    @IBOutlet weak var retentionLocal: UIPickerView!
-    @IBOutlet weak var storageLocal: UIPickerView!
-    @IBOutlet weak var retentionCloud: UIPickerView!
+    @IBOutlet weak var retentionLocalDisplay: UITextField!
+    @IBOutlet weak var storageLocalDisplay: UITextField!
+    @IBOutlet weak var retentionCloudDisplay: UITextField!
+    
+    let retentionLocal = UIPickerView()
+    let storageLocal = UIPickerView()
+    let retentionCloud = UIPickerView()
     
     var retentionLocalSource: [String] = [String]()
     var storageLocalSource: [String] = [String]()
@@ -112,6 +119,25 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
         storageLocalSource = ["5 GB","10 GB", "15 GB", "20 GB", "Max Available"]
         retentionLocalSource = ["7 days", "14 days", "30 days", "No Limit"]
        
+        //connect text fields to uipickers
+        retentionLocalDisplay.inputView = retentionLocal
+        storageLocalDisplay.inputView = storageLocal
+        retentionCloudDisplay.inputView = retentionCloud
+        
+        //hide cursors on text fields
+        retentionLocalDisplay.tintColor = .clear
+        storageLocalDisplay.tintColor = .clear
+        retentionCloudDisplay.tintColor = .clear
+        
+        //add done button to text field input views
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .bordered, target: self, action: #selector(self.doneBtnFromKeyboardClicked))
+        ViewForDoneButtonOnKeyboard.items = [btnDoneOnKeyboard]
+        retentionLocalDisplay.inputAccessoryView = ViewForDoneButtonOnKeyboard
+        storageLocalDisplay.inputAccessoryView = ViewForDoneButtonOnKeyboard
+        retentionCloudDisplay.inputAccessoryView = ViewForDoneButtonOnKeyboard
+        
         settings = (sharedAccount?.getSettings())!
         self.autoBackupSwitch.isOn = settings["autoBackup"] as! Bool
         self.autoDeleteSwitch.isOn = settings["autoDelete"] as! Bool
@@ -125,6 +151,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
         else {
           retentionLocal.selectRow(retentionLocalSource.index(of: String(locRetent) + " days")!, inComponent: 0, animated: true)
         }
+        retentionLocalDisplay.text = retentionLocalSource[retentionLocal.selectedRow(inComponent: 0)]
         
         if cloudRetent ==  -1 {
             retentionCloud.selectRow(retentionCloudSource.index(of: "No Limit")!, inComponent: 0, animated: true)
@@ -132,6 +159,7 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
         else {
             retentionCloud.selectRow(retentionCloudSource.index(of: String(cloudRetent) + " days")!, inComponent: 0, animated: true)
         }
+        retentionCloudDisplay.text = retentionCloudSource[retentionCloud.selectedRow(inComponent: 0)]
         
         if maxLocStorage ==  -1 {
             storageLocal.selectRow(storageLocalSource.index(of: "Max Available")!, inComponent: 0, animated: true)
@@ -139,7 +167,19 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
         else {
             storageLocal.selectRow(storageLocalSource.index(of: String(maxLocStorage) + " GB")!, inComponent: 0, animated: true)
         }
+        storageLocalDisplay.text = storageLocalSource[storageLocal.selectedRow(inComponent: 0)]
     }
+    
+    @IBAction func doneBtnFromKeyboardClicked (sender: Any) {
+        print("Done Button Clicked.")
+        //close uitextfield inputs
+        //too lazy to figure out which one is actually displayed
+        //so close them all
+        self.retentionLocalDisplay.endEditing(true)
+        self.storageLocalDisplay.endEditing(true)
+        self.retentionCloudDisplay.endEditing(true)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         sharedAccount?.updateSettingsVariables(settings: settings)
         sharedAccount?.saveCurrentSettingLocally()
