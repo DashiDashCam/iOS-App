@@ -29,12 +29,21 @@ class VideoDetailViewController: UIViewController {
     
     @IBOutlet weak var downloadFromCloud: UIButton!
     var id: String!
-
+    var i = 0
+    var updateDownloadProgressTimer: RepeatingTimer!
     @IBOutlet weak var uploadProgress: UILabel!
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         loadVideoContent()
-
+        updateDownloadProgressTimer = RepeatingTimer( repeating: .seconds(1)){
+            DispatchQueue.main.async {
+                self.updateDownloadProgressText()
+            }
+            if(self.selectedVideo.getDownloadProgress() >= 100){
+                self.updateDownloadProgressTimer.suspend()
+            }
+        }
         // create tap gesture recognizer for when user taps thumbnail
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
         uploadProgress.text = (selectedVideo.getUploadProgress()).description
@@ -47,9 +56,9 @@ class VideoDetailViewController: UIViewController {
 
     override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
-
+        updateDownloadProgressTimer.resume()
         let uploadStatus = selectedVideo.getStorageStat()
-
+       
         if uploadStatus == "local" { 
             print("local")
             uploadProgress.isHidden = true
@@ -77,6 +86,9 @@ class VideoDetailViewController: UIViewController {
         
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        updateDownloadProgressTimer.suspend()
+    }
     // called when user taps thumbnail
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
@@ -84,8 +96,10 @@ class VideoDetailViewController: UIViewController {
             performSegue(withIdentifier: "viewVideoSegue", sender: self)
         }
     }
-
+    
+    
     @IBAction func downloadVideo(_ sender: Any) {
+      
        downloadFromCloud.isEnabled = false
         DashiAPI.downloadVideoContent(video: selectedVideo).then { val -> Void in
             
@@ -140,7 +154,10 @@ class VideoDetailViewController: UIViewController {
             }
         }
     }
-
+    
+    private func updateDownloadProgressText(){
+        downloadProgress.text = String(format: "%1d", selectedVideo.getDownloadProgress()) + " % downloaded"
+    }
     // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
