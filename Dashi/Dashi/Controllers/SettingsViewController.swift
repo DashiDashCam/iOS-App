@@ -130,7 +130,6 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
             retentionCloud.selectRow(retentionCloudSource.index(of: "No Limit")!, inComponent: 0, animated: true)
         }
         else {
-            let x = String(locRetent) + " days"
             retentionCloud.selectRow(retentionCloudSource.index(of: String(cloudRetent) + " days")!, inComponent: 0, animated: true)
         }
         

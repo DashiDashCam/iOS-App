@@ -119,7 +119,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             // stop recording the simulator
             if TARGET_OS_SIMULATOR != 0 {
                 // save the placeholdervideo
-                outputFileLocation = NSURL.fileURL(withPath: Bundle.main.path(forResource: "IMG_1800", ofType: "MOV")!)
+                outputFileLocation = NSURL.fileURL(withPath: Bundle.main.path(forResource: "IMG_1801", ofType: "MOV")!)
                 saveVideoToCoreData()
 
                 // force seque to previousTrips
@@ -406,6 +406,9 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             video.setValue(currentVideo.getEndLat(), forKey: "endLat")
             video.setValue(currentVideo.getEndLong(), forKey: "endLong")
             video.setValue("local", forKey: "storageStat")
+            video.setValue(Date(), forKey: "downloaded")
+            video.setValue(100, forKey: "downloadProgress")
+            video.setValue(0, forKey: "uploadProgress")
             do {
                 try managedContext.save()
                 //                self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)

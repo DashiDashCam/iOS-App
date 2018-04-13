@@ -76,6 +76,69 @@ class DashiAPI {
         }
     }
     
+    private static func updateUploadProgress(id:String, progress: Int){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // coredata context
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        let video = result[0]
+        
+        video.setValue(progress, forKey: "uploadProgress")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    private static func updateDownloadProgress(id: String , progress: Int){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // coredata context
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        let video = result[0]
+        
+        video.setValue(progress, forKey: "downloadProgress")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    
     /**
      * Used to store a new refresh token in coredata
      * Stores token, loggedOut as false, and current date
@@ -239,10 +302,13 @@ class DashiAPI {
                 }
                 
             }.catch { error in
-                // convert the error body to a readable string and print
                 if let e = error as? DashiServiceError {
-                    print(String(data: e.body, encoding: .utf8)!)
+                    // prints a more detailed error message from slim
+                    print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+                    
+                    print(e.statusCode)
                 }
+                print(error)
         }
     }
     
@@ -306,6 +372,8 @@ class DashiAPI {
                 let tempFile = TempFile(extension: "mov", content: video[start ... end])
                 sleep(1)
                 return self.sessionManager.upload(tempFile.tmpFileURL.contentURL, to: url).validate().responseJSON(with: .response).then { _ in
+                    let progress = (Double(end)/Double(video.count))*100;
+                    self.updateUploadProgress(id: id, progress: Int(progress))
                     uploadChunk(id: id, video: video, part: part + 1, retry: 0)
                 }
             }
