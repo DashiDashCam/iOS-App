@@ -12,7 +12,6 @@
 		24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */; };
 		2F0328EB1FC0E8AD00944477 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328E91FC0E8AD00944477 /* CloudManager.swift */; };
 		2F0328EC1FC0E8AD00944477 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */; };
-		2F1282912081A9F700436E55 /* IMG_1800.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 2F1282902081A9F600436E55 /* IMG_1800.MOV */; };
 		2F343E01207AF44900F009F0 /* IMG_1801.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 2F343E00207AF44900F009F0 /* IMG_1801.MOV */; };
 		2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */; };
 		2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */; };
@@ -42,7 +41,6 @@
 		24E684E51FABC0D500F79F9B /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
 		2F0328E91FC0E8AD00944477 /* CloudManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
-		2F1282902081A9F600436E55 /* IMG_1800.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_1800.MOV; sourceTree = "<group>"; };
 		2F343E00207AF44900F009F0 /* IMG_1801.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_1801.MOV; sourceTree = "<group>"; };
 		2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
@@ -124,7 +122,6 @@
 		2FBC9B4D1FB2A699003C0011 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
-				2F1282902081A9F600436E55 /* IMG_1800.MOV */,
 				2F343E00207AF44900F009F0 /* IMG_1801.MOV */,
 				24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */,
 				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
@@ -259,7 +256,6 @@
 				A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */,
 				A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */,
 				A3CD1C7F1FABC8450061FEAB /* Main.storyboard in Resources */,
-				2F1282912081A9F700436E55 /* IMG_1800.MOV in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
