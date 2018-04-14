@@ -44,6 +44,8 @@ class VideoDetailViewController: UIViewController {
                 self.updateDownloadProgressTimer.suspend()
             }
         }
+        
+        updateDownloadProgressTimer.resume()
         // create tap gesture recognizer for when user taps thumbnail
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
         uploadProgress.text = (selectedVideo.getUploadProgress()).description
