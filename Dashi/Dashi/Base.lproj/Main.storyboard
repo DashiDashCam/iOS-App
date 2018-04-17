@@ -14,7 +14,6 @@
         <!--Video-->
         <scene sceneID="I8g-ea-Qso">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jgk-6F-2aJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="Video" id="8p2-4V-4ok" customClass="VideoViewController" customModule="Dashi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4OG-uj-jfI"/>
@@ -91,6 +90,7 @@
                         <segue destination="FkJ-At-WVc" kind="show" identifier="previousTrips" id="9eM-jC-Tl4"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jgk-6F-2aJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1941.5999999999999" y="-65.217391304347828"/>
         </scene>
@@ -585,7 +585,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdm-tX-5Gf">
-                                <rect key="frame" x="10" y="262" width="97" height="42"/>
+                                <rect key="frame" x="112" y="308" width="97" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Start Trip">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -595,9 +595,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fll-6s-RTq">
-                                <rect key="frame" x="177" y="262" width="133" height="42"/>
+                                <rect key="frame" x="94" y="375" width="133" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="View Videos">
+                                <state key="normal" title="Past Trips">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -605,7 +605,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ie-fk-jWQ">
-                                <rect key="frame" x="123" y="385" width="76" height="42"/>
+                                <rect key="frame" x="122" y="496" width="76" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Logout">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -614,9 +614,11 @@
                                     <action selector="logout:" destination="8Bz-be-hOT" eventType="touchUpInside" id="5cq-pd-aKR"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tV3-Wk-xXf">
-                                <rect key="frame" x="111" y="475" width="98" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="start trip" translatesAutoresizingMaskIntoConstraints="NO" id="Dy4-10-qgP">
+                                <rect key="frame" x="47" y="317" width="50" height="25"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tV3-Wk-xXf">
+                                <rect key="frame" x="115" y="434" width="90" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Settings">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -628,14 +630,22 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="baseline" secondItem="fll-6s-RTq" secondAttribute="baseline" id="0Xi-m5-AVv"/>
-                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="top" secondItem="2X9-xn-iJn" secondAttribute="bottom" constant="8" symbolic="YES" id="BGc-N6-CXI"/>
-                            <constraint firstItem="fll-6s-RTq" firstAttribute="trailing" secondItem="2X9-xn-iJn" secondAttribute="trailing" id="Nlq-W3-Cg7"/>
-                            <constraint firstItem="4ie-fk-jWQ" firstAttribute="top" secondItem="fll-6s-RTq" secondAttribute="bottom" constant="81" id="Uue-iA-qmn"/>
+                            <constraint firstItem="tV3-Wk-xXf" firstAttribute="top" secondItem="fll-6s-RTq" secondAttribute="bottom" constant="17" id="9nb-Wq-0EH"/>
+                            <constraint firstItem="Dy4-10-qgP" firstAttribute="top" secondItem="2X9-xn-iJn" secondAttribute="bottom" constant="63" id="Duv-WG-eiL"/>
+                            <constraint firstItem="7Aj-EQ-EYJ" firstAttribute="top" secondItem="4ie-fk-jWQ" secondAttribute="bottom" constant="30" id="FmL-7m-n9T"/>
+                            <constraint firstItem="Dy4-10-qgP" firstAttribute="centerY" secondItem="xdm-tX-5Gf" secondAttribute="centerY" id="HhA-Pc-FSl"/>
+                            <constraint firstItem="4ie-fk-jWQ" firstAttribute="top" secondItem="tV3-Wk-xXf" secondAttribute="bottom" constant="20" id="QrM-Gj-vBd"/>
+                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="centerX" secondItem="2X9-xn-iJn" secondAttribute="centerX" id="UIs-Kz-gqQ"/>
+                            <constraint firstItem="tV3-Wk-xXf" firstAttribute="centerX" secondItem="4ie-fk-jWQ" secondAttribute="centerX" id="V7w-H5-oH5"/>
+                            <constraint firstItem="Dy4-10-qgP" firstAttribute="leading" secondItem="t5E-lq-CnG" secondAttribute="leadingMargin" constant="31" id="YaR-fc-CK6"/>
+                            <constraint firstItem="fll-6s-RTq" firstAttribute="top" secondItem="xdm-tX-5Gf" secondAttribute="bottom" constant="25" id="Zik-N7-c7g"/>
+                            <constraint firstItem="fll-6s-RTq" firstAttribute="centerX" secondItem="tV3-Wk-xXf" secondAttribute="centerX" id="gCg-Ay-bsH"/>
                             <constraint firstItem="2X9-xn-iJn" firstAttribute="top" secondItem="t5E-lq-CnG" secondAttribute="top" constant="20" symbolic="YES" id="gzC-mC-Q05"/>
+                            <constraint firstItem="fll-6s-RTq" firstAttribute="leading" secondItem="t5E-lq-CnG" secondAttribute="leadingMargin" constant="78" id="n1f-6e-mpM"/>
                             <constraint firstItem="2X9-xn-iJn" firstAttribute="centerX" secondItem="t5E-lq-CnG" secondAttribute="centerX" id="qlJ-1G-h2D"/>
-                            <constraint firstItem="4ie-fk-jWQ" firstAttribute="leading" secondItem="t5E-lq-CnG" secondAttribute="leading" constant="123" id="roB-h5-g6l"/>
-                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="leading" secondItem="2X9-xn-iJn" secondAttribute="leading" id="sEE-rG-8v2"/>
+                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="centerX" secondItem="fll-6s-RTq" secondAttribute="centerX" id="v4O-2c-oWQ"/>
+                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="top" secondItem="2X9-xn-iJn" secondAttribute="bottom" constant="54" id="xMw-5l-Ymo"/>
+                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="leading" secondItem="Dy4-10-qgP" secondAttribute="trailing" constant="15" id="yIU-oG-Req"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Aul-21-M63"/>
@@ -958,9 +968,10 @@
         <image name="play" width="512" height="512"/>
         <image name="record off" width="512" height="512"/>
         <image name="save_file" width="256" height="256"/>
+        <image name="start trip" width="500" height="249"/>
         <image name="switch" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9eM-jC-Tl4"/>
+        <segue reference="2wZ-e2-AG5"/>
     </inferredMetricsTieBreakers>
 </document>
