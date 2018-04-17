@@ -238,4 +238,66 @@ class Video {
     func secondsToHoursMinutesSeconds() -> (Int, Int, Int) {
         return (length / 3600, (length % 3600) / 60, (length % 3600) % 60)
     }
+    
+    func updateUploadProgress( progress: Int){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // coredata context
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        let video = result[0]
+        
+        video.setValue(progress, forKey: "uploadProgress")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+      func updateDownloadProgress(  progress: Int){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // coredata context
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        let video = result[0]
+        
+        video.setValue(progress, forKey: "downloadProgress")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
 }

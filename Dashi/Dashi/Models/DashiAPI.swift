@@ -294,8 +294,9 @@ class DashiAPI {
             self.addAuthToken()
             }.then { headers in
                 self.sessionManager.request(url, method: .get, headers: headers).validate().responseData().then { value -> Data in
-                    
+                     self.updateDownloadProgress(id: video.id!, progress: 100)
                     return value
+                   
                 }
             }.catch { error in
                 if let e = error as? DashiServiceError {
@@ -365,6 +366,7 @@ class DashiAPI {
                       return  uploadChunk(id: id, video: video, part: part + 1, retry: 0)
                     }
                 } else {
+                    self.updateUploadProgress(id: id, progress: 100)
                     let url = BASE_URL + "?offset=\(UPLOAD_COMPELTED)"
                     return self.sessionManager.request(url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
                         JSON(value)

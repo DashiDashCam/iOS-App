@@ -26,16 +26,20 @@ class VideoDetailViewController: UIViewController {
     @IBOutlet weak var videoLength: UILabel!
     @IBOutlet weak var uploadToCloud: UIButton!
     @IBOutlet weak var downloadProgress: UILabel!
-    @IBOutlet weak var uploadProgressBar: UIProgressView!
+    @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var downloadFromCloud: UIButton!
     
     var id: String!
-    var timer: Timer?
+    var updateDownloadProgressTimer: Timer!
+ 
+    @IBOutlet weak var uploadProgress: UIProgressView!
     
+    var updateUploadProgressTimer: Timer?
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         loadVideoContent()
-
+       
         // create tap gesture recognizer for when user taps thumbnail
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
         downloadProgress.text = (selectedVideo.getDownloadProgress()).description
@@ -44,18 +48,43 @@ class VideoDetailViewController: UIViewController {
         // make sure imageView can be interacted with by user
         videoThumbnail.isUserInteractionEnabled = true
     }
-
+  
     override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
-
         let uploadStatus = selectedVideo.getStorageStat()
-
+        updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {timer in
+            let progress = Float(self.selectedVideo.getDownloadProgress())/100.0
+            if(progress >= 1.0 || progress <= 0){
+                self.updateDownloadProgressTimer?.invalidate()
+                self.progressBar.isHidden = true
+            }
+            else{
+                self.progressBar.isHidden = false
+            }
+            DispatchQueue.main.async {
+                self.progressBar.progress = progress
+            }
+        })
+        updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {timer in
+            let progress = Float(self.selectedVideo.getUploadProgress())/100.0
+            if(progress >= 1.0  || progress <= 0){
+                self.updateUploadProgressTimer?.invalidate()
+                self.progressBar.isHidden = true
+            }
+            else{
+                self.progressBar.isHidden = false
+            }
+            DispatchQueue.main.async {
+                self.progressBar.progress = progress
+            }
+        })
+       
         if uploadStatus == "local" { 
             print("local")
             
             // show Upload to Cloud
             uploadToCloud.isHidden = false
-            uploadProgressBar.isHidden = false
+            progressBar.isHidden = false
              downloadProgress.text = String(format: "%d", selectedVideo.getDownloadProgress()) + " % downloaded"
             downloadFromCloud.isHidden = true
 
@@ -64,12 +93,12 @@ class VideoDetailViewController: UIViewController {
             downloadFromCloud.isHidden = false
             downloadProgress.isHidden = true
             uploadToCloud.isHidden = true
-            uploadProgressBar.isHidden = true
+            progressBar.isHidden = true
         }
         else  {
             // hide Upload to Cloud if video is in cloud
             uploadToCloud.isHidden = true
-            uploadProgressBar.isHidden = true
+            progressBar.isHidden = true
             downloadFromCloud.isHidden = true
             // TODO: replace with statusbar
              downloadProgress.text = String(format: "%1d", selectedVideo.getDownloadProgress()) + " % downloaded"
@@ -77,6 +106,10 @@ class VideoDetailViewController: UIViewController {
         
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        self.updateDownloadProgressTimer?.invalidate()
+         self.updateDownloadProgressTimer?.invalidate()
+    }
     // called when user taps thumbnail
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
@@ -84,8 +117,20 @@ class VideoDetailViewController: UIViewController {
             performSegue(withIdentifier: "viewVideoSegue", sender: self)
         }
     }
-
+    
+    
     @IBAction func downloadVideo(_ sender: Any) {
+        progressBar.isHidden = false
+        updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {timer in
+            let progress = Float(self.selectedVideo.getDownloadProgress())/100.0
+            if(progress >= 1.0){
+                self.updateDownloadProgressTimer?.invalidate()
+                self.progressBar.isHidden = true
+            }
+            DispatchQueue.main.async {
+                self.progressBar.progress = progress
+            }
+        })
        downloadFromCloud.isEnabled = false
         DashiAPI.downloadVideoContent(video: selectedVideo).then { val -> Void in
             
@@ -104,6 +149,7 @@ class VideoDetailViewController: UIViewController {
             }
             let video = result[0]
             video.setValue(val, forKey: "videoContent")
+            video.setValue(Date(), forKey: "downloaded")
             do {
                 try managedContext?.save()
                 self.selectedVideo.changeStorageToBoth()
@@ -118,6 +164,16 @@ class VideoDetailViewController: UIViewController {
         }
     }
     @IBAction func pushToCloud(_: Any) {
+         progressBar.isHidden = false
+        updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {timer in
+            let progress = Float(self.selectedVideo.getUploadProgress())/100.0
+            if(progress >= 1.0){
+                self.updateUploadProgressTimer?.invalidate()
+            }
+            DispatchQueue.main.async {
+                self.progressBar.progress = progress
+            }
+        })
         // select video content from CoreData
         uploadToCloud.isEnabled = true
         selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
@@ -126,10 +182,10 @@ class VideoDetailViewController: UIViewController {
             DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ -> Void in
                 self.selectedVideo.changeStorageToBoth()
                 self.uploadToCloud.setTitle("Upload Complete", for: .normal)
-                self.timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: {timer in
+                self.updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: {timer in
+                    self.progressBar.isHidden = true
                     self.uploadToCloud.isHidden = true
-                    self.uploadProgressBar.isHidden = true
-                })
+            })
             }.catch { error in
                 if let e = error as? DashiServiceError {
                     print(String(data: e.body, encoding: String.Encoding.utf8)!)
@@ -142,18 +198,8 @@ class VideoDetailViewController: UIViewController {
             }
         }
         
-        
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {timer in
-            let progress = Float(self.selectedVideo.getUploadProgress())/100.0
-            if(progress >= 1.0){
-                self.timer?.invalidate()
-            }
-            self.uploadProgressBar.progress = progress
-            
-        })
     }
-
-    // shows alert to user
+        // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
 

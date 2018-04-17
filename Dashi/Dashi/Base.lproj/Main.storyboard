@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gxc-NO-NAH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gxc-NO-NAH">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -250,28 +250,34 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="teG-Sz-wcO">
-                                <rect key="frame" x="104" y="450" width="111" height="30"/>
-                                <state key="normal" title="Upload to Cloud"/>
-                                <connections>
-                                    <action selector="pushToCloud:" destination="V0s-R8-uJe" eventType="touchUpInside" id="hNQ-pQ-RWr"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCI-hj-7xk">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCI-hj-7xk">
                                 <rect key="frame" x="137" y="421" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="bAJ-MK-90F"/>
+                                </constraints>
                                 <state key="normal" title="Share"/>
                                 <connections>
                                     <action selector="shareVideoLink" destination="V0s-R8-uJe" eventType="touchUpInside" id="DdI-1V-Coc"/>
                                 </connections>
                             </button>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="7lF-gF-Vbv">
-                                <rect key="frame" x="85" y="526" width="150" height="2.5"/>
-                            </progressView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-TV-FFG">
-                                <rect key="frame" x="85" y="479" width="152" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-TV-FFG">
+                                <rect key="frame" x="83" y="464" width="152" height="16"/>
                                 <state key="normal" title="Download From Cloud"/>
                                 <connections>
                                     <action selector="downloadVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="EUg-6X-CgS"/>
+                                </connections>
+                            </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="A8Q-n0-ZIo">
+                                <rect key="frame" x="87" y="547" width="150" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="mBd-Jk-93s"/>
+                                </constraints>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="teG-Sz-wcO">
+                                <rect key="frame" x="104" y="457" width="111" height="30"/>
+                                <state key="normal" title="Upload to Cloud"/>
+                                <connections>
+                                    <action selector="pushToCloud:" destination="V0s-R8-uJe" eventType="touchUpInside" id="hNQ-pQ-RWr"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -279,40 +285,41 @@
                         <constraints>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="firstBaseline" secondItem="WtE-Gr-Psp" secondAttribute="firstBaseline" id="08Y-DO-oqw"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="leading" secondItem="fKq-Ev-LRD" secondAttribute="leading" id="0Wy-M4-0Nu"/>
+                            <constraint firstItem="tCI-hj-7xk" firstAttribute="centerX" secondItem="teG-Sz-wcO" secondAttribute="centerX" id="0nx-F5-sQC"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="trailing" secondItem="gSY-Tl-6Kr" secondAttribute="trailing" id="2xL-Ls-k4p"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="top" secondItem="4YS-yv-EmS" secondAttribute="bottom" constant="8" symbolic="YES" id="4mt-Bw-1Ms"/>
-                            <constraint firstItem="tCI-hj-7xk" firstAttribute="centerX" secondItem="60K-Wr-D8l" secondAttribute="centerX" id="6db-GM-CRa"/>
+                            <constraint firstItem="A8Q-n0-ZIo" firstAttribute="top" secondItem="teG-Sz-wcO" secondAttribute="bottom" constant="60" id="AbK-zh-Cor"/>
+                            <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="A8Q-n0-ZIo" secondAttribute="bottom" constant="19" id="Ayn-Jg-9Tm"/>
+                            <constraint firstItem="teG-Sz-wcO" firstAttribute="baseline" secondItem="nrg-TV-FFG" secondAttribute="firstBaseline" id="CeJ-Dz-cMt"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="top" secondItem="YHS-f5-UEK" secondAttribute="bottom" constant="8" symbolic="YES" id="D73-Cp-laU"/>
-                            <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="7lF-gF-Vbv" secondAttribute="bottom" constant="40.5" id="Fxt-UH-jxX"/>
+                            <constraint firstItem="tCI-hj-7xk" firstAttribute="centerX" secondItem="60K-Wr-D8l" secondAttribute="centerX" id="FKV-wy-2df"/>
                             <constraint firstItem="WtE-Gr-Psp" firstAttribute="leading" secondItem="fKq-Ev-LRD" secondAttribute="trailing" constant="8" symbolic="YES" id="HkL-SS-HgK"/>
+                            <constraint firstItem="A8Q-n0-ZIo" firstAttribute="leading" secondItem="cKC-Km-GYU" secondAttribute="leadingMargin" constant="71" id="INh-jl-Ar2"/>
                             <constraint firstItem="dmD-ah-gUB" firstAttribute="top" secondItem="WtE-Gr-Psp" secondAttribute="bottom" constant="37" id="KVp-BH-Q12"/>
                             <constraint firstItem="dmD-ah-gUB" firstAttribute="leading" secondItem="QAa-tW-XuK" secondAttribute="leading" id="M2Z-t0-Vzh"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="trailing" secondItem="cKC-Km-GYU" secondAttribute="trailingMargin" id="NBE-6P-ymW"/>
-                            <constraint firstItem="7lF-gF-Vbv" firstAttribute="top" secondItem="teG-Sz-wcO" secondAttribute="bottom" constant="23" id="O5a-h1-4az"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="leading" secondItem="gSY-Tl-6Kr" secondAttribute="leading" id="Ok2-ta-2TB"/>
                             <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="WtE-Gr-Psp" secondAttribute="bottom" constant="242" id="QRZ-il-G4q"/>
-                            <constraint firstItem="7lF-gF-Vbv" firstAttribute="centerX" secondItem="teG-Sz-wcO" secondAttribute="centerX" id="Rhf-hj-rrV"/>
-                            <constraint firstItem="7lF-gF-Vbv" firstAttribute="leading" secondItem="cKC-Km-GYU" secondAttribute="leadingMargin" constant="69" id="Scz-nM-u1C"/>
-                            <constraint firstItem="teG-Sz-wcO" firstAttribute="top" secondItem="tCI-hj-7xk" secondAttribute="bottom" constant="8" symbolic="YES" id="Tf0-td-X6a"/>
-                            <constraint firstItem="7lF-gF-Vbv" firstAttribute="centerX" secondItem="tCI-hj-7xk" secondAttribute="centerX" id="WWq-cX-P0S"/>
+                            <constraint firstItem="teG-Sz-wcO" firstAttribute="top" secondItem="tCI-hj-7xk" secondAttribute="bottom" constant="6" id="Ry7-5u-y4r"/>
+                            <constraint firstItem="tCI-hj-7xk" firstAttribute="top" secondItem="fKq-Ev-LRD" secondAttribute="bottom" constant="96" id="XyH-Ac-Dft"/>
+                            <constraint firstItem="nrg-TV-FFG" firstAttribute="baseline" secondItem="teG-Sz-wcO" secondAttribute="firstBaseline" id="ZXa-eV-n7D"/>
                             <constraint firstItem="QAa-tW-XuK" firstAttribute="trailing" secondItem="WtE-Gr-Psp" secondAttribute="trailing" id="a32-p3-Ufd"/>
                             <constraint firstItem="QAa-tW-XuK" firstAttribute="centerY" secondItem="gSY-Tl-6Kr" secondAttribute="centerY" id="aHl-gv-wrp"/>
+                            <constraint firstItem="tCI-hj-7xk" firstAttribute="trailing" secondItem="fKq-Ev-LRD" secondAttribute="trailing" id="aMx-AT-QYG"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="baseline" secondItem="EsS-EU-Sgb" secondAttribute="baseline" id="bE9-qI-I2F"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="centerY" secondItem="WtE-Gr-Psp" secondAttribute="centerY" id="fbs-pu-q3j"/>
                             <constraint firstItem="QAa-tW-XuK" firstAttribute="top" secondItem="WtE-Gr-Psp" secondAttribute="bottom" constant="2" id="iZt-jM-KdS"/>
                             <constraint firstItem="gSY-Tl-6Kr" firstAttribute="top" secondItem="fKq-Ev-LRD" secondAttribute="bottom" constant="14" id="lJR-k1-9Z3"/>
-                            <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="tCI-hj-7xk" secondAttribute="bottom" constant="103" id="m7Z-8E-nGH"/>
-                            <constraint firstItem="tCI-hj-7xk" firstAttribute="trailing" secondItem="fKq-Ev-LRD" secondAttribute="trailing" id="mqE-D9-k4c"/>
+                            <constraint firstItem="teG-Sz-wcO" firstAttribute="centerX" secondItem="nrg-TV-FFG" secondAttribute="centerX" id="mVg-74-LIP"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="top" secondItem="60K-Wr-D8l" secondAttribute="bottom" constant="20" id="mw6-aP-z87"/>
-                            <constraint firstItem="teG-Sz-wcO" firstAttribute="centerX" secondItem="tCI-hj-7xk" secondAttribute="centerX" id="nh1-ZB-GGi"/>
-                            <constraint firstItem="nrg-TV-FFG" firstAttribute="centerX" secondItem="teG-Sz-wcO" secondAttribute="centerX" id="o4y-eV-P22"/>
+                            <constraint firstItem="nrg-TV-FFG" firstAttribute="top" secondItem="tCI-hj-7xk" secondAttribute="bottom" constant="13" id="pQB-w2-eiZ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="A8Q-n0-ZIo" secondAttribute="trailing" constant="67" id="rGr-Ox-fZP"/>
                             <constraint firstItem="EsS-EU-Sgb" firstAttribute="trailing" secondItem="WtE-Gr-Psp" secondAttribute="trailing" id="ttJ-E0-BXw"/>
                             <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="gSY-Tl-6Kr" secondAttribute="bottom" constant="201" id="u2S-MF-sH1"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="firstBaseline" secondItem="EsS-EU-Sgb" secondAttribute="firstBaseline" id="ueZ-o4-d7w"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="leading" secondItem="YHS-f5-UEK" secondAttribute="leading" id="vcM-Lh-eVI"/>
                             <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="dmD-ah-gUB" secondAttribute="bottom" constant="155" id="yX3-zJ-jcm"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="trailing" secondItem="EsS-EU-Sgb" secondAttribute="trailing" id="yX7-oD-cE6"/>
-                            <constraint firstAttribute="bottom" secondItem="nrg-TV-FFG" secondAttribute="bottom" constant="20" symbolic="YES" id="yb1-VR-cOB"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="leading" secondItem="cKC-Km-GYU" secondAttribute="leadingMargin" id="yie-6Z-KKC"/>
                             <constraint firstItem="dmD-ah-gUB" firstAttribute="trailing" secondItem="cKC-Km-GYU" secondAttribute="trailingMargin" id="zuT-b8-M5f"/>
                         </constraints>
@@ -322,7 +329,7 @@
                         <outlet property="VideoTime" destination="WtE-Gr-Psp" id="pvg-fP-0sW"/>
                         <outlet property="downloadFromCloud" destination="nrg-TV-FFG" id="ERU-ey-iww"/>
                         <outlet property="downloadProgress" destination="dmD-ah-gUB" id="029-ya-TLi"/>
-                        <outlet property="uploadProgressBar" destination="7lF-gF-Vbv" id="wLQ-Fi-h5P"/>
+                        <outlet property="progressBar" destination="A8Q-n0-ZIo" id="yoN-yY-ZqU"/>
                         <outlet property="uploadToCloud" destination="teG-Sz-wcO" id="vp2-44-ccl"/>
                         <outlet property="videoDate" destination="fKq-Ev-LRD" id="863-34-xL6"/>
                         <outlet property="videoLength" destination="gSY-Tl-6Kr" id="aHI-b8-Dee"/>
@@ -334,7 +341,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TMU-DW-ttM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2769" y="822"/>
+            <point key="canvasLocation" x="2767.5" y="821.83098591549299"/>
         </scene>
         <!--Video Preview View Controller-->
         <scene sceneID="7pr-6M-0ze">
