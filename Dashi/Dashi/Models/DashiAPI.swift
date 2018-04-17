@@ -53,7 +53,7 @@ class DashiAPI {
      *  @param headers (optional) The request headers the Authorization header is added to
      *  @return The supplied request headers with an added Authroization
      */
-    private static func addAuthToken(headers: HTTPHeaders = [:]) -> Promise<HTTPHeaders> {
+    public static func addAuthToken(headers: HTTPHeaders = [:]) -> Promise<HTTPHeaders> {
         // Add authorization header to the HTTPHeaders object
         var new_headers = headers
         new_headers["Authorization"] = "Bearer " + accessToken!
@@ -106,38 +106,6 @@ class DashiAPI {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    
-    private static func updateDownloadProgress(id: String , progress: Int){
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        // coredata context
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        var result: [NSManagedObject] = []
-        // 3
-        do {
-            result = (try managedContext.fetch(fetchRequest))
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.localizedDescription)")
-        }
-        let video = result[0]
-        
-        video.setValue(progress, forKey: "downloadProgress")
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-    
     
     /**
      * Used to store a new refresh token in coredata
@@ -288,25 +256,11 @@ class DashiAPI {
         }
     }
     
-    public static func downloadVideoContent(video: Video) -> Promise<Data> {
-        let url = API_ROOT + "/Account/Videos/" + video.getId() + "/content"
-        return firstly {
-            self.addAuthToken()
-            }.then { headers in
-                self.sessionManager.request(url, method: .get, headers: headers).validate().responseData().then { value -> Data in
-                     self.updateDownloadProgress(id: video.id!, progress: 100)
-                    return value
-                   
-                }
-            }.catch { error in
-                if let e = error as? DashiServiceError {
-                    // prints a more detailed error message from slim
-                    print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
-                    
-                    print(e.statusCode)
-                }
-                print(error)
-        }
+    public static func downloadVideoContent(video: Video) {
+        let url = URL(string: API_ROOT + "/Account/Videos/" + video.getId() + "/content")!
+        let task = DownloadManager.shared.activate().downloadTask(with: url)
+        task.taskDescription = video.getId()
+        task.resume()
     }
     
     /**
@@ -350,42 +304,52 @@ class DashiAPI {
         let CHUNK_SIZE = 1_048_576 // Constant defining max file chunk size (in bytes)
         let RETRY_LIMIT = 3 // Constant defining the max number of retries allowed
         let UPLOAD_COMPELTED = -1 // Constant defining the finished uploading signal
+        
+        let config = URLSessionConfiguration.background(withIdentifier: "com.dashidashcam.sdf.background")
+        config.httpAdditionalHeaders = ["Host": "api.dashidashcam.com"]
+        
         return firstly {
             self.addAuthToken()
-            }.then { headers in
-                // Determine video slice
-                let start = part * CHUNK_SIZE
-                
-                // Chunk(s) exist that haven't been uploaded
-                if start < video.count {
-                    let url = BASE_URL + "?offset=\(part)"
-                    let end = (start + CHUNK_SIZE) < video.count ? (start + CHUNK_SIZE - 1) : (video.count - 1)
-                    return self.sessionManager.upload(video[start ... end], to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { _ in
-                        let progress = (Double(end)/Double(video.count))*100;
-                        self.updateUploadProgress(id: id, progress: Int(progress))
-                      return  uploadChunk(id: id, video: video, part: part + 1, retry: 0)
-                    }
-                } else {
+        }.then { headers in
+            // Determine video slice
+            let start = part * CHUNK_SIZE
+
+            // Chunk(s) exist that haven't been uploaded
+            if start < video.count {
+                let url = BASE_URL + "?offset=\(part)"
+                let end = (start + CHUNK_SIZE) < video.count ? (start + CHUNK_SIZE - 1) : (video.count - 1)
+                print("Uploading Chunk: \(part)")
+                // Background upload/downloads must occur from disk, so dump to temp file
+                let tempFile = TempFile(extension: "mov", content: video[start ... end])
+                //sleep(1)
+                return self.sessionManager.upload(tempFile.tmpFileURL.contentURL, to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { _ in
+                    let progress = (Double(end)/Double(video.count))*100;
+                    self.updateUploadProgress(id: id, progress: Int(progress))
+                    return uploadChunk(id: id, video: video, part: part + 1, retry: 0)
+                }
+            }
+            else {
+                let url = BASE_URL + "?offset=\(UPLOAD_COMPELTED)"
+                return self.sessionManager.request(url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value -> JSON in
                     self.updateUploadProgress(id: id, progress: 100)
-                    let url = BASE_URL + "?offset=\(UPLOAD_COMPELTED)"
-                    return self.sessionManager.request(url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
-                        JSON(value)
-                    }
+                    return JSON(value)
                 }
-            }.recover { error -> Promise<JSON> in
-                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
-                
-                // Retry if limit not hit
-                guard retry < RETRY_LIMIT else {
-                    print("Retry Limit Exceeded on Part: \(part)")
-                    throw error
-                }
-                if let e = error as? DashiServiceError {
-                    print(e.statusCode)
-                    print(JSON(e.body))
-                }
-                
-                return uploadChunk(id: id, video: video, part: part, retry: retry + 1)
+            }
+        }.recover { error -> Promise<JSON> in
+           // let asdfadfk = (String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+            
+            // Retry if limit not hit
+            guard retry < RETRY_LIMIT else {
+                print("Retry Limit Exceeded on Part: \(part)")
+                throw error
+            }
+            if let e = error as? DashiServiceError {
+                print(e.statusCode)
+                print(JSON(e.body))
+            }
+            
+            return uploadChunk(id: id, video: video, part: part, retry: retry + 1)
         }
     }
     

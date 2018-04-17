@@ -132,36 +132,8 @@ class VideoDetailViewController: UIViewController {
             }
         })
        downloadFromCloud.isEnabled = false
-        DashiAPI.downloadVideoContent(video: selectedVideo).then { val -> Void in
-            
-            let managedContext =
-                self.appDelegate?.persistentContainer.viewContext
-            
-            let fetchRequest =
-                NSFetchRequest<NSManagedObject>(entityName: "Videos")
-            fetchRequest.predicate = NSPredicate(format: "id == %@", self.selectedVideo.getId())
-            var result: [NSManagedObject] = []
-            // 3
-            do {
-                result = (try managedContext?.fetch(fetchRequest))!
-            } catch let error as NSError {
-                print("Could not fetch. \(error), \(error.localizedDescription)")
-            }
-            let video = result[0]
-            video.setValue(val, forKey: "videoContent")
-            video.setValue(Date(), forKey: "downloaded")
-            do {
-                try managedContext?.save()
-                self.selectedVideo.changeStorageToBoth()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
-            }}.catch { error in
-                if let e = error as? DashiServiceError {
-                    print(e.statusCode)
-                    print(JSON(e.body))
-                }
-                print(error)
-        }
+        DashiAPI.downloadVideoContent(video: selectedVideo)
+        //self.selectedVideo.changeStorageToBoth()
     }
     @IBAction func pushToCloud(_: Any) {
          progressBar.isHidden = false
@@ -270,18 +242,19 @@ class VideoDetailViewController: UIViewController {
         if let url =  getUrlForLocal(id: selectedVideo.getId()){
                preview.fileLocation = url
         }
-        else{
-            // download video content from cloud
-            DashiAPI.downloadVideoContent(video: selectedVideo).then { val in
-                preview.fileLocation = self.getUrlForCloud(id: self.selectedVideo.getId(), data: val)
-
-            }.catch { error in
-                if let e = error as? DashiServiceError {
-                    print(e.statusCode)
-                    print(JSON(e.body))
-                }
-                print(error)
-        } }
+//        else{
+//            // download video content from cloud
+//            DashiAPI.downloadVideoContent(video: selectedVideo).then { val in
+//                preview.fileLocation = self.getUrlForCloud(id: self.selectedVideo.getId(), data: val)
+//
+//            }.catch { error in
+//                if let e = error as? DashiServiceError {
+//                    print(e.statusCode)
+//                    print(JSON(e.body))
+//                }
+//                print(error)
+//            }
+//        }
         
     }
 
@@ -305,7 +278,7 @@ class VideoDetailViewController: UIViewController {
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.propertiesToFetch = ["videoContent", "id"]
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
         // 3
         do {
@@ -323,7 +296,6 @@ class VideoDetailViewController: UIViewController {
             return URL(fileURLWithPath: path)
         }
         return nil
-        
     }
 
     @IBAction func shareVideoLink() {
