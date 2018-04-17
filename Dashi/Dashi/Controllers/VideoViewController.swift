@@ -133,7 +133,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
                 // set video orientation of movie file output
                 movieFileOutput.connection(with: AVMediaType.video)?.videoOrientation = videoOrientation()
 
-                movieFileOutput.maxRecordedDuration = maxRecordedDuration()
+                
 
                 // start recording
                 movieFileOutput.startRecording(to: URL(fileURLWithPath: videoFileLocation()), // output file
@@ -315,12 +315,6 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         }
     }
 
-    // sets the maximum time a session can be recorded for
-    func maxRecordedDuration() -> CMTime {
-        let seconds: Int64 = 10
-        let preferredTimeScale: Int32 = 1
-        return CMTimeMake(seconds, preferredTimeScale)
-    }
 
     /*
      * Returns a video orientation instance based off the device's orientation
