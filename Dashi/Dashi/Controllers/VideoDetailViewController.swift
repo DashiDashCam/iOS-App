@@ -149,6 +149,7 @@ class VideoDetailViewController: UIViewController {
             }
             let video = result[0]
             video.setValue(val, forKey: "videoContent")
+            video.setValue(Date(), forKey: "downloaded")
             do {
                 try managedContext?.save()
                 self.selectedVideo.changeStorageToBoth()
