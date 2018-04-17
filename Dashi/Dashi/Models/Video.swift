@@ -207,6 +207,7 @@ class Video {
         do {
             content = (try managedContext?.fetch(fetchRequest))!
             storageStat = content[0].value(forKey: "storageStat") as! String
+            //print(storageStat)
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }

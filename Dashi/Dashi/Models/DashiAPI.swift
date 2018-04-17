@@ -259,25 +259,8 @@ class DashiAPI {
     public static func downloadVideoContent(video: Video) {
         let url = URL(string: API_ROOT + "/Account/Videos/" + video.getId() + "/content")!
         let task = DownloadManager.shared.activate().downloadTask(with: url)
+        task.taskDescription = video.getId()
         task.resume()
-        
-        return firstly {
-            self.addAuthToken()
-            }.then { headers in
-                self.sessionManager.request(url, method: .get, headers: headers).validate().responseData().then { value -> Data in
-                    
-                    return value
-                }
-                
-            }.catch { error in
-                if let e = error as? DashiServiceError {
-                    // prints a more detailed error message from slim
-                    print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
-                    
-                    print(e.statusCode)
-                }
-                print(error)
-        }
     }
     
     /**
@@ -338,8 +321,8 @@ class DashiAPI {
                 print("Uploading Chunk: \(part)")
                 // Background upload/downloads must occur from disk, so dump to temp file
                 let tempFile = TempFile(extension: "mov", content: video[start ... end])
-                sleep(1)
-                return self.sessionManager.upload(tempFile.tmpFileURL.contentURL, to: url).validate().responseJSON(with: .response).then { _ in
+                //sleep(1)
+                return self.sessionManager.upload(tempFile.tmpFileURL.contentURL, to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { _ in
                     let progress = (Double(end)/Double(video.count))*100;
                     self.updateUploadProgress(id: id, progress: Int(progress))
                     return uploadChunk(id: id, video: video, part: part + 1, retry: 0)
@@ -347,12 +330,13 @@ class DashiAPI {
             }
             else {
                 let url = BASE_URL + "?offset=\(UPLOAD_COMPELTED)"
-                return self.sessionManager.request(url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value in
-                    JSON(value)
+                return self.sessionManager.request(url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value -> JSON in
+                    self.updateUploadProgress(id: id, progress: 100)
+                    return JSON(value)
                 }
-
             }
         }.recover { error -> Promise<JSON> in
+           // let asdfadfk = (String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
             print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
             
             // Retry if limit not hit

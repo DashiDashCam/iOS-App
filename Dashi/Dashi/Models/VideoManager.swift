@@ -117,6 +117,9 @@ class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
             if startCutoffDate! < now && (downloadDate == nil || downloadedCutoffDate! < now)  {
                 // Delete the cached video content
                 video.setValue(nil, forKey: "videoContent")
+                video.setValue(nil, forKey: "downloaded")
+                video.setValue(nil, forKey: "downloadProgress")
+                video.setValue("cloud", forKey: "storageStat")
                 do {
                     try managedContext.save()
                 } catch let error as NSError {
@@ -208,10 +211,13 @@ class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
         
         for video in videos {
             // If completely uploaded, delete cached content
-            if (video.value(forKey: "size") as! Int32) - (video.value(forKey: "uploadProgress") as! Int32) == 0 &&
+            if (video.value(forKey: "uploadProgress") as! Int32) == 100 &&
                 (ignoreDownloaded || (video.value(forKey: "downloaded") as? Date) != nil) {
                 // Delete the cached video content
                 video.setValue(nil, forKey: "videoContent")
+                video.setValue(nil, forKey: "downloaded")
+                video.setValue(nil, forKey: "downloadProgress")
+                video.setValue("cloud", forKey: "storageStat")
                 do {
                     try managedContext.save()
                 } catch let error as NSError {

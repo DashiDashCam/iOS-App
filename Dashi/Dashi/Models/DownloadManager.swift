@@ -61,24 +61,13 @@ class DownloadManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         debugPrint("Download finished: \(location)")
+        updateDownloadProgress(id: downloadTask.taskDescription!, progress: 100)
         saveVideoToCoreDB(id: downloadTask.taskDescription!, file: location)
         try? FileManager.default.removeItem(at: location)
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         debugPrint("Task completed: \(task), error: \(error)")
-    }
-    
-    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        
-        if challenge.previousFailureCount > 0 {
-            completionHandler(Foundation.URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge, nil)
-        } else if let serverTrust = challenge.protectionSpace.serverTrust {
-            completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust: serverTrust))
-        } else {
-            print("unknown state. error: \(challenge.error)")
-            // do something w/ completionHandler here
-        }
     }
     
     private func updateDownloadProgress(id: String , progress: Int){
@@ -132,7 +121,11 @@ class DownloadManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate
         let video = result[0]
         do {
             let val = try Data(contentsOf: file)
+            //let string1 = String(data: val, encoding: String.Encoding.utf8) ?? "Data could not be printed"
+            //print(string1)
             video.setValue(val, forKey: "videoContent")
+            video.setValue(Date(), forKey: "downloaded")
+            video.setValue("both", forKey: "storageStat")
             do {
                 try managedContext.save()
             } catch let error as NSError {

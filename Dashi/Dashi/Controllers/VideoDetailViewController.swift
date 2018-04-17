@@ -88,7 +88,7 @@ class VideoDetailViewController: UIViewController {
     @IBAction func downloadVideo(_ sender: Any) {
        downloadFromCloud.isEnabled = false
         DashiAPI.downloadVideoContent(video: selectedVideo)
-        self.selectedVideo.changeStorageToBoth()
+        //self.selectedVideo.changeStorageToBoth()
     }
     @IBAction func pushToCloud(_: Any) {
         // select video content from CoreData
@@ -185,18 +185,19 @@ class VideoDetailViewController: UIViewController {
         if let url =  getUrlForLocal(id: selectedVideo.getId()){
                preview.fileLocation = url
         }
-        else{
-            // download video content from cloud
-            DashiAPI.downloadVideoContent(video: selectedVideo).then { val in
-                preview.fileLocation = self.getUrlForCloud(id: self.selectedVideo.getId(), data: val)
-
-            }.catch { error in
-                if let e = error as? DashiServiceError {
-                    print(e.statusCode)
-                    print(JSON(e.body))
-                }
-                print(error)
-        } }
+//        else{
+//            // download video content from cloud
+//            DashiAPI.downloadVideoContent(video: selectedVideo).then { val in
+//                preview.fileLocation = self.getUrlForCloud(id: self.selectedVideo.getId(), data: val)
+//
+//            }.catch { error in
+//                if let e = error as? DashiServiceError {
+//                    print(e.statusCode)
+//                    print(JSON(e.body))
+//                }
+//                print(error)
+//            }
+//        }
         
     }
 
