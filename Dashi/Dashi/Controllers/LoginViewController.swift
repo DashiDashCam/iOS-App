@@ -32,6 +32,13 @@ class LoginViewController: UIViewController {
 
         email.inputAccessoryView = toolBar
         password.inputAccessoryView = toolBar
+
+        // set orientation
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+
+        // lock orientation
+        AppUtility.lockOrientation(.portrait)
     }
 
     @objc func doneClicked() {
