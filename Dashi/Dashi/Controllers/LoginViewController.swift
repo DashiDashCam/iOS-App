@@ -21,6 +21,21 @@ class LoginViewController: UIViewController {
         updateConstraints()
 
         // Do any additional setup after loading the view.
+
+        // done button above keyboard
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+
+        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(self.doneClicked))
+
+        toolBar.setItems([doneButton], animated: true)
+
+        email.inputAccessoryView = toolBar
+        password.inputAccessoryView = toolBar
+    }
+
+    @objc func doneClicked() {
+        view.endEditing(true)
     }
 
     override func viewWillAppear(_: Bool) {
@@ -38,7 +53,7 @@ class LoginViewController: UIViewController {
 
     @IBAction func loginPushed(_: Any) {
         // hide keyboard
-        view.endEditing(true)
+        doneClicked()
 
         errorMessage.text = ""
         DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { json -> Void in
