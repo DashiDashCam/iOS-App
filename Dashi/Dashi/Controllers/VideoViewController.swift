@@ -53,8 +53,10 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
+
         // lock view orientation to portrait - doesn't lock video orientation
         AppUtility.lockOrientation(.portrait)
+
         setVideoOrientation()
     }
 
@@ -132,8 +134,6 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             if TARGET_OS_SIMULATOR == 0 {
                 // set video orientation of movie file output
                 movieFileOutput.connection(with: AVMediaType.video)?.videoOrientation = videoOrientation()
-
-                
 
                 // start recording
                 movieFileOutput.startRecording(to: URL(fileURLWithPath: videoFileLocation()), // output file
@@ -314,7 +314,6 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             recordButton.setImage(UIImage(named: "record off"), for: .normal)
         }
     }
-
 
     /*
      * Returns a video orientation instance based off the device's orientation

@@ -19,10 +19,39 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var errorMessage: UILabel!
 
+    @IBAction func exitPushed(_: Any) {
+        dismiss(animated: true, completion: nil)
+        //        performSegue(withIdentifier: "signupSegue", sender: self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         updateConstraints()
         // Do any additional setup after loading the view.
+
+        // done button above keyboard
+        let toolBar = UIToolbar()
+        toolBar.sizeToFit()
+
+        let doneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(self.doneClicked))
+
+        toolBar.setItems([doneButton], animated: true)
+
+        name.inputAccessoryView = toolBar
+        email.inputAccessoryView = toolBar
+        password.inputAccessoryView = toolBar
+        confirm.inputAccessoryView = toolBar
+
+        // set orientation
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+
+        // lock orientation
+        AppUtility.lockOrientation(.portrait)
+    }
+
+    @objc func doneClicked() {
+        view.endEditing(true)
     }
 
     override func didReceiveMemoryWarning() {
