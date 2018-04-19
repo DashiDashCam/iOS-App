@@ -59,9 +59,10 @@ class VideoDetailViewController: UIViewController {
     override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
         let uploadStatus = selectedVideo.getStorageStat()
-        updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
-            let progress = Float(self.selectedVideo.getDownloadProgress()) / 100.0
-            if progress >= 1.0 || progress <= 0 {
+         self.progressBar.isHidden = true
+        updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {timer in
+            let progress = Float(self.selectedVideo.getDownloadProgress())/100.0
+            if(progress >= 1.0 || progress <= 0){
                 self.updateDownloadProgressTimer?.invalidate()
                 self.progressBar.isHidden = true
             } else {
@@ -144,6 +145,7 @@ class VideoDetailViewController: UIViewController {
             let progress = Float(self.selectedVideo.getUploadProgress()) / 100.0
             if progress >= 1.0 {
                 self.updateUploadProgressTimer?.invalidate()
+                self.progressBar.isHidden = true
             }
             DispatchQueue.main.async {
                 self.progressBar.progress = progress

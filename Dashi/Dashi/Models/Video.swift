@@ -55,7 +55,22 @@ class Video {
 
             let cgImage = try! imgGenerator.copyCGImage(at: CMTimeMake(0, 6), actualTime: nil)
             // !! check the error before proceeding
-            thumbnail = UIImage(cgImage: cgImage)
+            if(UIDevice.current.orientation == .portrait)
+            {
+            thumbnail = UIImage.init(cgImage: cgImage, scale: 1.0, orientation: .right)
+            }
+            else if(UIDevice.current.orientation == .landscapeLeft){
+                thumbnail = UIImage.init(cgImage: cgImage, scale: 1.0, orientation: .up)
+            }
+            else if(UIDevice.current.orientation == .landscapeRight){
+                thumbnail = UIImage.init(cgImage: cgImage, scale: 1.0, orientation: .down)
+            }
+            else if(UIDevice.current.orientation == .portraitUpsideDown){
+                thumbnail = UIImage.init(cgImage: cgImage, scale: 1.0, orientation: .left)
+            }
+            else{
+             thumbnail = UIImage.init(cgImage: cgImage, scale: 1.0, orientation: .up)
+            }
         } catch let error {
             print("Could not create video object. \(error)")
 
@@ -147,9 +162,8 @@ class Video {
     }
 
     public func getStorageStat() -> String {
-        if storageStat == nil{
-            getStorageStatFromCore()
-        }
+        getStorageStatFromCore()
+      
         return storageStat!
     }
 
@@ -228,8 +242,20 @@ class Video {
             // 3
             do {
                 content = (try managedContext?.fetch(fetchRequest))!
-                uploadProgress = content[0].value(forKey: "uploadProgress") as! Int
-                downloadProgress  = content[0].value(forKey: "downloadProgress") as! Int
+                if let upProg = content[0].value(forKey: "uploadProgress"){
+                uploadProgress = upProg as! Int
+                }
+                else{
+                    uploadProgress = 0
+                }
+                
+                if let downProg = content[0].value(forKey: "downloadProgress"){
+                    downloadProgress  = downProg  as! Int
+                    
+                }
+                else{
+                    downloadProgress = 0
+                }
             } catch let error as Error {
                 print("Could not fetch. \(error), \(error.localizedDescription)")
             }

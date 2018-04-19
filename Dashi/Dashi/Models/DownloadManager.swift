@@ -61,6 +61,7 @@ class DownloadManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
         debugPrint("Download finished: \(location)")
+        print(downloadTask.taskDescription!)
         updateDownloadProgress(id: downloadTask.taskDescription!, progress: 100)
         saveVideoToCoreDB(id: downloadTask.taskDescription!, file: location)
         try? FileManager.default.removeItem(at: location)
