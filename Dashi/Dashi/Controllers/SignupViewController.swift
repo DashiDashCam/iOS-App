@@ -19,6 +19,11 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var errorMessage: UILabel!
 
+    @IBAction func exitPushed(_: Any) {
+        dismiss(animated: true, completion: nil)
+        //        performSegue(withIdentifier: "signupSegue", sender: self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         updateConstraints()
