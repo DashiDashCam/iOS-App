@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import UIKit
+import MapKit
 
 class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
     
@@ -140,32 +141,87 @@ class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
     private static func uploadCheck(settings: Dictionary<String, Any>) {
         print("BACKGROUND TASK: Beginning Upload Check...")
         
-        //        // Find videos that need to be uploaded
-        //        guard let appDelegate =
-        //            UIApplication.shared.delegate as? AppDelegate else {
-        //                return
-        //        }
-        //
-        //        // Get coredata context
-        //        let managedContext = appDelegate.persistentContainer.viewContext
-        //
-        //        // Load video dates and upload status
-        //        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        //        fetchRequest.propertiesToFetch = ["id", "uploadProgress", "size", "downloaded"]
-        //        fetchRequest.predicate = NSPredicate(format: "videoContent != nil")
-        //
-        //        var videos: [NSManagedObject] = []
-        //        do {
-        //            videos = (try managedContext.fetch(fetchRequest))
-        //        } catch let error as Error {
-        //            print("Could not fetch. \(error), \(error.localizedDescription)")
-        //        }
-        //
-        //        // Schedule upload tasks
-        //        for video in videos {
-        //
-        //        }
+        // Only needs to be scheduled when autoBackup is enabled
+        if settings["autoBackup"] as! Bool {
+            // Find videos that need to be uploaded
+            guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else {
+                    return
+            }
+        
+            // Get coredata context
+            let managedContext = appDelegate.persistentContainer.viewContext
+        
+            // Load video dates and upload status
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
+            fetchRequest.propertiesToFetch = ["id", "uploadProgress"]
+            fetchRequest.predicate = NSPredicate(format: "uploadProgress == 0")
+        
+            var videos: [NSManagedObject] = []
+            do {
+                videos = (try managedContext.fetch(fetchRequest))
+            } catch let error as Error {
+                print("Could not fetch. \(error), \(error.localizedDescription)")
+            }
+        
+            // Schedule upload tasks
+            for video in videos {
+                let id = video.value(forKey: "id") as! String
+                let date = video.value(forKey: "startDate") as! Date
+                let thumbnailData = video.value(forKey: "thumbnail") as! Data
+                let size = video.value(forKey: "size") as! Int
+                let length = video.value(forKey: "length") as! Int
+                let startLat = video.value(forKey: "startLat") as! CLLocationDegrees
+                let startLong = video.value(forKey: "startLong") as! CLLocationDegrees
+                let endLat = video.value(forKey: "endLat") as! CLLocationDegrees
+                let endLong = video.value(forKey: "endLong") as! CLLocationDegrees
+                
+                let obj = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: startLat, longitude: startLong), endLoc: CLLocationCoordinate2D(latitude: endLat, longitude: endLong))
+                
+                DashiAPI.uploadVideoMetaData(video: obj).then { _ -> Void in
+                    DashiAPI.uploadVideoContent(id: id, url: getUrlForLocal(id: id)!).then { _ -> Void in
+                        obj.changeStorageToBoth();
+                    }
+                }
+            }
+        }
     }
+    
+    // creates url for video content in local db given id
+    private static func getUrlForLocal(id: String) -> URL? {
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return nil
+        }
+        
+        // Get coredata context
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        // 2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["videoContent", "id"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        
+        // 3
+        var content: [NSManagedObject]
+        do {
+            content = (try managedContext.fetch(fetchRequest))
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+            return nil
+        }
+        
+        if  let contentData = content[0].value(forKey: "videoContent") as! Data?{
+            let manager = FileManager.default
+            let filename = String(id) + "vid.mp4"
+            let path = NSTemporaryDirectory() + filename
+            manager.createFile(atPath: path, contents: contentData, attributes: nil)
+            return URL(fileURLWithPath: path)
+        }
+        return nil
+    }
+
     
     static func performBackgroundTasks() {
         if sharedAccount != nil {
@@ -182,7 +238,7 @@ class VideoManager : NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
     }
     
     static func getBackgroundTaskTimer() -> RepeatingTimer {
-        return RepeatingTimer(repeating: .seconds(60)) {
+        return RepeatingTimer(repeating: .seconds(5)) {
             VideoManager.performBackgroundTasks()
         }
     }

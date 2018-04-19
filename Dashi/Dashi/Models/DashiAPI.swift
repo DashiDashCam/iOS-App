@@ -373,6 +373,20 @@ class DashiAPI {
         return uploadChunk(id: video.getId(), video: content, part: 0, retry: 0)
     }
     
+    public static func uploadVideoContent(id: String, url: URL) -> Promise<JSON> {
+        print("Uploading Content")
+        
+        var content: Data? = nil
+        
+        do {
+            content = try Data(contentsOf: url)
+        } catch let error {
+            print("Could not get video content. \(error)")
+        }
+        
+        return uploadChunk(id: id, video: content!, part: 0, retry: 0)
+    }
+    
     /**
      *  Modifies the user's profile by uploading a set of fields to update in the
      *  database. This can include fields that haven't actually changed in the case

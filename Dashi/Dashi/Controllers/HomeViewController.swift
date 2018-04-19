@@ -13,7 +13,7 @@ import PromiseKit
 class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // Login automatically with stored refresh token if one exists
         if DashiAPI.fetchStoredRefreshToken() {
             DashiAPI.loginWithToken().then { _ -> Void in
@@ -25,6 +25,13 @@ class HomeViewController: UIViewController {
 
         // hide navigation bar
         navigationController?.isNavigationBarHidden = true
+
+        // set orientation
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+
+        // lock orientation
+        AppUtility.lockOrientation(.portrait)
     }
 
     @IBAction func unwindToMenu(segue _: UIStoryboardSegue) {}
@@ -42,8 +49,8 @@ class HomeViewController: UIViewController {
          self.performSegue(withIdentifier: "loginSegue", sender: self)
          }*/
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = false;
+
+    override func viewWillDisappear(_: Bool) {
+        navigationController?.isNavigationBarHidden = false
     }
 }

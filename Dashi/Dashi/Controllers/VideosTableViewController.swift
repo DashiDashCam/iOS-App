@@ -38,9 +38,18 @@ class VideosTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
-    override func viewWillAppear(_ animated: Bool) {
+
+    override func viewWillAppear(_: Bool) {
         self.tableView.reloadData()
+
+        // set orientation
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+
+        // lock orientation
+        AppUtility.lockOrientation(.portrait)
     }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -59,7 +68,6 @@ class VideosTableViewController: UITableViewController {
         return videos.count
     }
 
-   
     func getMetaData() {
         var fetchedmeta: [NSManagedObject] = []
 
@@ -76,7 +84,7 @@ class VideosTableViewController: UITableViewController {
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
-        
+
         for meta in fetchedmeta {
 
             let id = meta.value(forKey: "id") as! String
