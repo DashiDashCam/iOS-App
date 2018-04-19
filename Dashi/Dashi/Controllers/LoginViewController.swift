@@ -37,6 +37,9 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func loginPushed(_: Any) {
+        // hide keyboard
+        view.endEditing(true)
+
         errorMessage.text = ""
         DashiAPI.loginWithPassword(username: email.text!, password: password.text!).then { json -> Void in
             if json["error"] == JSON.null {
