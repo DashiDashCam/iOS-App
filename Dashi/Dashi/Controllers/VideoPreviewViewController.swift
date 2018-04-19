@@ -249,7 +249,7 @@ class VideoPreviewViewController: UIViewController {
                                     insertInto: managedContext)
 
         video.setValue(id, forKeyPath: "id")
-        video.setValue(0.0, forKeyPath: "uploadProgress")
+        //video.setValue(0.0, forKeyPath: "uploadProgress")
 
         do {
             try managedContext.save()
