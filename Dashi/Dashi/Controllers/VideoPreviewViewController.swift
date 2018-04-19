@@ -80,6 +80,9 @@ class VideoPreviewViewController: UIViewController {
 
         // hide the navigation bar
         self.navigationController?.isNavigationBarHidden = true
+
+        // Unlock orientation
+        AppUtility.lockOrientation(.all)
     }
 
     // remove the observers from viewDidLoad()
