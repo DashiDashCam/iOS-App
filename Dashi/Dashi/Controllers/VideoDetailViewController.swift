@@ -29,10 +29,10 @@ class VideoDetailViewController: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var downloadFromCloud: UIButton!
 
+    @IBOutlet weak var uploadProgress: UILabel!
     var id: String!
     var updateDownloadProgressTimer: Timer!
 
-    @IBOutlet weak var uploadProgress: UIProgressView!
 
     var updateUploadProgressTimer: Timer?
     override func viewDidLoad() {
@@ -91,11 +91,13 @@ class VideoDetailViewController: UIViewController {
             // show Upload to Cloud
             uploadToCloud.isHidden = false
             progressBar.isHidden = false
-            downloadProgress.text = String(format: "%d", selectedVideo.getDownloadProgress()) + " % downloaded"
+            downloadProgress.text = "Downloaded to Device"
+            uploadProgress.isHidden=true
             downloadFromCloud.isHidden = true
 
         } else if uploadStatus == "cloud" {
             downloadFromCloud.isHidden = false
+            uploadProgress.text = "Uploaded to Cloud"
             downloadProgress.isHidden = true
             uploadToCloud.isHidden = true
             progressBar.isHidden = true
@@ -105,7 +107,8 @@ class VideoDetailViewController: UIViewController {
             progressBar.isHidden = true
             downloadFromCloud.isHidden = true
             // TODO: replace with statusbar
-            downloadProgress.text = String(format: "%1d", selectedVideo.getDownloadProgress()) + " % downloaded"
+            uploadProgress.text = "Uploaded to Cloud"
+             downloadProgress.text = "Downloaded to Device"
         }
     }
 
