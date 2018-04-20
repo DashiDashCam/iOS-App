@@ -59,7 +59,6 @@ class VideoPreviewViewController: UIViewController {
     }
 
     @IBOutlet weak var playerView: PlayerView! // where video actually displays
-    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var pushToCloudButton: UIButton!
 
@@ -157,7 +156,6 @@ class VideoPreviewViewController: UIViewController {
         if keyPath == "player.currentItem.status" {
             // make buttons visible to user
             playPauseButton.isHidden = false
-            saveButton.isHidden = false
         }
     }
 
