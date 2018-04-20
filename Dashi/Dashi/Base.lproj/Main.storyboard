@@ -359,19 +359,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </containerView>
-                            <button hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZM0-AP-X0W">
-                                <rect key="frame" x="16" y="615" width="32" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="NoK-a3-cDG"/>
-                                    <constraint firstAttribute="width" constant="32" id="zzL-2i-lsg"/>
-                                </constraints>
-                                <state key="normal" image="save_file">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="saveToLibrary" destination="APL-xH-iKf" eventType="touchUpInside" id="TP1-0z-Fde"/>
-                                </connections>
-                            </button>
                             <button hidden="YES" opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pjr-40-7jK">
                                 <rect key="frame" x="163" y="308.5" width="50" height="50"/>
                                 <constraints>
@@ -404,11 +391,9 @@
                         <constraints>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="top" secondItem="mi5-6p-0HE" secondAttribute="top" id="5HH-4X-OA3"/>
                             <constraint firstItem="Pjr-40-7jK" firstAttribute="centerX" secondItem="ze8-ZF-MT6" secondAttribute="centerX" id="Bdh-rL-ELK"/>
-                            <constraint firstAttribute="bottom" secondItem="ZM0-AP-X0W" secondAttribute="bottom" constant="20" symbolic="YES" id="PeT-q9-OXb"/>
                             <constraint firstItem="37E-9J-E2Z" firstAttribute="top" secondItem="ahp-Fm-06O" secondAttribute="bottom" constant="8" id="aoB-E1-91e"/>
                             <constraint firstAttribute="trailing" secondItem="ze8-ZF-MT6" secondAttribute="trailing" id="bUx-9m-soJ"/>
                             <constraint firstItem="37E-9J-E2Z" firstAttribute="trailing" secondItem="mi5-6p-0HE" secondAttribute="trailingMargin" id="emO-dP-xTp"/>
-                            <constraint firstItem="ZM0-AP-X0W" firstAttribute="leading" secondItem="mi5-6p-0HE" secondAttribute="leadingMargin" id="jDj-Xe-eol"/>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="bottom" secondItem="dJe-SU-QII" secondAttribute="top" id="lVo-gT-PMU"/>
                             <constraint firstItem="ze8-ZF-MT6" firstAttribute="leading" secondItem="mi5-6p-0HE" secondAttribute="leading" id="oFs-lR-zrE"/>
                             <constraint firstItem="Pjr-40-7jK" firstAttribute="centerY" secondItem="mi5-6p-0HE" secondAttribute="centerY" id="yu9-aO-92p"/>
@@ -417,7 +402,6 @@
                     <connections>
                         <outlet property="playPauseButton" destination="Pjr-40-7jK" id="39D-xK-a4E"/>
                         <outlet property="playerView" destination="ze8-ZF-MT6" id="rxA-e7-DCK"/>
-                        <outlet property="saveButton" destination="ZM0-AP-X0W" id="eaL-Wy-cbG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aBd-g0-TNI" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1003,7 +987,6 @@
         <image name="Dashi Logo" width="795" height="234"/>
         <image name="play" width="512" height="512"/>
         <image name="record off" width="512" height="512"/>
-        <image name="save_file" width="256" height="256"/>
         <image name="switch" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
