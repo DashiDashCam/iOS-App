@@ -76,6 +76,7 @@ class VideosTableViewController: UITableViewController {
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.predicate = NSPredicate(format: "accountID == %d",(sharedAccount?.getId())!)
         fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id", "startLat", "startLong", "endLat", "endLong"]
         // 3
         do {
@@ -196,7 +197,7 @@ class VideosTableViewController: UITableViewController {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["videoContent"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %@ && accountID == %d", id, (sharedAccount?.getId())!)
 
         do {
 

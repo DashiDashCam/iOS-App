@@ -303,7 +303,7 @@ class VideoDetailViewController: UIViewController {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["videoContent", "id"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %@ && accountID == %d", id, (sharedAccount?.getId())!)
         // 3
         do {
             content = (try managedContext?.fetch(fetchRequest))!

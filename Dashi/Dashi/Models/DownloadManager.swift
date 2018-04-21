@@ -83,7 +83,7 @@ class DownloadManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate 
 
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id, (sharedAccount?.getId())!)
         var result: [NSManagedObject] = []
         // 3
         do {
@@ -111,7 +111,7 @@ class DownloadManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate 
         let managedContext = appDelegate.persistentContainer.viewContext
 
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id, (sharedAccount?.getId())!)
         var result: [NSManagedObject] = []
         // 3
         do {

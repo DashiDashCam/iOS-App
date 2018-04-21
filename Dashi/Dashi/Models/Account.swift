@@ -149,6 +149,7 @@ class Account {
             for currentVideo in value {
                 let video = NSManagedObject(entity: entity,
                                             insertInto: self.managedContext)
+                video.setValue(self.id, forKey: "accountID")
                 video.setValue(currentVideo.getId(), forKeyPath: "id")
                 video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
                 video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
@@ -161,6 +162,7 @@ class Account {
                 video.setValue(100, forKey: "uploadProgress")
                 video.setValue("cloud", forKey: "storageStat")
                 video.setValue(0, forKey: "downloadProgress")
+                
                 do {
                     try self.managedContext.save()
                 } catch let error as NSError {

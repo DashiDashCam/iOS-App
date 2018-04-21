@@ -88,7 +88,7 @@ class DashiAPI {
 
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id, (sharedAccount?.id)!)
         var result: [NSManagedObject] = []
         // 3
         do {

@@ -15,6 +15,7 @@
         <attribute name="wifiOnlyBackup" optional="YES" attributeType="Boolean" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Videos" representedClassName="Videos" syncable="YES" codeGenerationType="class">
+        <attribute name="accountID" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="downloaded" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="downloadProgress" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="endLat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -33,6 +34,6 @@
     <elements>
         <element name="RefreshTokens" positionX="-63" positionY="9" width="128" height="90"/>
         <element name="Settings" positionX="-63" positionY="54" width="128" height="150"/>
-        <element name="Videos" positionX="-63" positionY="-18" width="128" height="255"/>
+        <element name="Videos" positionX="-63" positionY="-18" width="128" height="270"/>
     </elements>
 </model>

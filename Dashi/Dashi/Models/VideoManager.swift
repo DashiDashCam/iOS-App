@@ -85,7 +85,7 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["id", "startDate", "downloaded", "uploadProgress", "size"]
-        fetchRequest.predicate = NSPredicate(format: "videoContent != nil")
+        fetchRequest.predicate = NSPredicate(format: "videoContent != nil  && accountID == %d", (sharedAccount?.getId())!)
         var videos: [NSManagedObject] = []
         do {
             videos = (try managedContext.fetch(fetchRequest))
@@ -153,7 +153,7 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
             // Load video dates and upload status
             let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
             fetchRequest.propertiesToFetch = ["id", "uploadProgress"]
-            fetchRequest.predicate = NSPredicate(format: "uploadProgress == 0")
+            fetchRequest.predicate = NSPredicate(format: "uploadProgress == 0  && accountID == %d", (sharedAccount?.getId())!)
 
             var videos: [NSManagedObject] = []
             do {
@@ -199,7 +199,7 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["videoContent", "id"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id, (sharedAccount?.getId())!)
 
         // 3
         var content: [NSManagedObject]
@@ -252,7 +252,7 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
         // Load video dates and upload status
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["id", "uploadProgress", "size", "downloaded"]
-        fetchRequest.predicate = NSPredicate(format: "videoContent != nil")
+        fetchRequest.predicate = NSPredicate(format: "videoContent != nil  && accountID == %d", (sharedAccount?.getId())! )
 
         var videos: [NSManagedObject] = []
         do {

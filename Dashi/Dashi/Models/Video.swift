@@ -165,7 +165,7 @@ class Video {
     public func changeStorageToBoth() {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
         var result: [NSManagedObject] = []
         // 3
         do {
@@ -210,7 +210,7 @@ class Video {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["storageStat"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
         // 3
         do {
             content = (try managedContext?.fetch(fetchRequest))!
@@ -232,7 +232,7 @@ class Video {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["uploadProgress", "downloadProgress"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
         // 3
         do {
             content = (try managedContext?.fetch(fetchRequest))!
@@ -270,7 +270,7 @@ class Video {
 
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
         var result: [NSManagedObject] = []
         // 3
         do {
@@ -301,7 +301,7 @@ class Video {
 
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
         var result: [NSManagedObject] = []
         // 3
         do {
