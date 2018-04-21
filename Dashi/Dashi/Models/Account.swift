@@ -12,27 +12,26 @@ import SwiftyJSON
 import CoreData
 import PromiseKit
 
-var sharedAccount: Account? = nil
+var sharedAccount: Account?
 
 class Account {
-    
+
     // Protected members
     var created: Date
     var id: Int
     var wifiOnlyBackup: Bool
-    var maxLocalStorage:Int
+    var maxLocalStorage: Int
     var localRetentionTime: Int
     var cloudRetentionTime: Int
     var autoDelete: Bool
     var autoBackup: Bool
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    var managedContext:NSManagedObjectContext
-    
-    
+    var managedContext: NSManagedObjectContext
+
     // Public members
     public var fullName: String
     public var email: String
-    
+
     init(account: JSON) {
         managedContext = (appDelegate?.persistentContainer.viewContext)!
         let fetchRequest =
@@ -49,17 +48,16 @@ class Account {
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
-        if result.isEmpty{
+        if result.isEmpty {
             wifiOnlyBackup = true
-            maxLocalStorage = 5;
-            localRetentionTime = 7;
-            cloudRetentionTime = 30;
-            autoDelete = true;
-            autoBackup = true;
+            maxLocalStorage = 5
+            localRetentionTime = 7
+            cloudRetentionTime = 30
+            autoDelete = true
+            autoBackup = true
             initializeSettings()
             initializeMetaData()
-        }
-        else{
+        } else {
             wifiOnlyBackup = result[0].value(forKeyPath: "wifiOnlyBackup") as! Bool
             maxLocalStorage = result[0].value(forKeyPath: "maxLocalStorage") as! Int
             localRetentionTime = result[0].value(forKeyPath: "localRetentionTime") as! Int
@@ -68,12 +66,13 @@ class Account {
             autoBackup = result[0].value(forKeyPath: "autoBackup") as! Bool
         }
     }
-    func initializeSettings(){
+
+    func initializeSettings() {
         let entity =
             NSEntityDescription.entity(forEntityName: "Settings",
                                        in: managedContext)!
         let setting = NSManagedObject(entity: entity,
-                                    insertInto: managedContext)
+                                      insertInto: managedContext)
         setting.setValue(wifiOnlyBackup, forKey: "wifiOnlyBackup")
         setting.setValue(id, forKey: "accountID")
         setting.setValue(maxLocalStorage, forKey: "maxLocalStorage")
@@ -87,8 +86,8 @@ class Account {
             print("Could not save. \(error), \(error.userInfo)")
         }
     }
-    
-    public func updateSettingsVariables(settings: Dictionary<String, Any>){
+
+    public func updateSettingsVariables(settings: Dictionary<String, Any>) {
         wifiOnlyBackup = settings["wifiOnlyBackup"] as! Bool
         maxLocalStorage = settings["maxLocalStorage"] as! Int
         localRetentionTime = settings["localRetentionTime"] as! Int
@@ -96,8 +95,8 @@ class Account {
         autoBackup = settings["autoBackup"] as! Bool
         autoDelete = settings["autoDelete"] as! Bool
     }
-    
-    public func saveCurrentSettingLocally(){
+
+    public func saveCurrentSettingLocally() {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Settings")
         fetchRequest.predicate = NSPredicate(format: "accountID == %d", id)
@@ -109,7 +108,7 @@ class Account {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
         let setting = result[0]
-        
+
         setting.setValue(wifiOnlyBackup, forKey: "wifiOnlyBackup")
         setting.setValue(id, forKey: "accountID")
         setting.setValue(maxLocalStorage, forKey: "maxLocalStorage")
@@ -122,8 +121,8 @@ class Account {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
-
     }
+
     public func toParameters() -> Parameters {
         let parameters: Parameters = [
             "id": self.id,
@@ -140,11 +139,12 @@ class Account {
     public func getId() -> Int {
         return id
     }
+
     func initializeMetaData() {
         let entity =
             NSEntityDescription.entity(forEntityName: "Videos",
                                        in: managedContext)!
-      
+
         DashiAPI.getAllVideoMetaData().then { value -> Void in
             for currentVideo in value {
                 let video = NSManagedObject(entity: entity,
@@ -167,21 +167,21 @@ class Account {
                     print("Could not save. \(error), \(error.userInfo)")
                 }
             }
-            }.catch {
-                error in
-                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+        }.catch {
+            error in
+            print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
         }
     }
-    
-    
-    public func getSettings() -> Dictionary<String, Any>{
+
+    public func getSettings() -> Dictionary<String, Any> {
         let settings = [
             "wifiOnlyBackup": wifiOnlyBackup,
-            "maxLocalStorage":maxLocalStorage,
-            "localRetentionTime":localRetentionTime,
-            "cloudRetentionTime":cloudRetentionTime,
-            "autoBackup":autoBackup,
-            "autoDelete": autoDelete] as [String : Any]
+            "maxLocalStorage": maxLocalStorage,
+            "localRetentionTime": localRetentionTime,
+            "cloudRetentionTime": cloudRetentionTime,
+            "autoBackup": autoBackup,
+            "autoDelete": autoDelete,
+        ] as [String: Any]
         return settings
     }
 }
