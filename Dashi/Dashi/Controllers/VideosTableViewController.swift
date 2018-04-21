@@ -99,7 +99,7 @@ class VideosTableViewController: UITableViewController {
             let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: startLat, longitude: startLong), endLoc: CLLocationCoordinate2D(latitude: endLat, longitude: endLong))
             videos.append(video)
         }
-        videos.sort(by: {$0.getStarted() > $1.getStarted()})
+        videos.sort(by: { $0.getStarted() > $1.getStarted() })
     }
 
     // sets cell data for each video
