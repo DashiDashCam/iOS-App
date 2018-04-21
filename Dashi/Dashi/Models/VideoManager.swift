@@ -234,7 +234,7 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
     }
 
     static func getBackgroundTaskTimer() -> RepeatingTimer {
-        return RepeatingTimer(repeating: .seconds(5)) {
+        return RepeatingTimer(repeating: .seconds(60)) {
             VideoManager.performBackgroundTasks()
         }
     }

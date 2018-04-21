@@ -166,7 +166,6 @@ class VideoDetailViewController: UIViewController {
             let progress = Float(self.selectedVideo.getUploadProgress()) / 100.0
             if progress >= 1.0 {
                 self.updateUploadProgressTimer?.invalidate()
-                self.progressBar.isHidden = true
             }
             DispatchQueue.main.async {
                 self.progressBar.progress = progress
@@ -180,7 +179,7 @@ class VideoDetailViewController: UIViewController {
             DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ -> Void in
                 self.selectedVideo.changeStorageToBoth()
                 self.uploadToCloud.setTitle("Upload Complete", for: .normal)
-                self.updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
+                Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
                     self.progressBar.isHidden = true
                     self.uploadToCloud.isHidden = true
                 })
@@ -287,7 +286,7 @@ class VideoDetailViewController: UIViewController {
     func getUrlForCloud(id: String, data: Data) -> URL? {
 
         let manager = FileManager.default
-        let filename = String(id) + "vid.mp4"
+        let filename = String(id) + "vid.MOV"
         let path = NSTemporaryDirectory() + filename
         manager.createFile(atPath: path, contents: data, attributes: nil)
         return URL(fileURLWithPath: path)
