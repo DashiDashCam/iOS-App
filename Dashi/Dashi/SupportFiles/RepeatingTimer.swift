@@ -21,26 +21,25 @@ import Dispatch
 /// already resumed (noted by https://github.com/SiftScience/sift-ios/issues/52
 class RepeatingTimer {
     private var timer: DispatchSourceTimer
-    
+
     init(deadline: DispatchTime = .now(), repeating: DispatchTimeInterval, leeway: DispatchTimeInterval? = nil, callback: @escaping () -> Void) {
         // Initialize the timer
-        self.timer = DispatchSource.makeTimerSource()
+        timer = DispatchSource.makeTimerSource()
         if leeway == nil {
-            self.timer.schedule(deadline: deadline, repeating: repeating)
+            timer.schedule(deadline: deadline, repeating: repeating)
+        } else {
+            timer.schedule(deadline: deadline, repeating: repeating, leeway: leeway!)
         }
-        else {
-            self.timer.schedule(deadline: deadline, repeating: repeating, leeway: leeway!)
-        }
-        self.timer.setEventHandler(handler: callback)
+        timer.setEventHandler(handler: callback)
     }
-    
+
     private enum State {
         case suspended
         case resumed
     }
-    
+
     private var state: State = .suspended
-    
+
     deinit {
         self.timer.setEventHandler {}
         self.timer.cancel()
@@ -50,20 +49,20 @@ class RepeatingTimer {
          */
         self.resume()
     }
-    
+
     func resume() {
         print("resume")
-        if self.state != .resumed {
-            self.state = .resumed
-            self.timer.resume()
+        if state != .resumed {
+            state = .resumed
+            timer.resume()
         }
     }
-    
+
     func suspend() {
         print("suspend")
-        if self.state != .suspended {
-            self.state = .suspended
-            self.timer.suspend()
+        if state != .suspended {
+            state = .suspended
+            timer.suspend()
         }
     }
 }
