@@ -320,13 +320,9 @@ class DashiAPI {
                 let end = (start + CHUNK_SIZE) < video.count ? (start + CHUNK_SIZE - 1) : (video.count - 1)
                 print("Uploading Chunk: \(part)")
                 // Background upload/downloads must occur from disk, so dump to temp file
-                //let tempFile = TempFile(extension: "MOV", content: video[start ... end])
-                sleep(1)
-                let manager = FileManager.default
-                let filename = String(id) + "-" + String(part) + "vid.MOV"
-                let path = NSTemporaryDirectory() + filename
-                manager.createFile(atPath: path, contents: video[start ... end], attributes: nil)
-                return self.sessionManager.upload(URL(fileURLWithPath: path), to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { _ in
+                let tempFile = TempFile(extension: "MOV", content: video[start ... end])
+                // sleep(1)
+                return self.sessionManager.upload(tempFile.tmpFileURL.contentURL, to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { _ in
                     let progress = (Double(end) / Double(video.count)) * 100
                     self.updateUploadProgress(id: id, progress: Int(progress))
                     return uploadChunk(id: id, video: video, part: part + 1, retry: 0)
