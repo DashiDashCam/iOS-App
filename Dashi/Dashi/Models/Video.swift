@@ -34,13 +34,13 @@ class Video {
     var downloadInProgress: Bool!
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
-    var managedContext:NSManagedObjectContext
+    var managedContext: NSManagedObjectContext
     /**
      *  Initializes a Video object. Note that ID is initialized
      *  from the SHA256 hash of the content of the video
      */
     init(started: Date, asset: AVURLAsset, startLoc: CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
-         managedContext = (appDelegate?.persistentContainer.viewContext)!
+        managedContext = (appDelegate?.persistentContainer.viewContext)!
         do {
             // get the data associated with the video's content and convert it to a string
             let contentData = try Data(contentsOf: asset.url)
@@ -57,7 +57,17 @@ class Video {
 
             let cgImage = try! imgGenerator.copyCGImage(at: CMTimeMake(0, 6), actualTime: nil)
             // !! check the error before proceeding
-            thumbnail = UIImage(cgImage: cgImage)
+            if UIDevice.current.orientation == .portrait {
+                thumbnail = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
+            } else if UIDevice.current.orientation == .landscapeLeft {
+                thumbnail = UIImage(cgImage: cgImage, scale: 1.0, orientation: .up)
+            } else if UIDevice.current.orientation == .landscapeRight {
+                thumbnail = UIImage(cgImage: cgImage, scale: 1.0, orientation: .down)
+            } else if UIDevice.current.orientation == .portraitUpsideDown {
+                thumbnail = UIImage(cgImage: cgImage, scale: 1.0, orientation: .left)
+            } else {
+                thumbnail = UIImage(cgImage: cgImage, scale: 1.0, orientation: .up)
+            }
         } catch let error {
             print("Could not create video object. \(error)")
 
@@ -71,7 +81,7 @@ class Video {
     }
 
     init(video: JSON) {
-         managedContext = (appDelegate?.persistentContainer.viewContext)!
+        managedContext = (appDelegate?.persistentContainer.viewContext)!
         id = video["id"].stringValue
         started = DateConv.toDate(timestamp: video["started"].stringValue)
         length = video["length"].intValue
@@ -93,14 +103,14 @@ class Video {
         startLong = startLoc.longitude
         endLat = endLoc.latitude
         endLong = endLoc.longitude
-         managedContext = (appDelegate?.persistentContainer.viewContext)!
+        managedContext = (appDelegate?.persistentContainer.viewContext)!
     }
 
     public func getUploadProgress() -> Int {
         updateProgressFromCoreData()
         return uploadProgress
     }
-    
+
     public func getDownloadProgress() -> Int {
         updateProgressFromCoreData()
         return downloadProgress
@@ -124,10 +134,10 @@ class Video {
         } catch let error {
             print("Could not get video content. \(error)")
         }
-        
+
         return nil
     }
-    
+
     public func getImageContent() -> Data? {
         return UIImageJPEGRepresentation(thumbnail, 0.5)
     }
@@ -161,16 +171,15 @@ class Video {
     }
 
     public func getStorageStat() -> String {
-        if storageStat == nil{
-            getStorageStatFromCore()
-        }
+        getStorageStatFromCore()
+
         return storageStat!
     }
 
     public func changeStorageToBoth() {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
         var result: [NSManagedObject] = []
         // 3
         do {
@@ -179,9 +188,9 @@ class Video {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
         let setting = result[0]
-        
+
         setting.setValue("both", forKey: "storageStat")
-        
+
         do {
             try managedContext.save()
         } catch let error as NSError {
@@ -205,28 +214,27 @@ class Video {
     public func getEndLong() -> CLLocationDegrees {
         return endLong
     }
-    
-    
-    func getStorageStatFromCore(){
+
+    func getStorageStatFromCore() {
         var content: [NSManagedObject]
         let managedContext =
             appDelegate?.persistentContainer.viewContext
-        
+
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["storageStat"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
         // 3
         do {
             content = (try managedContext?.fetch(fetchRequest))!
             storageStat = content[0].value(forKey: "storageStat") as! String
-            //print(storageStat)
+            // print(storageStat)
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
-
     }
+
     // gets progress from core data
     func updateProgressFromCoreData() {
 
@@ -242,14 +250,22 @@ class Video {
             // 3
             do {
                 content = (try managedContext?.fetch(fetchRequest))!
-                uploadProgress = content[0].value(forKey: "uploadProgress") as! Int
-                downloadProgress  = content[0].value(forKey: "downloadProgress") as! Int
+                var uProg = content[0].value(forKey: "uploadProgress") as? Int
+                if(uProg == nil){
+                    uProg = 0
+                }
+                var dProg = content[0].value(forKey: "downloadProgress") as? Int
+                if(dProg == nil){
+                    dProg = 0
+                }
+                uploadProgress = uProg!
+                downloadProgress = dProg!
                 uploadInProgress = content[0].value(forKey: "uploadInProgress") as! Bool
                 downloadInProgress = content[0].value(forKey: "downloadInProgress") as! Bool
             } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.localizedDescription)")
             }
-        }
+    }
 
     // helper function for converting seconds to hours
     func secondsToHoursMinutesSeconds() -> (Int, Int, Int) {
@@ -275,16 +291,16 @@ class Video {
     private func updateFieldViaCoreDB(key: String, value: Any){
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
-                return
+            return
         }
-        
+
         // coredata context
         let managedContext =
             appDelegate.persistentContainer.viewContext
-        
+
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
         var result: [NSManagedObject] = []
         // 3
         do {
@@ -296,6 +312,7 @@ class Video {
         
         video.setValue(value, forKey: key)
         
+
         do {
             try managedContext.save()
         } catch let error as NSError {

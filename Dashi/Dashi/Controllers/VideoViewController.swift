@@ -375,7 +375,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["videoContent"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", currentVideo.getId())
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", currentVideo.getId(), (sharedAccount?.getId())!)
         var result: [NSManagedObject] = []
         // 3
         do {
@@ -387,7 +387,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         if result.isEmpty {
             let video = NSManagedObject(entity: entity,
                                         insertInto: managedContext)
-
+            video.setValue(sharedAccount?.getId(), forKey: "accountID")
             video.setValue(currentVideo.getId(), forKeyPath: "id")
             video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
             video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")

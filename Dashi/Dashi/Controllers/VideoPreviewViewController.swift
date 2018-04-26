@@ -59,7 +59,6 @@ class VideoPreviewViewController: UIViewController {
     }
 
     @IBOutlet weak var playerView: PlayerView! // where video actually displays
-    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var pushToCloudButton: UIButton!
 
@@ -138,9 +137,6 @@ class VideoPreviewViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
-    @IBAction func saveToLibrary() {
-        self.saveVideoToCoreData()
-    }
 
     @IBAction func playPauseButtonPressed() {
         self.updatePlayPauseButton()
@@ -157,7 +153,6 @@ class VideoPreviewViewController: UIViewController {
         if keyPath == "player.currentItem.status" {
             // make buttons visible to user
             playPauseButton.isHidden = false
-            saveButton.isHidden = false
         }
     }
 
@@ -207,6 +202,7 @@ class VideoPreviewViewController: UIViewController {
             video.setValue(currentVideo.getEndLat(), forKey: "endLat")
             video.setValue(currentVideo.getEndLong(), forKey: "endLong")
             video.setValue("local", forKey: "storageStat")
+            video.setValue(0, forKey: "uploadProgress")
             do {
                 try managedContext.save()
                 self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
@@ -231,32 +227,6 @@ class VideoPreviewViewController: UIViewController {
         }
 
         self.present(controller, animated: true, completion: nil)
-    }
-
-    func initProgress(id: String) {
-        let managedContext =
-            appDelegate!.persistentContainer.viewContext
-
-        let entity =
-            NSEntityDescription.entity(forEntityName: "UploadStatus",
-                                       in: managedContext)!
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "UploadStatus")
-        fetchRequest.propertiesToFetch = ["videoContent"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        var result: [NSManagedObject] = []
-        let video = NSManagedObject(entity: entity,
-                                    insertInto: managedContext)
-
-        video.setValue(id, forKeyPath: "id")
-        video.setValue(0.0, forKeyPath: "uploadProgress")
-
-        do {
-            try managedContext.save()
-            self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
     }
 
     // update image in Play/Pause button, play and pause video

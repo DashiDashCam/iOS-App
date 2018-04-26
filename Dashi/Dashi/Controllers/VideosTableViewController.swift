@@ -16,7 +16,6 @@ import MapKit
 
 class VideosTableViewController: UITableViewController {
     var videos: [Video] = []
-    var ids: [String] = []
     let geoCoder = CLGeocoder()
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
@@ -77,6 +76,7 @@ class VideosTableViewController: UITableViewController {
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.predicate = NSPredicate(format: "accountID == %d",(sharedAccount?.getId())!)
         fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id", "startLat", "startLong", "endLat", "endLong"]
         // 3
         do {
@@ -99,9 +99,8 @@ class VideosTableViewController: UITableViewController {
             // dates.append(video.value(forKeyPath: "startDate") as! Date)
             let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: startLat, longitude: startLong), endLoc: CLLocationCoordinate2D(latitude: endLat, longitude: endLong))
             videos.append(video)
-            //  videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
-            ids.append(id)
         }
+        videos.sort(by: { $0.getStarted() > $1.getStarted() })
     }
 
     // sets cell data for each video
@@ -198,7 +197,7 @@ class VideosTableViewController: UITableViewController {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["videoContent"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "id == %@ && accountID == %d", id, (sharedAccount?.getId())!)
 
         do {
 
