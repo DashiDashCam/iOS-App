@@ -30,6 +30,8 @@ class Video {
     var endLong: CLLocationDegrees!
     var uploadProgress: Int!
     var downloadProgress: Int!
+    var uploadInProgress: Bool!
+    var downloadInProgress: Bool!
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
     var managedContext:NSManagedObjectContext
@@ -102,6 +104,18 @@ class Video {
     public func getDownloadProgress() -> Int {
         updateProgressFromCoreData()
         return downloadProgress
+    }
+    
+    public func getUploadInProgress() -> Bool {
+        updateProgressFromCoreData()
+        print("uploadInProgress")
+        print(uploadInProgress)
+        return uploadInProgress
+    }
+    
+    public func getDownloadInProgress() -> Bool {
+        updateProgressFromCoreData()
+        return downloadInProgress
     }
     
     public func getContent() -> Data? {
@@ -223,14 +237,16 @@ class Video {
             // 2
             let fetchRequest =
                 NSFetchRequest<NSManagedObject>(entityName: "Videos")
-            fetchRequest.propertiesToFetch = ["uploadProgress", "downloadProgress"]
+            fetchRequest.propertiesToFetch = ["uploadProgress", "downloadProgress","uploadInProgress","downloadInProgress"]
             fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
             // 3
             do {
                 content = (try managedContext?.fetch(fetchRequest))!
                 uploadProgress = content[0].value(forKey: "uploadProgress") as! Int
                 downloadProgress  = content[0].value(forKey: "downloadProgress") as! Int
-            } catch let error as Error {
+                uploadInProgress = content[0].value(forKey: "uploadInProgress") as! Bool
+                downloadInProgress = content[0].value(forKey: "downloadInProgress") as! Bool
+            } catch let error as NSError {
                 print("Could not fetch. \(error), \(error.localizedDescription)")
             }
         }
@@ -241,37 +257,22 @@ class Video {
     }
     
     func updateUploadProgress( progress: Int){
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        // coredata context
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
-        var result: [NSManagedObject] = []
-        // 3
-        do {
-            result = (try managedContext.fetch(fetchRequest))
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.localizedDescription)")
-        }
-        let video = result[0]
-        
-        video.setValue(progress, forKey: "uploadProgress")
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
+        updateFieldViaCoreDB(key: "uploadProgress", value: progress)
+    }
+    
+    func updateUploadInProgress( status: Bool){
+        updateFieldViaCoreDB(key: "uploadInProgress", value: status)
     }
     
       func updateDownloadProgress(  progress: Int){
+        updateFieldViaCoreDB(key: "downloadProgress", value: progress)
+    }
+    
+    func updateDownloadInProgress( status: Bool){
+        updateFieldViaCoreDB(key: "downloadInProgress", value: status)
+    }
+    
+    private func updateFieldViaCoreDB(key: String, value: Any){
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
                 return
@@ -293,7 +294,7 @@ class Video {
         }
         let video = result[0]
         
-        video.setValue(progress, forKey: "downloadProgress")
+        video.setValue(value, forKey: key)
         
         do {
             try managedContext.save()
