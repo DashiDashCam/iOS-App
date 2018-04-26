@@ -554,23 +554,27 @@ class DashiAPI {
      *  @return A promise that fulfills with the download link
      */
     public static func createDownloadLink(id: String) -> Promise<String> {
-        print(id)
-        let parameters: Parameters = [
-            "id": id,
-        ]
-
-        return sessionManager.request(API_ROOT + "/Share", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value -> String in
-            let json = JSON(value.0)
-
-            // print(json)
-            // print(json["shareID"].stringValue)
-            return API_ROOT + "/Share/" + json["shareID"].stringValue
-        }.catch { error in
-            if let e = error as? DashiServiceError {
-                // prints a more detailed error message from slim
-                print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
-
-                print(e.statusCode)
+        return firstly {
+            self.addAuthToken()
+        }.then { headers in
+            print(id)
+            let parameters: Parameters = [
+                "id": id,
+            ]
+         
+            return sessionManager.request(API_ROOT + "/Share", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value -> String in
+                let json = JSON(value.0)
+            
+                // print(json)
+                // print(json["shareID"].stringValue)
+                return API_ROOT + "/Share/" + json["shareID"].stringValue
+             }.catch { error in
+                 if let e = error as? DashiServiceError {
+                     // prints a more detailed error message from slim
+                     print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+                    
+                     print(e.statusCode)
+                 }
             }
         }
     }
