@@ -320,8 +320,8 @@ class DashiAPI {
                 let end = (start + CHUNK_SIZE) < video.count ? (start + CHUNK_SIZE - 1) : (video.count - 1)
                 print("Uploading Chunk: \(part)")
                 // Background upload/downloads must occur from disk, so dump to temp file
-                //let tempFile = TempFile(extension: "MOV", content: video[start ... end])
-                sleep(1)
+                // let tempFile = TempFile(extension: "MOV", content: video[start ... end])
+                usleep(UInt32(0.2))
                 let manager = FileManager.default
                 let filename = String(id) + "-" + String(part) + "vid.MOV"
                 let path = NSTemporaryDirectory() + filename
@@ -556,25 +556,25 @@ class DashiAPI {
     public static func createDownloadLink(id: String) -> Promise<String> {
         return firstly {
             self.addAuthToken()
-        }.then { headers in
+        }.then { _ in
             print(id)
             let parameters: Parameters = [
                 "id": id,
             ]
-         
+
             return sessionManager.request(API_ROOT + "/Share", method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON(with: .response).then { value -> String in
                 let json = JSON(value.0)
-            
+
                 // print(json)
                 // print(json["shareID"].stringValue)
                 return API_ROOT + "/Share/" + json["shareID"].stringValue
-             }.catch { error in
-                 if let e = error as? DashiServiceError {
-                     // prints a more detailed error message from slim
-                     print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
-                    
-                     print(e.statusCode)
-                 }
+            }.catch { error in
+                if let e = error as? DashiServiceError {
+                    // prints a more detailed error message from slim
+                    print(String(data: (error as! DashiServiceError).body, encoding: String.Encoding.utf8)!)
+
+                    print(e.statusCode)
+                }
             }
         }
     }

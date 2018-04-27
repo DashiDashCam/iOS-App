@@ -399,8 +399,8 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             video.setValue(currentVideo.getEndLat(), forKey: "endLat")
             video.setValue(currentVideo.getEndLong(), forKey: "endLong")
             video.setValue("local", forKey: "storageStat")
-            video.setValue(Date(), forKey: "downloaded")
-            video.setValue(100, forKey: "downloadProgress")
+            video.setValue(nil, forKey: "downloaded")
+            //            video.setValue(100, forKey: "downloadProgress")
             video.setValue(0, forKey: "uploadProgress")
             do {
                 try managedContext.save()

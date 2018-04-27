@@ -131,7 +131,7 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         // Enforce max file size
-        if totalSize > (settings["maxLocalStorage"] as! Int) {
+        if totalSize > ((settings["maxLocalStorage"] as! Int) * 1024 * 1024 * 1024) {
             VideoManager.flushCache()
         }
     }
@@ -252,7 +252,7 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
         // Load video dates and upload status
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["id", "uploadProgress", "size", "downloaded"]
-        fetchRequest.predicate = NSPredicate(format: "videoContent != nil  && accountID == %d", (sharedAccount?.getId())! )
+        fetchRequest.predicate = NSPredicate(format: "videoContent != nil  && accountID == %d", (sharedAccount?.getId())!)
 
         var videos: [NSManagedObject] = []
         do {
@@ -263,8 +263,9 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
 
         for video in videos {
             // If completely uploaded, delete cached content
+            let temp = video.value(forKey: "downloaded") as? Date
             if (video.value(forKey: "uploadProgress") as! Int32) == 100 &&
-                (ignoreDownloaded || (video.value(forKey: "downloaded") as? Date) != nil) {
+                (ignoreDownloaded || (video.value(forKey: "downloaded") as? Date) == nil) {
                 // Delete the cached video content
                 video.setValue(nil, forKey: "videoContent")
                 video.setValue(nil, forKey: "downloaded")

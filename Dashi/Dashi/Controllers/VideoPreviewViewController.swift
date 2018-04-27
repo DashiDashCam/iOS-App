@@ -137,7 +137,6 @@ class VideoPreviewViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 
-
     @IBAction func playPauseButtonPressed() {
         self.updatePlayPauseButton()
     }
@@ -203,6 +202,8 @@ class VideoPreviewViewController: UIViewController {
             video.setValue(currentVideo.getEndLong(), forKey: "endLong")
             video.setValue("local", forKey: "storageStat")
             video.setValue(0, forKey: "uploadProgress")
+            video.setValue(nil, forKey: "downloaded")
+
             do {
                 try managedContext.save()
                 self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
