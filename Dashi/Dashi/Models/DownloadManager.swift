@@ -127,6 +127,7 @@ class DownloadManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate 
             video.setValue(val, forKey: "videoContent")
             video.setValue(Date(), forKey: "downloaded")
             video.setValue("both", forKey: "storageStat")
+            video.setValue(false, forKey: "downloadInProgress")
             do {
                 try managedContext.save()
             } catch let error as NSError {

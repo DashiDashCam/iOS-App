@@ -402,6 +402,8 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             video.setValue(nil, forKey: "downloaded")
             //            video.setValue(100, forKey: "downloadProgress")
             video.setValue(0, forKey: "uploadProgress")
+            video.setValue(false, forKey: "uploadInProgress")
+            video.setValue(false, forKey: "downloadInProgress")
             do {
                 try managedContext.save()
                 //                self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)

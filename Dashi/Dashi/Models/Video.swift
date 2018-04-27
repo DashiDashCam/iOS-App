@@ -30,6 +30,8 @@ class Video {
     var endLong: CLLocationDegrees!
     var uploadProgress: Int!
     var downloadProgress: Int!
+    var uploadInProgress: Bool!
+    var downloadInProgress: Bool!
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
     var managedContext: NSManagedObjectContext
@@ -113,7 +115,19 @@ class Video {
         updateProgressFromCoreData()
         return downloadProgress
     }
-
+    
+    public func getUploadInProgress() -> Bool {
+        updateProgressFromCoreData()
+        print("uploadInProgress")
+        print(uploadInProgress)
+        return uploadInProgress
+    }
+    
+    public func getDownloadInProgress() -> Bool {
+        updateProgressFromCoreData()
+        return downloadInProgress
+    }
+    
     public func getContent() -> Data? {
         do {
             return try Data(contentsOf: asset!.url)
@@ -224,72 +238,57 @@ class Video {
     // gets progress from core data
     func updateProgressFromCoreData() {
 
-        var content: [NSManagedObject]
-        let managedContext =
-            appDelegate?.persistentContainer.viewContext
+            var content: [NSManagedObject]
+            let managedContext =
+                appDelegate?.persistentContainer.viewContext
 
-        // 2
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.propertiesToFetch = ["uploadProgress", "downloadProgress"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
-        // 3
-        do {
-            content = (try managedContext?.fetch(fetchRequest))!
-            if let upProg = content[0].value(forKey: "uploadProgress") {
-                uploadProgress = upProg as! Int
-            } else {
-                uploadProgress = 0
+            // 2
+            let fetchRequest =
+                NSFetchRequest<NSManagedObject>(entityName: "Videos")
+            fetchRequest.propertiesToFetch = ["uploadProgress", "downloadProgress","uploadInProgress","downloadInProgress"]
+            fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+            // 3
+            do {
+                content = (try managedContext?.fetch(fetchRequest))!
+                var uProg = content[0].value(forKey: "uploadProgress") as? Int
+                if(uProg == nil){
+                    uProg = 0
+                }
+                var dProg = content[0].value(forKey: "downloadProgress") as? Int
+                if(dProg == nil){
+                    dProg = 0
+                }
+                uploadProgress = uProg!
+                downloadProgress = dProg!
+                uploadInProgress = content[0].value(forKey: "uploadInProgress") as! Bool
+                downloadInProgress = content[0].value(forKey: "downloadInProgress") as! Bool
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.localizedDescription)")
             }
-
-            if let downProg = content[0].value(forKey: "downloadProgress") {
-                downloadProgress = downProg as! Int
-
-            } else {
-                downloadProgress = 0
-            }
-        } catch let error as Error {
-            print("Could not fetch. \(error), \(error.localizedDescription)")
-        }
     }
 
     // helper function for converting seconds to hours
     func secondsToHoursMinutesSeconds() -> (Int, Int, Int) {
         return (length / 3600, (length % 3600) / 60, (length % 3600) % 60)
     }
-
-    func updateUploadProgress(progress: Int) {
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-
-        // coredata context
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
-        var result: [NSManagedObject] = []
-        // 3
-        do {
-            result = (try managedContext.fetch(fetchRequest))
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.localizedDescription)")
-        }
-        let video = result[0]
-
-        video.setValue(progress, forKey: "uploadProgress")
-
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
+    
+    func updateUploadProgress( progress: Int){
+        updateFieldViaCoreDB(key: "uploadProgress", value: progress)
     }
-
-    func updateDownloadProgress(progress: Int) {
+    
+    func updateUploadInProgress( status: Bool){
+        updateFieldViaCoreDB(key: "uploadInProgress", value: status)
+    }
+    
+      func updateDownloadProgress(  progress: Int){
+        updateFieldViaCoreDB(key: "downloadProgress", value: progress)
+    }
+    
+    func updateDownloadInProgress( status: Bool){
+        updateFieldViaCoreDB(key: "downloadInProgress", value: status)
+    }
+    
+    private func updateFieldViaCoreDB(key: String, value: Any){
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -310,8 +309,9 @@ class Video {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
         let video = result[0]
-
-        video.setValue(progress, forKey: "downloadProgress")
+        
+        video.setValue(value, forKey: key)
+        
 
         do {
             try managedContext.save()
