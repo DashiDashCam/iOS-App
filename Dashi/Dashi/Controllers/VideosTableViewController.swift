@@ -39,6 +39,7 @@ class VideosTableViewController: UITableViewController {
     }
 
     override func viewWillAppear(_: Bool) {
+    
         self.tableView.reloadData()
 
         // set orientation
@@ -134,7 +135,11 @@ class VideosTableViewController: UITableViewController {
         dateFormatter.timeStyle = .short
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted())
-        cell.storageIcon.image = UIImage(named: videos[row].getStorageStat())
+         Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true){_ in
+            cell.storageIcon.image = UIImage(named: self.videos[row].getStorageStat())
+            
+        }.fire()
+
         cell.id = videos[row].getId()
         return cell
     }

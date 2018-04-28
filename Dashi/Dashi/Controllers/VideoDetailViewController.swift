@@ -60,11 +60,17 @@ class VideoDetailViewController: UIViewController {
         super.viewWillAppear(true)
         progressBar.isHidden = true
         let uploadStatus = selectedVideo.getStorageStat()
-        if selectedVideo.getDownloadInProgress(){
-            showDownloadProgress()
+        self.updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){_ in
+            if self.selectedVideo.getDownloadInProgress(){
+                self.updateDownloadProgressTimer?.invalidate()
+                self.showDownloadProgress()
         }
-        if selectedVideo.getUploadInProgress(){
-            showUploadProgress()
+        }
+        self.updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){_ in
+            if self.selectedVideo.getUploadInProgress(){
+                self.updateUploadProgressTimer?.invalidate()
+                self.showUploadProgress()
+        }
         }
         if uploadStatus == "local" {
             print("local")
@@ -276,7 +282,8 @@ class VideoDetailViewController: UIViewController {
         uploadProgTask()
     }
     
-    private func uploadProgTask(){
+    private func uploadProgTask()
+    {
         let progress = Float(self.selectedVideo.getUploadProgress()) / 100.0
         if progress >= 1.0 {
             self.updateUploadProgressTimer?.invalidate()
