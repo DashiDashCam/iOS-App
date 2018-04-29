@@ -131,7 +131,7 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
         }
 
         // Enforce max file size
-        if totalSize > (settings["maxLocalStorage"] as! Int) {
+        if totalSize > ((settings["maxLocalStorage"] as! Int) * 1024 * 1024 * 1024) {
             VideoManager.flushCache()
         }
     }
@@ -175,10 +175,11 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
                 let endLong = video.value(forKey: "endLong") as! CLLocationDegrees
 
                 let obj = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: startLat, longitude: startLong), endLoc: CLLocationCoordinate2D(latitude: endLat, longitude: endLong))
-
+                obj.updateUploadInProgress(status: true)
                 DashiAPI.uploadVideoMetaData(video: obj).then { _ -> Void in
                     DashiAPI.uploadVideoContent(id: id, url: getUrlForLocal(id: id)!).then { _ -> Void in
                         obj.changeStorageToBoth()
+                        obj.updateUploadInProgress(status: false)
                     }
                 }
             }
@@ -252,7 +253,7 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
         // Load video dates and upload status
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.propertiesToFetch = ["id", "uploadProgress", "size", "downloaded"]
-        fetchRequest.predicate = NSPredicate(format: "videoContent != nil  && accountID == %d", (sharedAccount?.getId())! )
+        fetchRequest.predicate = NSPredicate(format: "videoContent != nil  && accountID == %d", (sharedAccount?.getId())!)
 
         var videos: [NSManagedObject] = []
         do {
@@ -263,8 +264,9 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
 
         for video in videos {
             // If completely uploaded, delete cached content
+            let temp = video.value(forKey: "downloaded") as? Date
             if (video.value(forKey: "uploadProgress") as! Int32) == 100 &&
-                (ignoreDownloaded || (video.value(forKey: "downloaded") as? Date) != nil) {
+                (ignoreDownloaded || (video.value(forKey: "downloaded") as? Date) == nil) {
                 // Delete the cached video content
                 video.setValue(nil, forKey: "videoContent")
                 video.setValue(nil, forKey: "downloaded")

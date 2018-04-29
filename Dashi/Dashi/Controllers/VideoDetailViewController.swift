@@ -60,11 +60,17 @@ class VideoDetailViewController: UIViewController {
         super.viewWillAppear(true)
         progressBar.isHidden = true
         let uploadStatus = selectedVideo.getStorageStat()
-        if selectedVideo.getDownloadInProgress(){
-            showDownloadProgress()
+        self.updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){_ in
+            if self.selectedVideo.getDownloadInProgress(){
+                self.updateDownloadProgressTimer?.invalidate()
+                self.showDownloadProgress()
         }
-        if selectedVideo.getUploadInProgress(){
-            showUploadProgress()
+        }
+        self.updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){_ in
+            if self.selectedVideo.getUploadInProgress(){
+                self.updateUploadProgressTimer?.invalidate()
+                self.showUploadProgress()
+        }
         }
         if uploadStatus == "local" {
             print("local")
@@ -102,7 +108,20 @@ class VideoDetailViewController: UIViewController {
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
         if (gesture.view as? UIImageView) != nil {
-            performSegue(withIdentifier: "viewVideoSegue", sender: self)
+            if(selectedVideo.getStorageStat() == "cloud"){
+                let alert = UIAlertController(title: "Video not downloaded", message: "Would you like to download it?", preferredStyle: .alert)
+                let yes = UIAlertAction(title: "Yes", style: .default){ Void in
+                    self.downloadVideo(self)
+                }
+                let no = UIAlertAction(title: "No", style: .cancel)
+                alert.addAction(yes)
+                alert.addAction(no)
+                present(alert, animated: true, completion: nil)
+            }
+            else{
+                performSegue(withIdentifier: "viewVideoSegue", sender: self)
+                
+            }
         }
     }
 
@@ -276,7 +295,8 @@ class VideoDetailViewController: UIViewController {
         uploadProgTask()
     }
     
-    private func uploadProgTask(){
+    private func uploadProgTask()
+    {
         let progress = Float(self.selectedVideo.getUploadProgress()) / 100.0
         if progress >= 1.0 {
             self.updateUploadProgressTimer?.invalidate()
