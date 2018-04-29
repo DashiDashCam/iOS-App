@@ -35,6 +35,15 @@ class VideoDetailViewController: UIViewController {
     var updateDownloadProgressTimer: Timer!
 
     var updateUploadProgressTimer: Timer?
+
+    var checkStatusTimer: Timer?
+
+    var lastStatus: String?
+
+    var uploadProgDisplayed: Bool = false
+
+    var downloadProgDisplayed: Bool = false
+
     override func viewDidLoad() {
 
         super.viewDidLoad()
@@ -60,18 +69,15 @@ class VideoDetailViewController: UIViewController {
         super.viewWillAppear(true)
         progressBar.isHidden = true
         let uploadStatus = selectedVideo.getStorageStat()
-        self.updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){_ in
-            if self.selectedVideo.getDownloadInProgress(){
-                self.updateDownloadProgressTimer?.invalidate()
-                self.showDownloadProgress()
+        if selectedVideo.getDownloadInProgress() {
+            showDownloadProgress()
         }
+        if selectedVideo.getUploadInProgress() {
+            showUploadProgress()
         }
-        self.updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){_ in
-            if self.selectedVideo.getUploadInProgress(){
-                self.updateUploadProgressTimer?.invalidate()
-                self.showUploadProgress()
-        }
-        }
+        checkStatusTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+            self.viewUpdater()
+        })
         if uploadStatus == "local" {
             print("local")
 
@@ -97,30 +103,30 @@ class VideoDetailViewController: UIViewController {
             uploadProgress.text = "Uploaded to Cloud"
             downloadProgress.text = "Downloaded to Device"
         }
+        lastStatus = uploadStatus
     }
 
     override func viewWillDisappear(_: Bool) {
         updateUploadProgressTimer?.invalidate()
         updateDownloadProgressTimer?.invalidate()
+        checkStatusTimer?.invalidate()
     }
 
     // called when user taps thumbnail
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
         if (gesture.view as? UIImageView) != nil {
-            if(selectedVideo.getStorageStat() == "cloud"){
+            if selectedVideo.getStorageStat() == "cloud" {
                 let alert = UIAlertController(title: "Video not downloaded", message: "Would you like to download it?", preferredStyle: .alert)
-                let yes = UIAlertAction(title: "Yes", style: .default){ Void in
+                let yes = UIAlertAction(title: "Yes", style: .default) { _ in
                     self.downloadVideo(self)
                 }
                 let no = UIAlertAction(title: "No", style: .cancel)
                 alert.addAction(yes)
                 alert.addAction(no)
                 present(alert, animated: true, completion: nil)
-            }
-            else{
+            } else {
                 performSegue(withIdentifier: "viewVideoSegue", sender: self)
-                
             }
         }
     }
@@ -283,10 +289,11 @@ class VideoDetailViewController: UIViewController {
         }
         return nil
     }
-    
-    private func showUploadProgress(){
+
+    private func showUploadProgress() {
         progressBar.isHidden = false
         uploadToCloud.isEnabled = true
+        uploadProgDisplayed = true
         selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
         uploadToCloud.setTitle("Uploading", for: .normal)
         updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
@@ -294,47 +301,82 @@ class VideoDetailViewController: UIViewController {
         })
         uploadProgTask()
     }
-    
-    private func uploadProgTask()
-    {
-        let progress = Float(self.selectedVideo.getUploadProgress()) / 100.0
+
+    private func uploadProgTask() {
+        let progress = Float(selectedVideo.getUploadProgress()) / 100.0
         if progress >= 1.0 {
-            self.updateUploadProgressTimer?.invalidate()
-            self.uploadToCloud.setTitle("Upload Complete", for: .normal)
-            self.updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
+            updateUploadProgressTimer?.invalidate()
+            uploadToCloud.setTitle("Upload Complete", for: .normal)
+            updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
                 self.progressBar.isHidden = true
                 self.uploadToCloud.isHidden = true
                 self.shareButton.isHidden = false
+                if self.selectedVideo.getStorageStat() == "cloud" {
+                    self.downloadFromCloud.isHidden = false
+                }
             })
         }
         DispatchQueue.main.async {
             self.progressBar.progress = progress
         }
     }
-    
-    private func showDownloadProgress(){
+
+    private func showDownloadProgress() {
         progressBar.isHidden = false
         downloadFromCloud.isEnabled = false
-        self.downloadFromCloud.setTitle("Downloading", for: .normal)
+        downloadProgDisplayed = true
+        downloadFromCloud.setTitle("Downloading", for: .normal)
         updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.downloadProgTask()
         })
         downloadProgTask()
     }
-    
-    private func downloadProgTask(){
-        let progress = Float(self.selectedVideo.getDownloadProgress()) / 100.0
+
+    private func downloadProgTask() {
+        let progress = Float(selectedVideo.getDownloadProgress()) / 100.0
         if progress >= 1.0 {
-            self.updateDownloadProgressTimer?.invalidate()
-            self.downloadFromCloud.setTitle("Download Complete", for: .normal)
-            self.updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
+            updateDownloadProgressTimer?.invalidate()
+            downloadFromCloud.setTitle("Download Complete", for: .normal)
+            updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
                 self.progressBar.isHidden = true
                 self.downloadFromCloud.isHidden = true
             })
-            self.progressBar.isHidden = true
+            progressBar.isHidden = true
         }
         DispatchQueue.main.async {
             self.progressBar.progress = progress
+        }
+    }
+
+    private func viewUpdater() {
+        if !uploadProgDisplayed && selectedVideo.getUploadInProgress() {
+            showUploadProgress()
+        } else if !downloadProgDisplayed && selectedVideo.getDownloadInProgress() {
+            showDownloadProgress()
+        }
+        let uploadStatus = selectedVideo.getStorageStat()
+        if lastStatus != uploadStatus {
+            if uploadStatus == "local" {
+                downloadProgress.isHidden = false
+                uploadProgress.isHidden = true
+                downloadProgress.text = "Downloaded to Device"
+            } else if uploadStatus == "cloud" {
+                downloadProgress.isHidden = true
+                uploadProgress.isHidden = false
+                uploadProgress.text = "Uploaded to Cloud"
+
+                // if uploadToCloud hasn't been hidden yet, let the upload to cloud progress timer handle
+                // showing the download button
+                if uploadToCloud.isHidden {
+                    downloadFromCloud.isHidden = false
+                }
+            } else {
+                downloadProgress.isHidden = false
+                uploadProgress.isHidden = false
+                uploadProgress.text = "Uploaded to Cloud"
+                downloadProgress.text = "Downloaded to Device"
+            }
+            lastStatus = uploadStatus
         }
     }
 
