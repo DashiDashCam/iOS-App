@@ -625,7 +625,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fll-6s-RTq">
-                                <rect key="frame" x="172" y="330" width="150" height="42"/>
+                                <rect key="frame" x="157" y="342" width="150" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Previous Trips">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -635,7 +635,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tV3-Wk-xXf">
-                                <rect key="frame" x="172" y="402" width="90" height="42"/>
+                                <rect key="frame" x="157" y="420" width="90" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Settings">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -645,8 +645,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xdm-tX-5Gf">
-                                <rect key="frame" x="172" y="262" width="135" height="54"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                                <rect key="frame" x="157" y="265" width="97" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Start Trip">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -654,8 +654,20 @@
                                     <segue destination="8p2-4V-4ok" kind="show" id="t0k-mQ-GeN"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Uq4-m5-7QJ">
+                                <rect key="frame" x="68" y="262" width="48" height="48"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LLp-eQ-ogc">
+                                <rect key="frame" x="68" y="339" width="48" height="48"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sv8-a2-C5J">
+                                <rect key="frame" x="69" y="417" width="48" height="48"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fux-Ng-THf">
+                                <rect key="frame" x="69" y="491" width="48" height="48"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ie-fk-jWQ">
-                                <rect key="frame" x="172" y="472" width="76" height="42"/>
+                                <rect key="frame" x="157" y="494" width="76" height="42"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <state key="normal" title="Logout">
                                     <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -664,31 +676,43 @@
                                     <action selector="logout:" destination="8Bz-be-hOT" eventType="touchUpInside" id="5cq-pd-aKR"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Uq4-m5-7QJ">
-                                <rect key="frame" x="71" y="265" width="48" height="48"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="tV3-Wk-xXf" firstAttribute="leading" secondItem="4ie-fk-jWQ" secondAttribute="leading" id="0on-dE-GSA"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="tV3-Wk-xXf" secondAttribute="trailing" constant="97" id="17h-Dg-RRn"/>
-                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="top" secondItem="2X9-xn-iJn" secondAttribute="bottom" constant="8" symbolic="YES" id="2pb-Hs-rYQ"/>
-                            <constraint firstItem="4ie-fk-jWQ" firstAttribute="top" secondItem="tV3-Wk-xXf" secondAttribute="bottom" constant="28" id="4HJ-Sf-Bth"/>
-                            <constraint firstItem="fll-6s-RTq" firstAttribute="top" secondItem="xdm-tX-5Gf" secondAttribute="bottom" constant="14" id="7rT-vC-Q2Y"/>
-                            <constraint firstItem="Uq4-m5-7QJ" firstAttribute="top" secondItem="2X9-xn-iJn" secondAttribute="bottom" constant="11" id="FQm-sX-Dm3"/>
-                            <constraint firstItem="Uq4-m5-7QJ" firstAttribute="leading" secondItem="t5E-lq-CnG" secondAttribute="leadingMargin" constant="55" id="SEL-2h-b8c"/>
-                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="leading" secondItem="Uq4-m5-7QJ" secondAttribute="trailing" constant="53" id="Yz1-Qa-pMR"/>
-                            <constraint firstItem="tV3-Wk-xXf" firstAttribute="top" secondItem="fll-6s-RTq" secondAttribute="bottom" constant="30" id="dtb-ue-C1t"/>
-                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="leading" secondItem="fll-6s-RTq" secondAttribute="leading" id="eRd-zN-lTP"/>
+                            <constraint firstItem="tV3-Wk-xXf" firstAttribute="leading" secondItem="sv8-a2-C5J" secondAttribute="trailing" constant="40" id="62G-Lt-N7G"/>
+                            <constraint firstItem="fll-6s-RTq" firstAttribute="top" secondItem="xdm-tX-5Gf" secondAttribute="bottom" constant="35" id="8IE-qQ-kXY"/>
+                            <constraint firstItem="LLp-eQ-ogc" firstAttribute="centerY" secondItem="fll-6s-RTq" secondAttribute="centerY" id="A0M-up-pvr"/>
+                            <constraint firstItem="Uq4-m5-7QJ" firstAttribute="leading" secondItem="LLp-eQ-ogc" secondAttribute="leading" id="DHo-hr-TyW"/>
+                            <constraint firstItem="tV3-Wk-xXf" firstAttribute="top" secondItem="fll-6s-RTq" secondAttribute="bottom" constant="36" id="GJI-kQ-aKg"/>
+                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="leading" secondItem="fll-6s-RTq" secondAttribute="leading" id="Ocq-UU-ar8"/>
+                            <constraint firstItem="sv8-a2-C5J" firstAttribute="trailing" secondItem="Fux-Ng-THf" secondAttribute="trailing" id="Rit-ZB-6NP"/>
+                            <constraint firstItem="Uq4-m5-7QJ" firstAttribute="trailing" secondItem="LLp-eQ-ogc" secondAttribute="trailing" id="SJJ-x0-Gma"/>
+                            <constraint firstItem="Fux-Ng-THf" firstAttribute="top" secondItem="sv8-a2-C5J" secondAttribute="bottom" constant="26" id="Sll-Dv-E4W"/>
+                            <constraint firstItem="LLp-eQ-ogc" firstAttribute="top" secondItem="Uq4-m5-7QJ" secondAttribute="bottom" constant="29" id="VPK-Vr-jQo"/>
+                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="top" secondItem="2X9-xn-iJn" secondAttribute="bottom" constant="11" id="aaH-e7-2wh"/>
+                            <constraint firstItem="xdm-tX-5Gf" firstAttribute="leading" secondItem="Uq4-m5-7QJ" secondAttribute="trailing" constant="41" id="e0Y-u0-292"/>
+                            <constraint firstItem="Uq4-m5-7QJ" firstAttribute="centerY" secondItem="xdm-tX-5Gf" secondAttribute="centerY" id="f0E-tx-edv"/>
+                            <constraint firstItem="sv8-a2-C5J" firstAttribute="leading" secondItem="t5E-lq-CnG" secondAttribute="leadingMargin" constant="53" id="f0o-0u-xQ8"/>
+                            <constraint firstItem="Fux-Ng-THf" firstAttribute="centerY" secondItem="4ie-fk-jWQ" secondAttribute="centerY" id="glZ-eJ-VFO"/>
                             <constraint firstItem="2X9-xn-iJn" firstAttribute="top" secondItem="t5E-lq-CnG" secondAttribute="top" constant="20" symbolic="YES" id="gzC-mC-Q05"/>
-                            <constraint firstItem="fll-6s-RTq" firstAttribute="leading" secondItem="tV3-Wk-xXf" secondAttribute="leading" id="jys-jX-QV8"/>
-                            <constraint firstItem="Uq4-m5-7QJ" firstAttribute="centerY" secondItem="xdm-tX-5Gf" secondAttribute="centerY" id="pJ5-aQ-zQr"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fll-6s-RTq" secondAttribute="trailing" constant="52" id="hcI-b5-28t"/>
+                            <constraint firstItem="Uq4-m5-7QJ" firstAttribute="top" secondItem="2X9-xn-iJn" secondAttribute="bottom" constant="8" symbolic="YES" id="ib5-uV-iAb"/>
+                            <constraint firstItem="sv8-a2-C5J" firstAttribute="centerY" secondItem="tV3-Wk-xXf" secondAttribute="centerY" id="kd3-Mw-gMd"/>
+                            <constraint firstItem="sv8-a2-C5J" firstAttribute="top" secondItem="LLp-eQ-ogc" secondAttribute="bottom" constant="30" id="mki-bV-6X5"/>
+                            <constraint firstItem="tV3-Wk-xXf" firstAttribute="leading" secondItem="4ie-fk-jWQ" secondAttribute="leading" id="mzA-pT-zk3"/>
+                            <constraint firstItem="4ie-fk-jWQ" firstAttribute="top" secondItem="tV3-Wk-xXf" secondAttribute="bottom" constant="32" id="oZ5-xA-HJG"/>
+                            <constraint firstItem="sv8-a2-C5J" firstAttribute="leading" secondItem="Fux-Ng-THf" secondAttribute="leading" id="owk-VE-djI"/>
                             <constraint firstItem="2X9-xn-iJn" firstAttribute="centerX" secondItem="t5E-lq-CnG" secondAttribute="centerX" id="qlJ-1G-h2D"/>
+                            <constraint firstItem="Uq4-m5-7QJ" firstAttribute="leading" secondItem="t5E-lq-CnG" secondAttribute="leadingMargin" constant="52" id="x2H-v0-MFv"/>
+                            <constraint firstItem="fll-6s-RTq" firstAttribute="leading" secondItem="tV3-Wk-xXf" secondAttribute="leading" id="y22-JQ-CDZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Aul-21-M63"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="logout" destination="Fux-Ng-THf" id="QwH-4q-mFf"/>
+                        <outlet property="previoustrips" destination="LLp-eQ-ogc" id="TVY-Ee-cUo"/>
+                        <outlet property="settings" destination="sv8-a2-C5J" id="RwG-Ii-OBG"/>
                         <outlet property="starttrip" destination="Uq4-m5-7QJ" id="Eqh-jH-Npi"/>
                         <segue destination="URh-3M-jNU" kind="presentation" identifier="loginSegue" id="0Tq-rb-Qul"/>
                     </connections>

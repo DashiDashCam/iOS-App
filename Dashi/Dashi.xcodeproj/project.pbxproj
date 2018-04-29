@@ -30,6 +30,9 @@
 		A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7E1FABC8450061FEAB /* Base.lproj */; };
 		A3F9307E209685C500B31E75 /* SVGKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F9307D209685C500B31E75 /* SVGKit.framework */; };
 		A3F930812096867300B31E75 /* start trip.svg in Resources */ = {isa = PBXBuildFile; fileRef = A3F930802096867200B31E75 /* start trip.svg */; };
+		A3F9308420968A2500B31E75 /* settings.svg in Resources */ = {isa = PBXBuildFile; fileRef = A3F9308220968A2400B31E75 /* settings.svg */; };
+		A3F9308520968A2500B31E75 /* exit.svg in Resources */ = {isa = PBXBuildFile; fileRef = A3F9308320968A2500B31E75 /* exit.svg */; };
+		A3F9308720968A4100B31E75 /* history.svg in Resources */ = {isa = PBXBuildFile; fileRef = A3F9308620968A4100B31E75 /* history.svg */; };
 		A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */; };
 		D85BD86320730A8000C27E35 /* TempFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85BD86220730A8000C27E35 /* TempFile.swift */; };
 		D85BD865207FFFC000C27E35 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85BD864207FFFC000C27E35 /* RepeatingTimer.swift */; };
@@ -67,6 +70,9 @@
 		A3CD1C7E1FABC8450061FEAB /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		A3F9307D209685C500B31E75 /* SVGKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SVGKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3F930802096867200B31E75 /* start trip.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "start trip.svg"; sourceTree = "<group>"; };
+		A3F9308220968A2400B31E75 /* settings.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = settings.svg; sourceTree = "<group>"; };
+		A3F9308320968A2500B31E75 /* exit.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = exit.svg; sourceTree = "<group>"; };
+		A3F9308620968A4100B31E75 /* history.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = history.svg; sourceTree = "<group>"; };
 		A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.debug.xcconfig"; sourceTree = "<group>"; };
 		D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.release.xcconfig"; sourceTree = "<group>"; };
@@ -212,6 +218,9 @@
 		A3F9307F2096865600B31E75 /* SvgImg */ = {
 			isa = PBXGroup;
 			children = (
+				A3F9308620968A4100B31E75 /* history.svg */,
+				A3F9308320968A2500B31E75 /* exit.svg */,
+				A3F9308220968A2400B31E75 /* settings.svg */,
 				A3F930802096867200B31E75 /* start trip.svg */,
 			);
 			path = SvgImg;
@@ -278,10 +287,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3F9308520968A2500B31E75 /* exit.svg in Resources */,
+				A3F9308420968A2500B31E75 /* settings.svg in Resources */,
 				2F343E01207AF44900F009F0 /* IMG_1801.MOV in Resources */,
 				A3CD1C801FABC8450061FEAB /* LaunchScreen.storyboard in Resources */,
 				A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */,
 				A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */,
+				A3F9308720968A4100B31E75 /* history.svg in Resources */,
 				A3CD1C7F1FABC8450061FEAB /* Main.storyboard in Resources */,
 				A3F930812096867300B31E75 /* start trip.svg in Resources */,
 			);
