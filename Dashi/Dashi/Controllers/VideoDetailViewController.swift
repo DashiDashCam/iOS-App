@@ -380,6 +380,7 @@ class VideoDetailViewController: UIViewController {
                 self.uploadProgress.text = "Uploaded to Cloud"
                 self.downloadProgress.text = "Downloaded to Device"
             }
+            self.lastStatus = uploadStatus
         }
     }
 
