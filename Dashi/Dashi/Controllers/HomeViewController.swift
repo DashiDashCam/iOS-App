@@ -10,7 +10,10 @@ import UIKit
 import AVFoundation
 import CoreMedia
 import PromiseKit
+import SVGKit
+
 class HomeViewController: UIViewController {
+    @IBOutlet weak var starttrip: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,6 +35,10 @@ class HomeViewController: UIViewController {
 
         // lock orientation
         AppUtility.lockOrientation(.portrait)
+
+        // start trip icon
+        let namSvgImgVar: SVGKImage = SVGKImage(named: "start trip")
+        starttrip.image = namSvgImgVar.uiImage
     }
 
     @IBAction func unwindToMenu(segue _: UIStoryboardSegue) {}

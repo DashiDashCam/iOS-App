@@ -1,24 +1,45 @@
 PODS:
   - Alamofire (4.6.0)
   - Arcane (1.2.1)
+  - CocoaLumberjack (3.4.1):
+    - CocoaLumberjack/Default (= 3.4.1)
+    - CocoaLumberjack/Extensions (= 3.4.1)
+  - CocoaLumberjack/Default (3.4.1)
+  - CocoaLumberjack/Extensions (3.4.1):
+    - CocoaLumberjack/Default
   - PromiseKit/Alamofire (4.5.1):
     - Alamofire (~> 4.0)
     - PromiseKit/CorePromise
   - PromiseKit/CorePromise (4.5.1)
+  - SVGKit (2.0.1):
+    - CocoaLumberjack (~> 3.x)
   - SwiftyJSON (4.0.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Arcane
   - PromiseKit/Alamofire (~> 4.0)
+  - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `2.x`)
   - SwiftyJSON
+
+EXTERNAL SOURCES:
+  SVGKit:
+    :branch: 2.x
+    :git: https://github.com/SVGKit/SVGKit.git
+
+CHECKOUT OPTIONS:
+  SVGKit:
+    :commit: 0799e49c6ccd387888c5a6592b93f8b42e41bfeb
+    :git: https://github.com/SVGKit/SVGKit.git
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   Arcane: 870689a8ba7145a7dec0c2d7d7836b50c9f12636
+  CocoaLumberjack: 2e258a064cacc8eb9a2aca318e24d02a0a7fd56d
   PromiseKit: 445dac9b2c3c3b4b31b5f842bc325700b848a8bd
+  SVGKit: 4055d9e809b5db8633755979cfb3b02dc5a8c20d
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: b68c919cc864c57d2bd9c9d48b1b4b5e58bae3f0
+PODFILE CHECKSUM: f78a65de6f0d852ba6c336e459588126a5028733
 
 COCOAPODS: 1.4.0
