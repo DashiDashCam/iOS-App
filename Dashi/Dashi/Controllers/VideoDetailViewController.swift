@@ -25,17 +25,16 @@ class VideoDetailViewController: UIViewController {
     @IBOutlet weak var videoDate: UILabel!
     @IBOutlet weak var videoLength: UILabel!
     @IBOutlet weak var uploadToCloud: UIButton!
-    @IBOutlet weak var downloadProgress: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var downloadFromCloud: UIButton!
     @IBOutlet weak var shareButton: UIButton!
-
-    @IBOutlet weak var uploadProgress: UILabel!
     var id: String!
     var updateDownloadProgressTimer: Timer!
 
+  
+    @IBOutlet weak var localIcon: UIImageView!
+    @IBOutlet weak var cloudIcon: UIImageView!
     var updateUploadProgressTimer: Timer?
-    
     var checkStatusTimer: Timer?
     
     var lastStatus : String?
@@ -51,7 +50,6 @@ class VideoDetailViewController: UIViewController {
 
         // create tap gesture recognizer for when user taps thumbnail
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
-        downloadProgress.text = (selectedVideo.getDownloadProgress()).description
         // add it to the image view;
         videoThumbnail.addGestureRecognizer(tapGesture)
         // make sure imageView can be interacted with by user
@@ -75,24 +73,26 @@ class VideoDetailViewController: UIViewController {
         if self.selectedVideo.getUploadInProgress(){
             self.showUploadProgress()
         }
+        localIcon.image =  UIImage(named: "local")
+        cloudIcon.image = UIImage(named: "cloud")
         self.checkStatusTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.viewUpdater()
         })
+        
         if uploadStatus == "local" {
             print("local")
 
             // show Upload to Cloud
             uploadToCloud.isHidden = false
             shareButton.isHidden = true
-            downloadProgress.text = "Downloaded to Device"
-            uploadProgress.isHidden = true
+            localIcon.isHidden = false
+            cloudIcon.isHidden = true
             downloadFromCloud.isHidden = true
 
         } else if uploadStatus == "cloud" {
-            downloadFromCloud.isHidden = false
+            cloudIcon.isHidden = false
             shareButton.isHidden = false
-            uploadProgress.text = "Uploaded to Cloud"
-            downloadProgress.isHidden = true
+            localIcon.isHidden = true
             uploadToCloud.isHidden = true
         } else {
             // hide Upload to Cloud if video is in cloud
@@ -100,8 +100,8 @@ class VideoDetailViewController: UIViewController {
             uploadToCloud.isHidden = true
             downloadFromCloud.isHidden = true
             // TODO: replace with statusbar
-            uploadProgress.text = "Uploaded to Cloud"
-            downloadProgress.text = "Downloaded to Device"
+            localIcon.isHidden = false
+            cloudIcon.isHidden = false
         }
         self.lastStatus = uploadStatus
     }
@@ -361,13 +361,18 @@ class VideoDetailViewController: UIViewController {
         let uploadStatus = self.selectedVideo.getStorageStat()
         if self.lastStatus != uploadStatus{
             if uploadStatus == "local" {
-                self.downloadProgress.isHidden = false
-                self.uploadProgress.isHidden = true
-                self.downloadProgress.text = "Downloaded to Device"
+                // show Upload to Cloud
+                uploadToCloud.isHidden = false
+                shareButton.isHidden = true
+                localIcon.isHidden = false
+                cloudIcon.isHidden = true
+                downloadFromCloud.isHidden = true
+                
             } else if uploadStatus == "cloud" {
-                self.downloadProgress.isHidden = true
-                self.uploadProgress.isHidden = false
-                self.uploadProgress.text = "Uploaded to Cloud"
+                cloudIcon.isHidden = false
+                shareButton.isHidden = false
+                localIcon.isHidden = true
+                uploadToCloud.isHidden = true
                 
                 //if uploadToCloud hasn't been hidden yet, let the upload to cloud progress timer handle
                 //showing the download button
@@ -375,10 +380,13 @@ class VideoDetailViewController: UIViewController {
                     self.downloadFromCloud.isHidden = false
                 }
             } else {
-                self.downloadProgress.isHidden = false
-                self.uploadProgress.isHidden = false
-                self.uploadProgress.text = "Uploaded to Cloud"
-                self.downloadProgress.text = "Downloaded to Device"
+                // hide Upload to Cloud if video is in cloud
+                shareButton.isHidden = false
+                uploadToCloud.isHidden = true
+                downloadFromCloud.isHidden = true
+                // TODO: replace with statusbar
+                localIcon.isHidden = false
+                cloudIcon.isHidden = false
             }
             self.lastStatus = uploadStatus
         }
