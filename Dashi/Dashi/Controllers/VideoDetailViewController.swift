@@ -108,7 +108,20 @@ class VideoDetailViewController: UIViewController {
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
         if (gesture.view as? UIImageView) != nil {
-            performSegue(withIdentifier: "viewVideoSegue", sender: self)
+            if(selectedVideo.getStorageStat() == "cloud"){
+                let alert = UIAlertController(title: "Download Video?", message: "Would you like to downlaod video to view it?", preferredStyle: .alert)
+                let yes = UIAlertAction(title: "Yes", style: .default){ Void in
+                    self.downloadVideo(self)
+                }
+                let no = UIAlertAction(title: "No", style: .cancel)
+                alert.addAction(yes)
+                alert.addAction(no)
+                present(alert, animated: true, completion: nil)
+            }
+            else{
+                performSegue(withIdentifier: "viewVideoSegue", sender: self)
+                
+            }
         }
     }
 
