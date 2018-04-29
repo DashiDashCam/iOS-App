@@ -326,14 +326,14 @@ class DashiAPI {
                 let filename = String(id) + "-" + String(part) + "vid.MOV"
                 let path = NSTemporaryDirectory() + filename
                 manager.createFile(atPath: path, contents: video[start ... end], attributes: nil)
-                return self.sessionManager.upload(URL(fileURLWithPath: path), to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { _ in
+                return mgr.upload(URL(fileURLWithPath: path), to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { _ in
                     let progress = (Double(end) / Double(video.count)) * 100
                     self.updateUploadProgress(id: id, progress: Int(progress))
                     return uploadChunk(mgr: mgr, id: id, video: video, part: part + 1, retry: 0)
                 }
             } else {
                 let url = BASE_URL + "?offset=\(UPLOAD_COMPELTED)"
-                return self.sessionManager.request(url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value -> JSON in
+                return mgr.request(url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value -> JSON in
                     self.updateUploadProgress(id: id, progress: 100)
                     return JSON(value)
                 }
@@ -376,7 +376,7 @@ class DashiAPI {
         config.httpAdditionalHeaders = ["Host": "api.dashidashcam.com"]
         var settings = sharedAccount!.getSettings()
         if settings["autoDelete"] as! Bool {
-            config.allowsCellularAccess = settings["wifiOnlyBackup"] as! Bool
+            config.allowsCellularAccess = !(settings["wifiOnlyBackup"] as! Bool)
         }
         
         let mgr = Alamofire.SessionManager(configuration: config)
@@ -400,7 +400,7 @@ class DashiAPI {
         config.httpAdditionalHeaders = ["Host": "api.dashidashcam.com"]
         var settings = sharedAccount!.getSettings()
         if settings["autoDelete"] as! Bool {
-            config.allowsCellularAccess = settings["wifiOnlyBackup"] as! Bool
+            config.allowsCellularAccess = !(settings["wifiOnlyBackup"] as! Bool)
         }
         
         let mgr = Alamofire.SessionManager(configuration: config)

@@ -30,7 +30,7 @@ class DownloadManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate 
         config.httpAdditionalHeaders = ["Host": "api.dashidashcam.com"]
         var settings = sharedAccount!.getSettings()
         if settings["autoDelete"] as! Bool {
-            config.allowsCellularAccess = settings["wifiOnlyBackup"] as! Bool
+            config.allowsCellularAccess = !(settings["wifiOnlyBackup"] as! Bool)
         }
         /* END MODIFIED PORTION */
 
