@@ -139,7 +139,21 @@ class VideosTableViewController: UITableViewController {
             cell.storageIcon.image = UIImage(named: self.videos[row].getStorageStat())
             
         }.fire()
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){_ in
+            if(self.videos[row].getDownloadInProgress()){
+                cell.uploadDownloadIcon.image = UIImage(named: "downloading")
+                cell.uploadDownloadIcon.isHidden = false
 
+            }
+            else if (self.videos[row].getUploadInProgress()){
+                cell.uploadDownloadIcon.image = UIImage(named: "uploading")
+                cell.uploadDownloadIcon.isHidden = false
+                
+            }
+            else{
+                cell.uploadDownloadIcon.isHidden = true
+            }
+            }.fire()
         cell.id = videos[row].getId()
         return cell
     }
