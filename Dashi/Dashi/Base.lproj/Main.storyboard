@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gxc-NO-NAH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gxc-NO-NAH">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -854,7 +854,6 @@
                         <outlet property="autoDeleteSwitch" destination="hI3-Bn-GlR" id="OVT-f4-EvK"/>
                         <outlet property="retentionCloudDisplay" destination="iFB-8h-yXu" id="NVj-VD-I3t"/>
                         <outlet property="retentionLocalDisplay" destination="5C5-z6-n9d" id="Iyg-sk-R54"/>
-                        <outlet property="retentionPeriodLocalLabel" destination="G7P-45-rt4" id="jV5-4f-ZR4"/>
                         <outlet property="storageLocalDisplay" destination="gRL-ac-ko6" id="niS-E4-mbO"/>
                         <outlet property="wifiOnlyBackupLabel" destination="exL-o6-kzY" id="klW-3A-GdP"/>
                         <outlet property="wifiOnlyBackupSwitch" destination="oRe-FX-qbW" id="lQB-L2-QHb"/>

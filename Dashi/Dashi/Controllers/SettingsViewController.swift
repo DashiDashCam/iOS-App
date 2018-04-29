@@ -17,7 +17,6 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
     @IBOutlet weak var wifiOnlyBackupSwitch: UISwitch!
     @IBOutlet weak var autoBackupSwitch: UISwitch!
     @IBOutlet weak var wifiOnlyBackupLabel: UILabel!
-    @IBOutlet weak var retentionLocalLabel: UILabel!
     
     @IBAction func autoDeleteChanged(_: Any) {
         settings["autoDelete"] = autoDeleteSwitch.isOn
