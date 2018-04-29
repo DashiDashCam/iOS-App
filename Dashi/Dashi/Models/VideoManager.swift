@@ -267,15 +267,26 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
             let temp = video.value(forKey: "downloaded") as? Date
             if (video.value(forKey: "uploadProgress") as! Int32) == 100 &&
                 (ignoreDownloaded || (video.value(forKey: "downloaded") as? Date) == nil) {
-                // Delete the cached video content
-                video.setValue(nil, forKey: "videoContent")
-                video.setValue(nil, forKey: "downloaded")
-                video.setValue(nil, forKey: "downloadProgress")
-                video.setValue("cloud", forKey: "storageStat")
-                do {
-                    try managedContext.save()
-                } catch let error as NSError {
-                    print("Could not fetch. \(error), \(error.localizedDescription)")
+                
+                // Calculate uploaded date based cutoff
+                let downloadDate = video.value(forKey: "uploadDate") as? Date
+                var dayComp = DateComponents()
+                dayComp.second = 30
+                let downloadedCutoffDate = Calendar.current.date(byAdding: dayComp, to: downloadDate!)
+                //Calendar.current.component(.weekday, from: downloadedCutoffDate!)
+                
+                let now = Date()
+                if(downloadedCutoffDate! < now) {
+                    // Delete the cached video content
+                    video.setValue(nil, forKey: "videoContent")
+                    video.setValue(nil, forKey: "downloaded")
+                    video.setValue(nil, forKey: "downloadProgress")
+                    video.setValue("cloud", forKey: "storageStat")
+                    do {
+                        try managedContext.save()
+                    } catch let error as NSError {
+                        print("Could not fetch. \(error), \(error.localizedDescription)")
+                    }
                 }
             }
         }
