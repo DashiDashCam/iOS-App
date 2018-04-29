@@ -99,7 +99,10 @@ class DashiAPI {
         let video = result[0]
 
         video.setValue(progress, forKey: "uploadProgress")
-
+        if(progress == 100) {
+            video.setValue(Date(), forKey: "uploadDate")
+        }
+        
         do {
             try managedContext.save()
         } catch let error as NSError {
