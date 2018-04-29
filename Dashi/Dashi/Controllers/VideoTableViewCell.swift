@@ -10,6 +10,7 @@ import UIKit
 
 class VideoTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var uploadDownloadIcon: UIImageView!
     @IBOutlet weak var location: UILabel!
     @IBOutlet weak var date: UILabel!
     @IBOutlet weak var thumbnail: UIImageView!
