@@ -10,43 +10,45 @@ import UIKit
 import Photos
 import CoreMedia
 import CoreData
-extension CMTime {
-    var durationText: String {
-        let totalSeconds = CMTimeGetSeconds(self)
-        let seconds: Int = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
-        return String(format: "%02i sec", seconds)
-    }
-}
-
-protocol MediaCollectionDelegateProtocol {
-    func mediaSelected(selectedAssets: [String: PHAsset])
-}
+import PromiseKit
+import SwiftyJSON
+import MapKit
 
 class VideosTableViewController: UITableViewController {
-    var assets = [PHAsset]()
-    var selectedAssets = [String: PHAsset]()
-    var delegate: MediaCollectionDelegateProtocol!
-    var videos: [NSManagedObject] = []
-    var dates: [Date] = []
-    var urls: [URL]=[]
+    var videos: [Video] = []
+    
+    let appDelegate =
+        UIApplication.shared.delegate as? AppDelegate
+    // get's video metadata from local db and cloud
     override func viewDidLoad() {
         super.viewDidLoad()
-      getVids()
-
+        getMetaData()
         // navigation bar and back button
         navigationController?.isNavigationBarHidden = false
 
+        // override back button to ensure it always returns to the home screen
+        if let rootVC = navigationController?.viewControllers.first {
+            navigationController?.viewControllers = [rootVC, self]
+        }
+
         // Uncomment the following line to preserve selection between presentations
-     //   self.clearsSelectionOnViewWillAppear = false
+        //   self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
-    override func viewDidAppear(_: Bool) {
-        getVids()
-    }
+    override func viewWillAppear(_: Bool) {
     
+        self.tableView.reloadData()
+
+        // set orientation
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+
+        // lock orientation
+        AppUtility.lockOrientation(.portrait)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -54,79 +56,105 @@ class VideosTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
+    // returns the number of sections(types of cells) that are going to be in the table to the table view controller
     override func numberOfSections(in _: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
+    // returns how many of each type of cell the table has
     override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return videos.count;
+        return videos.count
     }
 
-    func fetchAssets() {
-        PhotoManager().fetchAssetsFromLibrary { success, assets in
-            if success {
-                self.assets = assets!
-            }
-        }
-    }
+    func getMetaData() {
+        var fetchedmeta: [NSManagedObject] = []
 
-    func getVids(){
-        //1
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        let manager=FileManager.default
-        
         let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        //2
+            appDelegate?.persistentContainer.viewContext
+
+        // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        
-        //3
+        fetchRequest.predicate = NSPredicate(format: "accountID == %d",(sharedAccount?.getId())!)
+        fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id", "startLat", "startLong", "endLat", "endLong"]
+        // 3
         do {
-            videos = try managedContext.fetch(fetchRequest)
+            fetchedmeta = (try managedContext?.fetch(fetchRequest))!
         } catch let error as Error {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
-        var i = 0;
-        for video in videos{
-            let data=video.value(forKeyPath: "videoContent") as! Data
-            //dates.append(video.value(forKeyPath: "startDate") as! Date)
-            let filename = String(i) + "vid.mp4"
-            let path = NSTemporaryDirectory()+filename
-            manager.createFile(atPath: path, contents: data, attributes: nil)
-            urls.append(URL(fileURLWithPath: path))
-            i = i+1
-            //  videobytes.append(video.value(forKeyPath: "videoContent") as! NSData)
-        }
-    }
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let row=indexPath.row
-        let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
-        let asset2 = AVAsset(url: urls[row])
-        let imgGenerator = AVAssetImageGenerator(asset: asset2)
-        
-        let cgImage =  try! imgGenerator.copyCGImage(at: CMTimeMake(0, 6), actualTime: nil)
-        // !! check the error before proceeding
-        let thumbnail = UIImage.init(cgImage: cgImage )
-       // let imageView = UIImageView(image: uiImage)
-        //let thumbnail = PhotoManager().getAssetThumbnail(asset: asset)
-        // Configure the cell...
-        let dateFormatter = DateFormatter()
-        
-        // US English Locale (en_US)
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .medium // Jan 2, 2001
-        cell.thumbnail.image = thumbnail
-        cell.date.text =  dateFormatter.string(from: Date()) // Jan 2, 2001
-        cell.location.text = "Location"
 
+        for meta in fetchedmeta {
+
+            let id = meta.value(forKey: "id") as! String
+            let date = meta.value(forKey: "startDate") as! Date
+            let thumbnailData = meta.value(forKey: "thumbnail") as! Data
+            let size = meta.value(forKey: "size") as! Int
+            let length = meta.value(forKey: "length") as! Int
+            let startLat = meta.value(forKey: "startLat") as! CLLocationDegrees
+            let startLong = meta.value(forKey: "startLong") as! CLLocationDegrees
+            let endLat = meta.value(forKey: "endLat") as! CLLocationDegrees
+            let endLong = meta.value(forKey: "endLong") as! CLLocationDegrees
+            // dates.append(video.value(forKeyPath: "startDate") as! Date)
+            let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: startLat, longitude: startLong), endLoc: CLLocationCoordinate2D(latitude: endLat, longitude: endLong))
+            videos.append(video)
+        }
+        videos.sort(by: { $0.getStarted() > $1.getStarted() })
+    }
+
+    // sets cell data for each video
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let row = indexPath.row
+        let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
+
+        let dateFormatter = DateFormatter()
+        let endLoc = CLLocation(latitude: videos[row].getEndLat(), longitude: videos[row].getEndLong())
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(endLoc) { placemarks, error in
+
+            if let e = error {
+
+                print(e)
+
+            } else {
+
+                let placeArray = placemarks as [CLPlacemark]!
+
+                var placeMark: CLPlacemark!
+
+                placeMark = placeArray![0]
+                cell.location.text = placeMark.locality! + ", " + placeMark.country!
+            }
+        }
+
+        // US English Locale (en_US)
+
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        cell.thumbnail.image = videos[row].getThumbnail()
+        cell.date.text = dateFormatter.string(from: videos[row].getStarted())
+         Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true){_ in
+            cell.storageIcon.image = UIImage(named: self.videos[row].getStorageStat())
+            
+        }.fire()
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){_ in
+            if(self.videos[row].getDownloadInProgress()){
+                cell.uploadDownloadIcon.image = UIImage(named: "downloading")
+                cell.uploadDownloadIcon.isHidden = false
+
+            }
+            else if (self.videos[row].getUploadInProgress()){
+                cell.uploadDownloadIcon.image = UIImage(named: "uploading")
+                cell.uploadDownloadIcon.isHidden = false
+                
+            }
+            else{
+                cell.uploadDownloadIcon.isHidden = true
+            }
+            }.fire()
+        cell.id = videos[row].getId()
         return cell
     }
 
@@ -165,17 +193,45 @@ class VideosTableViewController: UITableViewController {
      }
      */
 
-
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let preview = segue.destination as! VideoPreviewViewController
+        let preview = segue.destination as! VideoDetailViewController
         let row = (tableView.indexPath(for: (sender as! UITableViewCell))?.row)!
-        let fileURL = urls[row]
-        preview.fileLocation = fileURL
 
+        let selectedVideo = videos[row]
+
+        preview.selectedVideo = selectedVideo
+    }
+
+    // pass the id of a desired video to delete it from core data
+    func deleteLocal(id: String) {
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
+
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@ && accountID == %d", id, (sharedAccount?.getId())!)
+
+        do {
+
+            content = (try managedContext?.fetch(fetchRequest))!
+            managedContext?.delete(content[0])
+
+            do {
+                // commit changes to context
+                try managedContext!.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+            return
+        }
     }
 }

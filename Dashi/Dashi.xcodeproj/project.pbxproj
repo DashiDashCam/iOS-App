@@ -7,34 +7,50 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F2821CB60E060465D2E38E2 /* Pods_Dashi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D68B438EB114BBD623DF3819 /* Pods_Dashi.framework */; };
+		241CAA1A206453FB0098FD29 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241CAA19206453FB0098FD29 /* SettingsViewController.swift */; };
 		24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */; };
 		2F0328EB1FC0E8AD00944477 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328E91FC0E8AD00944477 /* CloudManager.swift */; };
 		2F0328EC1FC0E8AD00944477 /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */; };
+		2F343E01207AF44900F009F0 /* IMG_1801.MOV in Resources */ = {isa = PBXBuildFile; fileRef = 2F343E00207AF44900F009F0 /* IMG_1801.MOV */; };
 		2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */; };
 		2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */; };
 		2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */; };
 		2F721EE41FB5061500073881 /* VideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F721EE31FB5061500073881 /* VideoTableViewCell.swift */; };
+		2F89D72A203B147E008EEAE9 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F89D729203B147E008EEAE9 /* LocationManager.swift */; };
 		A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F54091F9AD6F5007CD82F /* PlayerView.swift */; };
 		A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */; };
 		A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */; };
 		A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A347FD881F9A9EAF0091973F /* AppDelegate.swift */; };
 		A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A347FD8F1F9A9EAF0091973F /* Assets.xcassets */; };
+		A359F072204092C500DA88BB /* VideoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A359F071204092C500DA88BB /* VideoDetailViewController.swift */; };
 		A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */; };
 		A3CD1C7F1FABC8450061FEAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7A1FABC8450061FEAB /* Main.storyboard */; };
 		A3CD1C801FABC8450061FEAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7C1FABC8450061FEAB /* LaunchScreen.storyboard */; };
 		A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = A3CD1C7E1FABC8450061FEAB /* Base.lproj */; };
 		A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */; };
+		D85BD86320730A8000C27E35 /* TempFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85BD86220730A8000C27E35 /* TempFile.swift */; };
+		D85BD865207FFFC000C27E35 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85BD864207FFFC000C27E35 /* RepeatingTimer.swift */; };
+		D85BD8672080006700C27E35 /* VideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85BD8662080006700C27E35 /* VideoManager.swift */; };
+		D85BD8692080085000C27E35 /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85BD8682080085000C27E35 /* DownloadManager.swift */; };
+		D86D7481201E8E8000F62F4D /* DateConv.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86D7480201E8E8000F62F4D /* DateConv.swift */; };
+		D889C4261FC368280082052A /* DashiAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D889C4251FC368280082052A /* DashiAPI.swift */; };
+		D8FC2A59201A97EB00F3E532 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FC2A58201A97EB00F3E532 /* Account.swift */; };
+		D8FC2A5B201AA9B600F3E532 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FC2A5A201AA9B600F3E532 /* Video.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		241CAA19206453FB0098FD29 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		24A187D91FBBA568002615A8 /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
 		24E684E51FABC0D500F79F9B /* DashiData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DashiData.xcdatamodel; sourceTree = "<group>"; };
 		2F0328E91FC0E8AD00944477 /* CloudManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
+		2F343E00207AF44900F009F0 /* IMG_1801.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_1801.MOV; sourceTree = "<group>"; };
 		2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		2F5B610F1FA8D94000319291 /* VideosTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideosTableViewController.swift; sourceTree = "<group>"; };
 		2F721EE31FB5061500073881 /* VideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTableViewCell.swift; sourceTree = "<group>"; };
+		2F89D729203B147E008EEAE9 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		A31F54091F9AD6F5007CD82F /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		A31F540A1F9AD6F5007CD82F /* VideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		A31F540C1F9AD6F5007CD82F /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
@@ -42,11 +58,23 @@
 		A347FD881F9A9EAF0091973F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A347FD8F1F9A9EAF0091973F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A347FD941F9A9EAF0091973F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A359F071204092C500DA88BB /* VideoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailViewController.swift; sourceTree = "<group>"; };
 		A38A773D1F9D806D0004874F /* VideoPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPreviewViewController.swift; sourceTree = "<group>"; };
 		A3CD1C7B1FABC8450061FEAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A3CD1C7D1FABC8450061FEAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A3CD1C7E1FABC8450061FEAB /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		A3FB0E4C1FAEB06E0023D212 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.debug.xcconfig"; sourceTree = "<group>"; };
+		D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dashi.release.xcconfig"; path = "Pods/Target Support Files/Pods-Dashi/Pods-Dashi.release.xcconfig"; sourceTree = "<group>"; };
+		D68B438EB114BBD623DF3819 /* Pods_Dashi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dashi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D85BD86220730A8000C27E35 /* TempFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempFile.swift; sourceTree = "<group>"; };
+		D85BD864207FFFC000C27E35 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
+		D85BD8662080006700C27E35 /* VideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoManager.swift; sourceTree = "<group>"; };
+		D85BD8682080085000C27E35 /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		D86D7480201E8E8000F62F4D /* DateConv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConv.swift; sourceTree = "<group>"; };
+		D889C4251FC368280082052A /* DashiAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashiAPI.swift; sourceTree = "<group>"; };
+		D8FC2A58201A97EB00F3E532 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		D8FC2A5A201AA9B600F3E532 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F2821CB60E060465D2E38E2 /* Pods_Dashi.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +108,8 @@
 				2F3F053C1FAFFDDF0083FAFB /* SignupViewController.swift */,
 				2F3F053A1FAFFDBE0083FAFB /* LoginViewController.swift */,
 				2F721EE31FB5061500073881 /* VideoTableViewCell.swift */,
+				A359F071204092C500DA88BB /* VideoDetailViewController.swift */,
+				241CAA19206453FB0098FD29 /* SettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -88,6 +119,12 @@
 			children = (
 				2F0328E91FC0E8AD00944477 /* CloudManager.swift */,
 				2F0328EA1FC0E8AD00944477 /* PhotoManager.swift */,
+				D889C4251FC368280082052A /* DashiAPI.swift */,
+				D8FC2A58201A97EB00F3E532 /* Account.swift */,
+				D8FC2A5A201AA9B600F3E532 /* Video.swift */,
+				2F89D729203B147E008EEAE9 /* LocationManager.swift */,
+				D85BD8662080006700C27E35 /* VideoManager.swift */,
+				D85BD8682080085000C27E35 /* DownloadManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -95,9 +132,13 @@
 		2FBC9B4D1FB2A699003C0011 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				2F343E00207AF44900F009F0 /* IMG_1801.MOV */,
 				24A187D81FBBA568002615A8 /* DashiData.xcdatamodeld */,
 				A347FD881F9A9EAF0091973F /* AppDelegate.swift */,
 				A347FD941F9A9EAF0091973F /* Info.plist */,
+				D86D7480201E8E8000F62F4D /* DateConv.swift */,
+				D85BD86220730A8000C27E35 /* TempFile.swift */,
+				D85BD864207FFFC000C27E35 /* RepeatingTimer.swift */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";
@@ -110,12 +151,31 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		3A11E2068AF2C25990420B88 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				24A187D31FBBA2B5002615A8 /* Recovered References */,
+				BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */,
+				D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		3EF5E8C70C77CF745AB68C5A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D68B438EB114BBD623DF3819 /* Pods_Dashi.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A347FD7C1F9A9EAF0091973F = {
 			isa = PBXGroup;
 			children = (
 				A347FD871F9A9EAF0091973F /* Dashi */,
 				A347FD861F9A9EAF0091973F /* Products */,
-				24A187D31FBBA2B5002615A8 /* Recovered References */,
+				3A11E2068AF2C25990420B88 /* Pods */,
+				3EF5E8C70C77CF745AB68C5A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,9 +209,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A347FD971F9A9EAF0091973F /* Build configuration list for PBXNativeTarget "Dashi" */;
 			buildPhases = (
+				CCB5FD44773DB2353E4B116E /* [CP] Check Pods Manifest.lock */,
 				A347FD811F9A9EAF0091973F /* Sources */,
 				A347FD821F9A9EAF0091973F /* Frameworks */,
 				A347FD831F9A9EAF0091973F /* Resources */,
+				6BFEA52FFD5BECFED5DD9DFE /* [CP] Embed Pods Frameworks */,
+				221C13EA8A6AA195019C4E2A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -200,6 +263,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F343E01207AF44900F009F0 /* IMG_1801.MOV in Resources */,
 				A3CD1C801FABC8450061FEAB /* LaunchScreen.storyboard in Resources */,
 				A347FD901F9A9EAF0091973F /* Assets.xcassets in Resources */,
 				A3CD1C811FABC8450061FEAB /* Base.lproj in Resources */,
@@ -209,22 +273,93 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		221C13EA8A6AA195019C4E2A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dashi/Pods-Dashi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6BFEA52FFD5BECFED5DD9DFE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Dashi/Pods-Dashi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Arcane/Arcane.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Arcane.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dashi/Pods-Dashi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CCB5FD44773DB2353E4B116E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Dashi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A347FD811F9A9EAF0091973F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A359F072204092C500DA88BB /* VideoDetailViewController.swift in Sources */,
 				2F0328EB1FC0E8AD00944477 /* CloudManager.swift in Sources */,
 				24A187DA1FBBA568002615A8 /* DashiData.xcdatamodeld in Sources */,
+				241CAA1A206453FB0098FD29 /* SettingsViewController.swift in Sources */,
+				D889C4261FC368280082052A /* DashiAPI.swift in Sources */,
 				A3FB0E4D1FAEB06E0023D212 /* HomeViewController.swift in Sources */,
 				2F3F053D1FAFFDDF0083FAFB /* SignupViewController.swift in Sources */,
+				D8FC2A59201A97EB00F3E532 /* Account.swift in Sources */,
 				2F721EE41FB5061500073881 /* VideoTableViewCell.swift in Sources */,
+				D85BD865207FFFC000C27E35 /* RepeatingTimer.swift in Sources */,
 				A31F54131F9AD6F5007CD82F /* MenuTableViewController.swift in Sources */,
+				2F89D72A203B147E008EEAE9 /* LocationManager.swift in Sources */,
 				A347FD891F9A9EAF0091973F /* AppDelegate.swift in Sources */,
 				2F0328EC1FC0E8AD00944477 /* PhotoManager.swift in Sources */,
 				A31F54111F9AD6F5007CD82F /* VideoViewController.swift in Sources */,
+				D86D7481201E8E8000F62F4D /* DateConv.swift in Sources */,
+				D85BD8672080006700C27E35 /* VideoManager.swift in Sources */,
 				2F5B61101FA8D94000319291 /* VideosTableViewController.swift in Sources */,
+				D85BD86320730A8000C27E35 /* TempFile.swift in Sources */,
+				D85BD8692080085000C27E35 /* DownloadManager.swift in Sources */,
 				A38A773E1F9D806D0004874F /* VideoPreviewViewController.swift in Sources */,
+				D8FC2A5B201AA9B600F3E532 /* Video.swift in Sources */,
 				A31F54101F9AD6F5007CD82F /* PlayerView.swift in Sources */,
 				2F3F053B1FAFFDBE0083FAFB /* LoginViewController.swift in Sources */,
 			);
@@ -361,10 +496,11 @@
 		};
 		A347FD981F9A9EAF0091973F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE0E6449C1C4B632C49C8D03 /* Pods-Dashi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F69WJ27LN4;
+				DEVELOPMENT_TEAM = 5263K5LLWX;
 				INFOPLIST_FILE = Dashi/SupportFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;
@@ -378,10 +514,11 @@
 		};
 		A347FD991F9A9EAF0091973F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D421366F3B5F63A7235F4A66 /* Pods-Dashi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = F69WJ27LN4;
+				DEVELOPMENT_TEAM = 5263K5LLWX;
 				INFOPLIST_FILE = "$(SRCROOT)/Dashi/SupportFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Dashi.Dashi;

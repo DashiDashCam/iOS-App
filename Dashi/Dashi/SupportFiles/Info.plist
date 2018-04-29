@@ -20,8 +20,17 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This app will use the camera for video recording.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Allow this app to use your current location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow this app to use your current location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app will use the microphone for voice recording.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

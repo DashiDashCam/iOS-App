@@ -9,26 +9,48 @@
 import UIKit
 import AVFoundation
 import CoreMedia
-
-class HomeViewController: UIViewController, loggedIn {
-   var isLoggedIn=false
-    func initialSetup() {
-        isLoggedIn=true
-    }
-    
+import PromiseKit
+class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-         self.performSegue(withIdentifier: "loginSegue", sender: self)
+
+        // Login automatically with stored refresh token if one exists
+        if DashiAPI.fetchStoredRefreshToken() {
+            DashiAPI.loginWithToken().then { _ -> Void in
+                print("Authenticated with stored refresh token")
+            }
+        } else {
+            performSegue(withIdentifier: "loginSegue", sender: self)
+        }
 
         // hide navigation bar
         navigationController?.isNavigationBarHidden = true
+
+        // set orientation
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+
+        // lock orientation
+        AppUtility.lockOrientation(.portrait)
     }
-    override func viewDidAppear(_ animated: Bool) {
+
+    @IBAction func unwindToMenu(segue _: UIStoryboardSegue) {}
+
+    @IBAction func logout(_: Any) {
+        DashiAPI.logout().then { val -> Void in
+            print(val)
+            self.performSegue(withIdentifier: "loginSegue", sender: self)
+        }
+    }
+    override func viewWillAppear(_: Bool) {
         navigationController?.isNavigationBarHidden = true
 
         /* if(!isLoggedIn){
-        self.performSegue(withIdentifier: "loginSegue", sender: self)
-        }*/
+         self.performSegue(withIdentifier: "loginSegue", sender: self)
+         }*/
+    }
+
+    override func viewWillDisappear(_: Bool) {
+        navigationController?.isNavigationBarHidden = false
     }
 }

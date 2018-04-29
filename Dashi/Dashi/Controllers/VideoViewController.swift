@@ -9,13 +9,21 @@
 import UIKit
 import AVFoundation
 import CoreMedia
+import CoreLocation
+import CoreData
 
-class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
+class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegate, locationHandlerDelegate {
+    func handleUpdate(coordinate: CLLocationCoordinate2D) {
+        currentLoc = coordinate
+    }
 
     @IBOutlet weak var previewView: UIView! // displays capture stream
     @IBOutlet weak var recordButton: UIButton! // stop/start recording
     @IBOutlet weak var toggleButton: UIButton! // switch camera
     @IBOutlet weak var backButton: UIButton! // custom back button
+
+    let appDelegate =
+        UIApplication.shared.delegate as? AppDelegate
 
     let captureSession = AVCaptureSession()
     var videoCaptureDevice: AVCaptureDevice?
@@ -23,14 +31,40 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     var movieFileOutput = AVCaptureMovieFileOutput()
     var allowSwitch = true
     var outputFileLocation: URL?
+    var simulatorRecording = false
+    let locationManager = LocationManager()
+    var startLoc: CLLocationCoordinate2D!
+    var endLoc: CLLocationCoordinate2D!
+    var currentLoc: CLLocationCoordinate2D!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
+        locationManager.delegate = self
+        locationManager.startLocUpdate()
         // hide navigation bar
         navigationController?.isNavigationBarHidden = true
         initializeCamera()
+
+        // add observer for recognizing device rotation
+        NotificationCenter.default.addObserver(self, selector: #selector(VideoViewController.deviceRotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+
+        // lock view orientation to portrait - doesn't lock video orientation
+        AppUtility.lockOrientation(.portrait)
+
+        setVideoOrientation()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // Unlock orientation
+        AppUtility.lockOrientation(.all)
     }
 
     // hide status bar
@@ -50,6 +84,26 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         }
     }
 
+    // detect the rotation of the device
+    @objc func deviceRotated() {
+        // the device is in landscape, rotate the appropriate buttons
+        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+            if UIDevice.current.orientation == .landscapeLeft {
+                toggleButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+                backButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2)
+            } else if UIDevice.current.orientation == .landscapeRight {
+                toggleButton.transform = CGAffineTransform(rotationAngle: -1 * (CGFloat.pi / 2))
+                backButton.transform = CGAffineTransform(rotationAngle: -1 * (CGFloat.pi / 2))
+            }
+        }
+
+        // reset rotation of buttons when phone is portrait
+        if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
+            toggleButton.transform = CGAffineTransform(rotationAngle: 0)
+            backButton.transform = CGAffineTransform(rotationAngle: 0)
+        }
+    }
+
     // MARK: Button Actions
 
     // custom back button to leave this view
@@ -59,21 +113,35 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
 
     // stop and start recording based off recording state
     @IBAction func recordVideoButtonPressed(sender _: AnyObject) {
-        print("button pressed at \(Date())")
-        if movieFileOutput.isRecording {
+        // end recording
+        if movieFileOutput.isRecording || simulatorRecording {
             // stop recording
-            movieFileOutput.stopRecording()
-        } else {
-            // start recording
+            movieFileOutput.stopRecording() // calls fileOutput() method below
 
-            // set video orientation of movie file output
-            movieFileOutput.connection(with: AVMediaType.video)?.videoOrientation = videoOrientation()
+            // stop recording the simulator
+            if TARGET_OS_SIMULATOR != 0 {
+                // save the placeholdervideo
+                outputFileLocation = NSURL.fileURL(withPath: Bundle.main.path(forResource: "IMG_1801", ofType: "MOV")!)
+                saveVideoToCoreData()
 
-            movieFileOutput.maxRecordedDuration = maxRecordedDuration()
+                // force seque to previousTrips
+                performSegue(withIdentifier: "previousTrips", sender: nil)
+                updateRecordButtonTitle()
+            }
+        } else { // start recording
+            startLoc = currentLoc
+            // not running simulator
+            if TARGET_OS_SIMULATOR == 0 {
+                // set video orientation of movie file output
+                movieFileOutput.connection(with: AVMediaType.video)?.videoOrientation = videoOrientation()
 
-            // start recording
-            movieFileOutput.startRecording(to: URL(fileURLWithPath: videoFileLocation()), // output file
-                                           recordingDelegate: self)
+                // start recording
+                movieFileOutput.startRecording(to: URL(fileURLWithPath: videoFileLocation()), // output file
+                                               recordingDelegate: self)
+            } else {
+                print("Recording in simulator")
+                simulatorRecording = true
+            }
         }
 
         updateRecordButtonTitle()
@@ -219,8 +287,14 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         // set output file location
         self.outputFileLocation = outputFileURL
 
-        // seque to videoPreview
-        self.performSegue(withIdentifier: "videoPreview", sender: nil)
+        // set end location
+        self.endLoc = self.currentLoc
+
+        // automatically save video to core data
+        self.saveVideoToCoreData()
+
+        // seque to previousTrips
+        self.performSegue(withIdentifier: "previousTrips", sender: nil)
     }
 
     // MARK: Helpers
@@ -239,13 +313,6 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             self.allowSwitch = true
             recordButton.setImage(UIImage(named: "record off"), for: .normal)
         }
-    }
-
-    // sets the maximum time a session can be recorded for
-    func maxRecordedDuration() -> CMTime {
-        let seconds: Int64 = 10
-        let preferredTimeScale: Int32 = 1
-        return CMTimeMake(seconds, preferredTimeScale)
     }
 
     /*
@@ -292,14 +359,87 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         return nil
     }
 
-    // MARK: - Navigation
+    // save the video to core data
+    func saveVideoToCoreData() {
+        // load recorded video into asset
+        let asset = AVURLAsset(url: self.outputFileLocation!)
+
+        let currentVideo = Video(started: Date(), asset: asset, startLoc: startLoc, endLoc: startLoc)
+
+        let managedContext =
+            appDelegate!.persistentContainer.viewContext
+
+        let entity =
+            NSEntityDescription.entity(forEntityName: "Videos",
+                                       in: managedContext)!
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", currentVideo.getId(), (sharedAccount?.getId())!)
+        var result: [NSManagedObject] = []
+        // 3
+        do {
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+
+        if result.isEmpty {
+            let video = NSManagedObject(entity: entity,
+                                        insertInto: managedContext)
+            video.setValue(sharedAccount?.getId(), forKey: "accountID")
+            video.setValue(currentVideo.getId(), forKeyPath: "id")
+            video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
+            video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
+            video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
+            video.setValue(currentVideo.getLength(), forKeyPath: "length")
+            video.setValue(currentVideo.getSize(), forKey: "size")
+            video.setValue(currentVideo.getStartLat(), forKey: "startLat")
+            video.setValue(currentVideo.getStartLong(), forKey: "startLong")
+            video.setValue(currentVideo.getEndLat(), forKey: "endLat")
+            video.setValue(currentVideo.getEndLong(), forKey: "endLong")
+            video.setValue("local", forKey: "storageStat")
+            video.setValue(nil, forKey: "downloaded")
+            //            video.setValue(100, forKey: "downloadProgress")
+            video.setValue(0, forKey: "uploadProgress")
+            video.setValue(false, forKey: "uploadInProgress")
+            video.setValue(false, forKey: "downloadInProgress")
+            do {
+                try managedContext.save()
+                //                self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        } else {
+            //            self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
+            print("already saved")
+        }
+    }
 
     // prepare to seque to another view
     override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
 
-        let preview = segue.destination as! VideoPreviewViewController
-        preview.fileLocation = self.outputFileLocation // triggers loading of video
+        let table = segue.destination as! VideosTableViewController
+
+        // running simulator
+        //        if TARGET_OS_SIMULATOR != 0 {
+        //            print("stopped recording")
+        //            guard let path = Bundle.main.path(forResource: "IMG_1800", ofType: "MOV") else {
+        //                debugPrint("Placeholder video not found")
+        //                return
+        //            }
+        ////            saveVideoToCoreData()
+        //        }
+    }
+}
+
+// additional struct for locking orientation
+struct AppUtility {
+    static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
+        if let delegate = UIApplication.shared.delegate as? AppDelegate {
+            delegate.orientationLock = orientation
+        }
     }
 }

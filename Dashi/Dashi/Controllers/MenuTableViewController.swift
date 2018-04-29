@@ -16,6 +16,13 @@ class MenuTableViewController: UIViewController {
 
         //        self.tableView.backgroundView = nil
         //        self.tableView.backgroundColor = UIColor.darkGray
+
+        // set orientation
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+
+        // lock orientation
+        AppUtility.lockOrientation(.portrait)
     }
 
     override func didReceiveMemoryWarning() {

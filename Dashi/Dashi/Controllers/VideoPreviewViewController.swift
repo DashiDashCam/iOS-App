@@ -10,13 +10,16 @@ import UIKit
 import AVKit
 import AVFoundation
 import CoreData
+import PromiseKit
+import CoreLocation
 
 class VideoPreviewViewController: UIViewController {
-
+    var startLoc: CLLocationCoordinate2D!
+    var endLoc: CLLocationCoordinate2D!
+    let appDelegate =
+        UIApplication.shared.delegate as? AppDelegate
     // keys to ensure playability of video
     static let assetKeysRequiredToPlay = ["playable", "hasProtectedContent"]
-
-
     //    let cloudURL = "http://api.dashidashcam.com/Videos/id/content"
     let cloudURL = "https://private-anon-1a08190e46-dashidashcam.apiary-mock.com/Account/Videos/id"
     // player for playing the AV asset1
@@ -56,14 +59,12 @@ class VideoPreviewViewController: UIViewController {
     }
 
     @IBOutlet weak var playerView: PlayerView! // where video actually displays
-    @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var pushToCloudButton: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
-
         // observer for the status of the current item
         addObserver(self, forKeyPath: "player.currentItem.status", options: .new, context: nil)
 
@@ -75,12 +76,21 @@ class VideoPreviewViewController: UIViewController {
 
         // set the player layer to the AVPlayer object
         self.playerView.playerLayer.player = player
+
+        // hide the navigation bar
+        self.navigationController?.isNavigationBarHidden = true
+
+        // Unlock orientation
+        AppUtility.lockOrientation(.all)
     }
 
     // remove the observers from viewDidLoad()
     override func viewWillDisappear(_: Bool) {
         removeObserver(self, forKeyPath: "player.currentItem.status", context: nil)
         removeObserver(self, forKeyPath: "player.rate", context: nil)
+
+        // show the navigation bar
+        self.navigationController?.isNavigationBarHidden = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -124,93 +134,11 @@ class VideoPreviewViewController: UIViewController {
 
     // MARK: Actions
     @IBAction func closePreview() {
-        self.dismiss(animated: true, completion: nil)
-    }
-
-    @IBAction func saveToLibrary() {
-        self.saveVideoToUserLibrary()
-        self.saveVideoToCoreData()
+        self.navigationController?.popViewController(animated: true)
     }
 
     @IBAction func playPauseButtonPressed() {
         self.updatePlayPauseButton()
-    }
-
-
-    @IBAction func pushToCloud() {
-        // set up the initial request: header information
-        var request = URLRequest(url: URL(string: self.cloudURL)!)
-        request.httpMethod = "PUT"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        // the duration of the video
-        let movieLength = Float((asset?.duration.value)!) / Float((asset?.duration.timescale)!)
-
-        // when the video started
-        let movieStart = self.videoEndTimestamp.addingTimeInterval(TimeInterval(-1 * movieLength))
-
-        print("duration: \(movieLength) seconds")
-        print("size: \(asset?.fileSize ?? 0)")
-        print("start: \(movieStart)")
-
-        // convert the headers to JSON
-        let headers: [String: Any] = [
-            "started": String(describing: movieStart),
-            "length": String(describing: movieLength),
-            "size": String(describing: asset?.fileSize),
-        ]
-
-        do {
-            let headers_jsonData = try JSONSerialization.data(withJSONObject: headers, options: .prettyPrinted)
-            let headers_jsonString = String(data: headers_jsonData, encoding: .utf8)
-
-            // push header request
-            var request = URLRequest(url: URL(string: self.cloudURL)!)
-            request.httpMethod = "PUT"
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.addValue("Bearer eyJhbGciOiJIUzI1NiJ9e30XmN", forHTTPHeaderField: "Authorization")
-
-            // set json data as the HTTP Body
-            request.httpBody = headers_jsonString?.data(using: .utf8)
-
-            let task = URLSession.shared.dataTask(with: request) { _, response, error in
-                if let response = response as? HTTPURLResponse {
-                    print("------------")
-                    // push headers was successful
-                    if response.statusCode == 200 {
-                        // push the video body
-                        var request = URLRequest(url: URL(string: self.cloudURL)!)
-                        request.httpMethod = "PUT"
-                        request.addValue("video/mpeg", forHTTPHeaderField: "Content-Type")
-                        request.addValue("Bearer eyJhbGciOiJIUzI1NiJ9e30XmN", forHTTPHeaderField: "Authorization")
-
-                        // set the data of the video to be
-                        request.httpBody = NSData(contentsOf: self.fileLocation!) as Data?
-
-                        let task = URLSession.shared.dataTask(with: request) { _, response, error in
-                            if let response = response as? HTTPURLResponse {
-                                // push video body was successful
-                                if response.statusCode == 200 {
-                                    self.showAlert(title: "Success", message: "Your trip was saved in the cloud.", dismiss: true)
-                                }
-                            } else {
-                                self.showAlert(title: "Error", message: "Unable to push to cloud. Please try again.", dismiss: true)
-                                print(error as Any)
-                            }
-                        }
-
-                        task.resume()
-                    }
-                } else {
-                    self.showAlert(title: "Error", message: "Unable to push to cloud. Please try again.", dismiss: true)
-                    print(error as Any)
-                }
-            }
-
-            task.resume()
-        } catch {
-            print(error.localizedDescription)
-        }
     }
 
     // MARK: Callbacks
@@ -224,7 +152,6 @@ class VideoPreviewViewController: UIViewController {
         if keyPath == "player.currentItem.status" {
             // make buttons visible to user
             playPauseButton.isHidden = false
-            saveButton.isHidden = false
         }
     }
 
@@ -237,48 +164,57 @@ class VideoPreviewViewController: UIViewController {
 
     // MARK: Helpers
 
-    // save the video to the user's library
-    func saveVideoToUserLibrary() {
-        PhotoManager().saveVideoToUserLibrary(fileUrl: self.fileLocation!) { success, error in
-            if success {
-                self.showAlert(title: "Success", message: "Video saved.", dismiss: true)
-            } else {
-                self.showAlert(title: "Error", message: (error?.localizedDescription)!, dismiss: false)
-            }
-        }
-    }
-
     // save the video to core data
-    func saveVideoToCoreData(){
-        
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
+    func saveVideoToCoreData() {
+        let currentVideo = Video(started: Date(), asset: asset!, startLoc: startLoc, endLoc: endLoc)
+
         let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
+            appDelegate!.persistentContainer.viewContext
+
         let entity =
             NSEntityDescription.entity(forEntityName: "Videos",
                                        in: managedContext)!
-        
-        let video = NSManagedObject(entity: entity,
-                                     insertInto: managedContext)
-        
-        let videoData = NSData(contentsOf: (self.fileLocation)!)
-
-        video.setValue(2, forKeyPath: "id")
-        video.setValue(videoData, forKeyPath: "videoContent")
-        print("done")
-        
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["videoContent"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", currentVideo.getId())
+        var result: [NSManagedObject] = []
+        // 3
         do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+            result = (try managedContext.fetch(fetchRequest))
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+
+        if result.isEmpty {
+            let video = NSManagedObject(entity: entity,
+                                        insertInto: managedContext)
+
+            video.setValue(currentVideo.getId(), forKeyPath: "id")
+            video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
+            video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
+            video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
+            video.setValue(currentVideo.getLength(), forKeyPath: "length")
+            video.setValue(currentVideo.getSize(), forKey: "size")
+            video.setValue(currentVideo.getStartLat(), forKey: "startLat")
+            video.setValue(currentVideo.getStartLong(), forKey: "startLong")
+            video.setValue(currentVideo.getEndLat(), forKey: "endLat")
+            video.setValue(currentVideo.getEndLong(), forKey: "endLong")
+            video.setValue("local", forKey: "storageStat")
+            video.setValue(0, forKey: "uploadProgress")
+            video.setValue(nil, forKey: "downloaded")
+
+            do {
+                try managedContext.save()
+                self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+        } else {
+            self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
         }
     }
-    
+
     // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -314,7 +250,6 @@ class VideoPreviewViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
-
 }
 
 // returns the size in bytes of a AVURLAsset
@@ -325,5 +260,4 @@ extension AVURLAsset {
 
         return resourceValues?.fileSize ?? resourceValues?.totalFileSize
     }
-
 }
