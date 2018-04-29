@@ -175,10 +175,11 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
                 let endLong = video.value(forKey: "endLong") as! CLLocationDegrees
 
                 let obj = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: startLat, longitude: startLong), endLoc: CLLocationCoordinate2D(latitude: endLat, longitude: endLong))
-
+                obj.updateUploadInProgress(status: true)
                 DashiAPI.uploadVideoMetaData(video: obj).then { _ -> Void in
                     DashiAPI.uploadVideoContent(id: id, url: getUrlForLocal(id: id)!).then { _ -> Void in
                         obj.changeStorageToBoth()
+                        obj.updateUploadInProgress(status: false)
                     }
                 }
             }
