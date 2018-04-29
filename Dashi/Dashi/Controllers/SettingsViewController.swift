@@ -17,12 +17,11 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
     @IBOutlet weak var wifiOnlyBackupSwitch: UISwitch!
     @IBOutlet weak var autoBackupSwitch: UISwitch!
     @IBOutlet weak var wifiOnlyBackupLabel: UILabel!
-    @IBOutlet weak var retentionLocalLabel: UILabel!
-    
+
     @IBAction func autoDeleteChanged(_: Any) {
         settings["autoDelete"] = autoDeleteSwitch.isOn
-        //retentionLocalDisplay.isEnabled = autoDeleteSwitch.isOn
-        //retentionLocalLabel.isEnabled = autoDeleteSwitch.isOn
+        // retentionLocalDisplay.isEnabled = autoDeleteSwitch.isOn
+        // retentionLocalLabel.isEnabled = autoDeleteSwitch.isOn
     }
 
     @IBAction func wifiOnlyChanged(_: Any) {
@@ -144,13 +143,13 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
         retentionCloudDisplay.inputAccessoryView = ViewForDoneButtonOnKeyboard
 
         settings = (sharedAccount?.getSettings())!
-        let autoBackupSwitchValue : Bool = settings["autoBackup"] as! Bool
+        let autoBackupSwitchValue: Bool = settings["autoBackup"] as! Bool
         autoBackupSwitch.isOn = autoBackupSwitchValue
         autoDeleteSwitch.isOn = settings["autoDelete"] as! Bool
         wifiOnlyBackupSwitch.isOn = settings["wifiOnlyBackup"] as! Bool
         wifiOnlyBackupSwitch.isEnabled = autoBackupSwitchValue
         wifiOnlyBackupLabel.isEnabled = autoBackupSwitchValue
-        
+
         let locRetent = settings["localRetentionTime"] as! Int
         let cloudRetent = settings["cloudRetentionTime"] as! Int
         let maxLocStorage = settings["maxLocalStorage"] as! Int
