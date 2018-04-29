@@ -16,7 +16,7 @@ import MapKit
 
 class VideosTableViewController: UITableViewController {
     var videos: [Video] = []
-    let geoCoder = CLGeocoder()
+    
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
     // get's video metadata from local db and cloud
@@ -111,7 +111,7 @@ class VideosTableViewController: UITableViewController {
 
         let dateFormatter = DateFormatter()
         let endLoc = CLLocation(latitude: videos[row].getEndLat(), longitude: videos[row].getEndLong())
-
+        let geoCoder = CLGeocoder()
         geoCoder.reverseGeocodeLocation(endLoc) { placemarks, error in
 
             if let e = error {
