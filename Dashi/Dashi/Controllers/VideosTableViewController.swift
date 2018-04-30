@@ -16,7 +16,7 @@ import MapKit
 
 class VideosTableViewController: UITableViewController {
     var videos: [Video] = []
-    
+
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
     // get's video metadata from local db and cloud
@@ -39,7 +39,7 @@ class VideosTableViewController: UITableViewController {
     }
 
     override func viewWillAppear(_: Bool) {
-    
+
         self.tableView.reloadData()
 
         // set orientation
@@ -77,7 +77,7 @@ class VideosTableViewController: UITableViewController {
         // 2
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.predicate = NSPredicate(format: "accountID == %d",(sharedAccount?.getId())!)
+        fetchRequest.predicate = NSPredicate(format: "accountID == %d", (sharedAccount?.getId())!)
         fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id", "startLat", "startLong", "endLat", "endLong"]
         // 3
         do {
@@ -125,7 +125,7 @@ class VideosTableViewController: UITableViewController {
                 var placeMark: CLPlacemark!
 
                 placeMark = placeArray![0]
-                cell.location.text = placeMark.locality! + ", " + placeMark.country!
+                cell.location.text = placeMark.locality!
             }
         }
 
@@ -135,25 +135,23 @@ class VideosTableViewController: UITableViewController {
         dateFormatter.timeStyle = .short
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted())
-         Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true){_ in
+        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
             cell.storageIcon.image = UIImage(named: self.videos[row].getStorageStat())
-            
+
         }.fire()
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){_ in
-            if(self.videos[row].getDownloadInProgress()){
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+            if self.videos[row].getDownloadInProgress() {
                 cell.uploadDownloadIcon.image = UIImage(named: "downloading")
                 cell.uploadDownloadIcon.isHidden = false
 
-            }
-            else if (self.videos[row].getUploadInProgress()){
+            } else if self.videos[row].getUploadInProgress() {
                 cell.uploadDownloadIcon.image = UIImage(named: "uploading")
                 cell.uploadDownloadIcon.isHidden = false
-                
-            }
-            else{
+
+            } else {
                 cell.uploadDownloadIcon.isHidden = true
             }
-            }.fire()
+        }.fire()
         cell.id = videos[row].getId()
         return cell
     }
