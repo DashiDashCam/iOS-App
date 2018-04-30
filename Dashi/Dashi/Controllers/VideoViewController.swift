@@ -11,6 +11,7 @@ import AVFoundation
 import CoreMedia
 import CoreLocation
 import CoreData
+import SVGKit
 
 class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegate, locationHandlerDelegate {
     func handleUpdate(coordinate: CLLocationCoordinate2D) {
@@ -45,6 +46,9 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
         // hide navigation bar
         navigationController?.isNavigationBarHidden = true
         initializeCamera()
+
+        let recordOffImage = SVGKImage(named: "record off")
+        recordButton.setImage(recordOffImage?.uiImage, for: .normal)
 
         // add observer for recognizing device rotation
         NotificationCenter.default.addObserver(self, selector: #selector(VideoViewController.deviceRotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
@@ -308,10 +312,14 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
     func updateRecordButtonTitle() {
         if !self.movieFileOutput.isRecording {
             self.allowSwitch = false
-            recordButton.setImage(UIImage(named: "record on"), for: .normal)
+
+            let recordOnImage = SVGKImage(named: "record on")
+            recordButton.setImage(recordOnImage?.uiImage, for: .normal)
+
         } else {
             self.allowSwitch = true
-            recordButton.setImage(UIImage(named: "record off"), for: .normal)
+            let recordOffImage = SVGKImage(named: "record off")
+            recordButton.setImage(recordOffImage?.uiImage, for: .normal)
         }
     }
 
