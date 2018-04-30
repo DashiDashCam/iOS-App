@@ -14,6 +14,7 @@ import CoreData
 import PromiseKit
 import AVFoundation
 import AVKit
+import SVGKit
 
 class VideoDetailViewController: UIViewController {
     var selectedVideo: Video!
@@ -73,8 +74,13 @@ class VideoDetailViewController: UIViewController {
         if selectedVideo.getUploadInProgress() {
             showUploadProgress()
         }
-        localIcon.image = UIImage(named: "local")
-        cloudIcon.image = UIImage(named: "cloud")
+
+        let localSVG: SVGKImage = SVGKImage(named: "local")
+        let cloudSVG: SVGKImage = SVGKImage(named: "cloud")
+
+        localIcon.image = localSVG.uiImage
+        cloudIcon.image = cloudSVG.uiImage
+
         checkStatusTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.viewUpdater()
         })
