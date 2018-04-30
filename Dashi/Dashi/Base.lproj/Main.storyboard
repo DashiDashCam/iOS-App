@@ -42,10 +42,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFV-je-gRe">
-                                <rect key="frame" x="158" y="587" width="60" height="60"/>
+                                <rect key="frame" x="143" y="572" width="90" height="90"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="Avx-PN-cJU"/>
-                                    <constraint firstAttribute="width" constant="60" id="eLl-1H-dZo"/>
+                                    <constraint firstAttribute="height" constant="90" id="Avx-PN-cJU"/>
+                                    <constraint firstAttribute="width" constant="90" id="eLl-1H-dZo"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" image="record off"/>
@@ -72,7 +72,7 @@
                             <constraint firstItem="mwH-Xj-alT" firstAttribute="leading" secondItem="NvD-xC-iDL" secondAttribute="leadingMargin" id="2IC-rI-zni"/>
                             <constraint firstItem="xFV-je-gRe" firstAttribute="centerX" secondItem="cpy-bu-ULb" secondAttribute="centerX" id="62q-u4-ylo"/>
                             <constraint firstItem="cpy-bu-ULb" firstAttribute="leading" secondItem="NvD-xC-iDL" secondAttribute="leading" id="E81-uF-lzJ"/>
-                            <constraint firstAttribute="bottom" secondItem="xFV-je-gRe" secondAttribute="bottom" constant="20" symbolic="YES" id="Tct-Pb-slv"/>
+                            <constraint firstAttribute="bottom" secondItem="xFV-je-gRe" secondAttribute="bottom" constant="5" id="Tct-Pb-slv"/>
                             <constraint firstItem="fYf-jW-5sq" firstAttribute="centerY" secondItem="xFV-je-gRe" secondAttribute="centerY" id="ULk-ib-r3I"/>
                             <constraint firstItem="cpy-bu-ULb" firstAttribute="bottom" secondItem="Rbz-ff-HnS" secondAttribute="top" id="W4b-vb-dWG"/>
                             <constraint firstItem="cpy-bu-ULb" firstAttribute="top" secondItem="4OG-uj-jfI" secondAttribute="bottom" id="ZJU-jQ-Nuf"/>
@@ -1044,6 +1044,6 @@
         <image name="switch" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2wZ-e2-AG5"/>
+        <segue reference="9eM-jC-Tl4"/>
     </inferredMetricsTieBreakers>
 </document>
