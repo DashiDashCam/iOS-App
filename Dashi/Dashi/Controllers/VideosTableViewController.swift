@@ -13,6 +13,7 @@ import CoreData
 import PromiseKit
 import SwiftyJSON
 import MapKit
+import SVGKit
 
 class VideosTableViewController: UITableViewController {
     var videos: [Video] = []
@@ -136,16 +137,30 @@ class VideosTableViewController: UITableViewController {
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted())
         Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
-            cell.storageIcon.image = UIImage(named: self.videos[row].getStorageStat())
+            cell.storageIcon.image = UIImage(named: self.videos[row].getStorageStat()) // idk why, but don't delete this
+
+            // set storage image based off stat
+            var storageImage: SVGKImage
+            let storageStat = self.videos[row].getStorageStat()
+
+            // video hasn't been uploaded
+            if storageStat == "local" {
+                storageImage = SVGKImage(named: "local")
+            } else {
+                storageImage = SVGKImage(named: "cloud")
+            }
+            cell.storageIcon.image = storageImage.uiImage
 
         }.fire()
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
             if self.videos[row].getDownloadInProgress() {
-                cell.uploadDownloadIcon.image = UIImage(named: "downloading")
+                var namSvgImgVar: SVGKImage = SVGKImage(named: "download")
+                cell.uploadDownloadIcon.image = namSvgImgVar.uiImage
                 cell.uploadDownloadIcon.isHidden = false
 
             } else if self.videos[row].getUploadInProgress() {
-                cell.uploadDownloadIcon.image = UIImage(named: "uploading")
+                var namSvgImgVar: SVGKImage = SVGKImage(named: "upload")
+                cell.uploadDownloadIcon.image = namSvgImgVar.uiImage
                 cell.uploadDownloadIcon.isHidden = false
 
             } else {
