@@ -132,10 +132,15 @@ class VideosTableViewController: UITableViewController {
 
         // US English Locale (en_US)
 
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
+        dateFormatter.dateFormat = "MMMM dd"
+        //        dateFormatter.timeStyle = .short
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted())
+
+        // set time
+        dateFormatter.dateFormat = "hh:mm a"
+        cell.time.text = dateFormatter.string(from: videos[row].getStarted())
+
         Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
             cell.storageIcon.image = UIImage(named: self.videos[row].getStorageStat()) // idk why, but don't delete this
 
