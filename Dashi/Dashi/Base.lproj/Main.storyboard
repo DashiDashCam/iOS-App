@@ -308,6 +308,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="0.41176470590000003" green="0.66666666669999997" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="q0R-9r-2Dd" firstAttribute="leading" secondItem="fKq-Ev-LRD" secondAttribute="trailing" constant="46" id="0rj-8O-i8s"/>
                             <constraint firstItem="nrg-TV-FFG" firstAttribute="leading" secondItem="cKC-Km-GYU" secondAttribute="leadingMargin" constant="71" id="23Z-rl-uOn"/>
@@ -465,6 +466,7 @@
                                     <navigationItem title="Sign Up" id="Xz1-W8-Cr9">
                                         <barButtonItem key="backBarButtonItem" title="Log In" id="LsY-tb-91N"/>
                                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="RMU-9p-eeZ">
+                                            <color key="tintColor" red="0.41176470590000003" green="0.66666666669999997" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <action selector="exitPushed:" destination="gFz-cT-npz" id="thB-QE-XsB"/>
                                             </connections>
@@ -568,7 +570,9 @@
                                     <constraint firstAttribute="height" constant="42" id="XFP-UR-nF3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <state key="normal" title="Sign Up"/>
+                                <state key="normal" title="Sign Up">
+                                    <color key="titleColor" red="0.41176470590000003" green="0.66666666669999997" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="signUpPushed:" destination="gFz-cT-npz" eventType="touchUpInside" id="Ees-LV-uhR"/>
                                 </connections>
@@ -972,6 +976,7 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KGa-uK-6k5">
                                 <rect key="frame" x="157.5" y="233" width="60" height="42"/>
+                                <color key="tintColor" red="0.41176470590000003" green="0.66666666669999997" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal">
                                     <attributedString key="attributedTitle">
                                         <fragment content="Login">
@@ -997,6 +1002,7 @@
                                     <constraint firstAttribute="width" constant="73" id="Jac-vQ-fz0"/>
                                     <constraint firstAttribute="height" constant="21" id="e8j-xs-9jq"/>
                                 </constraints>
+                                <color key="tintColor" red="0.41176470590000003" green="0.66666666669999997" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal">
                                     <attributedString key="attributedTitle">
                                         <fragment content="Sign Up">

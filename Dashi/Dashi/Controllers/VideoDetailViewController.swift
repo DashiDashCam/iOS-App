@@ -49,6 +49,13 @@ class VideoDetailViewController: UIViewController {
         super.viewDidLoad()
         loadVideoContent()
 
+        // make back button green
+        navigationController?.navigationBar.tintColor = UIColor(red: 88 / 255, green: 157 / 255, blue: 76 / 255, alpha: 1)
+
+        // make image border grey
+        videoThumbnail.layer.borderWidth = 2
+        videoThumbnail.layer.borderColor = UIColor.darkGray.cgColor
+
         // create tap gesture recognizer for when user taps thumbnail
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
         // add it to the image view;
