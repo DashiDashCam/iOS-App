@@ -32,18 +32,19 @@ class VideoDetailViewController: UIViewController {
     var id: String!
     var updateDownloadProgressTimer: Timer!
 
-    @IBOutlet weak var localIcon: UIImageView!
-    @IBOutlet weak var cloudIcon: UIImageView!
+
     var updateUploadProgressTimer: Timer?
 
     var checkStatusTimer: Timer?
 
+    @IBOutlet weak var storageIcon: UIImageView!
     var lastStatus: String?
 
     var uploadProgDisplayed: Bool = false
 
     var downloadProgDisplayed: Bool = false
 
+    @IBOutlet weak var uploadDownloadIcon: UIImageView!
     override func viewDidLoad() {
 
         super.viewDidLoad()
@@ -82,40 +83,51 @@ class VideoDetailViewController: UIViewController {
             showUploadProgress()
         }
 
-        let localSVG: SVGKImage = SVGKImage(named: "local")
-        let cloudSVG: SVGKImage = SVGKImage(named: "cloud")
-
-        localIcon.image = localSVG.uiImage
-        cloudIcon.image = cloudSVG.uiImage
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+            if self.selectedVideo.getDownloadInProgress() {
+                var namSvgImgVar: SVGKImage = SVGKImage(named: "download")
+                self.uploadDownloadIcon.image = namSvgImgVar.uiImage
+                self.uploadDownloadIcon.isHidden = false
+                
+            } else if self.selectedVideo.getUploadInProgress() {
+                let namSvgImgVar: SVGKImage = SVGKImage(named: "upload")
+                self.uploadDownloadIcon.image = namSvgImgVar.uiImage
+                self.uploadDownloadIcon.isHidden = false
+                
+            } else {
+                self.uploadDownloadIcon.isHidden = true
+            }
+            }.fire()
+       
+    
 
         checkStatusTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.viewUpdater()
         })
-
+        var storageImage: SVGKImage
+        // video hasn't been uploaded
+    
         if uploadStatus == "local" {
             print("local")
-
+             storageImage = SVGKImage(named: "local")
             // show Upload to Cloud
             uploadToCloud.isHidden = false
             shareButton.isHidden = true
-            localIcon.isHidden = false
-            cloudIcon.isHidden = true
             downloadFromCloud.isHidden = true
 
         } else if uploadStatus == "cloud" {
-            cloudIcon.isHidden = false
             shareButton.isHidden = false
-            localIcon.isHidden = true
             uploadToCloud.isHidden = true
+              storageImage = SVGKImage(named: "cloud")
         } else {
             // hide Upload to Cloud if video is in cloud
             shareButton.isHidden = false
             uploadToCloud.isHidden = true
             downloadFromCloud.isHidden = true
+              storageImage = SVGKImage(named: "cloud")
             // TODO: replace with statusbar
-            localIcon.isHidden = false
-            cloudIcon.isHidden = false
         }
+        storageIcon.image = storageImage.uiImage
         lastStatus = uploadStatus
     }
 
@@ -368,21 +380,19 @@ class VideoDetailViewController: UIViewController {
             showDownloadProgress()
         }
         let uploadStatus = selectedVideo.getStorageStat()
+        var storageImage: SVGKImage
         if lastStatus != uploadStatus {
             if uploadStatus == "local" {
                 // show Upload to Cloud
                 uploadToCloud.isHidden = false
                 shareButton.isHidden = true
-                localIcon.isHidden = false
-                cloudIcon.isHidden = true
                 downloadFromCloud.isHidden = true
+                storageImage = SVGKImage(named: "local")
 
             } else if uploadStatus == "cloud" {
-                cloudIcon.isHidden = false
                 shareButton.isHidden = false
-                localIcon.isHidden = true
                 uploadToCloud.isHidden = true
-
+                storageImage = SVGKImage(named: "cloud")
                 // if uploadToCloud hasn't been hidden yet, let the upload to cloud progress timer handle
                 // showing the download button
                 if uploadToCloud.isHidden {
@@ -394,10 +404,10 @@ class VideoDetailViewController: UIViewController {
                 uploadToCloud.isHidden = true
                 downloadFromCloud.isHidden = true
                 // TODO: replace with statusbar
-                localIcon.isHidden = false
-                cloudIcon.isHidden = false
+                storageImage = SVGKImage(named: "cloud")
             }
             lastStatus = uploadStatus
+            storageIcon.image = storageImage.uiImage
         }
     }
 

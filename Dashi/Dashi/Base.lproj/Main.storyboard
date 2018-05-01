@@ -274,7 +274,7 @@
                                 <rect key="frame" x="16" y="391" width="343" height="2"/>
                                 <color key="tintColor" red="0.41176470588235292" green="0.66666666666666663" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </progressView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wPx-jF-3PV">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wPx-jF-3PV" userLabel="Storage Icon">
                                 <rect key="frame" x="311" y="72" width="48" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="BeA-i0-1g2"/>
@@ -349,11 +349,11 @@
                     <connections>
                         <outlet property="VideoDate" destination="fKq-Ev-LRD" id="HlU-AQ-QSr"/>
                         <outlet property="VideoTime" destination="WtE-Gr-Psp" id="pvg-fP-0sW"/>
-                        <outlet property="cloudIcon" destination="q0R-9r-2Dd" id="Pwg-Ta-6uK"/>
                         <outlet property="downloadFromCloud" destination="nrg-TV-FFG" id="ERU-ey-iww"/>
-                        <outlet property="localIcon" destination="wPx-jF-3PV" id="mZD-jz-uF6"/>
                         <outlet property="progressBar" destination="A8Q-n0-ZIo" id="yoN-yY-ZqU"/>
                         <outlet property="shareButton" destination="tCI-hj-7xk" id="QEf-q5-5z5"/>
+                        <outlet property="storageIcon" destination="wPx-jF-3PV" id="bqh-xs-sx7"/>
+                        <outlet property="uploadDownloadIcon" destination="q0R-9r-2Dd" id="A88-Oz-rOz"/>
                         <outlet property="uploadToCloud" destination="teG-Sz-wcO" id="vp2-44-ccl"/>
                         <outlet property="videoDate" destination="fKq-Ev-LRD" id="863-34-xL6"/>
                         <outlet property="videoLength" destination="gSY-Tl-6Kr" id="aHI-b8-Dee"/>
