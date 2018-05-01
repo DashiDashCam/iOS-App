@@ -104,6 +104,13 @@ class VideoDetailViewController: UIViewController {
             downloadProgress.text = "Downloaded to Device"
         }
         lastStatus = uploadStatus
+        
+        // set orientation
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+        
+        // lock orientation
+        AppUtility.lockOrientation(.portrait)
     }
 
     override func viewWillDisappear(_: Bool) {
