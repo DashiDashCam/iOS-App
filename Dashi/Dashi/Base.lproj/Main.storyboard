@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gxc-NO-NAH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gxc-NO-NAH">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -269,7 +269,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-TV-FFG">
-                                <rect key="frame" x="110.5" y="563" width="152" height="16"/>
+                                <rect key="frame" x="111" y="563" width="152" height="16"/>
                                 <state key="normal" title="Download From Cloud"/>
                                 <connections>
                                     <action selector="downloadVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="EUg-6X-CgS"/>
@@ -282,10 +282,17 @@
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="teG-Sz-wcO">
-                                <rect key="frame" x="131.5" y="556" width="111" height="30"/>
+                                <rect key="frame" x="132" y="556" width="111" height="30"/>
                                 <state key="normal" title="Upload to Cloud"/>
                                 <connections>
                                     <action selector="pushToCloud:" destination="V0s-R8-uJe" eventType="touchUpInside" id="hNQ-pQ-RWr"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOE-M7-bof">
+                                <rect key="frame" x="126" y="587" width="121" height="30"/>
+                                <state key="normal" title="Delete from Local"/>
+                                <connections>
+                                    <action selector="deleteVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="qHz-yq-SVD"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -294,6 +301,7 @@
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="firstBaseline" secondItem="WtE-Gr-Psp" secondAttribute="firstBaseline" id="08Y-DO-oqw"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="leading" secondItem="fKq-Ev-LRD" secondAttribute="leading" id="0Wy-M4-0Nu"/>
                             <constraint firstItem="tCI-hj-7xk" firstAttribute="centerX" secondItem="teG-Sz-wcO" secondAttribute="centerX" id="0nx-F5-sQC"/>
+                            <constraint firstItem="cOE-M7-bof" firstAttribute="top" secondItem="nrg-TV-FFG" secondAttribute="bottom" constant="8" symbolic="YES" id="16w-4c-sOS"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="trailing" secondItem="gSY-Tl-6Kr" secondAttribute="trailing" id="2xL-Ls-k4p"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="top" secondItem="4YS-yv-EmS" secondAttribute="bottom" constant="8" symbolic="YES" id="4mt-Bw-1Ms"/>
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="top" secondItem="teG-Sz-wcO" secondAttribute="bottom" constant="60" id="AbK-zh-Cor"/>
@@ -318,6 +326,7 @@
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="centerY" secondItem="WtE-Gr-Psp" secondAttribute="centerY" id="fbs-pu-q3j"/>
                             <constraint firstItem="QAa-tW-XuK" firstAttribute="top" secondItem="WtE-Gr-Psp" secondAttribute="bottom" constant="2" id="iZt-jM-KdS"/>
                             <constraint firstItem="gSY-Tl-6Kr" firstAttribute="top" secondItem="fKq-Ev-LRD" secondAttribute="bottom" constant="14" id="lJR-k1-9Z3"/>
+                            <constraint firstItem="cOE-M7-bof" firstAttribute="centerX" secondItem="nrg-TV-FFG" secondAttribute="centerX" id="lil-wd-HeD"/>
                             <constraint firstItem="teG-Sz-wcO" firstAttribute="centerX" secondItem="nrg-TV-FFG" secondAttribute="centerX" id="mVg-74-LIP"/>
                             <constraint firstItem="YHS-f5-UEK" firstAttribute="top" secondItem="60K-Wr-D8l" secondAttribute="bottom" constant="20" id="mw6-aP-z87"/>
                             <constraint firstItem="nrg-TV-FFG" firstAttribute="top" secondItem="tCI-hj-7xk" secondAttribute="bottom" constant="13" id="pQB-w2-eiZ"/>
@@ -335,6 +344,7 @@
                     <connections>
                         <outlet property="VideoDate" destination="fKq-Ev-LRD" id="HlU-AQ-QSr"/>
                         <outlet property="VideoTime" destination="WtE-Gr-Psp" id="pvg-fP-0sW"/>
+                        <outlet property="deleteLocalButton" destination="cOE-M7-bof" id="Z0l-YV-p4k"/>
                         <outlet property="downloadFromCloud" destination="nrg-TV-FFG" id="ERU-ey-iww"/>
                         <outlet property="downloadProgress" destination="dmD-ah-gUB" id="029-ya-TLi"/>
                         <outlet property="progressBar" destination="A8Q-n0-ZIo" id="yoN-yY-ZqU"/>

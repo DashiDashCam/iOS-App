@@ -29,7 +29,8 @@ class VideoDetailViewController: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var downloadFromCloud: UIButton!
     @IBOutlet weak var shareButton: UIButton!
-
+    @IBOutlet weak var deleteLocalButton: UIButton!
+    
     @IBOutlet weak var uploadProgress: UILabel!
     var id: String!
     var updateDownloadProgressTimer: Timer!
@@ -85,6 +86,7 @@ class VideoDetailViewController: UIViewController {
             uploadToCloud.isHidden = false
             shareButton.isHidden = true
             downloadProgress.text = "Downloaded to Device"
+            deleteLocalButton.isHidden = false
             uploadProgress.isHidden = true
             downloadFromCloud.isHidden = true
 
@@ -93,12 +95,14 @@ class VideoDetailViewController: UIViewController {
             shareButton.isHidden = false
             uploadProgress.text = "Uploaded to Cloud"
             downloadProgress.isHidden = true
+            deleteLocalButton.isHidden = true
             uploadToCloud.isHidden = true
         } else {
             // hide Upload to Cloud if video is in cloud
             shareButton.isHidden = false
             uploadToCloud.isHidden = true
             downloadFromCloud.isHidden = true
+            deleteLocalButton.isHidden = false
             // TODO: replace with statusbar
             uploadProgress.text = "Uploaded to Cloud"
             downloadProgress.text = "Downloaded to Device"
@@ -313,6 +317,7 @@ class VideoDetailViewController: UIViewController {
                 self.shareButton.isHidden = false
                 if self.selectedVideo.getStorageStat() == "cloud" {
                     self.downloadFromCloud.isHidden = false
+                    self.deleteLocalButton.isHidden = true
                 }
             })
         }
@@ -340,6 +345,9 @@ class VideoDetailViewController: UIViewController {
             updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
                 self.progressBar.isHidden = true
                 self.downloadFromCloud.isHidden = true
+                self.deleteLocalButton.isHidden = false
+                self.downloadFromCloud.setTitle("Download from Cloud", for: .normal)
+                self.downloadFromCloud.isEnabled = true
             })
             progressBar.isHidden = true
         }
@@ -360,6 +368,7 @@ class VideoDetailViewController: UIViewController {
                 downloadProgress.isHidden = false
                 uploadProgress.isHidden = true
                 downloadProgress.text = "Downloaded to Device"
+                deleteLocalButton.isHidden = false
             } else if uploadStatus == "cloud" {
                 downloadProgress.isHidden = true
                 uploadProgress.isHidden = false
@@ -369,17 +378,40 @@ class VideoDetailViewController: UIViewController {
                 // showing the download button
                 if uploadToCloud.isHidden {
                     downloadFromCloud.isHidden = false
+                    deleteLocalButton.isHidden = true
                 }
             } else {
                 downloadProgress.isHidden = false
                 uploadProgress.isHidden = false
                 uploadProgress.text = "Uploaded to Cloud"
                 downloadProgress.text = "Downloaded to Device"
+                deleteLocalButton.isHidden = false
             }
             lastStatus = uploadStatus
         }
     }
 
+    @IBAction func deleteVideo(_ sender: Any) {
+        let this = self
+        if self.selectedVideo.getStorageStat() == "local"{
+            let alert = UIAlertController(title: "Delete Permanently?", message: "No cloud backup exists for this video. Deleting the local content now will be irreversible!", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                this.updateUploadProgressTimer?.invalidate()
+                this.updateDownloadProgressTimer?.invalidate()
+                this.checkStatusTimer?.invalidate()
+                VideoManager.deleteInvidualVideo(id: this.selectedVideo.getId())
+                this.navigationController?.popViewController(animated: true)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            self.present(alert, animated: true)
+        }
+        else{
+            VideoManager.deleteInvidualVideo(id: self.selectedVideo.getId())
+        }
+    }
+    
     @IBAction func shareVideoLink() {
         let this = self
         DashiAPI.createDownloadLink(id: id).then { videoLink -> Void in

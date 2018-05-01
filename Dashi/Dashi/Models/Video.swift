@@ -32,6 +32,7 @@ class Video {
     var downloadProgress: Int!
     var uploadInProgress: Bool!
     var downloadInProgress: Bool!
+    var deleted: Bool! = false
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
     var managedContext: NSManagedObjectContext
@@ -118,8 +119,6 @@ class Video {
     
     public func getUploadInProgress() -> Bool {
         updateProgressFromCoreData()
-        print("uploadInProgress")
-        print(uploadInProgress)
         return uploadInProgress
     }
     
@@ -213,6 +212,28 @@ class Video {
 
     public func getEndLong() -> CLLocationDegrees {
         return endLong
+    }
+    
+    public func wasDeleted() -> Bool {
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
+        
+        // 2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["id"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
+        // 3
+        do {
+            content = (try managedContext?.fetch(fetchRequest))!
+            if(content.count > 0){
+                return false
+            }
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        return true
     }
 
     func getStorageStatFromCore() {

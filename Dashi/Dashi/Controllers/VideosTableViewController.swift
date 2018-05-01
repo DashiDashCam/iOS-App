@@ -16,6 +16,7 @@ import MapKit
 
 class VideosTableViewController: UITableViewController {
     var videos: [Video] = []
+    var timer: Timer?
     
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
@@ -48,6 +49,48 @@ class VideosTableViewController: UITableViewController {
 
         // lock orientation
         AppUtility.lockOrientation(.portrait)
+        
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){_ in
+            let cells = self.tableView.visibleCells as! Array<VideoTableViewCell>
+            self.tableView.beginUpdates()
+            var indexToRemove : IndexPath? = nil
+            for cell in cells{
+                let indexPath = self.tableView.indexPath(for: cell)
+                let row = indexPath?.row
+                //prevent code from firing if video was deleted in videoDetail
+                if(!self.videos[row!].wasDeleted()){
+                    cell.storageIcon.image = UIImage(named: self.videos[row!].getStorageStat())
+                    if(self.videos[row!].getDownloadInProgress()){
+                        cell.uploadDownloadIcon.image = UIImage(named: "downloading")
+                        cell.uploadDownloadIcon.isHidden = false
+                        
+                    }
+                    else if (self.videos[row!].getUploadInProgress()){
+                        cell.uploadDownloadIcon.image = UIImage(named: "uploading")
+                        cell.uploadDownloadIcon.isHidden = false
+                        
+                    }
+                    else{
+                        cell.uploadDownloadIcon.isHidden = true
+                    }
+                }
+                else{
+                    indexToRemove = indexPath
+                }
+            }
+            //I am assuming it is impossible for a user to be able to delete more than one video
+            //in under 0.5 seconds, so only 1 cell will ever need to be removed at a time
+            if(indexToRemove != nil){
+                self.videos.remove(at: (indexToRemove?.row)!)
+                self.tableView.deleteRows(at: [indexToRemove!], with: .automatic)
+            }
+            self.tableView.endUpdates()
+        }
+        timer?.fire()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        timer?.invalidate()
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,6 +109,11 @@ class VideosTableViewController: UITableViewController {
     override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return videos.count
+    }
+    
+    // allows a row to be deleted
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
     }
 
     func getMetaData() {
@@ -135,25 +183,6 @@ class VideosTableViewController: UITableViewController {
         dateFormatter.timeStyle = .short
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted())
-         Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true){_ in
-            cell.storageIcon.image = UIImage(named: self.videos[row].getStorageStat())
-            
-        }.fire()
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){_ in
-            if(self.videos[row].getDownloadInProgress()){
-                cell.uploadDownloadIcon.image = UIImage(named: "downloading")
-                cell.uploadDownloadIcon.isHidden = false
-
-            }
-            else if (self.videos[row].getUploadInProgress()){
-                cell.uploadDownloadIcon.image = UIImage(named: "uploading")
-                cell.uploadDownloadIcon.isHidden = false
-                
-            }
-            else{
-                cell.uploadDownloadIcon.isHidden = true
-            }
-            }.fire()
         cell.id = videos[row].getId()
         return cell
     }
