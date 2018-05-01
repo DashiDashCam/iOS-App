@@ -321,7 +321,9 @@ class VideoDetailViewController: UIViewController {
         uploadToCloud.isEnabled = true
         uploadProgDisplayed = true
         selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
+        uploadToCloud.setTitleColor(UIColor.darkGray, for: .normal)
         uploadToCloud.setTitle("Uploading...", for: .normal)
+
         updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.uploadProgTask()
         })
@@ -332,7 +334,9 @@ class VideoDetailViewController: UIViewController {
         let progress = Float(selectedVideo.getUploadProgress()) / 100.0
         if progress >= 1.0 {
             updateUploadProgressTimer?.invalidate()
-            uploadToCloud.setTitle("Video backed up", for: .normal)
+            uploadToCloud.setTitle("Video backed up.", for: .normal)
+            //            downloadFromCloud.setTitleColor(UIColor.darkGray, for: .normal)
+
             updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
                 self.progressBar.isHidden = true
                 self.uploadToCloud.isHidden = true
@@ -351,7 +355,9 @@ class VideoDetailViewController: UIViewController {
         progressBar.isHidden = false
         downloadFromCloud.isEnabled = false
         downloadProgDisplayed = true
-        downloadFromCloud.setTitle("Downloading", for: .normal)
+        downloadFromCloud.setTitle("Downloading...", for: .normal)
+        downloadFromCloud.setTitleColor(UIColor.darkGray, for: .normal)
+
         updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.downloadProgTask()
         })
@@ -362,10 +368,12 @@ class VideoDetailViewController: UIViewController {
         let progress = Float(selectedVideo.getDownloadProgress()) / 100.0
         if progress >= 1.0 {
             updateDownloadProgressTimer?.invalidate()
-            downloadFromCloud.setTitle("Download Complete", for: .normal)
+            downloadFromCloud.setTitle("Video downloaded.", for: .normal)
+            downloadFromCloud.setTitleColor(UIColor.darkGray, for: .normal)
+
             updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
                 self.progressBar.isHidden = true
-                self.downloadFromCloud.isHidden = true
+                self.downloadFromCloud.isHidden = false
             })
             progressBar.isHidden = true
         }
@@ -398,12 +406,14 @@ class VideoDetailViewController: UIViewController {
                 // showing the download button
                 if uploadToCloud.isHidden {
                     downloadFromCloud.isHidden = false
+                    downloadFromCloud.setTitleColor(UIColor(red: 88 / 255, green: 157 / 255, blue: 76 / 255, alpha: 1), for: .normal)
                 }
             } else {
                 // hide Upload to Cloud if video is in cloud
                 shareButton.isHidden = false
                 uploadToCloud.isHidden = true
-                downloadFromCloud.isHidden = true
+                downloadFromCloud.isHidden = false
+
                 // TODO: replace with statusbar
                 storageImage = SVGKImage(named: "cloud")
             }
