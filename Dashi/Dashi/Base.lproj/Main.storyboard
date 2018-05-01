@@ -286,8 +286,8 @@
                                     <constraint firstAttribute="width" constant="48" id="FYG-3J-DtP"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="videoLength" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSY-Tl-6Kr">
-                                <rect key="frame" x="16" y="442" width="95" height="27"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="videoLength" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gSY-Tl-6Kr">
+                                <rect key="frame" x="16" y="442" width="182" height="27"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="27" id="3et-ig-BKh"/>
                                     <constraint firstAttribute="width" constant="95" id="5gS-J7-ill"/>

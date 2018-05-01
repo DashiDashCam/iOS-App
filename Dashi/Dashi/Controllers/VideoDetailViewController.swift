@@ -32,7 +32,6 @@ class VideoDetailViewController: UIViewController {
     var id: String!
     var updateDownloadProgressTimer: Timer!
 
-
     var updateUploadProgressTimer: Timer?
 
     var checkStatusTimer: Timer?
@@ -75,6 +74,10 @@ class VideoDetailViewController: UIViewController {
     override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
         progressBar.isHidden = true
+
+        // make progress bar taller
+        progressBar.transform = progressBar.transform.scaledBy(x: 1, y: 5)
+
         let uploadStatus = selectedVideo.getStorageStat()
         if selectedVideo.getDownloadInProgress() {
             showDownloadProgress()
@@ -88,28 +91,26 @@ class VideoDetailViewController: UIViewController {
                 var namSvgImgVar: SVGKImage = SVGKImage(named: "download")
                 self.uploadDownloadIcon.image = namSvgImgVar.uiImage
                 self.uploadDownloadIcon.isHidden = false
-                
+
             } else if self.selectedVideo.getUploadInProgress() {
                 let namSvgImgVar: SVGKImage = SVGKImage(named: "upload")
                 self.uploadDownloadIcon.image = namSvgImgVar.uiImage
                 self.uploadDownloadIcon.isHidden = false
-                
+
             } else {
                 self.uploadDownloadIcon.isHidden = true
             }
-            }.fire()
-       
-    
+        }.fire()
 
         checkStatusTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.viewUpdater()
         })
         var storageImage: SVGKImage
         // video hasn't been uploaded
-    
+
         if uploadStatus == "local" {
             print("local")
-             storageImage = SVGKImage(named: "local")
+            storageImage = SVGKImage(named: "local")
             // show Upload to Cloud
             uploadToCloud.isHidden = false
             shareButton.isHidden = true
@@ -118,13 +119,13 @@ class VideoDetailViewController: UIViewController {
         } else if uploadStatus == "cloud" {
             shareButton.isHidden = false
             uploadToCloud.isHidden = true
-              storageImage = SVGKImage(named: "cloud")
+            storageImage = SVGKImage(named: "cloud")
         } else {
             // hide Upload to Cloud if video is in cloud
             shareButton.isHidden = false
             uploadToCloud.isHidden = true
             downloadFromCloud.isHidden = true
-              storageImage = SVGKImage(named: "cloud")
+            storageImage = SVGKImage(named: "cloud")
             // TODO: replace with statusbar
         }
         storageIcon.image = storageImage.uiImage
