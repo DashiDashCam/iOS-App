@@ -321,7 +321,7 @@ class VideoDetailViewController: UIViewController {
         uploadToCloud.isEnabled = true
         uploadProgDisplayed = true
         selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
-        uploadToCloud.setTitle("Uploading", for: .normal)
+        uploadToCloud.setTitle("Uploading...", for: .normal)
         updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.uploadProgTask()
         })
@@ -332,7 +332,7 @@ class VideoDetailViewController: UIViewController {
         let progress = Float(selectedVideo.getUploadProgress()) / 100.0
         if progress >= 1.0 {
             updateUploadProgressTimer?.invalidate()
-            uploadToCloud.setTitle("Upload Complete", for: .normal)
+            uploadToCloud.setTitle("Video backed up", for: .normal)
             updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
                 self.progressBar.isHidden = true
                 self.uploadToCloud.isHidden = true
