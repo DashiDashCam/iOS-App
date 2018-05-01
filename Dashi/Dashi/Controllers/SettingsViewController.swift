@@ -102,6 +102,9 @@ class SettingsViewController: UITableViewController, UIPickerViewDataSource, UIP
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // set title
+        title = "Settings"
+
         // set orientation
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")

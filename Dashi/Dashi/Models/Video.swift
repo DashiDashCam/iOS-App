@@ -116,17 +116,17 @@ class Video {
         updateProgressFromCoreData()
         return downloadProgress
     }
-    
+
     public func getUploadInProgress() -> Bool {
         updateProgressFromCoreData()
         return uploadInProgress
     }
-    
+
     public func getDownloadInProgress() -> Bool {
         updateProgressFromCoreData()
         return downloadInProgress
     }
-    
+
     public func getContent() -> Data? {
         do {
             return try Data(contentsOf: asset!.url)
@@ -259,57 +259,57 @@ class Video {
     // gets progress from core data
     func updateProgressFromCoreData() {
 
-            var content: [NSManagedObject]
-            let managedContext =
-                appDelegate?.persistentContainer.viewContext
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
 
-            // 2
-            let fetchRequest =
-                NSFetchRequest<NSManagedObject>(entityName: "Videos")
-            fetchRequest.propertiesToFetch = ["uploadProgress", "downloadProgress","uploadInProgress","downloadInProgress"]
-            fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
-            // 3
-            do {
-                content = (try managedContext?.fetch(fetchRequest))!
-                var uProg = content[0].value(forKey: "uploadProgress") as? Int
-                if(uProg == nil){
-                    uProg = 0
-                }
-                var dProg = content[0].value(forKey: "downloadProgress") as? Int
-                if(dProg == nil){
-                    dProg = 0
-                }
-                uploadProgress = uProg!
-                downloadProgress = dProg!
-                uploadInProgress = content[0].value(forKey: "uploadInProgress") as! Bool
-                downloadInProgress = content[0].value(forKey: "downloadInProgress") as! Bool
-            } catch let error as NSError {
-                print("Could not fetch. \(error), \(error.localizedDescription)")
+        // 2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["uploadProgress", "downloadProgress", "uploadInProgress", "downloadInProgress"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        // 3
+        do {
+            content = (try managedContext?.fetch(fetchRequest))!
+            var uProg = content[0].value(forKey: "uploadProgress") as? Int
+            if uProg == nil {
+                uProg = 0
             }
+            var dProg = content[0].value(forKey: "downloadProgress") as? Int
+            if dProg == nil {
+                dProg = 0
+            }
+            uploadProgress = uProg!
+            downloadProgress = dProg!
+            uploadInProgress = content[0].value(forKey: "uploadInProgress") as! Bool
+            downloadInProgress = content[0].value(forKey: "downloadInProgress") as! Bool
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
     }
 
     // helper function for converting seconds to hours
     func secondsToHoursMinutesSeconds() -> (Int, Int, Int) {
         return (length / 3600, (length % 3600) / 60, (length % 3600) % 60)
     }
-    
-    func updateUploadProgress( progress: Int){
+
+    func updateUploadProgress(progress: Int) {
         updateFieldViaCoreDB(key: "uploadProgress", value: progress)
     }
-    
-    func updateUploadInProgress( status: Bool){
+
+    func updateUploadInProgress(status: Bool) {
         updateFieldViaCoreDB(key: "uploadInProgress", value: status)
     }
-    
-      func updateDownloadProgress(  progress: Int){
+
+    func updateDownloadProgress(progress: Int) {
         updateFieldViaCoreDB(key: "downloadProgress", value: progress)
     }
-    
-    func updateDownloadInProgress( status: Bool){
+
+    func updateDownloadInProgress(status: Bool) {
         updateFieldViaCoreDB(key: "downloadInProgress", value: status)
     }
-    
-    private func updateFieldViaCoreDB(key: String, value: Any){
+
+    private func updateFieldViaCoreDB(key: String, value: Any) {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -330,9 +330,8 @@ class Video {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
         let video = result[0]
-        
+
         video.setValue(value, forKey: key)
-        
 
         do {
             try managedContext.save()
