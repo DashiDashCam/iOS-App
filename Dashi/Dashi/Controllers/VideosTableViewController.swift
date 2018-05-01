@@ -141,7 +141,7 @@ class VideosTableViewController: UITableViewController {
         dateFormatter.dateFormat = "hh:mm a"
         cell.time.text = dateFormatter.string(from: videos[row].getStarted())
 
-        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             cell.storageIcon.image = UIImage(named: self.videos[row].getStorageStat()) // idk why, but don't delete this
 
             // set storage image based off stat
