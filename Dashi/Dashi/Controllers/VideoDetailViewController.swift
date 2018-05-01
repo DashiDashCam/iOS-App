@@ -143,7 +143,7 @@ class VideoDetailViewController: UIViewController {
         // if the tapped view is a UIImageView then set it to imageview
         if (gesture.view as? UIImageView) != nil {
             if selectedVideo.getStorageStat() == "cloud" {
-                let alert = UIAlertController(title: "Video not downloaded", message: "Would you like to download it?", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Video has been deleted", message: "Would you like to download it from the cloud?", preferredStyle: .alert)
                 let yes = UIAlertAction(title: "Yes", style: .default) { _ in
                     self.downloadVideo(self)
                 }
