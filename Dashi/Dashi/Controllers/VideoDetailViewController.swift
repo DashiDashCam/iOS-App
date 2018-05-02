@@ -476,7 +476,7 @@ class VideoDetailViewController: UIViewController {
             present(alert, animated: true)
         } else {
             VideoManager.deleteInvidualVideo(id: selectedVideo.getId())
-            deleteLocalButton.setTitle("Local copy deleted", for: .normal)
+            deleteLocalButton.setTitle("Deleted from device.", for: .normal)
             deleteLocalButton.setTitleColor(.darkGray, for: .normal)
             delayStatusSwitch = 2
         }

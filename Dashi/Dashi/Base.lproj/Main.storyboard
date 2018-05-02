@@ -286,6 +286,30 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-TV-FFG">
+                                <rect key="frame" x="87" y="550" width="200" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="9nM-gB-Zyd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Download from cloud">
+                                    <color key="titleColor" red="0.41176470588235292" green="0.66666666666666663" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="downloadVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="EUg-6X-CgS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOE-M7-bof">
+                                <rect key="frame" x="106" y="590" width="163" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="nQ6-UT-0ol"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Delete from device"/>
+                                <connections>
+                                    <action selector="deleteVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="qHz-yq-SVD"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="teG-Sz-wcO">
                                 <rect key="frame" x="117" y="506" width="140" height="36"/>
                                 <constraints>
@@ -299,47 +323,23 @@
                                     <action selector="pushToCloud:" destination="V0s-R8-uJe" eventType="touchUpInside" id="hNQ-pQ-RWr"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-TV-FFG">
-                                <rect key="frame" x="92" y="550" width="200" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="9nM-gB-Zyd"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Download from cloud">
-                                    <color key="titleColor" red="0.41176470588235292" green="0.66666666666666663" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="downloadVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="EUg-6X-CgS"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOE-M7-bof">
-                                <rect key="frame" x="106" y="588" width="163" height="36"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="nQ6-UT-0ol"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Delete from device"/>
-                                <connections>
-                                    <action selector="deleteVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="qHz-yq-SVD"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" red="0.41176470590000003" green="0.66666666669999997" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="q0R-9r-2Dd" firstAttribute="leading" secondItem="fKq-Ev-LRD" secondAttribute="trailing" constant="46" id="0rj-8O-i8s"/>
-                            <constraint firstItem="nrg-TV-FFG" firstAttribute="leading" secondItem="cKC-Km-GYU" secondAttribute="leadingMargin" constant="76" id="39T-HU-56M"/>
+                            <constraint firstItem="nrg-TV-FFG" firstAttribute="leading" secondItem="cKC-Km-GYU" secondAttribute="leadingMargin" constant="71" id="39T-HU-56M"/>
                             <constraint firstItem="wPx-jF-3PV" firstAttribute="leading" secondItem="q0R-9r-2Dd" secondAttribute="trailing" constant="19" id="4eh-Wx-Mal"/>
                             <constraint firstItem="EsS-EU-Sgb" firstAttribute="baseline" secondItem="WtE-Gr-Psp" secondAttribute="baseline" id="4zc-ua-Mht"/>
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="trailing" secondItem="60K-Wr-D8l" secondAttribute="trailing" id="6By-pU-Ri9"/>
-                            <constraint firstItem="cOE-M7-bof" firstAttribute="top" secondItem="nrg-TV-FFG" secondAttribute="bottom" constant="6" id="9Qg-RQ-6d3"/>
+                            <constraint firstItem="cOE-M7-bof" firstAttribute="top" secondItem="nrg-TV-FFG" secondAttribute="bottom" constant="8" id="9Qg-RQ-6d3"/>
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="top" secondItem="60K-Wr-D8l" secondAttribute="bottom" constant="8" symbolic="YES" id="DQ3-ZA-rOe"/>
                             <constraint firstItem="wPx-jF-3PV" firstAttribute="trailing" secondItem="60K-Wr-D8l" secondAttribute="trailing" id="EXH-xG-JWl"/>
                             <constraint firstItem="q0R-9r-2Dd" firstAttribute="top" secondItem="4YS-yv-EmS" secondAttribute="bottom" constant="8" symbolic="YES" id="GkY-zB-Ezl"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="top" secondItem="fKq-Ev-LRD" secondAttribute="bottom" constant="11" id="Iap-h2-19t"/>
-                            <constraint firstItem="nrg-TV-FFG" firstAttribute="trailing" secondItem="q0R-9r-2Dd" secondAttribute="trailing" id="JDf-sh-VTb"/>
+                            <constraint firstItem="nrg-TV-FFG" firstAttribute="trailing" secondItem="q0R-9r-2Dd" secondAttribute="trailing" constant="-5" id="JDf-sh-VTb"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="leading" secondItem="60K-Wr-D8l" secondAttribute="leading" id="Kad-xj-WAJ"/>
-                            <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="cOE-M7-bof" secondAttribute="bottom" constant="43" id="OT6-iD-frA"/>
+                            <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="cOE-M7-bof" secondAttribute="bottom" constant="41" id="OT6-iD-frA"/>
                             <constraint firstItem="WtE-Gr-Psp" firstAttribute="leading" secondItem="EsS-EU-Sgb" secondAttribute="trailing" constant="48" id="Skh-5z-yS0"/>
                             <constraint firstItem="q0R-9r-2Dd" firstAttribute="bottom" secondItem="wPx-jF-3PV" secondAttribute="bottom" id="WOl-ZP-CVQ"/>
                             <constraint firstItem="WtE-Gr-Psp" firstAttribute="trailing" secondItem="tCI-hj-7xk" secondAttribute="trailing" id="WU5-n6-X2k"/>
