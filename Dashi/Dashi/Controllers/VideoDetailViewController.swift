@@ -369,6 +369,7 @@ class VideoDetailViewController: UIViewController {
             downloadFromCloud.setTitleColor(UIColor.darkGray, for: .normal)
 
             self.delayStatusSwitch = 2
+            print(delayStatusSwitch)
             progressBar.isHidden = true
         }
         DispatchQueue.main.async {
