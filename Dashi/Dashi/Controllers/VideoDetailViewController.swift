@@ -334,13 +334,14 @@ class VideoDetailViewController: UIViewController {
 
     private func uploadProgTask() {
         let progress = Float(selectedVideo.getUploadProgress()) / 100.0
+        uploadProgDisplayed = true
         if progress >= 1.0 {
             updateUploadProgressTimer?.invalidate()
             uploadToCloud.setTitle("Backup complete.", for: .normal)
             //            downloadFromCloud.setTitleColor(UIColor.darkGray, for: .normal)
             progressBar.isHidden = true
             delayStatusSwitch = 2
-            uploadProgDisplayed = true
+            uploadProgDisplayed = false
         }
         DispatchQueue.main.async {
             self.progressBar.progress = progress
@@ -362,15 +363,16 @@ class VideoDetailViewController: UIViewController {
 
     private func downloadProgTask() {
         let progress = Float(selectedVideo.getDownloadProgress()) / 100.0
+        downloadProgDisplayed = true
         if progress >= 1.0 {
             updateDownloadProgressTimer?.invalidate()
-            downloadProgDisplayed = true
             downloadFromCloud.setTitle("Video downloaded.", for: .normal)
             downloadFromCloud.setTitleColor(UIColor.darkGray, for: .normal)
 
             delayStatusSwitch = 2
             print(delayStatusSwitch)
             progressBar.isHidden = true
+            downloadProgDisplayed = false
         }
         DispatchQueue.main.async {
             self.progressBar.progress = progress
@@ -378,7 +380,7 @@ class VideoDetailViewController: UIViewController {
     }
 
     private func viewUpdater() {
-        if !uploadProgDisplayed && selectedVideo.getUploadInProgress() {
+        if uploadProgDisplayed || selectedVideo.getUploadInProgress() {
             progressBar.isHidden = false
             uploadToCloud.isEnabled = true
             uploadProgDisplayed = true
@@ -386,7 +388,7 @@ class VideoDetailViewController: UIViewController {
             uploadToCloud.setTitleColor(UIColor.darkGray, for: .normal)
             uploadToCloud.setTitle("Uploading...", for: .normal)
             uploadProgTask()
-        } else if !downloadProgDisplayed && selectedVideo.getDownloadInProgress() {
+        } else if downloadProgDisplayed || selectedVideo.getDownloadInProgress() {
             progressBar.isHidden = false
             downloadFromCloud.isEnabled = false
             downloadProgDisplayed = true
@@ -449,7 +451,7 @@ class VideoDetailViewController: UIViewController {
             }
             lastStatus = uploadStatus
             storageIcon.image = storageImage.uiImage
-        } else {
+        } else if delayStatusSwitch > 0 {
             delayStatusSwitch = delayStatusSwitch - 1
             if delayStatusSwitch == 0 {
                 uploadProgDisplayed = false
