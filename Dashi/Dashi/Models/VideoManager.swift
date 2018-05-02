@@ -164,17 +164,25 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
 
             // Schedule upload tasks
             for video in videos {
+                var obj: Video
                 let id = video.value(forKey: "id") as! String
                 let date = video.value(forKey: "startDate") as! Date
                 let thumbnailData = video.value(forKey: "thumbnail") as! Data
                 let size = video.value(forKey: "size") as! Int
                 let length = video.value(forKey: "length") as! Int
-                let startLat = video.value(forKey: "startLat") as! CLLocationDegrees
-                let startLong = video.value(forKey: "startLong") as! CLLocationDegrees
-                let endLat = video.value(forKey: "endLat") as! CLLocationDegrees
-                let endLong = video.value(forKey: "endLong") as! CLLocationDegrees
-
-                let obj = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: startLat, longitude: startLong), endLoc: CLLocationCoordinate2D(latitude: endLat, longitude: endLong))
+                let startLat = video.value(forKey: "startLat") as! CLLocationDegrees?
+                let startLong = video.value(forKey: "startLong") as! CLLocationDegrees?
+                let endLat = video.value(forKey: "endLat") as! CLLocationDegrees?
+                let endLong = video.value(forKey: "endLong") as! CLLocationDegrees?
+                let locationName = video.value(forKey: "locationName") as! String?
+                if let lat1 = startLat, let lat2 = endLat, let long1 = startLong, let long2 = endLong{
+                    // dates.append(video.value(forKeyPath: "startDate") as! Date)
+                    obj = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: lat1, longitude: long1), endLoc: CLLocationCoordinate2D(latitude: lat2, longitude: long2), locationName: locationName )
+                    
+                }
+                else{
+                    obj = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: nil, endLoc: nil, locationName: locationName )
+                }
                 obj.updateUploadInProgress(status: true)
                 DashiAPI.uploadVideoMetaData(video: obj).then { _ -> Void in
                     DashiAPI.uploadVideoContent(id: id, url: getUrlForLocal(id: id)!).then { _ -> Void in

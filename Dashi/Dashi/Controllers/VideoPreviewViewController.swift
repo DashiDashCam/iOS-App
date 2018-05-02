@@ -165,56 +165,7 @@ class VideoPreviewViewController: UIViewController {
     // MARK: Helpers
 
     // save the video to core data
-    func saveVideoToCoreData() {
-        let currentVideo = Video(started: Date(), asset: asset!, startLoc: startLoc, endLoc: endLoc)
-
-        let managedContext =
-            appDelegate!.persistentContainer.viewContext
-
-        let entity =
-            NSEntityDescription.entity(forEntityName: "Videos",
-                                       in: managedContext)!
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "Videos")
-        fetchRequest.propertiesToFetch = ["videoContent"]
-        fetchRequest.predicate = NSPredicate(format: "id == %@", currentVideo.getId())
-        var result: [NSManagedObject] = []
-        // 3
-        do {
-            result = (try managedContext.fetch(fetchRequest))
-        } catch let error as Error {
-            print("Could not fetch. \(error), \(error.localizedDescription)")
-        }
-
-        if result.isEmpty {
-            let video = NSManagedObject(entity: entity,
-                                        insertInto: managedContext)
-
-            video.setValue(currentVideo.getId(), forKeyPath: "id")
-            video.setValue(currentVideo.getContent(), forKeyPath: "videoContent")
-            video.setValue(currentVideo.getStarted(), forKeyPath: "startDate")
-            video.setValue(currentVideo.getImageContent(), forKey: "thumbnail")
-            video.setValue(currentVideo.getLength(), forKeyPath: "length")
-            video.setValue(currentVideo.getSize(), forKey: "size")
-            video.setValue(currentVideo.getStartLat(), forKey: "startLat")
-            video.setValue(currentVideo.getStartLong(), forKey: "startLong")
-            video.setValue(currentVideo.getEndLat(), forKey: "endLat")
-            video.setValue(currentVideo.getEndLong(), forKey: "endLong")
-            video.setValue("local", forKey: "storageStat")
-            video.setValue(0, forKey: "uploadProgress")
-            video.setValue(nil, forKey: "downloaded")
-
-            do {
-                try managedContext.save()
-                self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
-            }
-        } else {
-            self.showAlert(title: "Already Saved", message: "Your trip has already been saved locally.", dismiss: true)
-        }
-    }
-
+    
     // shows alert to user
     func showAlert(title: String, message: String, dismiss: Bool) {
         let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)

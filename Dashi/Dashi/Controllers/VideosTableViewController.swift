@@ -79,7 +79,7 @@ class VideosTableViewController: UITableViewController {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
         fetchRequest.predicate = NSPredicate(format: "accountID == %d", (sharedAccount?.getId())!)
-        fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id", "startLat", "startLong", "endLat", "endLong"]
+        fetchRequest.propertiesToFetch = ["startDate", "length", "size", "thumbnail", "id", "startLat", "startLong", "endLat", "endLong", "locationName"]
         // 3
         do {
             fetchedmeta = (try managedContext?.fetch(fetchRequest))!
@@ -88,18 +88,25 @@ class VideosTableViewController: UITableViewController {
         }
 
         for meta in fetchedmeta {
-
+            var video: Video
             let id = meta.value(forKey: "id") as! String
             let date = meta.value(forKey: "startDate") as! Date
             let thumbnailData = meta.value(forKey: "thumbnail") as! Data
             let size = meta.value(forKey: "size") as! Int
             let length = meta.value(forKey: "length") as! Int
-            let startLat = meta.value(forKey: "startLat") as! CLLocationDegrees
-            let startLong = meta.value(forKey: "startLong") as! CLLocationDegrees
-            let endLat = meta.value(forKey: "endLat") as! CLLocationDegrees
-            let endLong = meta.value(forKey: "endLong") as! CLLocationDegrees
+            let startLat = meta.value(forKey: "startLat") as! CLLocationDegrees?
+            let startLong = meta.value(forKey: "startLong") as! CLLocationDegrees?
+            let endLat = meta.value(forKey: "endLat") as! CLLocationDegrees?
+            let endLong = meta.value(forKey: "endLong") as! CLLocationDegrees?
+            let locationName = meta.value(forKey: "locationName") as! String?
+            if let lat1 = startLat, let lat2 = endLat, let long1 = startLong, let long2 = endLong{
             // dates.append(video.value(forKeyPath: "startDate") as! Date)
-            let video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: startLat, longitude: startLong), endLoc: CLLocationCoordinate2D(latitude: endLat, longitude: endLong))
+                 video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: CLLocationCoordinate2D(latitude: lat1, longitude: long1), endLoc: CLLocationCoordinate2D(latitude: lat2, longitude: long2), locationName: locationName )
+                
+            }
+            else{
+                video = Video(started: date, imageData: thumbnailData, id: id, length: length, size: size, startLoc: nil, endLoc: nil, locationName: locationName )
+            }
             videos.append(video)
         }
         videos.sort(by: { $0.getStarted() > $1.getStarted() })
@@ -111,32 +118,14 @@ class VideosTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "vidCell2", for: indexPath) as! VideoTableViewCell
 
         let dateFormatter = DateFormatter()
-        let endLoc = CLLocation(latitude: videos[row].getEndLat(), longitude: videos[row].getEndLong())
-        let geoCoder = CLGeocoder()
-        geoCoder.reverseGeocodeLocation(endLoc) { placemarks, error in
-
-            if let e = error {
-
-                print(e)
-
-            } else {
-
-                let placeArray = placemarks as [CLPlacemark]!
-
-                var placeMark: CLPlacemark!
-
-                placeMark = placeArray![0]
-                cell.location.text = placeMark.locality!
-            }
-        }
-
+        
         // US English Locale (en_US)
 
         dateFormatter.dateFormat = "MMMM dd"
         //        dateFormatter.timeStyle = .short
         cell.thumbnail.image = videos[row].getThumbnail()
         cell.date.text = dateFormatter.string(from: videos[row].getStarted())
-
+        cell.location.text = videos[row].getLocation()
         // set time
         dateFormatter.dateFormat = "hh:mm a"
         cell.time.text = dateFormatter.string(from: videos[row].getStarted())

@@ -166,6 +166,7 @@ class Account {
                 video.setValue(false, forKey: "downloadInProgress")
                 do {
                     try self.managedContext.save()
+                    currentVideo.setLocation()
                 } catch let error as NSError {
                     print("Could not save. \(error), \(error.userInfo)")
                 }
