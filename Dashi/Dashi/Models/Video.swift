@@ -32,7 +32,9 @@ class Video {
     var downloadProgress: Int!
     var uploadInProgress: Bool!
     var downloadInProgress: Bool!
+
     var locationName: String?
+    var deleted: Bool! = false
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
     var managedContext: NSManagedObjectContext
@@ -105,7 +107,15 @@ class Video {
         endLat = endLoc?.latitude
         endLong = endLoc?.longitude
         managedContext = (appDelegate?.persistentContainer.viewContext)!
-        self.locationName = locationName
+        if let name = locationName{
+        self.locationName = name
+            
+        }
+        else{
+            if let _ = startLoc, let _ = endLoc{
+                setLocation()
+            }
+        }
     }
 
     public func getUploadProgress() -> Int {
@@ -194,7 +204,10 @@ class Video {
                 
                 placeMark = placeArray![0]
                 self.updateFieldViaCoreDB(key: "locationName", value: placeMark.locality!)
+                DispatchQueue.main.async {
+                    
                 self.locationName = placeMark.locality!
+                }
             }
         }
         }
@@ -247,6 +260,29 @@ class Video {
             return ""
         }
     }
+
+    public func wasDeleted() -> Bool {
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
+        
+        // 2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["id"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
+        // 3
+        do {
+            content = (try managedContext?.fetch(fetchRequest))!
+            if(content.count > 0){
+                return false
+            }
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        return true
+    }
+    
     func getStorageStatFromCore() {
         var content: [NSManagedObject]
         let managedContext =
