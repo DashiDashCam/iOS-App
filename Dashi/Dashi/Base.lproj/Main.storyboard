@@ -313,12 +313,12 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOE-M7-bof">
-                                <rect key="frame" x="133" y="588" width="109" height="36"/>
+                                <rect key="frame" x="106" y="588" width="163" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="nQ6-UT-0ol"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Delete video"/>
+                                <state key="normal" title="Delete from device"/>
                                 <connections>
                                     <action selector="deleteVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="qHz-yq-SVD"/>
                                 </connections>
