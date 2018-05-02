@@ -287,9 +287,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="teG-Sz-wcO">
-                                <rect key="frame" x="117" y="529" width="140" height="36"/>
+                                <rect key="frame" x="117" y="506" width="140" height="36"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="o71-1R-35x"/>
+                                    <constraint firstAttribute="height" constant="36" id="fDS-t3-BM3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Backup to cloud">
@@ -300,9 +300,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-TV-FFG">
-                                <rect key="frame" x="92" y="573" width="200" height="32"/>
+                                <rect key="frame" x="92" y="550" width="200" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="6AR-iV-ndE"/>
+                                    <constraint firstAttribute="height" constant="32" id="9nM-gB-Zyd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Download from cloud">
@@ -313,12 +313,12 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOE-M7-bof">
-                                <rect key="frame" x="111" y="611" width="152" height="36"/>
+                                <rect key="frame" x="133" y="588" width="109" height="36"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="06Y-1q-rTh"/>
+                                    <constraint firstAttribute="height" constant="36" id="nQ6-UT-0ol"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Delete from Local"/>
+                                <state key="normal" title="Delete video"/>
                                 <connections>
                                     <action selector="deleteVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="qHz-yq-SVD"/>
                                 </connections>
@@ -328,33 +328,33 @@
                         <color key="tintColor" red="0.41176470590000003" green="0.66666666669999997" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="q0R-9r-2Dd" firstAttribute="leading" secondItem="fKq-Ev-LRD" secondAttribute="trailing" constant="46" id="0rj-8O-i8s"/>
-                            <constraint firstItem="teG-Sz-wcO" firstAttribute="centerX" secondItem="cOE-M7-bof" secondAttribute="centerX" id="10g-B2-Efi"/>
-                            <constraint firstItem="nrg-TV-FFG" firstAttribute="top" secondItem="teG-Sz-wcO" secondAttribute="bottom" constant="8" symbolic="YES" id="1vz-oh-8qe"/>
-                            <constraint firstItem="nrg-TV-FFG" firstAttribute="leading" secondItem="cKC-Km-GYU" secondAttribute="leadingMargin" constant="76" id="2Ln-LU-hnX"/>
-                            <constraint firstItem="nrg-TV-FFG" firstAttribute="trailing" secondItem="q0R-9r-2Dd" secondAttribute="trailing" id="2fs-9d-NTj"/>
+                            <constraint firstItem="nrg-TV-FFG" firstAttribute="leading" secondItem="cKC-Km-GYU" secondAttribute="leadingMargin" constant="76" id="39T-HU-56M"/>
                             <constraint firstItem="wPx-jF-3PV" firstAttribute="leading" secondItem="q0R-9r-2Dd" secondAttribute="trailing" constant="19" id="4eh-Wx-Mal"/>
                             <constraint firstItem="EsS-EU-Sgb" firstAttribute="baseline" secondItem="WtE-Gr-Psp" secondAttribute="baseline" id="4zc-ua-Mht"/>
-                            <constraint firstItem="teG-Sz-wcO" firstAttribute="top" secondItem="gSY-Tl-6Kr" secondAttribute="bottom" constant="61" id="5n1-ZV-cD1"/>
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="trailing" secondItem="60K-Wr-D8l" secondAttribute="trailing" id="6By-pU-Ri9"/>
-                            <constraint firstItem="teG-Sz-wcO" firstAttribute="centerX" secondItem="A8Q-n0-ZIo" secondAttribute="centerX" id="BiT-ID-o8y"/>
+                            <constraint firstItem="cOE-M7-bof" firstAttribute="top" secondItem="nrg-TV-FFG" secondAttribute="bottom" constant="6" id="9Qg-RQ-6d3"/>
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="top" secondItem="60K-Wr-D8l" secondAttribute="bottom" constant="8" symbolic="YES" id="DQ3-ZA-rOe"/>
                             <constraint firstItem="wPx-jF-3PV" firstAttribute="trailing" secondItem="60K-Wr-D8l" secondAttribute="trailing" id="EXH-xG-JWl"/>
                             <constraint firstItem="q0R-9r-2Dd" firstAttribute="top" secondItem="4YS-yv-EmS" secondAttribute="bottom" constant="8" symbolic="YES" id="GkY-zB-Ezl"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="top" secondItem="fKq-Ev-LRD" secondAttribute="bottom" constant="11" id="Iap-h2-19t"/>
+                            <constraint firstItem="nrg-TV-FFG" firstAttribute="trailing" secondItem="q0R-9r-2Dd" secondAttribute="trailing" id="JDf-sh-VTb"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="leading" secondItem="60K-Wr-D8l" secondAttribute="leading" id="Kad-xj-WAJ"/>
+                            <constraint firstItem="cbX-pE-Foi" firstAttribute="top" secondItem="cOE-M7-bof" secondAttribute="bottom" constant="43" id="OT6-iD-frA"/>
                             <constraint firstItem="WtE-Gr-Psp" firstAttribute="leading" secondItem="EsS-EU-Sgb" secondAttribute="trailing" constant="48" id="Skh-5z-yS0"/>
                             <constraint firstItem="q0R-9r-2Dd" firstAttribute="bottom" secondItem="wPx-jF-3PV" secondAttribute="bottom" id="WOl-ZP-CVQ"/>
                             <constraint firstItem="WtE-Gr-Psp" firstAttribute="trailing" secondItem="tCI-hj-7xk" secondAttribute="trailing" id="WU5-n6-X2k"/>
                             <constraint firstItem="EsS-EU-Sgb" firstAttribute="leading" secondItem="gSY-Tl-6Kr" secondAttribute="leading" id="XFX-8N-f9L"/>
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="trailing" secondItem="WtE-Gr-Psp" secondAttribute="trailing" id="XKu-h0-bGP"/>
                             <constraint firstItem="EsS-EU-Sgb" firstAttribute="trailing" secondItem="fKq-Ev-LRD" secondAttribute="trailing" id="Y1j-LS-QgN"/>
-                            <constraint firstAttribute="bottom" secondItem="cOE-M7-bof" secondAttribute="bottom" constant="20" symbolic="YES" id="YP4-fd-Rg1"/>
                             <constraint firstItem="WtE-Gr-Psp" firstAttribute="top" secondItem="A8Q-n0-ZIo" secondAttribute="bottom" constant="10" id="YtK-9z-Bff"/>
+                            <constraint firstItem="nrg-TV-FFG" firstAttribute="top" secondItem="teG-Sz-wcO" secondAttribute="bottom" constant="8" symbolic="YES" id="aIY-Yl-YUp"/>
                             <constraint firstItem="EsS-EU-Sgb" firstAttribute="top" secondItem="A8Q-n0-ZIo" secondAttribute="bottom" constant="8" symbolic="YES" id="bAA-uA-qgI"/>
-                            <constraint firstItem="cOE-M7-bof" firstAttribute="top" secondItem="nrg-TV-FFG" secondAttribute="bottom" constant="6" id="c0l-qV-gyP"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="top" secondItem="q0R-9r-2Dd" secondAttribute="bottom" constant="3" id="f6D-eB-vPj"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="centerY" secondItem="q0R-9r-2Dd" secondAttribute="centerY" id="fpY-a8-dAd"/>
+                            <constraint firstItem="teG-Sz-wcO" firstAttribute="centerX" secondItem="cOE-M7-bof" secondAttribute="centerX" id="gGQ-Tv-Fvf"/>
                             <constraint firstItem="gSY-Tl-6Kr" firstAttribute="top" secondItem="tCI-hj-7xk" secondAttribute="top" id="inF-4L-q8C"/>
+                            <constraint firstItem="teG-Sz-wcO" firstAttribute="centerX" secondItem="A8Q-n0-ZIo" secondAttribute="centerX" id="kpb-LT-K0i"/>
+                            <constraint firstItem="teG-Sz-wcO" firstAttribute="top" secondItem="gSY-Tl-6Kr" secondAttribute="bottom" constant="38" id="lDG-Wa-lwS"/>
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="leading" secondItem="EsS-EU-Sgb" secondAttribute="leading" id="mwc-Bo-TXo"/>
                             <constraint firstItem="q0R-9r-2Dd" firstAttribute="top" secondItem="wPx-jF-3PV" secondAttribute="top" id="ogb-NZ-0f8"/>
                             <constraint firstItem="gSY-Tl-6Kr" firstAttribute="top" secondItem="EsS-EU-Sgb" secondAttribute="bottom" constant="8" symbolic="YES" id="tA2-AI-tfa"/>
