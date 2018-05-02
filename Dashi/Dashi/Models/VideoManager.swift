@@ -291,4 +291,45 @@ class VideoManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate {
             }
         }
     }
+    
+    static func deleteInvidualVideo(id: String){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        // Get coredata context
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        // Load video dates and upload status
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["storageStat"]
+        fetchRequest.predicate = NSPredicate(format: "videoContent != nil  && accountID == %d && id == %@", (sharedAccount?.getId())!,id)
+        
+        var videos: [NSManagedObject] = []
+        do {
+            videos = (try managedContext.fetch(fetchRequest))
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        
+        for video in videos {
+            if (video.value(forKey: "storageStat") as! String) == "local"{
+                //delete video and its metadata as no copy exists anywhere
+                managedContext.delete(video)
+            }
+            else{
+                //delete cached content
+                video.setValue(nil, forKey: "videoContent")
+                video.setValue(nil, forKey: "downloaded")
+                video.setValue(nil, forKey: "downloadProgress")
+                video.setValue("cloud", forKey: "storageStat")
+            }
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not fetch. \(error), \(error.localizedDescription)")
+            }
+        }
+    }
 }
