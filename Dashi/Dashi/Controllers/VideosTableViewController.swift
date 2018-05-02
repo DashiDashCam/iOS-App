@@ -66,7 +66,7 @@ class VideosTableViewController: UITableViewController {
                     // set storage image based off stat
                     var storageImage: SVGKImage
                     let storageStat = self.videos[row!].getStorageStat()
-                    
+                    cell.location.text = self.videos[row!].getLocation()
                     // video hasn't been uploaded
                     if storageStat == "local" {
                         storageImage = SVGKImage(named: "local")
