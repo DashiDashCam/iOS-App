@@ -24,14 +24,16 @@ class Video {
     var thumbnail: UIImage!
     var id: String?
     var storageStat: String! // "cloud", "local", or "both"
-    var startLat: CLLocationDegrees!
-    var endLat: CLLocationDegrees!
-    var startLong: CLLocationDegrees!
-    var endLong: CLLocationDegrees!
+    var startLat: CLLocationDegrees?
+    var endLat: CLLocationDegrees?
+    var startLong: CLLocationDegrees?
+    var endLong: CLLocationDegrees?
     var uploadProgress: Int!
     var downloadProgress: Int!
     var uploadInProgress: Bool!
     var downloadInProgress: Bool!
+
+    var locationName: String?
     var deleted: Bool! = false
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
@@ -40,7 +42,7 @@ class Video {
      *  Initializes a Video object. Note that ID is initialized
      *  from the SHA256 hash of the content of the video
      */
-    init(started: Date, asset: AVURLAsset, startLoc: CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
+    init(started: Date, asset: AVURLAsset, startLoc: CLLocationCoordinate2D?, endLoc: CLLocationCoordinate2D?) {
         managedContext = (appDelegate?.persistentContainer.viewContext)!
         do {
             // get the data associated with the video's content and convert it to a string
@@ -48,10 +50,10 @@ class Video {
             let contentString = String(data: contentData, encoding: String.Encoding.ascii)
             length = Int(Float((asset.duration.value)) / Float((asset.duration.timescale)))
             size = contentData.count
-            startLat = startLoc.latitude
-            startLong = startLoc.longitude
-            endLat = endLoc.latitude
-            endLong = endLoc.longitude
+            startLat = startLoc?.latitude
+            startLong = startLoc?.longitude
+            endLat = endLoc?.latitude
+            endLong = endLoc?.longitude
             // hash the video content to produce an ID
             id = Hash.SHA256(contentString!)
             let imgGenerator = AVAssetImageGenerator(asset: asset)
@@ -94,17 +96,26 @@ class Video {
         endLong = video["endLong"].doubleValue
     }
 
-    init(started: Date, imageData: Data, id: String, length: Int, size: Int, startLoc: CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
+    init(started: Date, imageData: Data, id: String, length: Int, size: Int, startLoc: CLLocationCoordinate2D?, endLoc: CLLocationCoordinate2D?, locationName: String? = "") {
         self.id = id
         self.started = started
         thumbnail = UIImage(data: imageData)
         self.length = length
         self.size = size
-        startLat = startLoc.latitude
-        startLong = startLoc.longitude
-        endLat = endLoc.latitude
-        endLong = endLoc.longitude
+        startLat = startLoc?.latitude
+        startLong = startLoc?.longitude
+        endLat = endLoc?.latitude
+        endLong = endLoc?.longitude
         managedContext = (appDelegate?.persistentContainer.viewContext)!
+        if let name = locationName{
+        self.locationName = name
+            
+        }
+        else{
+            if let _ = startLoc, let _ = endLoc{
+                setLocation()
+            }
+        }
     }
 
     public func getUploadProgress() -> Int {
@@ -175,6 +186,33 @@ class Video {
         return storageStat!
     }
 
+    public func setLocation(){
+        if let lat = endLat, let long = endLong{
+        let endLoc = CLLocation(latitude: lat, longitude: long)
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(endLoc) { placemarks, error in
+            
+            if let e = error {
+                
+                print(e)
+                
+            } else {
+                
+                let placeArray = placemarks as [CLPlacemark]!
+                
+                var placeMark: CLPlacemark!
+                
+                placeMark = placeArray![0]
+                self.updateFieldViaCoreDB(key: "locationName", value: placeMark.locality!)
+                DispatchQueue.main.async {
+                    
+                self.locationName = placeMark.locality!
+                }
+            }
+        }
+        }
+        
+    }
     public func changeStorageToBoth() {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
@@ -198,22 +236,31 @@ class Video {
         storageStat = "both"
     }
 
-    public func getStartLat() -> CLLocationDegrees {
+    public func getStartLat() -> CLLocationDegrees? {
         return startLat
     }
 
-    public func getStartLong() -> CLLocationDegrees {
+    public func getStartLong() -> CLLocationDegrees? {
         return startLong
     }
 
-    public func getEndLat() -> CLLocationDegrees {
+    public func getEndLat() -> CLLocationDegrees? {
         return endLat
     }
 
-    public func getEndLong() -> CLLocationDegrees {
+    public func getEndLong() -> CLLocationDegrees? {
         return endLong
     }
     
+    public func getLocation() -> String{
+        if let loc = locationName{
+            return loc
+        }
+        else{
+            return ""
+        }
+    }
+
     public func wasDeleted() -> Bool {
         var content: [NSManagedObject]
         let managedContext =
@@ -235,7 +282,7 @@ class Video {
         }
         return true
     }
-
+    
     func getStorageStatFromCore() {
         var content: [NSManagedObject]
         let managedContext =

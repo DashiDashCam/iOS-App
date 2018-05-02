@@ -226,23 +226,8 @@ class VideoDetailViewController: UIViewController {
 
         // set the length label
         videoLength.text = lengthString
-
+         self.videoLocation.text = selectedVideo.getLocation()
         // ending location
-        let endLoc = CLLocation(latitude: selectedVideo.getEndLat(), longitude: selectedVideo.getEndLong())
-
-        // lookup location based off ending cordinates
-        CLGeocoder().reverseGeocodeLocation(endLoc) { placemarks, error in
-            if let e = error {
-                print(e)
-            } else {
-                let placeArray = placemarks as [CLPlacemark]!
-                var placeMark: CLPlacemark!
-                placeMark = placeArray![0]
-
-                // format location and set label
-                self.videoLocation.text = placeMark.locality!
-            }
-        }
 
         // format the date and set label
         let formatter = DateFormatter()

@@ -414,6 +414,7 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
             video.setValue(false, forKey: "downloadInProgress")
             do {
                 try managedContext.save()
+                currentVideo.setLocation()
                 //                self.showAlert(title: "Success", message: "Your trip was saved locally.", dismiss: true)
             } catch let error as NSError {
                 print("Could not save. \(error), \(error.userInfo)")
