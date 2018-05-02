@@ -286,17 +286,17 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-TV-FFG">
-                                <rect key="frame" x="87" y="550" width="200" height="32"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="teG-Sz-wcO">
+                                <rect key="frame" x="117" y="546" width="140" height="36"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="32" id="9nM-gB-Zyd"/>
+                                    <constraint firstAttribute="height" constant="36" id="fDS-t3-BM3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Download from cloud">
-                                    <color key="titleColor" red="0.41176470588235292" green="0.66666666666666663" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Backup to cloud">
+                                    <color key="titleColor" red="0.41176470590000003" green="0.66666666669999997" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="downloadVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="EUg-6X-CgS"/>
+                                    <action selector="pushToCloud:" destination="V0s-R8-uJe" eventType="touchUpInside" id="hNQ-pQ-RWr"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cOE-M7-bof">
@@ -310,17 +310,17 @@
                                     <action selector="deleteVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="qHz-yq-SVD"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="teG-Sz-wcO">
-                                <rect key="frame" x="117" y="506" width="140" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nrg-TV-FFG">
+                                <rect key="frame" x="87" y="506" width="200" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="36" id="fDS-t3-BM3"/>
+                                    <constraint firstAttribute="height" constant="32" id="9nM-gB-Zyd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Backup to cloud">
-                                    <color key="titleColor" red="0.41176470590000003" green="0.66666666669999997" blue="0.37254901959999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Download from cloud">
+                                    <color key="titleColor" red="0.41176470588235292" green="0.66666666666666663" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="pushToCloud:" destination="V0s-R8-uJe" eventType="touchUpInside" id="hNQ-pQ-RWr"/>
+                                    <action selector="downloadVideo:" destination="V0s-R8-uJe" eventType="touchUpInside" id="EUg-6X-CgS"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -332,7 +332,7 @@
                             <constraint firstItem="wPx-jF-3PV" firstAttribute="leading" secondItem="q0R-9r-2Dd" secondAttribute="trailing" constant="19" id="4eh-Wx-Mal"/>
                             <constraint firstItem="EsS-EU-Sgb" firstAttribute="baseline" secondItem="WtE-Gr-Psp" secondAttribute="baseline" id="4zc-ua-Mht"/>
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="trailing" secondItem="60K-Wr-D8l" secondAttribute="trailing" id="6By-pU-Ri9"/>
-                            <constraint firstItem="cOE-M7-bof" firstAttribute="top" secondItem="nrg-TV-FFG" secondAttribute="bottom" constant="8" id="9Qg-RQ-6d3"/>
+                            <constraint firstItem="cOE-M7-bof" firstAttribute="top" secondItem="nrg-TV-FFG" secondAttribute="bottom" constant="52" id="9Qg-RQ-6d3"/>
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="top" secondItem="60K-Wr-D8l" secondAttribute="bottom" constant="8" symbolic="YES" id="DQ3-ZA-rOe"/>
                             <constraint firstItem="wPx-jF-3PV" firstAttribute="trailing" secondItem="60K-Wr-D8l" secondAttribute="trailing" id="EXH-xG-JWl"/>
                             <constraint firstItem="q0R-9r-2Dd" firstAttribute="top" secondItem="4YS-yv-EmS" secondAttribute="bottom" constant="8" symbolic="YES" id="GkY-zB-Ezl"/>
@@ -347,14 +347,14 @@
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="trailing" secondItem="WtE-Gr-Psp" secondAttribute="trailing" id="XKu-h0-bGP"/>
                             <constraint firstItem="EsS-EU-Sgb" firstAttribute="trailing" secondItem="fKq-Ev-LRD" secondAttribute="trailing" id="Y1j-LS-QgN"/>
                             <constraint firstItem="WtE-Gr-Psp" firstAttribute="top" secondItem="A8Q-n0-ZIo" secondAttribute="bottom" constant="10" id="YtK-9z-Bff"/>
-                            <constraint firstItem="nrg-TV-FFG" firstAttribute="top" secondItem="teG-Sz-wcO" secondAttribute="bottom" constant="8" symbolic="YES" id="aIY-Yl-YUp"/>
+                            <constraint firstItem="nrg-TV-FFG" firstAttribute="top" secondItem="teG-Sz-wcO" secondAttribute="bottom" constant="-76" id="aIY-Yl-YUp"/>
                             <constraint firstItem="EsS-EU-Sgb" firstAttribute="top" secondItem="A8Q-n0-ZIo" secondAttribute="bottom" constant="8" symbolic="YES" id="bAA-uA-qgI"/>
                             <constraint firstItem="60K-Wr-D8l" firstAttribute="top" secondItem="q0R-9r-2Dd" secondAttribute="bottom" constant="3" id="f6D-eB-vPj"/>
                             <constraint firstItem="fKq-Ev-LRD" firstAttribute="centerY" secondItem="q0R-9r-2Dd" secondAttribute="centerY" id="fpY-a8-dAd"/>
                             <constraint firstItem="teG-Sz-wcO" firstAttribute="centerX" secondItem="cOE-M7-bof" secondAttribute="centerX" id="gGQ-Tv-Fvf"/>
                             <constraint firstItem="gSY-Tl-6Kr" firstAttribute="top" secondItem="tCI-hj-7xk" secondAttribute="top" id="inF-4L-q8C"/>
                             <constraint firstItem="teG-Sz-wcO" firstAttribute="centerX" secondItem="A8Q-n0-ZIo" secondAttribute="centerX" id="kpb-LT-K0i"/>
-                            <constraint firstItem="teG-Sz-wcO" firstAttribute="top" secondItem="gSY-Tl-6Kr" secondAttribute="bottom" constant="38" id="lDG-Wa-lwS"/>
+                            <constraint firstItem="teG-Sz-wcO" firstAttribute="top" secondItem="gSY-Tl-6Kr" secondAttribute="bottom" constant="78" id="lDG-Wa-lwS"/>
                             <constraint firstItem="A8Q-n0-ZIo" firstAttribute="leading" secondItem="EsS-EU-Sgb" secondAttribute="leading" id="mwc-Bo-TXo"/>
                             <constraint firstItem="q0R-9r-2Dd" firstAttribute="top" secondItem="wPx-jF-3PV" secondAttribute="top" id="ogb-NZ-0f8"/>
                             <constraint firstItem="gSY-Tl-6Kr" firstAttribute="top" secondItem="EsS-EU-Sgb" secondAttribute="bottom" constant="8" symbolic="YES" id="tA2-AI-tfa"/>
