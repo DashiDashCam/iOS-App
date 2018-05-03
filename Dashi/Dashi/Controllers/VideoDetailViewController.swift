@@ -14,6 +14,7 @@ import CoreData
 import PromiseKit
 import AVFoundation
 import AVKit
+import SVGKit
 
 class VideoDetailViewController: UIViewController {
     var selectedVideo: Video!
@@ -25,24 +26,47 @@ class VideoDetailViewController: UIViewController {
     @IBOutlet weak var videoDate: UILabel!
     @IBOutlet weak var videoLength: UILabel!
     @IBOutlet weak var uploadToCloud: UIButton!
-    @IBOutlet weak var downloadProgress: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var downloadFromCloud: UIButton!
     @IBOutlet weak var shareButton: UIButton!
 
+    @IBOutlet weak var deleteLocalButton: UIButton!
+
     @IBOutlet weak var uploadProgress: UILabel!
+
     var id: String!
     var updateDownloadProgressTimer: Timer!
 
     var updateUploadProgressTimer: Timer?
+
+    var checkStatusTimer: Timer?
+
+    var ericTimer: Timer?
+
+    var delayStatusSwitch: Int = 0
+
+    @IBOutlet weak var storageIcon: UIImageView!
+    var lastStatus: String?
+
+    var uploadProgDisplayed: Bool = false
+
+    var downloadProgDisplayed: Bool = false
+
+    @IBOutlet weak var uploadDownloadIcon: UIImageView!
     override func viewDidLoad() {
 
         super.viewDidLoad()
         loadVideoContent()
 
+        // make back button green
+        navigationController?.navigationBar.tintColor = UIColor(red: 88 / 255, green: 157 / 255, blue: 76 / 255, alpha: 1)
+
+        // make image border grey
+        videoThumbnail.layer.borderWidth = 2
+        videoThumbnail.layer.borderColor = UIColor.darkGray.cgColor
+
         // create tap gesture recognizer for when user taps thumbnail
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(VideoDetailViewController.imageTapped(gesture:)))
-        downloadProgress.text = (selectedVideo.getDownloadProgress()).description
         // add it to the image view;
         videoThumbnail.addGestureRecognizer(tapGesture)
         // make sure imageView can be interacted with by user
@@ -59,68 +83,78 @@ class VideoDetailViewController: UIViewController {
     override func viewWillAppear(_: Bool) {
         super.viewWillAppear(true)
         progressBar.isHidden = true
+
+        // make progress bar taller
+        progressBar.transform = progressBar.transform.scaledBy(x: 1, y: 5)
+
         let uploadStatus = selectedVideo.getStorageStat()
-        self.updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){_ in
-            if self.selectedVideo.getDownloadInProgress(){
-                self.updateDownloadProgressTimer?.invalidate()
-                self.showDownloadProgress()
-        }
-        }
-        self.updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true){_ in
-            if self.selectedVideo.getUploadInProgress(){
-                self.updateUploadProgressTimer?.invalidate()
-                self.showUploadProgress()
-        }
-        }
+
+        checkStatusTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
+            self.viewUpdater()
+        })
+        checkStatusTimer?.fire()
+        var storageImage: SVGKImage
+        // video hasn't been uploaded
+
         if uploadStatus == "local" {
             print("local")
-
+            storageImage = SVGKImage(named: "local")
             // show Upload to Cloud
             uploadToCloud.isHidden = false
             shareButton.isHidden = true
-            downloadProgress.text = "Downloaded to Device"
-            uploadProgress.isHidden = true
+            deleteLocalButton.isHidden = false
+
             downloadFromCloud.isHidden = true
 
         } else if uploadStatus == "cloud" {
-            downloadFromCloud.isHidden = false
             shareButton.isHidden = false
-            uploadProgress.text = "Uploaded to Cloud"
-            downloadProgress.isHidden = true
+            deleteLocalButton.isHidden = true
             uploadToCloud.isHidden = true
+            storageImage = SVGKImage(named: "cloud")
         } else {
             // hide Upload to Cloud if video is in cloud
             shareButton.isHidden = false
             uploadToCloud.isHidden = true
             downloadFromCloud.isHidden = true
+            deleteLocalButton.isHidden = false
+
+            storageImage = SVGKImage(named: "cloud")
+
             // TODO: replace with statusbar
-            uploadProgress.text = "Uploaded to Cloud"
-            downloadProgress.text = "Downloaded to Device"
         }
+        storageIcon.image = storageImage.uiImage
+        lastStatus = uploadStatus
+
+        // set orientation
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+
+        // lock orientation
+        AppUtility.lockOrientation(.portrait)
     }
 
     override func viewWillDisappear(_: Bool) {
         updateUploadProgressTimer?.invalidate()
         updateDownloadProgressTimer?.invalidate()
+        checkStatusTimer?.invalidate()
+        ericTimer?.invalidate()
     }
 
     // called when user taps thumbnail
     @objc func imageTapped(gesture: UIGestureRecognizer) {
         // if the tapped view is a UIImageView then set it to imageview
         if (gesture.view as? UIImageView) != nil {
-            if(selectedVideo.getStorageStat() == "cloud"){
-                let alert = UIAlertController(title: "Video not downloaded", message: "Would you like to download it?", preferredStyle: .alert)
-                let yes = UIAlertAction(title: "Yes", style: .default){ Void in
+            if selectedVideo.getStorageStat() == "cloud" {
+                let alert = UIAlertController(title: "Video has been deleted from device.", message: "Would you like to download it from the cloud?", preferredStyle: .alert)
+                let yes = UIAlertAction(title: "Yes", style: .default) { _ in
                     self.downloadVideo(self)
                 }
                 let no = UIAlertAction(title: "No", style: .cancel)
                 alert.addAction(yes)
                 alert.addAction(no)
                 present(alert, animated: true, completion: nil)
-            }
-            else{
+            } else {
                 performSegue(withIdentifier: "viewVideoSegue", sender: self)
-                
             }
         }
     }
@@ -140,7 +174,7 @@ class VideoDetailViewController: UIViewController {
             DashiAPI.uploadVideoContent(video: self.selectedVideo).then { _ -> Void in
                 self.selectedVideo.changeStorageToBoth()
                 self.selectedVideo.updateUploadInProgress(status: false)
-                self.uploadToCloud.setTitle("Upload Complete", for: .normal)
+                self.uploadToCloud.setTitle("Backup complete.", for: .normal)
                 Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
                     self.progressBar.isHidden = true
                     self.uploadToCloud.isHidden = true
@@ -192,23 +226,8 @@ class VideoDetailViewController: UIViewController {
 
         // set the length label
         videoLength.text = lengthString
-
+         self.videoLocation.text = selectedVideo.getLocation()
         // ending location
-        let endLoc = CLLocation(latitude: selectedVideo.getEndLat(), longitude: selectedVideo.getEndLong())
-
-        // lookup location based off ending cordinates
-        CLGeocoder().reverseGeocodeLocation(endLoc) { placemarks, error in
-            if let e = error {
-                print(e)
-            } else {
-                let placeArray = placemarks as [CLPlacemark]!
-                var placeMark: CLPlacemark!
-                placeMark = placeArray![0]
-
-                // format location and set label
-                self.videoLocation.text = placeMark.locality!
-            }
-        }
 
         // format the date and set label
         let formatter = DateFormatter()
@@ -269,7 +288,7 @@ class VideoDetailViewController: UIViewController {
         // 3
         do {
             content = (try managedContext?.fetch(fetchRequest))!
-        } catch let error as Error {
+        } catch let error as NSError {
             print("Could not fetch. \(error), \(error.localizedDescription)")
             return nil
         }
@@ -283,58 +302,170 @@ class VideoDetailViewController: UIViewController {
         }
         return nil
     }
-    
-    private func showUploadProgress(){
+
+    private func showUploadProgress() {
         progressBar.isHidden = false
         uploadToCloud.isEnabled = true
+        uploadProgDisplayed = true
         selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
-        uploadToCloud.setTitle("Uploading", for: .normal)
+        uploadToCloud.setTitleColor(UIColor.darkGray, for: .normal)
+        uploadToCloud.setTitle("Uploading...", for: .normal)
+
         updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.uploadProgTask()
         })
         uploadProgTask()
     }
-    
-    private func uploadProgTask()
-    {
-        let progress = Float(self.selectedVideo.getUploadProgress()) / 100.0
+
+    private func uploadProgTask() {
+        let progress = Float(selectedVideo.getUploadProgress()) / 100.0
+        uploadProgDisplayed = true
         if progress >= 1.0 {
-            self.updateUploadProgressTimer?.invalidate()
-            self.uploadToCloud.setTitle("Upload Complete", for: .normal)
-            self.updateUploadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
-                self.progressBar.isHidden = true
-                self.uploadToCloud.isHidden = true
-                self.shareButton.isHidden = false
-            })
+            updateUploadProgressTimer?.invalidate()
+            uploadToCloud.setTitle("Backup complete.", for: .normal)
+            //            downloadFromCloud.setTitleColor(UIColor.darkGray, for: .normal)
+            progressBar.isHidden = true
+            delayStatusSwitch = 2
+            uploadProgDisplayed = false
         }
         DispatchQueue.main.async {
             self.progressBar.progress = progress
         }
     }
-    
-    private func showDownloadProgress(){
+
+    private func showDownloadProgress() {
         progressBar.isHidden = false
         downloadFromCloud.isEnabled = false
-        self.downloadFromCloud.setTitle("Downloading", for: .normal)
+        downloadProgDisplayed = true
+        downloadFromCloud.setTitle("Downloading...", for: .normal)
+        downloadFromCloud.setTitleColor(UIColor.darkGray, for: .normal)
+
         updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { _ in
             self.downloadProgTask()
         })
         downloadProgTask()
     }
-    
-    private func downloadProgTask(){
-        let progress = Float(self.selectedVideo.getDownloadProgress()) / 100.0
+
+    private func downloadProgTask() {
+        let progress = Float(selectedVideo.getDownloadProgress()) / 100.0
+        downloadProgDisplayed = true
         if progress >= 1.0 {
-            self.updateDownloadProgressTimer?.invalidate()
-            self.downloadFromCloud.setTitle("Download Complete", for: .normal)
-            self.updateDownloadProgressTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
-                self.progressBar.isHidden = true
-                self.downloadFromCloud.isHidden = true
-            })
-            self.progressBar.isHidden = true
+            updateDownloadProgressTimer?.invalidate()
+            downloadFromCloud.setTitle("Video downloaded.", for: .normal)
+            downloadFromCloud.setTitleColor(UIColor.darkGray, for: .normal)
+
+            delayStatusSwitch = 2
+            print(delayStatusSwitch)
+            progressBar.isHidden = true
+            downloadProgDisplayed = false
         }
         DispatchQueue.main.async {
             self.progressBar.progress = progress
+        }
+    }
+
+    private func viewUpdater() {
+        if uploadProgDisplayed || selectedVideo.getUploadInProgress() {
+            progressBar.isHidden = false
+            uploadToCloud.isEnabled = true
+            uploadProgDisplayed = true
+            selectedVideo.asset = AVURLAsset(url: getUrlForLocal(id: selectedVideo.getId())!)
+            uploadToCloud.setTitleColor(UIColor.darkGray, for: .normal)
+            uploadToCloud.setTitle("Uploading...", for: .normal)
+            uploadProgTask()
+        } else if downloadProgDisplayed || selectedVideo.getDownloadInProgress() {
+            progressBar.isHidden = false
+            downloadFromCloud.isEnabled = false
+            downloadProgDisplayed = true
+            downloadFromCloud.setTitle("Downloading...", for: .normal)
+            downloadFromCloud.setTitleColor(UIColor.darkGray, for: .normal)
+            downloadProgTask()
+        }
+        let uploadStatus = selectedVideo.getStorageStat()
+        if selectedVideo.getDownloadInProgress() {
+            let namSvgImgVar: SVGKImage = SVGKImage(named: "download")
+            uploadDownloadIcon.image = namSvgImgVar.uiImage
+            uploadDownloadIcon.isHidden = false
+
+        } else if selectedVideo.getUploadInProgress() {
+            let namSvgImgVar: SVGKImage = SVGKImage(named: "upload")
+            uploadDownloadIcon.image = namSvgImgVar.uiImage
+            uploadDownloadIcon.isHidden = false
+
+        } else {
+            uploadDownloadIcon.isHidden = true
+        }
+        var storageImage: SVGKImage
+        if lastStatus != uploadStatus && delayStatusSwitch <= 0 {
+            if uploadStatus == "local" {
+
+                // show Upload to Cloud
+                uploadToCloud.isHidden = false
+                shareButton.isHidden = true
+                downloadFromCloud.isHidden = true
+                deleteLocalButton.isHidden = false
+                deleteLocalButton.setTitle("Delete from device", for: .normal)
+                deleteLocalButton.setTitleColor(UIColor(red: 88 / 255, green: 157 / 255, blue: 76 / 255, alpha: 1), for: .normal)
+                storageImage = SVGKImage(named: "local")
+
+            } else if uploadStatus == "cloud" {
+                shareButton.isHidden = false
+                uploadToCloud.isHidden = true
+                deleteLocalButton.isHidden = false
+                storageImage = SVGKImage(named: "cloud")
+                downloadFromCloud.isHidden = false
+                deleteLocalButton.isHidden = true
+                downloadFromCloud.setTitleColor(UIColor(red: 88 / 255, green: 157 / 255, blue: 76 / 255, alpha: 1), for: .normal)
+                downloadFromCloud.setTitle("Download from cloud", for: .normal)
+            } else {
+                // hide Upload to Cloud if video is in cloud
+                downloadFromCloud.isHidden = true
+                deleteLocalButton.isHidden = false
+                deleteLocalButton.setTitle("Delete from device", for: .normal)
+                deleteLocalButton.setTitleColor(UIColor(red: 88 / 255, green: 157 / 255, blue: 76 / 255, alpha: 1), for: .normal)
+                downloadFromCloud.isEnabled = true
+
+                downloadFromCloud.isHidden = true
+                downloadFromCloud.setTitleColor(UIColor(red: 88 / 255, green: 157 / 255, blue: 76 / 255, alpha: 1), for: .normal)
+                downloadFromCloud.setTitle("Download from cloud", for: .normal)
+                shareButton.isHidden = false
+                uploadToCloud.isHidden = true
+
+                // TODO: replace with statusbar
+                storageImage = SVGKImage(named: "cloud")
+            }
+            lastStatus = uploadStatus
+            storageIcon.image = storageImage.uiImage
+        } else if delayStatusSwitch > 0 {
+            delayStatusSwitch = delayStatusSwitch - 1
+            if delayStatusSwitch == 0 {
+                uploadProgDisplayed = false
+                downloadProgDisplayed = false
+            }
+        }
+    }
+
+    @IBAction func deleteVideo(_: Any) {
+        let this = self
+        if selectedVideo.getStorageStat() == "local" {
+            let alert = UIAlertController(title: "Delete permanently?", message: "No cloud backup exists for this video. Deleting the local content now will be irreversible!", preferredStyle: .alert)
+
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                this.updateUploadProgressTimer?.invalidate()
+                this.updateDownloadProgressTimer?.invalidate()
+                this.checkStatusTimer?.invalidate()
+                this.ericTimer?.invalidate()
+                VideoManager.deleteInvidualVideo(id: this.selectedVideo.getId())
+                this.navigationController?.popViewController(animated: true)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+            present(alert, animated: true)
+        } else {
+            VideoManager.deleteInvidualVideo(id: selectedVideo.getId())
+            deleteLocalButton.setTitle("Deleted from device.", for: .normal)
+            deleteLocalButton.setTitleColor(.darkGray, for: .normal)
+            delayStatusSwitch = 2
         }
     }
 

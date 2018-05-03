@@ -24,14 +24,17 @@ class Video {
     var thumbnail: UIImage!
     var id: String?
     var storageStat: String! // "cloud", "local", or "both"
-    var startLat: CLLocationDegrees!
-    var endLat: CLLocationDegrees!
-    var startLong: CLLocationDegrees!
-    var endLong: CLLocationDegrees!
+    var startLat: CLLocationDegrees?
+    var endLat: CLLocationDegrees?
+    var startLong: CLLocationDegrees?
+    var endLong: CLLocationDegrees?
     var uploadProgress: Int!
     var downloadProgress: Int!
     var uploadInProgress: Bool!
     var downloadInProgress: Bool!
+
+    var locationName: String?
+    var deleted: Bool! = false
     let appDelegate =
         UIApplication.shared.delegate as? AppDelegate
     var managedContext: NSManagedObjectContext
@@ -39,7 +42,7 @@ class Video {
      *  Initializes a Video object. Note that ID is initialized
      *  from the SHA256 hash of the content of the video
      */
-    init(started: Date, asset: AVURLAsset, startLoc: CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
+    init(started: Date, asset: AVURLAsset, startLoc: CLLocationCoordinate2D?, endLoc: CLLocationCoordinate2D?) {
         managedContext = (appDelegate?.persistentContainer.viewContext)!
         do {
             // get the data associated with the video's content and convert it to a string
@@ -47,10 +50,10 @@ class Video {
             let contentString = String(data: contentData, encoding: String.Encoding.ascii)
             length = Int(Float((asset.duration.value)) / Float((asset.duration.timescale)))
             size = contentData.count
-            startLat = startLoc.latitude
-            startLong = startLoc.longitude
-            endLat = endLoc.latitude
-            endLong = endLoc.longitude
+            startLat = startLoc?.latitude
+            startLong = startLoc?.longitude
+            endLat = endLoc?.latitude
+            endLong = endLoc?.longitude
             // hash the video content to produce an ID
             id = Hash.SHA256(contentString!)
             let imgGenerator = AVAssetImageGenerator(asset: asset)
@@ -93,17 +96,26 @@ class Video {
         endLong = video["endLong"].doubleValue
     }
 
-    init(started: Date, imageData: Data, id: String, length: Int, size: Int, startLoc: CLLocationCoordinate2D, endLoc: CLLocationCoordinate2D) {
+    init(started: Date, imageData: Data, id: String, length: Int, size: Int, startLoc: CLLocationCoordinate2D?, endLoc: CLLocationCoordinate2D?, locationName: String? = "") {
         self.id = id
         self.started = started
         thumbnail = UIImage(data: imageData)
         self.length = length
         self.size = size
-        startLat = startLoc.latitude
-        startLong = startLoc.longitude
-        endLat = endLoc.latitude
-        endLong = endLoc.longitude
+        startLat = startLoc?.latitude
+        startLong = startLoc?.longitude
+        endLat = endLoc?.latitude
+        endLong = endLoc?.longitude
         managedContext = (appDelegate?.persistentContainer.viewContext)!
+        if let name = locationName{
+        self.locationName = name
+            
+        }
+        else{
+            if let _ = startLoc, let _ = endLoc{
+                setLocation()
+            }
+        }
     }
 
     public func getUploadProgress() -> Int {
@@ -115,19 +127,17 @@ class Video {
         updateProgressFromCoreData()
         return downloadProgress
     }
-    
+
     public func getUploadInProgress() -> Bool {
         updateProgressFromCoreData()
-        print("uploadInProgress")
-        print(uploadInProgress)
         return uploadInProgress
     }
-    
+
     public func getDownloadInProgress() -> Bool {
         updateProgressFromCoreData()
         return downloadInProgress
     }
-    
+
     public func getContent() -> Data? {
         do {
             return try Data(contentsOf: asset!.url)
@@ -176,6 +186,33 @@ class Video {
         return storageStat!
     }
 
+    public func setLocation(){
+        if let lat = endLat, let long = endLong{
+        let endLoc = CLLocation(latitude: lat, longitude: long)
+        let geoCoder = CLGeocoder()
+        geoCoder.reverseGeocodeLocation(endLoc) { placemarks, error in
+            
+            if let e = error {
+                
+                print(e)
+                
+            } else {
+                
+                let placeArray = placemarks as [CLPlacemark]!
+                
+                var placeMark: CLPlacemark!
+                
+                placeMark = placeArray![0]
+                self.updateFieldViaCoreDB(key: "locationName", value: placeMark.locality!)
+                DispatchQueue.main.async {
+                    
+                self.locationName = placeMark.locality!
+                }
+            }
+        }
+        }
+        
+    }
     public func changeStorageToBoth() {
         let fetchRequest =
             NSFetchRequest<NSManagedObject>(entityName: "Videos")
@@ -199,22 +236,53 @@ class Video {
         storageStat = "both"
     }
 
-    public func getStartLat() -> CLLocationDegrees {
+    public func getStartLat() -> CLLocationDegrees? {
         return startLat
     }
 
-    public func getStartLong() -> CLLocationDegrees {
+    public func getStartLong() -> CLLocationDegrees? {
         return startLong
     }
 
-    public func getEndLat() -> CLLocationDegrees {
+    public func getEndLat() -> CLLocationDegrees? {
         return endLat
     }
 
-    public func getEndLong() -> CLLocationDegrees {
+    public func getEndLong() -> CLLocationDegrees? {
         return endLong
     }
+    
+    public func getLocation() -> String{
+        if let loc = locationName{
+            return loc
+        }
+        else{
+            return ""
+        }
+    }
 
+    public func wasDeleted() -> Bool {
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
+        
+        // 2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["id"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@  && accountID == %d", id!, (sharedAccount?.getId())!)
+        // 3
+        do {
+            content = (try managedContext?.fetch(fetchRequest))!
+            if(content.count > 0){
+                return false
+            }
+        } catch let error as Error {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
+        return true
+    }
+    
     func getStorageStatFromCore() {
         var content: [NSManagedObject]
         let managedContext =
@@ -238,57 +306,57 @@ class Video {
     // gets progress from core data
     func updateProgressFromCoreData() {
 
-            var content: [NSManagedObject]
-            let managedContext =
-                appDelegate?.persistentContainer.viewContext
+        var content: [NSManagedObject]
+        let managedContext =
+            appDelegate?.persistentContainer.viewContext
 
-            // 2
-            let fetchRequest =
-                NSFetchRequest<NSManagedObject>(entityName: "Videos")
-            fetchRequest.propertiesToFetch = ["uploadProgress", "downloadProgress","uploadInProgress","downloadInProgress"]
-            fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
-            // 3
-            do {
-                content = (try managedContext?.fetch(fetchRequest))!
-                var uProg = content[0].value(forKey: "uploadProgress") as? Int
-                if(uProg == nil){
-                    uProg = 0
-                }
-                var dProg = content[0].value(forKey: "downloadProgress") as? Int
-                if(dProg == nil){
-                    dProg = 0
-                }
-                uploadProgress = uProg!
-                downloadProgress = dProg!
-                uploadInProgress = content[0].value(forKey: "uploadInProgress") as! Bool
-                downloadInProgress = content[0].value(forKey: "downloadInProgress") as! Bool
-            } catch let error as NSError {
-                print("Could not fetch. \(error), \(error.localizedDescription)")
+        // 2
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "Videos")
+        fetchRequest.propertiesToFetch = ["uploadProgress", "downloadProgress", "uploadInProgress", "downloadInProgress"]
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id!)
+        // 3
+        do {
+            content = (try managedContext?.fetch(fetchRequest))!
+            var uProg = content[0].value(forKey: "uploadProgress") as? Int
+            if uProg == nil {
+                uProg = 0
             }
+            var dProg = content[0].value(forKey: "downloadProgress") as? Int
+            if dProg == nil {
+                dProg = 0
+            }
+            uploadProgress = uProg!
+            downloadProgress = dProg!
+            uploadInProgress = content[0].value(forKey: "uploadInProgress") as! Bool
+            downloadInProgress = content[0].value(forKey: "downloadInProgress") as! Bool
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.localizedDescription)")
+        }
     }
 
     // helper function for converting seconds to hours
     func secondsToHoursMinutesSeconds() -> (Int, Int, Int) {
         return (length / 3600, (length % 3600) / 60, (length % 3600) % 60)
     }
-    
-    func updateUploadProgress( progress: Int){
+
+    func updateUploadProgress(progress: Int) {
         updateFieldViaCoreDB(key: "uploadProgress", value: progress)
     }
-    
-    func updateUploadInProgress( status: Bool){
+
+    func updateUploadInProgress(status: Bool) {
         updateFieldViaCoreDB(key: "uploadInProgress", value: status)
     }
-    
-      func updateDownloadProgress(  progress: Int){
+
+    func updateDownloadProgress(progress: Int) {
         updateFieldViaCoreDB(key: "downloadProgress", value: progress)
     }
-    
-    func updateDownloadInProgress( status: Bool){
+
+    func updateDownloadInProgress(status: Bool) {
         updateFieldViaCoreDB(key: "downloadInProgress", value: status)
     }
-    
-    private func updateFieldViaCoreDB(key: String, value: Any){
+
+    private func updateFieldViaCoreDB(key: String, value: Any) {
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -309,9 +377,8 @@ class Video {
             print("Could not fetch. \(error), \(error.localizedDescription)")
         }
         let video = result[0]
-        
+
         video.setValue(value, forKey: key)
-        
 
         do {
             try managedContext.save()

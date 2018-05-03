@@ -301,15 +301,12 @@ class DashiAPI {
     /**
      *  Helper function for file upload chunking
      */
-    private static func uploadChunk(id: String, video: Data, part: Int, retry: Int) -> Promise<JSON> {
+    private static func uploadChunk(mgr: SessionManager, id: String, video: Data, part: Int, retry: Int) -> Promise<JSON> {
         // Constants
         let BASE_URL = API_ROOT + "/Account/Videos/" + id + "/content"
         let CHUNK_SIZE = 1_048_576 // Constant defining max file chunk size (in bytes)
         let RETRY_LIMIT = 3 // Constant defining the max number of retries allowed
         let UPLOAD_COMPELTED = -1 // Constant defining the finished uploading signal
-
-        let config = URLSessionConfiguration.background(withIdentifier: "com.dashidashcam.sdf.background")
-        config.httpAdditionalHeaders = ["Host": "api.dashidashcam.com"]
 
         return firstly {
             self.addAuthToken()
@@ -329,14 +326,14 @@ class DashiAPI {
                 let filename = String(id) + "-" + String(part) + "vid.MOV"
                 let path = NSTemporaryDirectory() + filename
                 manager.createFile(atPath: path, contents: video[start ... end], attributes: nil)
-                return self.sessionManager.upload(URL(fileURLWithPath: path), to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { _ in
+                return mgr.upload(URL(fileURLWithPath: path), to: url, method: .put, headers: headers).validate().responseJSON(with: .response).then { _ in
                     let progress = (Double(end) / Double(video.count)) * 100
                     self.updateUploadProgress(id: id, progress: Int(progress))
-                    return uploadChunk(id: id, video: video, part: part + 1, retry: 0)
+                    return uploadChunk(mgr: mgr, id: id, video: video, part: part + 1, retry: 0)
                 }
             } else {
                 let url = BASE_URL + "?offset=\(UPLOAD_COMPELTED)"
-                return self.sessionManager.request(url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value -> JSON in
+                return mgr.request(url, method: .put, headers: headers).validate().responseJSON(with: .response).then { value -> JSON in
                     self.updateUploadProgress(id: id, progress: 100)
                     return JSON(value)
                 }
@@ -355,7 +352,7 @@ class DashiAPI {
                 print(JSON(e.body))
             }
 
-            return uploadChunk(id: id, video: video, part: part, retry: retry + 1)
+            return uploadChunk(mgr: mgr, id: id, video: video, part: part, retry: retry + 1)
         }
     }
 
@@ -374,9 +371,18 @@ class DashiAPI {
 
         // Video.getContent() loads each time, so load once and just pass the returned Data object
         let content = video.getContent()!
+        
+        let config = URLSessionConfiguration.background(withIdentifier: "com.dashidashcam.sdf.background")
+        config.httpAdditionalHeaders = ["Host": "api.dashidashcam.com"]
+        var settings = sharedAccount!.getSettings()
+        if settings["autoDelete"] as! Bool {
+            config.allowsCellularAccess = !(settings["wifiOnlyBackup"] as! Bool)
+        }
+        
+        let mgr = Alamofire.SessionManager(configuration: config)
 
         // Begin recursive call chain (required b/c of promises; loop would spawn many parallel threads)
-        return uploadChunk(id: video.getId(), video: content, part: 0, retry: 0)
+        return uploadChunk(mgr:mgr, id: video.getId(), video: content, part: 0, retry: 0)
     }
 
     public static func uploadVideoContent(id: String, url: URL) -> Promise<JSON> {
@@ -390,7 +396,16 @@ class DashiAPI {
             print("Could not get video content. \(error)")
         }
 
-        return uploadChunk(id: id, video: content!, part: 0, retry: 0)
+        let config = URLSessionConfiguration.background(withIdentifier: "com.dashidashcam.sdf.background")
+        config.httpAdditionalHeaders = ["Host": "api.dashidashcam.com"]
+        var settings = sharedAccount!.getSettings()
+        if settings["autoDelete"] as! Bool {
+            config.allowsCellularAccess = !(settings["wifiOnlyBackup"] as! Bool)
+        }
+        
+        let mgr = Alamofire.SessionManager(configuration: config)
+        
+        return uploadChunk(mgr: mgr, id: id, video: content!, part: 0, retry: 0)
     }
 
     /**

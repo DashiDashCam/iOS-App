@@ -28,6 +28,10 @@ class DownloadManager: NSObject, URLSessionDelegate, URLSessionDownloadDelegate 
         /* BEGIN MODIFIED PORTION [Author: Chris Henk] */
         let config = URLSessionConfiguration.background(withIdentifier: "\(Bundle.main.bundleIdentifier!).background.download")
         config.httpAdditionalHeaders = ["Host": "api.dashidashcam.com"]
+        var settings = sharedAccount!.getSettings()
+        if settings["autoDelete"] as! Bool {
+            config.allowsCellularAccess = !(settings["wifiOnlyBackup"] as! Bool)
+        }
         /* END MODIFIED PORTION */
 
         // Warning: If an URLSession still exists from a previous download, it doesn't create a new URLSession object but returns the existing one with the old delegate object attached!
