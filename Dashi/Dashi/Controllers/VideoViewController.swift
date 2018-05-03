@@ -69,6 +69,8 @@ class VideoViewController: UIViewController, AVCaptureFileOutputRecordingDelegat
 
         // Unlock orientation
         AppUtility.lockOrientation(.all)
+
+        locationManager.stopLocUpdate()
     }
 
     // hide status bar
